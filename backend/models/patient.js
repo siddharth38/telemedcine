@@ -7,6 +7,11 @@ const Chat = new Schema({
 	type: String
 });
 
+const Timestamps = new Schema({
+	time: Number,
+	id: String
+});
+
 // create a schema
 const PatientSchema = new Schema(
 	{
@@ -21,8 +26,9 @@ const PatientSchema = new Schema(
 			unique: true,
 			required: true
 		},
-		
+
 		SPO2_value: String,
+		Pulserate: String,
 		BP_value: String,
 		Temperatue_value: String,
 		Bloodglucosevaluetakenat: String,
@@ -30,50 +36,97 @@ const PatientSchema = new Schema(
 		/**
 		Vital parameters reading
 		*/
-		
-		
-		HRCT_status: String,
-		CO_RADS_status: String,
-		CRP_status: String,
-		IL6_status: String,
-		D_dimer_status: String,
+
+
+		HRCT_report: String,
+		CRP_report: String,
+		IL6_report: String,
+		D_dimer_report: String,
+		Ferritinin_report: String,
+	  Procalcitonin_report: String,
+		KFT_report: String,
 		/**
 		Pathological reports
 		*/
-		
-		
-		diarrhea: String,
-		fever: String,
-		cough: String,
-		shortness_of_breath: String,
-		headache: String,
-		sore_throat: String,
-		change_in_smell: String,
-		change_in_taste: String,
-		bodyache: String,
-		lethargic: String,
-		giddiness: String,
+
+
+		Covid19_when: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		Hospitalization_during_covid: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		duration_hospitalization: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		steroids_given_duringstay: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		oxygen_support_duringstay: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		steroids_taken: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		duration_hospitalization: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		discolorationupperpalette: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		swellingupperpallette: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		cancloseeyes: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		canfeelnoseandcheek: {
+			type: String,
+			required: false,
+			default: ''
+		},
+		symptoms: [],
 		vaccination_status: String,
 		symptomatic_forcovid: Boolean,
-		
-		Serious: Boolean,
+
 		/**
 		 * based on AIIMS delhi guidelines
 		 * pre-assessment of patient is assessed
 		 * if (s)he is a COVID-19 suspect
 		 * According to age range
 		 */
-		symptomatic_forblackfungus: Boolean, /** from the current symptoms*/
+		symptomatic_formucormycosis: Boolean, /** from the current symptoms*/
 		/**
 		 * additional symptom information
 		 * provided by patient* under covid-19 consultancy
 		 */
-		additional: String,
+		additional_symptoms: String,
 		name: String,
 		email: String,
 		telephone: String,
 		gender: String,
 		age: String,
+		Profession: String,
 		latitude: Number,
 		longitude: Number,
 		ip: String,
@@ -112,6 +165,7 @@ const PatientSchema = new Schema(
 		type: String,
 		opd_symptoms: String,
 		opd_symptoms_age: String,
+		timestamps: [Timestamps],
 		chat: [Chat]
 	},
 	{ _id: false }

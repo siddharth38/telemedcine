@@ -84,7 +84,7 @@ export default class Chat extends React.Component {
 	connect = () => {
 		const { username } = this.props;
 
-		this.socket = client(process.env.NODE_ENV === 'development' ? 'http://10.6.0.24:8000' : '/', {
+		this.socket = client(process.env.NODE_ENV === 'development' ? 'http://10.6.0.24:3000' : '/', {
 			path: '/app_chat',
 			transports: ['websocket'],
 			query: {

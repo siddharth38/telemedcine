@@ -21,7 +21,8 @@
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start css-watch",
-    "build": "react-scripts build && copy build/index.html build/404.html",
+    "build": "react-scripts build && copy build\\index.html build\\404.html && del build\\static\\js\\*.map build\\static\\css\\*.map",
+    "build-linux": "react-scripts build && cp build/index.html build/404.html && rm build/static/js/*.map build/static/css/*.map",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "css-build": "node-sass --omit-source-map-url sass/custom.scss src/App.css",
@@ -59,5 +60,5 @@
     "gh-pages": "^2.2.0",
     "prettier": "^2.0.4"
   },
-  "proxy": "http://10.6.0.24:8000"
+  "proxy": "http://10.6.0.24:3000"
 }

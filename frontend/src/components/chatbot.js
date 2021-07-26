@@ -19,9 +19,10 @@ export default class Chat extends React.Component {
 	state = {
 		questions: [],
 		answers: {},
+		timestamps: {},
 
-    languageSelected: 'en', // TODO: Save and load from cookie
-    helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
+  	  languageSelected: 'en', // TODO: Save and load from cookie
+   	 helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
 
 		optionSelected: '0',
 		textAnswered: '',
@@ -125,7 +126,7 @@ export default class Chat extends React.Component {
       question = this.getQuestionById(question);
     }
     const { answers } = this.state;
-		var { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches } = question;
+		var { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 
     if (customOptions) {
       options = customOptions;
@@ -155,7 +156,7 @@ export default class Chat extends React.Component {
 			textAnswered: '',
 			optionSelected: '0',
 			answerFormat: { type, options, pattern },
-			questionDetails: { statement, id, nextQuestion, paramsFrom, command, branches },
+			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
 			tempSelection: tempSelection,
 		});
     if (type === 'none' && command) {
@@ -242,7 +243,7 @@ export default class Chat extends React.Component {
 
 		this.setState({ requesting: true });
 
-		this.socket = client(process.env.NODE_ENV === 'development' ? 'http://10.6.0.24:8000' : '/', {
+		this.socket = client(process.env.NODE_ENV === 'development' ? 'http://10.6.0.24:3000' : '/', {
 			path: '/app_chat',
 			transports: ['websocket'],
 			query: {
@@ -341,7 +342,7 @@ export default class Chat extends React.Component {
 	answer = (event) => {
 		const { optionSelected, questionDetails, answerFormat, answers, tempSelection } = this.state;
 		const { options, type } = answerFormat;
-		const { id, paramsFrom, branches } = questionDetails;
+		const { id, paramsFrom, branches, loopStart } = questionDetails;
 		let { textAnswered } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
@@ -350,30 +351,61 @@ export default class Chat extends React.Component {
 		if (type === 'list') {
 			textTypeAnswer = true;
 			textAnswered = "";
+			let savedValues = [];
 			for (let i = 0; i < options.length; ++i) {
 				let statement = (typeof options[i].statement === "string")
 	        ? options[i].statement
 	        : options[i].statement[this.state.languageSelected];
-				if (tempSelection[i]) textAnswered += statement + ", "
+				if (tempSelection[i]) {
+					textAnswered += statement + ", ";
+					savedValues.push(options[i].dbValue);
+				}
 			}
 			if (textAnswered === "") textAnswered = "None"
 			else textAnswered = textAnswered.substring(0, textAnswered.length-2);
-		}
-		if (!textTypeAnswer || textAnswered) {
-      if (type === 'password') {
-        this.enterMessageIntoChat('****', 'outgoing');
-			} else if (type !== 'none') {
-        this.enterMessageIntoChat(
-          textTypeAnswer ? textAnswered : options[optionSelected].statement,
-          'outgoing'
-        );
-      }
+			this.enterMessageIntoChat(
+				textTypeAnswer ? textAnswered : options[optionSelected].statement,
+				'outgoing'
+			);
 			this.setState(
 				{answers: {
 						...this.state.answers,
-						[id]: textTypeAnswer ? textAnswered : options[optionSelected].value
+						[id]: savedValues
 					},
-					answerBoxHidden: true
+					answerBoxHidden: true,
+					timestamps: {
+						...this.state.timestamps,
+						[id]: Date.now()
+					}
+				},
+				this.answerEntered
+			);
+		} else if (!textTypeAnswer || textAnswered) {
+    	  if (type === 'password') {
+    	    this.enterMessageIntoChat('****', 'outgoing');
+		  } else if (type !== 'none') {
+    	    this.enterMessageIntoChat(
+   	       textTypeAnswer ? textAnswered : options[optionSelected].statement,
+  	        'outgoing'
+  	      );
+  	    }
+  		let value = textTypeAnswer ? textAnswered : options[optionSelected].value;
+  		if (loopStart) {
+  			value = [value];
+  			if (answers[id]) {
+  				value = [...answers[id], ...value];
+			  }
+  		}
+			this.setState(
+				{answers: {
+						...this.state.answers,
+						[id]: value
+					},
+					answerBoxHidden: true,
+					timestamps: {
+						...this.state.timestamps,
+						[id]: Date.now()
+					}
 				},
 				this.answerEntered
 			);
@@ -383,7 +415,7 @@ export default class Chat extends React.Component {
 	/* this function is called when chatbot completes its loop and is passed in location */
 	completedChatbot = (position) => {
 		const { latitude, longitude } = (position && position.coords) || {};
-		const { chat, answers } = this.state;
+		const { chat, answers, timestamps } = this.state;
 
 		this.setState({ requesting: true });
 
@@ -400,6 +432,7 @@ export default class Chat extends React.Component {
 		axios
 			.post(ENDPOINT + '/api/assessment', {
 				answers,
+				timestamps,
 				latitude,
 				longitude,
 				chat: chatToSave
@@ -414,8 +447,10 @@ export default class Chat extends React.Component {
 							chat: chat.concat(incomingChats)
 						},
 						this.scrollDown
+
 					);
 					this.setQuestion(question);
+
 				} else {
 					if (incomingChats) {
 						this.setState(

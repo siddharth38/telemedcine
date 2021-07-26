@@ -534,6 +534,7 @@ h6 {
     flex-direction: column;
     overflow-y: scroll;
     margin-bottom: 3rem;
+    white-space: pre-line;
     -ms-overflow-style: none;
   }
   .chat-box::-webkit-scrollbar {

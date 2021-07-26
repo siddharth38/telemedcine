@@ -85,8 +85,8 @@ router.post('/helpline', (req, res) => {
  * of chatbot with given questions
  */
 router.post('/assessment', (req, res) => {
-	const { answers, latitude, longitude, chat } = req.body;
-	const oldPatient = answers['1'] == 0 ? null : getId(answers['2'], answers['3']);
+	const { answers, timestamps, latitude, longitude, chat } = req.body;
+	const oldPatient = answers['23'] == 0 ? null : getId(answers['24'], answers['25']);
 
 	if (oldPatient) {
 		Patient.findById(oldPatient, (err, patient) => {
@@ -118,9 +118,8 @@ router.post('/assessment', (req, res) => {
 			});
 		});
 	} else {
-		answersToModel(answers, (model) => {
+		answersToModel(answers, timestamps, (model) => {
 			const { name, telephone, hospital } = model;
-
 			Doctor.findOne({ hospital }, (err, doc) => {
 				if (err || !doc)
 					return res.json({
@@ -212,12 +211,12 @@ router.get('/questions', (req, res) => {
 			 * has to be given options of hospitals dynamically
 			 */
 			questions: questions.map((question) => {
-				if (question.id === 4) {
+				if (question.id === 26) {
 					return {
 						...question,
 						options: hospitals.map((hospital, index) => {
 							return {
-								nextQuestion: hospital === 'AIIMS Jodhpur' ? 6 : 0,
+								nextQuestion: hospital === 'AIIMS Jodhpur' ? 27 : 0,
 								value: index,
                 statement: {
                   en: hospital,

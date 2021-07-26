@@ -34,25 +34,34 @@ function getId(name, number) {
   return null;
 }
 
-function answersToModel(answers, callback) {
+function answersToModel(answers, timestamps, callback) {
   if (!answers) {
     callback({});
   } else {
     Doctor.find().distinct('hospital', (err, hospitals) => {
       if (err || !hospitals) return callback({});
-      hospital = hospitals[answers['4']];
-      aiims_id = hospital === 'AIIMS Jodhpur' ? answers['6'] : '';
+      hospital = hospitals[answers['26']];
+      aiims_id = hospital === 'AIIMS Jodhpur' ? answers['27'] : '';
 
-      type = getQuestionById(7).options[answers['7']].dbValue;
+      type = getQuestionById(28).options[answers['28']].dbValue;
+
+      let modelTimestamps = [];
 
       if (type === 'OPD') {
         opd_symptoms = answers['2.4'];
+        modelTimestamps.push({ id: 'opd_symptoms', time: timestamps['2.4']});
         opd_symptoms_age = answers['2.41'];
+        modelTimestamps.push({ id: 'opd_symptoms_age', time: timestamps['2.41']});
         name = answers['2.5'];
+        modelTimestamps.push({ id: 'name', time: timestamps['2.5']});
         gender = getQuestionById(2.7).options[answers['2.7']].dbValue;
+        modelTimestamps.push({ id: 'gender', time: timestamps['2.7']});
         age = answers['2.6'];
+        modelTimestamps.push({ id: 'age', time: timestamps['2.6']});
         email = answers['2.9'] === '0' ? answers['2.91'] : '';
+        modelTimestamps.push({ id: 'email', time: timestamps['2.9']});
         telephone = answers['2.8'];
+        modelTimestamps.push({ id: 'telephone', time: timestamps['2.8']});
         callback({
           name,
           age,
@@ -63,48 +72,92 @@ function answersToModel(answers, callback) {
           type,
           opd_symptoms,
           opd_symptoms_age,
-          aiims_id
+          aiims_id,
+          'timestamps': modelTimestamps
         });
-      } else {
+      }
+      else if (answers['1'] == "1" && (typeof answers['22'] != 'undefined')) {
+        console.log(answers['4']);
+        canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
+        cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
+        swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
+        discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+        name = answers['29'];
+		modelTimestamps.push({ id: 'name', time: timestamps['29']});
+        gender = getQuestionById(32).options[answers['32']].dbValue;
+		modelTimestamps.push({ id: 'gender', time: timestamps['32']});
+        age = answers['31'];
+		modelTimestamps.push({ id: 'age', time: timestamps['31']});
+        email = answers['33'] == '0' ? answers['34'] : '';
+		modelTimestamps.push({ id: 'email', time: timestamps['33']});
+        Profession = getQuestionById(34.1).options[answers['34.1']].dbValue;
+		modelTimestamps.push({ id: 'Profession', time: timestamps['34.1']});
+		telephone = answers['30'];
+		modelTimestamps.push({ id: 'telephone', time: timestamps['30']});
+        covid19_before = answers['35'];
+		modelTimestamps.push({ id: 'covid19_before', time: timestamps['35']});
+		BP_value = answers['36'] == '0' ? answers['37'] : 'NA';
+		modelTimestamps.push({ id: 'BP_value', time: timestamps['36']});
+        SPO2_value = answers['38'] == '0' ? answers['39'] : 'NA';
+		modelTimestamps.push({ id: 'SPO2_value', time: timestamps['38']});
+		Pulserate = answers['38'] == '0' ? answers['40'] : 'NA';
+		modelTimestamps.push({ id: 'Pulserate', time: timestamps['38']});
+        Temperatue_value = answers['41'] == '0' ? answers['42'] : 'NA';
+		modelTimestamps.push({ id: 'Temperature_value', time: timestamps['41']});
+        Bloodglucosevaluetakenat = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucosevaluetakenat', time: timestamps['43']});
+        Bloodglucose_value = answers['43'] == '0' ? answers['45'] : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucose_value', time: timestamps['43']});
+		Covid19_when = answers['35'] == '0' ? getQuestionById(46).options[answers['46']].dbValue: '';
+		modelTimestamps.push({ id: 'Covid19_when', time: timestamps['35']});
+		Hospitalization_during_covid = answers['35'] == '0' ? getQuestionById(47).options[answers['47']].dbValue: '';
+		modelTimestamps.push({ id: 'Hospitalization_during_covid', time: timestamps['35']});
+    	// console.log(answers);
+		if (answers['47'] == '1'){
+		steroids_taken = answers['35'] == '0' ? getQuestionById(47).options[answers['47']].dbValue: '';
+		modelTimestamps.push({ id: 'steroids_taken', time: timestamps['35']});
+		oxygen_support_duringcovid = getQuestionById(49).options[answers['49']].dbValue;
+		modelTimestamps.push({ id: 'oxygen_support_duringcovid', time: timestamps['49']});
+        currenthealth = answers['50'];
+		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['65']});
 
-        name = answers['8'];
-        gender = getQuestionById(11).options[answers['11']].dbValue;
-        age = answers['10'];
-        email = answers['12'] == '0' ? answers['13'] : '';
-        telephone = answers['9'];
-        shortness_of_breath = getQuestionById(63).options[answers['63']].dbValue;
-        BP_value = answers['14'] == '0' ? answers['15'] : 'NA';
-        SPO2_value = answers['16'] == '0' ? answers['17'] : 'NA';
-        Temperatue_value = answers['19'] == '0' ? answers['20'] : 'NA';
-        Bloodglucosevaluetakenat = answers['21'] == '0' ? getQuestionById(22).options[answers['22']].dbValue : 'NA';
-        Bloodglucose_value = answers['21'] == '0' ? answers['23'] : 'NA';
-        HRCT_status = answers['40'] == '0' ? getQuestionById(41).options[answers['41']].dbValue : 'NA';
-        CO_RADS_status = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
-        CRP_status = answers['46'] == '0' ? getQuestionById(47).options[answers['47']].dbValue : 'NA';
-        IL6_status = answers['49'] == '0' ? getQuestionById(50).options[answers['50']].dbValue : 'NA';
-        D_dimer_status = answers['52'] == '0' ? getQuestionById(53).options[answers['53']].dbValue : 'NA';
-        change_in_smell = getQuestionById(31).options[answers['31']].dbValue;
-        change_in_taste = getQuestionById(32).options[answers['32']].dbValue;
-        vaccination_status = answers['55'] == '0' ? getQuestionById(56).options[answers['56']].dbValue : 'NA';
-        fever = getQuestionById(24).options[answers['24']].dbValue;
-        sore_throat = getQuestionById(25).options[answers['25']].dbValue;
-        cough = getQuestionById(26).options[answers['26']].dbValue;
-        diarrhea = getQuestionById(27).options[answers['27']].dbValue;
-        bodyache = getQuestionById(28).options[answers['28']].dbValue;
-        lethargic = getQuestionById(29).options[answers['29']].dbValue;
-        giddiness = getQuestionById(30).options[answers['30']].dbValue;
-        facial_black_spots = getQuestionById(33).options[answers['33']].dbValue;
-        facial_swelling = getQuestionById(34).options[answers['34']].dbValue;
-        numbness = getQuestionById(35).options[answers['35']].dbValue;
-        tingling = getQuestionById(36).options[answers['36']].dbValue;
-        any_sensation = getQuestionById(37).options[answers['37']].dbValue;
-        additional_symptoms = answers['39'];
-
-        symptomatic_forcovid = (fever && true) || (cough && true) || (shortness_of_breath && true) || (sore_throat && true) || (diarrhea && true) || (bodyache && true) || (lethargic && true) || (giddiness && true) || false;
-        symptomatic_forblackfungus = (facial_black_spots && true) || (facial_swelling && true) || (numbness && true) || (tingling && true) || (any_sensation && true) || false;
-        Serious = (HRCT_status === 'Severe') || (CO_RADS_status === 'Very High' || CO_RADS_status === 'Very High with PCR+') ||
-          (CRP_status === 'Severe') || (IL6_status === 'Severe' || IL6_status === 'Critical') ||
-          (D_dimer_status === 'Moderate-Severe') || false
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
 
 					callback({
 						name,
@@ -112,39 +165,471 @@ function answersToModel(answers, callback) {
 						gender,
 						telephone,
 						email,
+						Profession,
 						hospital,
 						type,
 						SPO2_value,
+						Pulserate,
 						BP_value,
 						Temperatue_value,
 						Bloodglucosevaluetakenat,
 						Bloodglucose_value,
-						HRCT_status,
-						CO_RADS_status,
-						CRP_status,
-						IL6_status,
-						D_dimer_status,
-						change_in_smell,
-						change_in_taste,
-						fever,
-						sore_throat,
-						cough,
-						diarrhea,
-						bodyache,
-						lethargic,
-						giddiness,
-						shortness_of_breath,
-						facial_black_spots,
-						facial_swelling,
-						numbness,
-						tingling,
-						any_sensation,
+						Covid19_when,
+						Hospitalization_during_covid,
+						steroids_taken,
+						oxygen_support_duringcovid,
+						HRCT_report,
+						CRP_report,
+						IL6_report,
+						Ddimer_report,
+						Ferritinin_report,
+						Procalcitonin_report,
+						KFT_report,
+						symptomatic_forcovid,
+						symptomatic_formucormycosis,
+            canfeelnoseandcheek,
+            cancloseeyes,
+            swellingupperpallette,
+            discolorationupperpalette,
+						symptoms,
 						vaccination_status,
 						additional_symptoms,
-						symptomatic_forcovid,
-						symptomatic_forblackfungus,
-						Serious,
+            timestamps: modelTimestamps,
 					});
+
+		}
+		else if (answers['47'] == '0'){
+      canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
+      cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
+      swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
+      discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+		duration_hospitalization = getQuestionById(67).options[answers['67']].dbValue;
+		modelTimestamps.push({ id: 'duration_hospitalization', time: timestamps['67']});
+		steroids_given_duringstay = getQuestionById(68).options[answers['68']].dbValue;
+		modelTimestamps.push({ id: 'steroids_given_duringstay', time: timestamps['68']});
+		oxygen_support_duringstay = getQuestionById(69).options[answers['69']].dbValue;
+		modelTimestamps.push({ id: 'oxygen_support_duringstay', time: timestamps['69']});
+        currenthealth = answers['50'];
+		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['64']});
+
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
+
+					callback({
+						name,
+						age,
+						gender,
+						telephone,
+						email,
+						Profession,
+						hospital,
+						type,
+						SPO2_value,
+						Pulserate,
+						BP_value,
+						Temperatue_value,
+						Bloodglucosevaluetakenat,
+						Bloodglucose_value,
+						Covid19_when,
+						Hospitalization_during_covid,
+						duration_hospitalization,
+						steroids_given_duringstay,
+						oxygen_support_duringstay,
+						HRCT_report,
+						CRP_report,
+						IL6_report,
+						Ddimer_report,
+						Ferritinin_report,
+						Procalcitonin_report,
+						KFT_report,
+						symptomatic_forcovid,
+						symptomatic_formucormycosis,
+            canfeelnoseandcheek,
+            cancloseeyes,
+            swellingupperpallette,
+            discolorationupperpalette,
+						symptoms,
+						vaccination_status,
+						additional_symptoms,
+            timestamps: modelTimestamps,
+					});
+		}
+    else {
+      canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
+      cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
+      swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
+      discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+      currenthealth = answers['50'];
+	  modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['65']});
+
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
+
+        callback({
+          name,
+          age,
+          gender,
+          telephone,
+          email,
+          Profession,
+          hospital,
+          type,
+          SPO2_value,
+          Pulserate,
+          BP_value,
+          Temperatue_value,
+          Bloodglucosevaluetakenat,
+          Bloodglucose_value,
+          HRCT_report,
+          CRP_report,
+          IL6_report,
+          Ddimer_report,
+          Ferritinin_report,
+          Procalcitonin_report,
+          KFT_report,
+          symptomatic_forcovid,
+          symptomatic_formucormycosis,
+          canfeelnoseandcheek,
+          cancloseeyes,
+          swellingupperpallette,
+          discolorationupperpalette,
+          symptoms,
+          vaccination_status,
+          additional_symptoms,
+          timestamps: modelTimestamps,
+        });
+
+    }
+// console.log(symptomatic_forcovid, symptomatic_formucormycosis)
+      }
+      else {
+        name = answers['29'];
+		modelTimestamps.push({ id: 'name', time: timestamps['29']});
+        gender = getQuestionById(32).options[answers['32']].dbValue;
+		modelTimestamps.push({ id: 'gender', time: timestamps['32']});
+        age = answers['31'];
+		modelTimestamps.push({ id: 'age', time: timestamps['31']});
+        email = answers['33'] == '0' ? answers['34'] : '';
+		modelTimestamps.push({ id: 'email', time: timestamps['33']});
+        Profession = getQuestionById(34.1).options[answers['34.1']].dbValue;
+		modelTimestamps.push({ id: 'Profession', time: timestamps['34.1']});
+		telephone = answers['30'];
+		modelTimestamps.push({ id: 'telephone', time: timestamps['30']});
+        covid19_before = answers['35'];
+		modelTimestamps.push({ id: 'covid19_before', time: timestamps['35']});
+		BP_value = answers['36'] == '0' ? answers['37'] : 'NA';
+		modelTimestamps.push({ id: 'BP_value', time: timestamps['36']});
+        SPO2_value = answers['38'] == '0' ? answers['39'] : 'NA';
+		modelTimestamps.push({ id: 'SPO2_value', time: timestamps['38']});
+		Pulserate = answers['38'] == '0' ? answers['40'] : 'NA';
+		modelTimestamps.push({ id: 'Pulserate', time: timestamps['38']});
+        Temperatue_value = answers['41'] == '0' ? answers['42'] : 'NA';
+		modelTimestamps.push({ id: 'Temperature_value', time: timestamps['41']});
+        Bloodglucosevaluetakenat = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucosevaluetakenat', time: timestamps['43']});
+        Bloodglucose_value = answers['43'] == '0' ? answers['45'] : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucose_value', time: timestamps['43']});
+		Covid19_when = answers['35'] == '0' ? getQuestionById(46).options[answers['46']].dbValue: '';
+		modelTimestamps.push({ id: 'Covid19_when', time: timestamps['35']});
+		Hospitalization_during_covid = answers['35'] == '0' ? getQuestionById(47).options[answers['47']].dbValue: '';
+		modelTimestamps.push({ id: 'Hospitalization_during_covid', time: timestamps['35']});
+    	// console.log(answers);
+		if (answers['47'] == '1'){
+		steroids_taken = answers['35'] == '0' ? getQuestionById(47).options[answers['47']].dbValue: '';
+		modelTimestamps.push({ id: 'steroids_taken', time: timestamps['35']});
+		oxygen_support_duringcovid = getQuestionById(49).options[answers['49']].dbValue;
+		modelTimestamps.push({ id: 'oxygen_support_duringcovid', time: timestamps['49']});
+        currenthealth = answers['50'];
+		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['65']});
+
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
+
+					callback({
+						name,
+						age,
+						gender,
+						telephone,
+						email,
+						Profession,
+						hospital,
+						type,
+						SPO2_value,
+						Pulserate,
+						BP_value,
+						Temperatue_value,
+						Bloodglucosevaluetakenat,
+						Bloodglucose_value,
+						Covid19_when,
+						Hospitalization_during_covid,
+						steroids_taken,
+						oxygen_support_duringcovid,
+						HRCT_report,
+						CRP_report,
+						IL6_report,
+						Ddimer_report,
+						Ferritinin_report,
+						Procalcitonin_report,
+						KFT_report,
+						symptomatic_forcovid,
+						symptomatic_formucormycosis,
+						symptoms,
+						vaccination_status,
+						additional_symptoms,
+            timestamps: modelTimestamps,
+					});
+
+		}
+		else if (answers['47'] == '0'){
+		duration_hospitalization = getQuestionById(67).options[answers['67']].dbValue;
+		modelTimestamps.push({ id: 'duration_hospitalization', time: timestamps['67']});
+		steroids_given_duringstay = getQuestionById(68).options[answers['68']].dbValue;
+		modelTimestamps.push({ id: 'steroids_given_duringstay', time: timestamps['68']});
+		oxygen_support_duringstay = getQuestionById(69).options[answers['69']].dbValue;
+		modelTimestamps.push({ id: 'oxygen_support_duringstay', time: timestamps['69']});
+        currenthealth = answers['50'];
+		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['64']});
+
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
+
+					callback({
+						name,
+						age,
+						gender,
+						telephone,
+						email,
+						Profession,
+						hospital,
+						type,
+						SPO2_value,
+						Pulserate,
+						BP_value,
+						Temperatue_value,
+						Bloodglucosevaluetakenat,
+						Bloodglucose_value,
+						Covid19_when,
+						Hospitalization_during_covid,
+						duration_hospitalization,
+						steroids_given_duringstay,
+						oxygen_support_duringstay,
+						HRCT_report,
+						CRP_report,
+						IL6_report,
+						Ddimer_report,
+						Ferritinin_report,
+						Procalcitonin_report,
+						KFT_report,
+						symptomatic_forcovid,
+						symptomatic_formucormycosis,
+						symptoms,
+						vaccination_status,
+						additional_symptoms,
+            timestamps: modelTimestamps,
+					});
+		}
+    else {
+      currenthealth = answers['50'];
+	  modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
+		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
+        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
+        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
+        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
+        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
+        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
+		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
+		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
+		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
+		symptoms3 = answers['56'] && !answers['56'].includes('None of the listed') ? answers['56'] : [];
+		symptoms4 = answers['57'] && !answers['57'].includes('None of the listed') ? answers['57'] : [];
+		symptoms5 = answers['59'] && !answers['59'].includes('None of the listed') ? answers['59'] : [];
+		symptoms6 = answers['60'] && !answers['60'].includes('None of the listed')  ? answers['60'] : [];
+		symptoms7 = answers['61'] && !answers['61'].includes('None of the listed') ? answers['61'] : [];
+        additional_symptoms = answers['63'];
+		modelTimestamps.push({ id: 'additional_symptoms', time: timestamps['63']});
+		vaccination_status = answers['64'] == '0' ? getQuestionById(65).options[answers['65']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'vaccination_status', time: timestamps['65']});
+
+    symptomatic_forcovid = (typeof answers['56'] != 'undefined') || (typeof answers['60'] != 'undefined') || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
+	modelTimestamps.push({ id: 'symptomatic_forcovid', time: timestamps['53']});
+    symptomatic_formucormycosis = (typeof answers['55'] != 'undefined') || (typeof answers['59'] != 'undefined') || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;
+	modelTimestamps.push({ id: 'symptomatic_formucormycosis', time: timestamps['53']});
+        symptoms = symptoms1;
+		symptoms.push(...symptoms2, ...symptoms3, ...symptoms4,
+						...symptoms5, ...symptoms6, ...symptoms7);
+						modelTimestamps.push({ id: 'symptoms', time: timestamps['53']});
+
+        callback({
+          name,
+          age,
+          gender,
+          telephone,
+          email,
+          Profession,
+          hospital,
+          type,
+          SPO2_value,
+          Pulserate,
+          BP_value,
+          Temperatue_value,
+          Bloodglucosevaluetakenat,
+          Bloodglucose_value,
+          HRCT_report,
+          CRP_report,
+          IL6_report,
+          Ddimer_report,
+          Ferritinin_report,
+          Procalcitonin_report,
+          KFT_report,
+          symptomatic_forcovid,
+          symptomatic_formucormycosis,
+          symptoms,
+          vaccination_status,
+          additional_symptoms,
+          timestamps: modelTimestamps,
+        });
+
+    }
+ // console.log(answers)
       }
     });
   }

@@ -13,6 +13,47 @@ function Row(props) {
 		setReveal(!reveal);
 	};
 
+	const getObjByID = (arr, key) => {
+		if (!arr) return null;
+		for (let obj of arr) {
+			if (obj.id == key) return obj;
+		}
+		return null;
+	};
+	let sortedkeys = Object.keys(patient).sort((a,b) => {
+		let objA = getObjByID(patient.timestamps, a);
+		let objB = getObjByID(patient.timestamps, b);
+		let propA = patient[a];
+		let propB = patient[b];
+		if ((propA && propA != 'NA') && (propB && propB != 'NA')) {
+			return (objA && objB) ? objA.time - objB.time : 0;
+		} else if ((propA && propA != 'NA') && !(propB && propB != 'NA')) {
+			return -1;
+		} else {
+			return 1;
+		}
+	});
+	sortedkeys.splice(sortedkeys.indexOf('timestamps'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('ip'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('_id'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('name'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('telephone'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('age'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('gender'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('hospital'), 1);
+	sortedkeys.splice(sortedkeys.indexOf('type'), 1);
+  var patientCopy = {...patient};
+	for (let key of sortedkeys) {
+		if (Array.isArray(patient[key])) {
+			patientCopy[key] = patient[key].join(', ');
+		}
+	}
+	console.log('============================');
+	for (let key of sortedkeys) {
+		console.log(key + ' | ' + patientCopy[key]);
+		console.log(key + ' | ' + JSON.stringify(getObjByID(patient.timestamps, key)));
+	}
+
 	return (
 		<React.Fragment>
 			<span
@@ -47,16 +88,16 @@ function Row(props) {
 				<td></td>
 			</tr>
 
-			{Object.keys(patient).map((dataKey, index) => {
+			{sortedkeys.map((dataKey, index) => {
 				return (
 					<tr
 						key={index}
 						className={`district`}
 						style={{ display: reveal && !props.total ? '' : 'none' }}
 					>
-						<td style={{ fontWeight: 600 }}>{dataKey}</td>
-						<td>
-							{patient[dataKey] ? (patient[dataKey] === true ? 'Yes' : patient[dataKey]) : '-'}
+						<td style={{ fontWeight: 600 }} colspan='3'>{dataKey}</td>
+						<td colspan='2'>
+							{patientCopy[dataKey] ? (patientCopy[dataKey] === true ? 'Yes' : patientCopy[dataKey]) : '-'}
 						</td>
 					</tr>
 				);

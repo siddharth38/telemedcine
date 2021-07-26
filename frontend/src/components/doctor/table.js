@@ -12,7 +12,7 @@ function Table({ username, changePatient }) {
 	useEffect(() => {
 		const timer = setInterval(() => {
 			getPatients();
-		}, 20 * 1000);
+		}, 20000 * 1000);
 		return () => clearInterval(timer);
 	}, []);
 	useEffect(() => {
