@@ -30,8 +30,8 @@ const PatientSchema = new Schema(
 		SPO2_value: String,
 		Pulserate: String,
 		BP_value: String,
-		Temperatue_value: String,
-		Bloodglucosevaluetakenat: String,
+		Temperature_value: String,
+		Bloodglucose_taken_at: String,
 		Bloodglucose_value: String,
 		/**
 		Vital parameters reading
@@ -53,57 +53,57 @@ const PatientSchema = new Schema(
 		Covid19_when: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		Hospitalization_during_covid: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		duration_hospitalization: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		steroids_given_duringstay: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		oxygen_support_duringstay: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		steroids_taken: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		duration_hospitalization: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
-		discolorationupperpalette: {
+		discoloration_upper_palette: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
-		swellingupperpallette: {
+		swelling_upper_pallette: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
-		cancloseeyes: {
+		can_close_eyes: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
-		canfeelnoseandcheek: {
+		can_feel_nose_and_cheek: {
 			type: String,
 			required: false,
-			default: ''
+			default: 'NA'
 		},
 		symptoms: [],
 		vaccination_status: String,

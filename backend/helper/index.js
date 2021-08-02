@@ -78,14 +78,14 @@ function answersToModel(answers, timestamps, callback) {
       }
       else if (answers['1'] == "1" && (typeof answers['22'] != 'undefined')) {
         console.log(answers['4']);
-        canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
-        modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
-        cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
-        modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
-        swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
-        modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
-        discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
-        modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+        can_feel_nose_and_cheek = answers['4'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'can_feel_nose_and_cheek', time: timestamps['53']});
+        can_close_eyes = answers['6'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'can_close_eyes', time: timestamps['53']});
+        swelling_upper_pallette =  answers['8'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'swelling_upper_pallette', time: timestamps['53']});
+        discoloration_upper_palette =  answers['9'] == '0' ? 'Yes':'No';
+        modelTimestamps.push({ id: 'discoloration_upper_palette', time: timestamps['53']});
         name = answers['29'];
 		modelTimestamps.push({ id: 'name', time: timestamps['29']});
         gender = getQuestionById(32).options[answers['32']].dbValue;
@@ -106,10 +106,10 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'SPO2_value', time: timestamps['38']});
 		Pulserate = answers['38'] == '0' ? answers['40'] : 'NA';
 		modelTimestamps.push({ id: 'Pulserate', time: timestamps['38']});
-        Temperatue_value = answers['41'] == '0' ? answers['42'] : 'NA';
+        Temperature_value = answers['41'] == '0' ? answers['42'] : 'NA';
 		modelTimestamps.push({ id: 'Temperature_value', time: timestamps['41']});
-        Bloodglucosevaluetakenat = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
-		modelTimestamps.push({ id: 'Bloodglucosevaluetakenat', time: timestamps['43']});
+        Bloodglucose_taken_at = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucose_taken_at', time: timestamps['43']});
         Bloodglucose_value = answers['43'] == '0' ? answers['45'] : 'NA';
 		modelTimestamps.push({ id: 'Bloodglucose_value', time: timestamps['43']});
 		Covid19_when = answers['35'] == '0' ? getQuestionById(46).options[answers['46']].dbValue: '';
@@ -124,19 +124,19 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'oxygen_support_duringcovid', time: timestamps['49']});
         currenthealth = answers['50'];
 		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+    HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -171,8 +171,8 @@ function answersToModel(answers, timestamps, callback) {
 						SPO2_value,
 						Pulserate,
 						BP_value,
-						Temperatue_value,
-						Bloodglucosevaluetakenat,
+						Temperature_value,
+						Bloodglucose_taken_at,
 						Bloodglucose_value,
 						Covid19_when,
 						Hospitalization_during_covid,
@@ -187,10 +187,10 @@ function answersToModel(answers, timestamps, callback) {
 						KFT_report,
 						symptomatic_forcovid,
 						symptomatic_formucormycosis,
-            canfeelnoseandcheek,
-            cancloseeyes,
-            swellingupperpallette,
-            discolorationupperpalette,
+            can_feel_nose_and_cheek,
+            can_close_eyes,
+            swelling_upper_pallette,
+            discoloration_upper_palette,
 						symptoms,
 						vaccination_status,
 						additional_symptoms,
@@ -199,14 +199,14 @@ function answersToModel(answers, timestamps, callback) {
 
 		}
 		else if (answers['47'] == '0'){
-      canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
-      cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
-      swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
-      discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+      can_feel_nose_and_cheek = answers['4'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'can_feel_nose_and_cheek', time: timestamps['53']});
+      can_close_eyes = answers['6'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'can_close_eyes', time: timestamps['53']});
+      swelling_upper_pallette =  answers['8'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'swelling_upper_pallette', time: timestamps['53']});
+      discoloration_upper_palette =  answers['9'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'discoloration_upper_palette', time: timestamps['53']});
 		duration_hospitalization = getQuestionById(67).options[answers['67']].dbValue;
 		modelTimestamps.push({ id: 'duration_hospitalization', time: timestamps['67']});
 		steroids_given_duringstay = getQuestionById(68).options[answers['68']].dbValue;
@@ -215,19 +215,19 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'oxygen_support_duringstay', time: timestamps['69']});
         currenthealth = answers['50'];
 		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+    HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -262,8 +262,8 @@ function answersToModel(answers, timestamps, callback) {
 						SPO2_value,
 						Pulserate,
 						BP_value,
-						Temperatue_value,
-						Bloodglucosevaluetakenat,
+						Temperature_value,
+						Bloodglucose_taken_at,
 						Bloodglucose_value,
 						Covid19_when,
 						Hospitalization_during_covid,
@@ -279,10 +279,10 @@ function answersToModel(answers, timestamps, callback) {
 						KFT_report,
 						symptomatic_forcovid,
 						symptomatic_formucormycosis,
-            canfeelnoseandcheek,
-            cancloseeyes,
-            swellingupperpallette,
-            discolorationupperpalette,
+            can_feel_nose_and_cheek,
+            can_close_eyes,
+            swelling_upper_pallette,
+            discoloration_upper_palette,
 						symptoms,
 						vaccination_status,
 						additional_symptoms,
@@ -290,29 +290,29 @@ function answersToModel(answers, timestamps, callback) {
 					});
 		}
     else {
-      canfeelnoseandcheek = answers['4'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'canfeelnoseandcheek', time: timestamps['53']});
-      cancloseeyes = answers['6'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'cancloseeyes', time: timestamps['53']});
-      swellingupperpallette =  answers['8'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'swellingupperpallette', time: timestamps['53']});
-      discolorationupperpalette =  answers['9'] == '0' ? 'Yes':'No';
-      modelTimestamps.push({ id: 'discolorationupperpalette', time: timestamps['53']});
+      can_feel_nose_and_cheek = answers['4'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'can_feel_nose_and_cheek', time: timestamps['53']});
+      can_close_eyes = answers['6'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'can_close_eyes', time: timestamps['53']});
+      swelling_upper_pallette =  answers['8'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'swelling_upper_pallette', time: timestamps['53']});
+      discoloration_upper_palette =  answers['9'] == '0' ? 'Yes':'No';
+      modelTimestamps.push({ id: 'discoloration_upper_palette', time: timestamps['53']});
       currenthealth = answers['50'];
 	  modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+    HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -347,8 +347,8 @@ function answersToModel(answers, timestamps, callback) {
           SPO2_value,
           Pulserate,
           BP_value,
-          Temperatue_value,
-          Bloodglucosevaluetakenat,
+          Temperature_value,
+          Bloodglucose_taken_at,
           Bloodglucose_value,
           HRCT_report,
           CRP_report,
@@ -359,10 +359,10 @@ function answersToModel(answers, timestamps, callback) {
           KFT_report,
           symptomatic_forcovid,
           symptomatic_formucormycosis,
-          canfeelnoseandcheek,
-          cancloseeyes,
-          swellingupperpallette,
-          discolorationupperpalette,
+          can_feel_nose_and_cheek,
+          can_close_eyes,
+          swelling_upper_pallette,
+          discoloration_upper_palette,
           symptoms,
           vaccination_status,
           additional_symptoms,
@@ -393,10 +393,10 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'SPO2_value', time: timestamps['38']});
 		Pulserate = answers['38'] == '0' ? answers['40'] : 'NA';
 		modelTimestamps.push({ id: 'Pulserate', time: timestamps['38']});
-        Temperatue_value = answers['41'] == '0' ? answers['42'] : 'NA';
+        Temperature_value = answers['41'] == '0' ? answers['42'] : 'NA';
 		modelTimestamps.push({ id: 'Temperature_value', time: timestamps['41']});
-        Bloodglucosevaluetakenat = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
-		modelTimestamps.push({ id: 'Bloodglucosevaluetakenat', time: timestamps['43']});
+        Bloodglucose_taken_at = answers['43'] == '0' ? getQuestionById(44).options[answers['44']].dbValue : 'NA';
+		modelTimestamps.push({ id: 'Bloodglucose_taken_at', time: timestamps['43']});
         Bloodglucose_value = answers['43'] == '0' ? answers['45'] : 'NA';
 		modelTimestamps.push({ id: 'Bloodglucose_value', time: timestamps['43']});
 		Covid19_when = answers['35'] == '0' ? getQuestionById(46).options[answers['46']].dbValue: '';
@@ -411,19 +411,19 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'oxygen_support_duringcovid', time: timestamps['49']});
         currenthealth = answers['50'];
 		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+    HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -458,8 +458,8 @@ function answersToModel(answers, timestamps, callback) {
 						SPO2_value,
 						Pulserate,
 						BP_value,
-						Temperatue_value,
-						Bloodglucosevaluetakenat,
+						Temperature_value,
+						Bloodglucose_taken_at,
 						Bloodglucose_value,
 						Covid19_when,
 						Hospitalization_during_covid,
@@ -490,19 +490,19 @@ function answersToModel(answers, timestamps, callback) {
 		modelTimestamps.push({ id: 'oxygen_support_duringstay', time: timestamps['69']});
         currenthealth = answers['50'];
 		modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+    HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -537,8 +537,8 @@ function answersToModel(answers, timestamps, callback) {
 						SPO2_value,
 						Pulserate,
 						BP_value,
-						Temperatue_value,
-						Bloodglucosevaluetakenat,
+						Temperature_value,
+						Bloodglucose_taken_at,
 						Bloodglucose_value,
 						Covid19_when,
 						Hospitalization_during_covid,
@@ -563,19 +563,19 @@ function answersToModel(answers, timestamps, callback) {
     else {
       currenthealth = answers['50'];
 	  modelTimestamps.push({ id: 'currenthealth', time: timestamps['50']});
-		HRCT_report = answers['51'] && answers['51'].includes('0') ? 'Yes' : 'NA';
+		HRCT_report = answers['51'] && answers['51'].includes(0) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'HRCT_report', time: timestamps['51']});
-        CRP_report = answers['51'] && answers['51'].includes('1') ? 'Yes' : 'NA';
+        CRP_report = answers['51'] && answers['51'].includes(1) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'CRP_report', time: timestamps['51']});
-        IL6_report = answers['51'] && answers['51'].includes('2') ? 'Yes' : 'NA';
+        IL6_report = answers['51'] && answers['51'].includes(2) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'IL6_report', time: timestamps['51']});
-        Ddimer_report = answers['51'] && answers['51'].includes('3') ? 'Yes' : 'NA';
+        Ddimer_report = answers['51'] && answers['51'].includes(3) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ddimer_report', time: timestamps['51']});
-        Ferritinin_report = answers['51'] && answers['51'].includes('4') ? 'Yes' : 'NA';
+        Ferritinin_report = answers['51'] && answers['51'].includes(4) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Ferritinin_report', time: timestamps['51']});
-        Procalcitonin_report = answers['51'] && answers['51'].includes('5') ? 'Yes' : 'NA';
+        Procalcitonin_report = answers['51'] && answers['51'].includes(5) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'Procalcitonin_report', time: timestamps['51']});
-		KFT_report = answers['51'] && answers['51'].includes('6') ? 'Yes' : 'NA';
+		KFT_report = answers['51'] && answers['51'].includes(6) ? 'Available' : 'NA';
 		modelTimestamps.push({ id: 'KFT_report', time: timestamps['51']});
 		symptoms1 = !answers['53'].includes('None of the listed') ? answers['53'] : [];
 		symptoms2 = answers['55'] && !answers['55'].includes('None of the listed') ? answers['55'] : [];
@@ -610,8 +610,8 @@ function answersToModel(answers, timestamps, callback) {
           SPO2_value,
           Pulserate,
           BP_value,
-          Temperatue_value,
-          Bloodglucosevaluetakenat,
+          Temperature_value,
+          Bloodglucose_taken_at,
           Bloodglucose_value,
           HRCT_report,
           CRP_report,

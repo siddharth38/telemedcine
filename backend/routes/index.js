@@ -8,8 +8,8 @@ const storage = multer.diskStorage({
 		cb(null, 'public/images/');
 	},
 	filename: function (req, file, cb) {
-		const name = file.originalname.split('.'),
-			customFileName = crypto.randomBytes(18).toString('hex');
+		const name = file.originalname.split('.');
+		const customFileName = crypto.randomBytes(18).toString('hex');
 		const extension = name[name.length - 1];
 		cb(null, customFileName + '.' + extension);
 	}
@@ -62,8 +62,10 @@ router.get('/hits', (req, res) => {
 router.post('/image', upload.any(), (req, res) => {
 	if (req.files.length) {
 		const image = req.files[0];
+		console.log(image);
 		res.json({ image });
 	} else {
+		console.log("oh no");
 		res.json({});
 	}
 });

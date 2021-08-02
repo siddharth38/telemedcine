@@ -204,10 +204,39 @@ module.exports = {
   },
 		{
             "id": 11.0,
-            "nextQuestion": 0.0,
+            "options": [
+                {
+                    "dbValue": "Restart",
+                    "nextQuestion": 1.0,
+                    "statement": {
+                        "hi": "चैटबॉट के साथ बातचीत को फिर से शुरू करें",
+                        "en": "Restart the interaction with the Chatbot"
+                    },
+                    "value": 0
+                },
+                {
+                    "dbValue": "End",
+                    "nextQuestion": 11.1,
+                    "statement": {
+                        "hi": "बातचीत समाप्त करें",
+                        "en": "End the interaction"
+                    },
+                    "value": 1
+                }
+            ],
+
             "statement": {
                 "hi": "आप स्वस्थ हैं।",
                 "en": "You are doing fine."
+            },
+            "type": "button"
+        },
+        {
+            "id": 11.1,
+            "nextQuestion": 0,
+            "statement": {
+                "hi": "आपका दिन शुभ हो",
+                "en": "Have a nice day."
             },
             "type": "none"
         },
@@ -285,6 +314,15 @@ module.exports = {
                         "en": "Myths around Mucormycosis"
                     },
                     "value": 7
+                },
+                {
+                    "dbValue": 8,
+                    "nextQuestion": 1,
+                    "statement": {
+                        "hi": "चैटबॉट से बाहर निकलें और पुनः आरंभ करें",
+                        "en": "Exit and restart the Chatbot"
+                    },
+                    "value": 8
                 }
             ],
             "statement": {
@@ -308,7 +346,7 @@ module.exports = {
               ],
 
             "statement": {
-                "hi": "म्यूकोर्मिकोसिस (कभी-कभी जाइगोमाइकोसिस कहा जाता है) एक गंभीर लेकिन दुर्लभ कवक संक्रमण है जो जाइगोमाइसेट्स नामक मोल्डों के समूह के कारण होता है। ये कवक (म्यूकोरल) पूरे वातावरण में रहते हैं, विशेष रूप से मिट्टी में और सड़ने वाले कार्बनिक पदार्थों, जैसे पत्तियों, खाद के ढेर, या सड़ी हुई लकड़ी में। म्यूकोर्मिकोसिस पैदा करने वाले फंगस को ब्लैक फंगस भी कहा जाता है लेकिन यह ब्लैक फंगस नहीं है।",
+                "hi": "म्यूकोर्मिकोसिस (कभी-कभी जाइगोमाइकोसिस कहा जाता है) एक गंभीर लेकिन दुर्लभ फंगस संक्रमण है जो जाइगोमाइसीट्स नामक मोल्डों के समूह के कारण होता है। ये फंगस (म्यूकोरल) पूरे वातावरण में रहते हैं, विशेष रूप से मिट्टी में और सड़ने वाले कार्बनिक पदार्थों, जैसे पत्तियों, खाद के ढेर, या सड़ी हुई लकड़ी में। म्यूकोर्मिकोसिस पैदा करने वाले फंगस को ब्लैक फंगस भी कहा जाता है लेकिन यह ब्लैक फंगस नहीं है।",
                 "en": "Mucormycosis (sometimes called zygomycosis) is a serious but rare fungal infection caused by a group of molds called zygomycetes.  These fungi (mucorals) live throughout the environment, particularly in soil and in decaying organic matter, such as leaves, compost piles, or rotten wood. The Fungus causing Mucormycosis is also referred to Black Fungus but it is not Black Fungus."
             },
             "type": "button"
@@ -387,6 +425,15 @@ module.exports = {
                         "en": "Myths around Mucormycosis"
                     },
                     "value": 7
+                },
+                {
+                    "dbValue": 8,
+                    "nextQuestion": 1,
+                    "statement": {
+                        "hi": "चैटबॉट से बाहर निकलें और पुनः आरंभ करें",
+                        "en": "Exit and restart the Chatbot"
+                    },
+                    "value": 8
                 }
             ],
             "statement": {
@@ -399,7 +446,7 @@ module.exports = {
             "id": 14.0,
             "nextQuestion": 14.1,
             "statement": {
-                "hi": "यह वातावरण में मौजूद कवक बीजाणुओं के संपर्क में आने से होता है।",
+                "hi": "यह वातावरण में मौजूद फंगस बीजाणुओं के संपर्क में आने से होता है।",
                 "en": "It is caused by coming in contact with the fungal spores present in the environment."
             },
             "type": "none"
@@ -408,7 +455,7 @@ module.exports = {
             "id": 14.1,
             "nextQuestion": 14.2,
             "statement": {
-                "hi": "निम्नलिखित स्थितियों में म्यूकोर्मिकोसिस संक्रमण का खतरा बढ़ जाता है: \n 1. अनियंत्रित/अनियंत्रित मधुमेह! \n 2. स्टेरॉयड के उपयोग के कारण प्रतिरक्षा प्रणाली का कमजोर होना! \n 3. लंबे समय तक आईसीयू/अस्पताल में रहना! \n 4. सह-रुग्णता / अंग प्रत्यारोपण के बाद / कैंसर!",
+                "hi": "निम्नलिखित स्थितियों में म्यूकोर्मिकोसिस संक्रमण का खतरा बढ़ जाता है: \n 1. अनियंत्रित मधुमेह! \n 2. स्टेरॉयड के उपयोग के कारण प्रतिरक्षा प्रणाली का कमजोर होना! \n 3. लंबे समय तक आईसीयू/अस्पताल में रहना! \n 4. सह-रुग्णता / अंग प्रत्यारोपण के बाद / कैंसर!",
                 "en": "Following conditions increase the risk of mucormycosis infection: \n 1. Uncontrolled/Undiagnosed diabetes. \n 2. Weakening of immune system due to use of steroids. \n 3. Prolonged ICU/hospital stay. \n 4. Co-morbidities / post organ transplant / cancer"
             },
             "type": "none"
@@ -427,8 +474,8 @@ module.exports = {
                 },
               ],
             "statement": {
-                "hi": "जानकारी: हर 3 महीने में HbA1C के स्तर की निगरानी से मधुमेह के निदान में मदद मिलेगी जिससे म्यूकोर्मिकोसिस का खतरा कम हो सकता है!",
-                "en": "Information: Monitoring of HbA1C levels every 3 months will help diagnosing diabetes which may reduce the risk of Mucormycosis"
+                "hi": "जानकारी: मधुमेह के रोगियों के लिए हर 3 महीने में HbA1C के स्तर की निगरानी करनी चाहिए और यह म्यूकोर्मिकोसिस के जोखिम को कम करने में मदद कर सकता है।",
+                "en": "Information: Monitoring of HbA1C levels every 3 months for diabetic patients is recommended and that may help to reduce the risk of Mucormycosis"
             },
             "type": "button"
         },
@@ -436,8 +483,8 @@ module.exports = {
             "id": 20.0,
             "nextQuestion": 20.1,
             "statement": {
-                "hi": "म्यूकोर्मिकोसिस संक्रमण का कवक समूह काला कवक नहीं है क्योंकि यह कवक का एक अन्य समूह है",
-                "en": "The Fungi group of Mucormycosis infection is not Black Fungus as it is another group of fungi"
+                "hi": "म्यूकोर्मिकोसिस संक्रमण का फंगस समूह जाइगोमाइसीट्स है और यह एक काला फंगस  नहीं है।",
+                "en": "The Fungi group of Mucormycosis infection is Zygomycetes and it is not a Black Fungus"
             },
             "type": "none"
         },
@@ -445,8 +492,8 @@ module.exports = {
             "id": 20.1,
             "nextQuestion": 20.2,
             "statement": {
-                "hi": "म्यूकोर्मिकोसिस संक्रामक नहीं है और वेन्टिलेटर द्वारा ऑक्सीजन या  पानी से नहीं बल्कि केवल हवा से फैलता है।",
-                "en": "Mucormycosis is not contagious and does not spread by oxygenation, humidifiers and water but only through air."
+                "hi": "म्यूकोर्मिकोसिस संक्रामक नहीं है और वेन्टिलेटर द्वारा दिया गया ऑक्सीजन या पानी से नहीं फैलता है।",
+                "en": "Mucormycosis is not contagious and does not spread by oxygenation, humidifiers and water."
             },
             "type": "none"
         },
@@ -484,7 +531,7 @@ module.exports = {
               ],
             "statement": {
                 "hi": "ऊतकों के इस्किमिया (रक्त की आपूर्ति में कमी जिससे ऑक्सीजन में कमी आती है) जिसके परिणामस्वरूप संक्रमित भाग का परिगलन होता है",
-                "en": "Ischemia (decrease in blood supply leading to decrease in oxygen) of tissues resulting to Necrosis of infected part"
+                "en": "Ischemia (decrease in blood supply leading to decrease in oxygen) of tissues resulting to necrosis of infected part"
             },
             "type": "button"
         },
@@ -502,8 +549,8 @@ module.exports = {
                 },
               ],
             "statement": {
-                "hi": "धुंधली दृष्टि, चेहरे की सूजन, नाक की भीड़, बुखार, दुर्गंध, आंखों में लाली, त्वचा का काला पड़ना, सिरदर्द, संवेदना का नुकसान, मौखिक गुहा में कालापन आना",
-                "en": "Blurred Vision, Facial Swelling, Nasal Congestion, Fever, Foul smell, Redness in the eyes, Skin blackening, Headache, loss of sensatioon, blackish discoloration in the oral cavity"
+                "hi": "धुंधली दृष्टि, चेहरे की सूजन, नाक में जमाव, दुर्गंध, आंखों में लाली, त्वचा का काला पड़ना, सिरदर्द, संवेदना में कमी,मुंह के अंदर कालापन आना",
+                "en": "Blurred Vision, Facial Swelling, Nasal Congestion, Foul smell, Redness in the eyes, Skin blackening, Headache, loss of sensation, blackish discoloration in the oral cavity"
             },
             "type": "button"
         },
@@ -521,8 +568,8 @@ module.exports = {
                 },
               ],
             "statement": {
-                "hi": "नाक के आसपास की त्वचा का काला पड़ना / मलिनकिरण, दृष्टि की हानि, नाक बंद होना और चेहरे का दर्द खतरनाक लक्षण हैं और इन स्थितियों में तुरंत डॉक्टर से संपर्क करना चाहिए।",
-                "en": "Blackening/discoloration of skin around Nose, loss of vision, Nasal congestion and Facial pain are the alarming  symptoms and one must immediately contact Doctor in these situations"
+                "hi": "नाक के आसपास की त्वचा का काला पड़ना / मलिनकिरण, दृष्टि की हानि, नाक बंद होना, चेहरे की संवेदना में कमी और चेहरे का दर्द खतरनाक लक्षण हैं और इन स्थितियों में तुरंत डॉक्टर से संपर्क करना चाहिए।",
+                "en": "Blackening/discoloration of skin around Nose, loss of vision, Nasal congestion, loss of facial sensation and Facial pain are the alarming  symptoms and one must immediately contact Doctor in these situations"
             },
             "type": "button"
         },
@@ -549,8 +596,8 @@ module.exports = {
                 },
               ],
             "statement": {
-                "hi": "नैदानिक ​​निदान: चेहरे की सूजन के साथ बुखार, चेहरे की संवेदना में कमी, चेहरे का पक्षाघात, नाक के आसपास की त्वचा का काला पड़ना नैदानिक ​​निदान का कारण हो सकता है। पूर्ण निदान केवल एक अस्पताल सेटअप में ही किया जा सकता है",
-                "en": "Clinical Diagnosis: Fever with either Facial swelling, decrease in sensation of facial, facial palsy, blackening of skin around nose may lead to clinical diagnosis. Full diagnosis can be only be done in a hospital setup"
+                "hi": "नैदानिक ​​निदान: चेहरे की सूजन, चेहरे की संवेदना में कमी, चेहरे का टेढ़ापन, नाक के आसपास की त्वचा का काला पड़ना नैदानिक ​​निदान का कारण हो सकता है। नाक की दूरबीन से जांच करना ज़रूरी है। पूर्ण निदान केवल एक अस्पताल में ही किया जा सकता है",
+                "en": "Clinical Diagnosis: Facial swelling, decrease in sensation of facial, facial palsy, blackening of skin around nose may lead to clinical diagnosis. Diagnostic nasal endoscopy is required. Full diagnosis can be only be done in a hospital setup"
             },
             "type": "button"
         },
@@ -568,7 +615,7 @@ module.exports = {
                 },
               ],
             "statement": {
-                "hi": "शल्य चिकित्सा और दवा के माध्यम से संक्रमित ऊतक को हटाया जाता है: सख्त निगरानी में चिकित्सक द्वारा निर्धारित उपयुक्त कवकनाशी",
+                "hi": "शल्य चिकित्सा के माध्यम से संक्रमित ऊतक को हटाया जाता है और दवा सख्त निगरानी में चिकित्सक द्वारा निर्धारित उपयुक्त फंगस को मारने वाली दी जाती हैै",
                 "en": "Removal of infected tissue through surgery and Medication: Appropriate anti-fungals to be prescribed by the Physician under strict monitoring"
             },
             "type": "button"
@@ -828,8 +875,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपको पहले भी COvid-19 का निदान हुआ है?",
-                "en": "Have you been diagnosed with Covid-19 before?"
+                "hi": "क्या आपको पहले भी COVID-19 का निदान हुआ है?",
+                "en": "Have you been diagnosed with COVID-19 before?"
             },
             "type": "button"
         },
@@ -1054,15 +1101,15 @@ module.exports = {
                     "dbValue": "Before 2 months",
                     "nextQuestion": 47.0,
                     "statement": {
-                        "hi": "2 महीने पहले Before",
+                        "hi": "2 महीने पहले",
                         "en": "Before 2 months"
                     },
                     "value": 2
                 }
             ],
             "statement": {
-                "hi": "आपको Covid-19 कब निदान हुआ?",
-                "en": "When did you get diagnosed for Covid-19?"
+                "hi": "आपको COVID-19 कब निदान हुआ?",
+                "en": "When did you get diagnosed for COVID-19?"
             },
             "type": "button"
         },
@@ -1089,8 +1136,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आप अस्पताल में भर्ती थे Covid-19 V के लिए?",
-                "en": "Were you hospitalised for Covid-19?"
+                "hi": "क्या आप अस्पताल में भर्ती थे COVID-19 के लिए?",
+                "en": "Were you hospitalised for COVID-19?"
             },
             "type": "button"
         },
@@ -1219,11 +1266,11 @@ module.exports = {
                     "value": 4
                 },
                 {
-                    "dbValue": "Aneamia",
+                    "dbValue": "Anaemia",
 
                     "statement": {
                         "hi": "एनीमिया",
-                        "en": "Aneamia"
+                        "en": "Anaemia"
                     },
                     "value": 5
                 }
@@ -1287,7 +1334,7 @@ module.exports = {
                     "dbValue": "Procalcitonin test ",
                     "nextQuestion": 52.0,
                     "statement": {
-                        "hi": "पProcalcitonin परीक्षण रिपोर्ट",
+                        "hi": "Procalcitonin परीक्षण रिपोर्ट",
                         "en": "Procalcitonin test report"
                     },
                     "value": 5
@@ -1321,8 +1368,8 @@ module.exports = {
             "id": 52.0,
             "nextQuestion": 51.0,
             "statement": {
-                "hi": "कृपया रिपोर्ट अपलोड करें",
-                "en": "Please upload the report"
+                "hi": "कृपया रिपोर्ट अपलोड कर (चित्र)",
+                "en": "Please upload the report (as an image file)"
             },
             "type": "upload"
         },
@@ -1426,7 +1473,7 @@ module.exports = {
                     "dbValue": "Foul Smell",
 
                     "statement": {
-                        "hi": "बदबू",
+                        "hi": "दुर्गंध आना",
                         "en": "Foul Smell"
                     },
                     "value": 0
@@ -1731,7 +1778,7 @@ module.exports = {
                     "dbValue": "Foul Smell",
 
                     "statement": {
-                        "hi": "बदबू",
+                        "hi": "दुर्गंध आना",
                         "en": "Foul Smell"
                     },
                     "value": 6
@@ -1818,7 +1865,7 @@ module.exports = {
                     "dbValue": "Foul Smell",
 
                     "statement": {
-                        "hi": "बदबू",
+                        "hi": "दुर्गंध आना",
                         "en": "Foul Smell"
                     },
                     "value": 0
@@ -1917,8 +1964,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपको COvid-19 का टीका लगाया गया है?",
-                "en": "Have you been vaccinated for Covid-19?"
+                "hi": "क्या आपको COVID-19 का टीका लगाया गया है?",
+                "en": "Have you been vaccinated for COVID-19?"
             },
             "type": "button"
         },
@@ -2130,7 +2177,7 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "आपके पास किस प्रकार की नौकरी/पेशा है?",
+                "hi": "आपका पेशा क्या है?",
                 "en": "What type of Job/Profession you have?"
             },
             "type": "button"

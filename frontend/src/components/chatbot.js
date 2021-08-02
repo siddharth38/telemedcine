@@ -569,6 +569,10 @@ export default class Chat extends React.Component {
 				this.setState({ uploadingImage: 0, ...(image ? { image } : {}) });
 			})
 			.catch((err) => {
+				console.log(err);
+				if (nextQuestion) {
+					this.setQuestion(nextQuestion);
+				}
 				this.setState({ uploadingImage: 0 });
 			});
 	};
