@@ -12,15 +12,26 @@ function Acknowledgement(props) {
 			<div className="faq fadeInUp" style={{ animationDelay: `0.5s` }}>
 				<h2 className="question">तकनीकी टीम</h2>
 				<div className="portfolio-holder">
-          <div>
+					<div>
+						<a href="https://www.linkedin.com/in/manik-sejwal-1896b7135/" target="_noblank">
+							<h2>Manik Sejwal</h2>
+						</a>
+						<h2 className="answer">डिवेलॅप्मॅन्ट एवं इंजीनियरिंग</h2>
+						<h3>
+							पीएचडी छात्र
+							<br />
+							चिकित्सा प्रौद्योगिकी विभाग <br /> IIT जोधपुर <br /> AIIMS जोधपुर
+						</h3>
+					</div>
+					<div>
 						<a href="https://www.linkedin.com/in/harsh-saxena-25128978/" target="_noblank">
 							<h2>Harsh Saxena</h2>
 						</a>
 						<h2 className="answer">डिवेलॅप्मॅन्ट एवं इंजीनियरिंग</h2>
 						<h3>
-							वरिष्ठ परियोजना सहायक
+							पीएचडी छात्र
 							<br />
-							कंप्यूटर विज्ञान और इंजीनियरिंग विभाग <br /> IIT जोधपुर
+							चिकित्सा प्रौद्योगिकी विभाग <br /> IIT जोधपुर <br /> AIIMS जोधपुर
 						</h3>
 					</div>
 					<div>
@@ -81,13 +92,40 @@ function Acknowledgement(props) {
 				</div>
 			</div>
 			<br />
+
 			<div className="faq fadeInUp" style={{ animationDelay: `0.5s` }}>
 				<h2 className="question">नैदानिक सहायता</h2>
-				<h2>Dr. Kuldeep Singh</h2>
-				<h2 className="answer">डीन (शिक्षाविद)</h2>
-				<h3>AIIMS जोधपुर</h3>
-				<br />
+				<div className="portfolio-holder">
+					<div>
+						<a href="" target="_noblank">
+							<h2>Dr. Kuldeep Singh</h2>
+						</a>
+						<h2 className="answer">Dean (Academics)</h2>
+						<h3>
+							AIIMS जोधपुर
+						</h3>
+					</div>
+					<div>
+						<a href="" target="_noblank">
+							<h2>Dr. Amit Goyal</h2>
+						</a>
+						<h2 className="answer">HOD ENT</h2>
+						<h3>
+							AIIMS जोधपुर
+						</h3>
+					</div>
+					<div>
+						<a href="" target="_noblank">
+							<h2>Dr. Vidhu Sharma</h2>
+						</a>
+						<h2 className="answer">Asst. Prof. ENT</h2>
+						<h3>
+							AIIMS जोधपुर
+						</h3>
+					</div>
+				</div>
 			</div>
+
 			<br />
 			<div className="faq fadeInUp" style={{ animationDelay: `0.5s` }}>
 				<h2 className="question">प्रायोजक और सहायता</h2>
