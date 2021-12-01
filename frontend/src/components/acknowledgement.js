@@ -46,12 +46,23 @@ function Acknowledgement(props) {
 						</h3>
 					</div>
 				</div>
+				<div>
+					<a href="https://www.linkedin.com/in/mitanshu-sharma-21b97917/" target="_noblank">
+						<h2>Mitanshu Sharma</h2>
+					</a>
+					<h2 className="answer">डिवेलॅप्मॅन्ट एवं इंजीनियरिंग</h2>
+					<h3>
+						पीएचडी छात्र
+						<br />
+						चिकित्सा प्रौद्योगिकी विभाग <br /> IIT जोधपुर <br /> AIIMS जोधपुर
+					</h3>
+				</div>
 				<div className="portfolio-holder" style={{ marginTop: '2rem' }}>
 					<img
 						className="portfolio"
 						src="/images/software-inn.png"
-						style={{ border: 'none' }}
-					></img>
+						style={{ border: "none" }}
+					/>
 					<div>
 						<a href="http://home.iitj.ac.in/~sumitk" target="_noblank">
 							<h2>Software Innovation Lab</h2>
@@ -116,9 +127,9 @@ function Acknowledgement(props) {
 					</div>
 					<div>
 						<a href="" target="_noblank">
-							<h2>Dr. Vidhu Sharma</h2>
+							<h2>Dr. Palak Gupta</h2>
 						</a>
-						<h2 className="answer">Asst. Prof. ENT</h2>
+						<h2 className="answer">SR ENT</h2>
 						<h3>
 							AIIMS जोधपुर
 						</h3>
