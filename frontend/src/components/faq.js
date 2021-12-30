@@ -23,21 +23,25 @@ function FAQ() {
   //   });
   // },[faq])
 
-	const getFAQs = () => {
-		axios
-			.get(ENDPOINT + '/guidelines.json')
-			.then((response) => {
-				setFaq(response.data.faq);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+  const getFAQs = () => {
+    axios
+      .get(ENDPOINT + "/guidelines.json")                                     // What is this? Cause of error?
+      .then((response) => {
+        console.log('guidelines - ' + JSON.stringify(response))
+        setFaq(response.data.faq);
+        console.log('faq set successfully - ' + response.data.faq)
+      })
+      .catch((error) => {
+        console.log('caught error')
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     getFAQs();
   }, []);
 
+  // noinspection JSVoidFunctionReturnValueUsed
   return (
     <div className="FAQ">
       <div className="faq-left">
@@ -106,18 +110,18 @@ function FAQ() {
         {console.log('faq = ' + JSON.stringify(faq))}
         {<div class="lds-dual-ring" />}
         {/*{!faq.length && <div class="lds-dual-ring" />}*/}
-        {faq.map((faq, index) => {
-          return (
-            <div
-              key={index}
-              className="faq fadeInUp"
-              style={{ animationDelay: `${Math.min(0.8, 0.5 + index * 0.1)}s` }}
-            >
-              <h2 className="question">{faq.question}</h2>
-              <h2 className="answer">{faq.answer}</h2>
-            </div>
-          );
-        })}
+        {/*{faq.map((faq, index) => {*/}
+        {/*  return (*/}
+        {/*    <div*/}
+        {/*      key={index}*/}
+        {/*      className="faq fadeInUp"*/}
+        {/*      style={{ animationDelay: `${Math.min(0.8, 0.5 + index * 0.1)}s` }}*/}
+        {/*    >*/}
+        {/*      <h2 className="question">{faq.question}</h2>*/}
+        {/*      <h2 className="answer">{faq.answer}</h2>*/}
+        {/*    </div>*/}
+        {/*  );*/}
+        {/*})}*/}
       </div>
     </div>
   );
