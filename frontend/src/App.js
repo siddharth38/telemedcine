@@ -9,7 +9,7 @@ import Navbar from './components/navbar';
 import Acknowledgement from './components/acknowledgement';
 // import Summary from './components/summary';
 // import Cluster from './components/cluster';
-import FAQ from './components/faq';
+import FAQ from './components/faq/faq';
 import Doctor from './components/doctor';
 import Admin from './components/admin';
 // import Banner from './components/banner';
