@@ -482,23 +482,28 @@ export default class Chat extends React.Component {
 			// Next question to be set by command logic
 			commands[command](answers, questionDetails, this.setQuestion, tempSelection);
 		} else if (nextQuestion === 0) {
-			// 0 implies that chatbot questioning loop has completed, and final function is called
-			if (connectToDoctor) {
-        const lastMessage = {
-          en: 'Please look after your health.',
-          hi: 'कृपया अपनी सेहत का ख़याल रखें।',
-          bn: 'আপনার স্বাস্থ্যের যত্ন নিন'
-        };
-				if (optionSelected === '0') this.connect();
-				else this.enterMessageIntoChat(lastMessage[this.state.languageSelected], 'incoming');
-			} else
-				navigator.geolocation.getCurrentPosition(
-					this.completedChatbot.bind(this),
-					this.completedChatbot.bind(this)
-				);
+			this.endChatbotSequence();
 		} else {
 			const question = this.getQuestionById(nextQuestion);
 			this.setQuestion(question);
+		}
+	};
+
+	endChatbotSequence = () => {
+		const { connectToDoctor, optionSelected} = this.state;
+		if (connectToDoctor) {
+			const lastMessage = {
+				en: 'Please look after your health.',
+				hi: 'कृपया अपनी सेहत का ख़याल रखें।',
+				bn: 'আপনার স্বাস্থ্যের যত্ন নিন'
+			};
+			if (optionSelected === '0') this.connect();
+			else this.enterMessageIntoChat(lastMessage[this.state.languageSelected], 'incoming');
+		} else {
+			navigator.geolocation.getCurrentPosition(
+				this.completedChatbot.bind(this),
+				this.completedChatbot.bind(this)
+			);
 		}
 	};
 
@@ -565,6 +570,8 @@ export default class Chat extends React.Component {
 					this.socket.emit('message', { message: 'chat-img-' + image.filename, to: doctor });
 				} else if (nextQuestion) {
 					this.setQuestion(nextQuestion);
+				} else if (nextQuestion === 0) {
+					this.endChatbotSequence();
 				}
 				this.setState({ uploadingImage: 0, ...(image ? { image } : {}) });
 			})

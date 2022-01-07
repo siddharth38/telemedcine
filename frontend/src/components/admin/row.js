@@ -10,6 +10,8 @@ function Row(props) {
 	const [email, setEmail] = useState(props.doctor.email);
 	const [telephone, setTelephone] = useState(props.doctor.telephone);
 	const [post, setPost] = useState(props.doctor.post);
+	const [upiID, setUpiID] = useState(props.doctor.upi_id);
+	const [fees, setFees] = useState(props.doctor.fees);
 	const [department, setDepartment] = useState(props.doctor.department);
 	const [reveal, setReveal] = useState(false);
 	const [editing, setEditing] = useState(props.doctor._id ? false : true);
@@ -23,6 +25,8 @@ function Row(props) {
 		setEmail(props.doctor.email);
 		setTelephone(props.doctor.telephone);
 		setPost(props.doctor.post);
+		setUpiID(props.doctor.upi_id);
+		setFees(props.doctor.fees);
 		setDepartment(props.doctor.department);
 		setEditing(props.doctor._id ? false : true);
 	}, [props.doctor]);
@@ -142,6 +146,30 @@ function Row(props) {
 						doctor.post
 					)}
 				</td>
+				<td style={{ color: 'inherit', textTransform: 'none' }}>
+					{editing ? (
+						<input
+							value={upiID}
+							onChange={(e) => {
+								setUpiID(e.target.value);
+							}}
+						></input>
+					) : (
+						doctor.upi_id
+					)}
+				</td>
+				<td style={{ color: 'inherit', textTransform: 'none' }}>
+					{editing ? (
+						<input
+							value={fees}
+							onChange={(e) => {
+								setFees(e.target.value);
+							}}
+						></input>
+					) : (
+						doctor.fees
+					)}
+				</td>
 			</tr>
 			<tr className={`spacer`} style={{ display: reveal && !props.total ? '' : 'none' }}>
 				<td></td>
@@ -180,7 +208,9 @@ function Row(props) {
 								email,
 								name,
 								department,
-								post
+								post,
+								upi_id: upiID,
+								fees
 							});
 							setEditing(false);
 						}}

@@ -43,7 +43,9 @@ const DoctorSchema = new Schema({
 	department: String,
 	email: String,
 	telephone: Number,
-	post: String
+	post: String,
+	upi_id: String,
+	fees: Number,
 });
 
 // create the model

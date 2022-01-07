@@ -38,7 +38,7 @@ router.use((req, res, next) => {
  * by the POST body enclosed
  */
 router.post('/doctor/:id', (req, res) => {
-	const { username, password, hospital, telephone, email, name, post, department } = req.body;
+	const { username, password, hospital, telephone, email, name, post, department, upi_id, fees } = req.body;
 	const { id } = req.params;
 	Doctor.findByIdAndUpdate(
 		id,
@@ -51,7 +51,9 @@ router.post('/doctor/:id', (req, res) => {
 				email,
 				name,
 				post,
-				department
+				department,
+				upi_id,
+				fees
 			}
 		},
 		(err, doctor) => {
@@ -75,7 +77,7 @@ router.delete('/doctor/:id', (req, res) => {
  * Create a doctor document
  */
 router.put('/doctor', (req, res) => {
-	const { username, password, hospital, telephone, email, name, post, department } = req.body;
+	const { username, password, hospital, telephone, email, name, post, department, upi_id, fees } = req.body;
 	Doctor.create(
 		{
 			username,
@@ -86,6 +88,8 @@ router.put('/doctor', (req, res) => {
 			name,
 			post,
 			department,
+			upi_id,
+			fees,
 			created_at: Date.now()
 		},
 		(err, doctor) => {
@@ -100,20 +104,20 @@ router.put('/doctor', (req, res) => {
 				`
 We welcome you to our Tele Consultancy Platform CoViDoc. We quickly brief you here about the platform:
 
-You can access the portal by using your username and password at https://telemedicine.iitj.ac.in/doctor portal. 
+You can access the portal by using your username and password at https://telemedicine.iitj.ac.in/doctor portal.
 
 username: ${username}
 password: ${password}
 
 1. http://telemedicine.iitj.ac.in is a portal developed by Software Innovation Lab at IIT Jodhpur
-2. The portal lets patients select the hospital and enter some basic details with a general set of questions to initiate a request for consultancy. 
+2. The portal lets patients select the hospital and enter some basic details with a general set of questions to initiate a request for consultancy.
 3. Once a patient agrees to consult a doctor, it connects the doctor via chat interface. ( Audio / Video support coming soon )
-4. The platform also allows doctors to refer the cases to another consultant and also sends an automated alert to the concerned consultant via email. 
-5. The platform also takes care of the revisit of a patient and shows the last chat history to the doctors. 
-6. We also have an Android Mobile App for patients on Google Play Store. For doctors, it's coming soon. 
-7. The portal's main interface is in Hindi. We are also planning to support other Indian languages. 
+4. The platform also allows doctors to refer the cases to another consultant and also sends an automated alert to the concerned consultant via email.
+5. The platform also takes care of the revisit of a patient and shows the last chat history to the doctors.
+6. We also have an Android Mobile App for patients on Google Play Store. For doctors, it's coming soon.
+7. The portal's main interface is in Hindi. We are also planning to support other Indian languages.
 
-In case, if you need any assistance, please feel free to reach us. We will look forward for your support and feedback to continuously improve our system. 
+In case, if you need any assistance, please feel free to reach us. We will look forward for your support and feedback to continuously improve our system.
 
 We hope that this platform will be useful in the current lockdown scenario as well as for providing telemedicine services to remote areas.
 `

@@ -130,6 +130,20 @@ function Table(props) {
 							</abbr>
 						</div>
 					</th>
+					<th>
+						<div className="heading-content">
+							<abbr className={`${window.innerWidth <= 769 ? 'is-blue' : ''}`} title="UPI ID">
+								{window.innerWidth <= 769 ? (window.innerWidth <= 375 ? 'U' : 'UPI ID') : 'UPI ID'}
+							</abbr>
+						</div>
+					</th>
+					<th>
+						<div className="heading-content">
+							<abbr className={`${window.innerWidth <= 769 ? 'is-blue' : ''}`} title="Fees">
+								{window.innerWidth <= 769 ? (window.innerWidth <= 375 ? 'F' : 'Fees') : 'Fees'}
+							</abbr>
+						</div>
+					</th>
 				</tr>
 			</thead>
 

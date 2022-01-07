@@ -204,8 +204,22 @@ router.post('/assessment', (req, res) => {
  */
 router.get('/questions', (req, res) => {
 	/* TODO: doctor's availability status and welcome message */
-	Doctor.find().distinct('hospital', (err, hospitals) => {
-		if (err || !hospitals) return res.json({});
+	Doctor.find({}, (err, doctors) => {
+		if (err || !doctors) return res.json({});
+
+		let hospitals = [];
+		let paymentDetails = []; // Associated with hospitals array indexes
+		doctors.map((doctor) => {
+			if (!hospitals.includes(doctor.hospital)) {
+				hospitals.push(doctor.hospital);
+				if (doctor.upi_id && doctor.fees) {
+					paymentDetails.push("UPI: " + doctor.upi_id + " - Fees: " + doctor.fees + "/-");
+				} else {
+					paymentDetails.push("");
+				}
+			}
+			return doctor;
+		});
 
 		res.json({
 			/**
@@ -217,13 +231,14 @@ router.get('/questions', (req, res) => {
 					return {
 						...question,
 						options: hospitals.map((hospital, index) => {
+							let paymentDetail = paymentDetails[index] ? " - " + paymentDetails[index] : "";
 							return {
-								nextQuestion: hospital === 'AIIMS Jodhpur' ? 27 : 0,
+								nextQuestion: hospital === 'AIIMS Jodhpur' ? 27 : 26.1,
 								value: index,
                 statement: {
-                  en: hospital,
-                  hi: hospital,
-                  bn: hospital
+                  en: hospital + paymentDetail,
+                  hi: hospital + paymentDetail,
+                  bn: hospital + paymentDetail
                 },
 								dbValue: hospital
 							};

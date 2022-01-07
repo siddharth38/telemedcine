@@ -714,12 +714,21 @@ module.exports = {
         },
         {
             "id": 27.0,
-            "nextQuestion": 0,
+            "nextQuestion": 26.1,
             "statement": {
                 "hi": "एम्स के मरीज की आईडी?",
                 "en": "AIIMS patient's ID?"
             },
             "type": "text"
+        },
+        {
+            "id": 26.1,
+            "nextQuestion": 0,
+            "statement": {
+                "hi": "कृपया यूपीआई आईडी पर शुल्क का भुगतान करें (दोनों ऊपर दिए गए) और रसीद या स्क्रीनशॉट अपलोड करें",
+                "en": "Please pay the fees on the UPI ID (both given above) and upload the receipt or screenshot"
+            },
+            "type": "upload"
         },
         {
             "id": 28.0,
