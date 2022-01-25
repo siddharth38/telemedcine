@@ -723,10 +723,36 @@ module.exports = {
         },
         {
             "id": 26.1,
+            "options": [
+                {
+                    "nextQuestion": 26.2,
+                    "statement": {
+                        "hi": "रसीद अपलोड करें",
+                        "en": "Upload receipt"
+                    },
+                    "value": 0
+                },
+                {
+                    "nextQuestion": 0,
+                    "statement": {
+                        "hi": "छोड़ें",
+                        "en": "Skip"
+                    },
+                    "value": 1
+                }
+            ],
+            "statement": {
+                "hi": "कृपया यूपीआई आईडी पर शुल्क का भुगतान करें और रसीद या स्क्रीनशॉट अपलोड करें। पिछले मैसेज में UPI और फीस लिखी हुई है। अगर नहीं लिखा है तो कृपया स्किप करें।",
+                "en": "Please pay the fees on the UPI ID and upload the receipt or screenshot. UPI and fees are written in the previous message. Please skip if not written."
+            },
+            "type": "button"
+        },
+        {
+            "id": 26.2,
             "nextQuestion": 0,
             "statement": {
-                "hi": "कृपया यूपीआई आईडी पर शुल्क का भुगतान करें (दोनों ऊपर दिए गए) और रसीद या स्क्रीनशॉट अपलोड करें",
-                "en": "Please pay the fees on the UPI ID (both given above) and upload the receipt or screenshot"
+                "hi": "कृपया अपलोड करने के लिए एक तस्वीर का चयन करें",
+                "en": "Please select an image to upload"
             },
             "type": "upload"
         },
