@@ -226,8 +226,8 @@ module.exports = {
             ],
 
             "statement": {
-                "hi": "आप स्वस्थ हैं।",
-                "en": "You are doing fine."
+                "hi": "आपमें mucormycosis के कोई लक्षण दिखाई नही देते हैं। कृपया अपना और विकल्प चुनें",
+                "en": "You don't appear to have any signs and symptoms of mucormycosis. Please select your further option"
             },
             "type": "button"
         },
