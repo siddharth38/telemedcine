@@ -1,39 +1,458 @@
+const QUESTIONS = "questions"
+const ID = "id";
+const OPTIONS = "options"
+const NEXT_QUESTION = "nextQuestion"
+const STATEMENT = "statement"
+const VALUE = "value"
+const LANG_ENGLISH = "en"
+const LANG_HINDI = "hi"
+const TYPE = "type"
+const CARDIAC_SCORE = "cardiac_score"
+const DB_VALUE = "dbValue"
+const DESCRIPTION_IMAGE = "description_image"
+const BRANCHES = "branches"
+const COMMANDS = "command"
+
+// interaction types
+const TYPE_NONE = "none"                    // send a message and move to next
+const TYPE_BUTTON = "button"                // choose option from text buttons
+const TYPE_LIST = "list"
+const TYPE_SELECT = "select"                // spinner
+const TYPE_UPLOAD = "upload"                // upload
+
+//DB_VALUES
+const DB_VALUE_0 = 0
+const DB_VALUE_1 = 1
+const DB_VALUE_2 = 2
+const DB_VALUE_3 = 3
+const DB_VALUE_4 = 4
+const DB_VALUE_5 = 5
+const DB_VALUE_6 = 6
+const DB_VALUE_7 = 7
+const DB_VALUE_8 = 8
+const DB_VALUE_OPD = "OPD"
+const DB_VALUE_YES = "Yes"
+const DB_VALUE_NO = "No"
+const DB_VALUE_RESTART = "Restart"
+const DB_VALUE_END = "End"
+const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
+
+// common values
+const YES = {
+    [LANG_ENGLISH]: "Yes",
+    [LANG_HINDI]: "हाँ"
+}
+
 module.exports = {
-    "questions": [
+    [QUESTIONS]: [
         {
-            "id": 1.0,
-            "options": [
+            [ID]: 1.0,
+            [OPTIONS]: [
                 {
-                    "nextQuestion": 23.0,
-                    "statement": {
-                        "hi": "परामर्श",
-                        "en": "Consultation"
+                    [NEXT_QUESTION]: 23.0,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Consultation",
+                        [LANG_HINDI]: "परामर्श"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "nextQuestion": 2.0,
-                    "statement": {
-                        "hi": "ब्लैकफंगस (म्यूकोर्मिकोसिस) के लिए स्व-मूल्यांकन",
-                        "en": "Self assessment for Blackfungus (mucormycosis)"
+                    [NEXT_QUESTION]: "71.0 Cardiac screening",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Self assessment for Heart/BP",
+                        [LANG_HINDI]: "दिल/बीपी के लिए स्व-मूल्यांकन"
                     },
-                    "value": 1
+                    [VALUE]: 1
                 },
                 {
-                    "nextQuestion": 12.0,
-                    "statement": {
-                        "hi": "ब्लैकफंगस (म्यूकोर्मिकोसिस) के बारे में जानकारी",
-                        "en": "Information about Blackfungus (mucormycosis)"
+                    [NEXT_QUESTION]: 70.0,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Other",
+                        [LANG_HINDI]: "अन्य"
                     },
-                    "value": 2
+                    [VALUE]: 2
                 }
             ],
-            "statement": {
-                "hi": "आगे की बातचीत के लिए अपना विकल्प चुनें",
-                "en": "Choose your option for further interaction"
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Choose your option for further interaction",
+                [LANG_HINDI]: "आगे की बातचीत के लिए अपना विकल्प चुनें"
             },
-            "type": "button"
+            [TYPE]: TYPE_BUTTON
         },
+
+        {
+            [ID]: "71.0 Cardiac screening",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Do you have pain in your chest?",
+                [LANG_HINDI]: "क्या आपके सीने में दर है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes. In the middle of the chest",
+                        [LANG_HINDI]: "हाँ। सीने के बीच में"
+                    },
+                    [CARDIAC_SCORE]: "0.5",
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "73.0 Cardiac giddiness",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 2
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "72.0 Cardiac point pain",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Is it point pain?  (You can tell the location with tip of the finger)",
+                [LANG_HINDI]: "क्या आप उंगली से बता सकते हैं की दर्द कहा पे है?",
+                [DESCRIPTION_IMAGE]: "anginavspointchestpain.jpg"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: -1
+                },
+                {
+                    [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No, the pain is diffused",
+                        [LANG_HINDI]: "नहीं, दर्द फैल हुआ है"
+                    },
+                    [CARDIAC_SCORE]: 0.5,
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "74.0 Cardiac left arm pain",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Is there pain in the left arm?",
+                [LANG_HINDI]: "क्या बाएँ हाथ में दर्द है ?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: -0.5
+                },
+                {
+                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes, on the inner side of the left arm",
+                        [LANG_HINDI]: "हाँ, दर्द हाथ की भीतर किओ तरफ है?"
+                    },
+                    [CARDIAC_SCORE]: 1,
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 2
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "75.0 Cardiac acute pain",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Is the pain acute? Did it start today?",
+                [LANG_HINDI]: "क्या दर्द तीव्र है और आज ही शुरू हुआ है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "80.0 Cardiac associated symptoms",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 0.5,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "80.0 Cardiac associated symptoms",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "80.0 Cardiac associated symptoms",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Are there any associated symptoms??",
+                [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "81.0 Cardiac sweating",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 0.5,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: 9998,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "81.0 Cardiac sweating",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Is it associated with sweating?",
+                [LANG_HINDI]: "क्या पसीना भी आता है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "82.0 Cardiac breathlessness",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 0.5,
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "82.0 Cardiac breathlessness",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "82.0 Cardiac breathlessness",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Do you have difficulty in breathing",
+                [LANG_HINDI]: "क्या सांस लेने में परेशानी होती है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "83.0 Cardiac fatigue",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 1,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "83.0 Cardiac fatigue",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: [TYPE_BUTTON]
+        },
+        {
+            [ID]: "83.0 Cardiac fatigue",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Do you feel fatigued?",
+                [LANG_HINDI]: "क्या थकान होती है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "84.0 Probable angina",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 1,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "84.0 Probable angina",//TODO: ANGINA or not angina?
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "84.0 Probable angina",
+            [NEXT_QUESTION]: "85.0 Cardiac impact of exertion and rest",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "This pain seems to be due to angina (cardiac chest pain)",
+                [LANG_HINDI]: "यह दर्द हृदय संबंधित लगता है"
+            },
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "85.0 Cardiac impact of exertion and rest",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Does the chest pain increases with exertion and relieves with rest?",
+                [LANG_HINDI]: "क्या छाती का दर्द परिश्रम से बढ़ता है और आराम करने से ठीक हो जाता है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "86.0 Consult your doctor", // TODO: repeatable message
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "87.0 Unstable angina?",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "86.0 Consult your doctor",
+            [NEXT_QUESTION]: 9999,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Consult your doctor",
+                [LANG_HINDI]: "अपने डॉक्टर से सलाह करें"
+            },
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "87.0 Unstable angina?",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Chest pain occurs on and off and is present even at rest in frequent episodes in less last 48 hours?",
+                [LANG_HINDI]: "सीने में दर्द चालू और बंद होता है और पिछले 48 घंटों से कम समय में लगातार एपिसोड में आराम करने पर भी मौजूद होता है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "89.0 Emergency. Immediately consult doctor", // TODO: repeatable message
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "86.0 Consult your doctor",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "89.0 Emergency. Immediately consult doctor",
+            [NEXT_QUESTION]: 9998,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "IMMEDIATELY CONSULT YOUR DOCTOR!",
+                [LANG_HINDI]: "तुरंत अपने डॉक्टर से सलाह लें!"
+            },
+            [TYPE]: TYPE_NONE
+        },
+
+//////////////////////////////////////////
+
+        {
+            [ID]: "73.0 Cardiac giddiness",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Does the world spin or does it turn black?",
+                [LANG_HINDI]: "क्या दुनिया घूमती दिखती है या काली होती है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: 9998,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: 9998,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [CARDIAC_SCORE]: "0.5",
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: 70.0,
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: 2.0,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Self assessment for Blackfungus (mucormycosis)",
+                        [LANG_HINDI]: "ब्लैकफंगस (म्यूकोर्मिकोसिस) के लिए स्व-मूल्यांकन"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: 12.0,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Information about Blackfungus (mucormycosis)",
+                        [LANG_HINDI]: "ब्लैकफंगस (म्यूकोर्मिकोसिस) के बारे में जानकारी"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Choose your option for further interaction",
+                [LANG_HINDI]: "आगे की बातचीत के लिए अपना विकल्प चुनें"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+
         {
             "id": 2.0,
             "nextQuestion": 3.0,
@@ -181,28 +600,27 @@ module.exports = {
                 "en": "Is there any discoloration in the upper part?"
             },
             "type": "button"
-
         },
-          {
-			  "id": 9.1,
-		"statement": {
-		"en": "Assesing your responses...",
-		 "hi": "आपकी प्रतिक्रियाओं का आकलन......"
-	},
-    "type": "none",
-    "command": "selfevaluation",
-           "paramsFrom": {
-              "Sensation": 4,
-			  "Eye_Control": 6,
-			  "Palette1": 8,
-			  "Palette2": 9
+        {
+			      "id": 9.1,
+		        "statement": {
+                "en": "Assesing your responses...",
+                "hi": "आपकी प्रतिक्रियाओं का आकलन......"
+            },
+            "type": "none",
+            "command": "selfevaluation",
+            "paramsFrom": {
+                "Sensation": 4,
+			          "Eye_Control": 6,
+			          "Palette1": 8,
+			          "Palette2": 9
             },
             "branches": {
-              "doing_fine": 11.0,
-              "Redirecting_for_consultation": 22.0
+                "doing_fine": 11.0,
+                "Redirecting_for_consultation": 22.0
             },
   },
-		{
+		    {
             "id": 11.0,
             "options": [
                 {
@@ -1739,14 +2157,14 @@ module.exports = {
                 "en": "Select the following symptoms you are experiencing"
             },
             "type": "list",
-			"command": "secondassessement",
+			      "command": "secondassessement",
             "paramsFrom": {
-              "symptoms": 57.0,
+                "symptoms": 57.0,
             },
             "branches": {
-              "for_mucormycosis": 59.0,
-              "for_covid19": 60.0,
-			  "still_not_confirmed": 61.0,
+                "for_mucormycosis": 59.0,
+                "for_covid19": 60.0,
+			          "still_not_confirmed": 61.0,
             },
         },
 
@@ -1755,7 +2173,7 @@ module.exports = {
             "nextQuestion": 62.0,
             "options": [
 
-				{
+				        {
                     "dbValue": "Dental Pain",
 
                     "statement": {
@@ -1832,14 +2250,14 @@ module.exports = {
                 "hi": "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
                 "en": "Select the following symptoms you are experiencing"
             },
-            "type": "list"
+            [TYPE]: TYPE_LIST
         },
         {
             "id": 60.0,
             "nextQuestion": 62.0,
             "options": [
 
-				{
+				        {
                     "dbValue": "Loss of smell",
 
                     "statement": {
@@ -1889,14 +2307,13 @@ module.exports = {
                 "hi": "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
                 "en": "Select the following symptoms you are experiencing"
             },
-            "type": "list"
+            [TYPE]: TYPE_LIST
         },
         {
             "id": 61.0,
             "nextQuestion": 62.0,
             "options": [
-
-				{
+				        {
                     "dbValue": "Foul Smell",
 
                     "statement": {
@@ -1950,7 +2367,7 @@ module.exports = {
                     },
                     "value": 5
                 },
-				{
+				        {
                     "dbValue": "None of the listed",
 
                     "statement": {
@@ -1964,7 +2381,7 @@ module.exports = {
                 "hi": "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
                 "en": "Select the following symptoms your are experiencing"
             },
-            "type": "list"
+            [TYPE]: TYPE_LIST
         },
         {
             "id": 62.0,
@@ -2338,6 +2755,35 @@ module.exports = {
             },
             "type": "text"
         },
+        {
+    			id: 9998,
+          statement: {
+            en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
+            hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
+          },
+    			type: 'button',
+    			options: [
+    				{
+    					nextQuestion: 0,
+    					value: 0,
+              statement: {
+                en: 'Yes',
+                hi: 'हाँ',
+                bn: 'হ্যাঁ',
+              },
+    					dbValue: 'Yes'
+    				},
+    				{
+    					nextQuestion: 0,
+    					value: 1,
+              statement: {
+                en: 'No',
+                hi: 'नहीं',
+                bn: 'না',
+              },
+    				}
+    			]
+    		},
         {
     			id: 9999,
           statement: {

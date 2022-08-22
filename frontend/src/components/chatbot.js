@@ -15,6 +15,14 @@ import CallModal from './webrtc/CallModal';
 const { commands } = require('../data/commands'); // TODO: Should be fetched from backend or be executed at the backend via APIs
 const client = require('socket.io-client');
 
+const TYPE_BUTTON = 'button'
+const TYPE_LIST = 'list'
+const TYPE_SELECT = 'select'
+const TYPE_UPLOAD = 'upload'
+const TYPE_MULTI_SELECT = 'multi_select'
+
+//Incoming message : chatbot server to user
+
 export default class Chat extends React.Component {
 	state = {
 		questions: [],
@@ -157,7 +165,7 @@ export default class Chat extends React.Component {
 			optionSelected: '0',
 			answerFormat: { type, options, pattern },
 			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
-			tempSelection: tempSelection,
+			tempSelection: tempSelection
 		});
     if (type === 'none' && command) {
       commands[command](answers, question, this.setQuestion);
@@ -169,6 +177,9 @@ export default class Chat extends React.Component {
     }
 	};
 
+	/**
+	 * formats the data of statement and associated data of message
+	 */
   insertVariables(statement) {
     let formattedStatement = statement;
     while (formattedStatement.search('{.*}') != -1) {
@@ -189,6 +200,9 @@ export default class Chat extends React.Component {
     return formattedStatement;
   };
 
+	/**
+	 * Add message of any kind to the json and update UI
+	 */
 	enterMessageIntoChat = (statement, type) => {
 		const { chat } = this.state;
 		this.setState(
@@ -202,8 +216,8 @@ export default class Chat extends React.Component {
 	getQuestionById = (id) => {
 		console.log("Next Question- "  + id);
 		const { questions } = this.state;
-		for (var i = 0; i < questions.length; i++) {
-			if (questions[i].id == id) return questions[i];
+		for (let i = 0; i < questions.length; i++) {
+			if (questions[i].id === id) return questions[i];
 		}
 		return null;
 	};
@@ -213,6 +227,9 @@ export default class Chat extends React.Component {
 			$('#chat-box').animate({ scrollTop: $('#chat-box')[0].scrollHeight }, 800);
 	};
 
+	/**
+	 * Sends on send button press. Attached to form. Uses socket
+	 */
 	sendMessage = (e) => {
 		const { textAnswered, doctor } = this.state;
 
@@ -429,6 +446,7 @@ export default class Chat extends React.Component {
       chatToSave.push({ statement, type });
     }
 
+		// fill chat for user
 		axios
 			.post(ENDPOINT + '/api/assessment', {
 				answers,
@@ -438,7 +456,7 @@ export default class Chat extends React.Component {
 				chat: chatToSave
 			})
 			.then((response) => {
-				const { incomingChats, connectToDoctor, patientId, question } = response.data;
+				const { incomingChats, connectToDoctor, patientId, question } = response.data;		// messages fetched here
 				if (connectToDoctor) {
 					this.setState(
 						{
@@ -455,7 +473,7 @@ export default class Chat extends React.Component {
 					if (incomingChats) {
 						this.setState(
 							{
-								chat: chat.concat(incomingChats)
+								chat: chat.concat(incomingChats)																	// This is where chat content is updated
 							},
 							this.scrollDown
 						);
@@ -487,7 +505,7 @@ export default class Chat extends React.Component {
 			const question = this.getQuestionById(nextQuestion);
 			this.setQuestion(question);
 		}
-	};
+	}; 
 
 	endChatbotSequence = () => {
 		const { connectToDoctor, optionSelected} = this.state;
@@ -600,6 +618,7 @@ export default class Chat extends React.Component {
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+					// noinspection HtmlRequiredAltAttribute
 					return (
 						<p
 							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
@@ -610,15 +629,16 @@ export default class Chat extends React.Component {
 							) : (
                 chatStatement
 							)}
+							{statement.description_image && <img src={require("../data/" + statement.description_image)}/>}
 						</p>
 					);
 				})}
 				{incomingTyping || requesting ? (
 					<p className="incoming-message">
 						<div class="dots">
-							<div class="dot"></div>
-							<div class="dot"></div>
-							<div class="dot"></div>
+							<div class="dot"/>
+							<div class="dot"/>
+							<div class="dot"/>
 						</div>
 					</p>
 				) : null}
@@ -705,6 +725,7 @@ export default class Chat extends React.Component {
 			);
 		} else if (type === 'button') {
 			/* different types of answer*/
+			console.log("renderAnswers button")
 			return (
 				<div className="answer-box button-row">
 					{options.map(({ value, statement }, index) => {
@@ -724,6 +745,7 @@ export default class Chat extends React.Component {
 				</div>
 			);
 		} else if (type === 'list') {
+			 console.log("renderAnswers list")
 			return (
 				<div style={{ display:"flex", "flex-direction":"column" }}>
 					<div className="answer-box button-row" style={{ "flex-wrap":"wrap" }}>
@@ -751,6 +773,8 @@ export default class Chat extends React.Component {
 				</div>
 			);
 		} else if (type === 'select') {
+			 // spinner
+			 console.log("renderAnswers select")
 			return (
 				<div className="answer-box select-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<select id="optionSelected" value={optionSelected} onChange={this.handleChange}>
@@ -765,6 +789,7 @@ export default class Chat extends React.Component {
 				</div>
 			);
 		} else if (type === 'upload') {
+			console.log("renderAnswers upload")
       return (
         <div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
           <form className="message-form">
@@ -790,6 +815,8 @@ export default class Chat extends React.Component {
         </div>
 			);
 		} else {
+			 // text field updated but message not sent
+			console.log("renderAnswers else")
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<form onSubmit={this.answer} className="message-form">
@@ -853,7 +880,7 @@ export default class Chat extends React.Component {
         {this.renderLanguageSelect()}
       </div>
       <div className="Chat fadeInUp" style={{ animationDelay: '0.7s' }}>
-        {loadingChat && <div class="lds-dual-ring"></div>}
+        {loadingChat && <div class="lds-dual-ring"/>}
         {this.renderChat()}
         {this.renderAnswers()}
       </div>
