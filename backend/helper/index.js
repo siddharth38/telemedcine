@@ -34,6 +34,9 @@ function getId(name, number) {
   return null;
 }
 
+/*
+ * Push user responses into DB
+ */
 function answersToModel(answers, timestamps, callback) {
   if (!answers) {
     callback({});
@@ -117,6 +120,8 @@ function answersToModel(answers, timestamps, callback) {
         modelTimestamps.push({ id: "Hospitalization_during_covid", time: timestamps["35"] });
         // console.log(answers);
         if (answers["47"] == "1") {
+          // hospitalized for covid
+          // TODO: possibly wrong code, might need value reversal
           steroids_taken = answers["35"] == "0" ? getQuestionById(47).options[answers["47"]].dbValue : "";
           modelTimestamps.push({ id: "steroids_taken", time: timestamps["35"] });
           oxygen_support_duringcovid = getQuestionById(49).options[answers["49"]].dbValue;
@@ -197,6 +202,7 @@ function answersToModel(answers, timestamps, callback) {
           });
 
         } else if (answers["47"] == "0") {
+          // TODO: reverse values. possibly wrong code
           can_feel_nose_and_cheek = answers["4"] == "0" ? "Yes" : "No";
           modelTimestamps.push({ id: "can_feel_nose_and_cheek", time: timestamps["53"] });
           can_close_eyes = answers["6"] == "0" ? "Yes" : "No";
@@ -511,6 +517,7 @@ function answersToModel(answers, timestamps, callback) {
           vaccination_status = answers["64"] == "0" ? getQuestionById(65).options[answers["65"]].dbValue : "NA";
           modelTimestamps.push({ id: "vaccination_status", time: timestamps["64"] });
 
+          // diagnosis
           symptomatic_forcovid = (typeof answers["56"] != "undefined") || (typeof answers["60"] != "undefined") || (symptoms7.includes("Loss of smell")) || (symptoms7.includes("Loss of taste")) || false;
           modelTimestamps.push({ id: "symptomatic_forcovid", time: timestamps["53"] });
           symptomatic_formucormycosis = (typeof answers["55"] != "undefined") || (typeof answers["59"] != "undefined") || (symptoms7.includes("Numbness of face")) || (symptoms7.includes("Bulging of the eye")) || (symptoms7.includes("Restricted movement of the eye")) || false;

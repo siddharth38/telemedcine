@@ -80,11 +80,6 @@ const PatientSchema = new Schema(
 			required: false,
 			default: 'NA'
 		},
-		duration_hospitalization: {
-			type: String,
-			required: false,
-			default: 'NA'
-		},
 		discoloration_upper_palette: {
 			type: String,
 			required: false,

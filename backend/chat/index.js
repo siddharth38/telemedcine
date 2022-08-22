@@ -151,6 +151,7 @@ io.on('connection', function (socket) {
 	/* common */
 	socket.on('message', ({ message, to }) => {
 		if (type === 'doctor') {
+			// sent by doctor
 			Patient.findById(to, (err, patient) => {
 				if (err || !patient) return console.error(err);
 
@@ -165,6 +166,7 @@ io.on('connection', function (socket) {
 						);
 					}
 				} else {
+					// sent by patient
 					socket.to(chat_id).emit('message', { message, from: username });
 					patient.last_notified_at = Date.now();
 				}
