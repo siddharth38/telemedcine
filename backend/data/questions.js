@@ -12,6 +12,7 @@ const DB_VALUE = "dbValue"
 const DESCRIPTION_IMAGE = "description_image"
 const BRANCHES = "branches"
 const COMMANDS = "command"
+const URL = "url"
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next
@@ -1067,30 +1068,38 @@ module.exports = {
             "type": "button"
         },
         {
-            "id": 23.0,
-            "options": [
+            [ID]: 23.0,
+            [OPTIONS]: [
                 {
-                    "nextQuestion": 28.0,
-                    "statement": {
-                        "hi": "नया परामर्श",
-                        "en": "New consultation"
+                    [NEXT_QUESTION]: 28.0,
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "New consultation",
+                        [LANG_HINDI]: "नया परामर्श"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "nextQuestion": 24.0,
-                    "statement": {
-                        "hi": "पिछला परामर्श",
-                        "en": "Previous consultation"
+                    [NEXT_QUESTION]: 24.0,
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "पिछला परामर्श",
+                        [LANG_ENGLISH]: "Previous consultation"
                     },
-                    "value": 1
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "9997.0 Redirecting",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "AIIMS portal"
+                    },
+                    [VALUE]: 2,
+                    [URL]: "https://www.aiimsjodhpur.edu.in/Patient_Portal/"
                 }
             ],
-            "statement": {
-                "hi": "परामर्श के लिए अपना विकल्प चुनें",
-                "en": "Choose your option for counseling"
+            [STATEMENT]: {
+                [LANG_HINDI]: "परामर्श के लिए अपना विकल्प चुनें",
+                [LANG_ENGLISH]: "Choose your option for counseling"
             },
-            "type": "button"
+            [TYPE]: TYPE_BUTTON
         },
         {
             "id": 24.0,
@@ -2754,6 +2763,14 @@ module.exports = {
                 "en": "How long have you had this problem?"
             },
             "type": "text"
+        },
+        {
+            [ID]: "9997.0 Redirecting",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: 'Redirecting',
+                [LANG_HINDI]: 'पुन: निर्देशित',
+            },
+            [TYPE]: TYPE_NONE
         },
         {
     			id: 9998,

@@ -182,7 +182,7 @@ export default class Chat extends React.Component {
 	 */
   insertVariables(statement) {
     let formattedStatement = statement;
-    while (formattedStatement.search('{.*}') != -1) {
+    while (formattedStatement.search('{.*}') !== -1) {
       formattedStatement = this.insertVariable(formattedStatement);
     }
     return formattedStatement;
@@ -191,7 +191,7 @@ export default class Chat extends React.Component {
   insertVariable(statement) {
     let formattedStatement = statement;
     let start = statement.search('{.*}');
-    if (start != -1) {
+    if (start !== -1) {
       let end = statement.search('}');
       formattedStatement = statement.replace(
         statement.substring(start, end+1),
@@ -365,7 +365,7 @@ export default class Chat extends React.Component {
 
 		if (event && event.preventDefault) event.preventDefault();
 
-		if (type === 'list') {
+		if (type === TYPE_LIST) {
 			textTypeAnswer = true;
 			textAnswered = "";
 			let savedValues = [];
@@ -529,7 +529,7 @@ export default class Chat extends React.Component {
 		const { id, value } = event.target;
 		const { type } = this.state.answerFormat;
 
-		if (type === 'list') {
+		if (type === TYPE_LIST) {
 			this.setState({
 				tempSelection: {
 					...this.state.tempSelection,
@@ -537,12 +537,16 @@ export default class Chat extends React.Component {
 				}
 			});
 		} else {
+			let redirectUrl = event.target.getAttribute("data-url")
 			this.setState(
 				{
 					[id]: value
 				},
 				() => {
-					if (type === 'button') this.answer();
+					if (type === TYPE_BUTTON) {
+						if (redirectUrl) window.open(redirectUrl)
+						this.answer();
+					}
 				}
 			);
 		}
@@ -664,8 +668,8 @@ export default class Chat extends React.Component {
 		};
 		/* no answers allowed */
 		if (answerBoxHidden || loadingChat) return null;
-		/* chatting with a doctor, so different set of functions
-		 */ else if (uploadingImage) {
+		/* chatting with a doctor, so different set of functions */
+		else if (uploadingImage) {
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<Progress completed={Math.floor(uploadingImage * 100)} />
@@ -723,16 +727,18 @@ export default class Chat extends React.Component {
 					</form>
 				</div>
 			);
-		} else if (type === 'button') {
+		} else if (type === TYPE_BUTTON) {
 			/* different types of answer*/
+			// User answer buttons
 			console.log("renderAnswers button")
 			return (
 				<div className="answer-box button-row">
-					{options.map(({ value, statement }, index) => {
+					{options.map(({ value, statement, url }, index) => {
             const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 						return (
 							<button
 								value={value}
+								data-url={url}
 								id="optionSelected"
 								onClick={this.handleChange}
 								className="fadeInUp"
@@ -744,7 +750,7 @@ export default class Chat extends React.Component {
 					})}
 				</div>
 			);
-		} else if (type === 'list') {
+		} else if (type === TYPE_LIST) {
 			 console.log("renderAnswers list")
 			return (
 				<div style={{ display:"flex", "flex-direction":"column" }}>
@@ -772,7 +778,7 @@ export default class Chat extends React.Component {
 					</button>
 				</div>
 			);
-		} else if (type === 'select') {
+		} else if (type === TYPE_SELECT) {
 			 // spinner
 			 console.log("renderAnswers select")
 			return (
@@ -788,7 +794,7 @@ export default class Chat extends React.Component {
 					</button>
 				</div>
 			);
-		} else if (type === 'upload') {
+		} else if (type === TYPE_UPLOAD) {
 			console.log("renderAnswers upload")
       return (
         <div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
@@ -815,7 +821,8 @@ export default class Chat extends React.Component {
         </div>
 			);
 		} else {
-			 // text field updated but message not sent
+			 // Type NONE
+			 // text field updated but message not sent. send button is to be pressed
 			console.log("renderAnswers else")
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
