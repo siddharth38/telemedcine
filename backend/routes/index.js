@@ -88,7 +88,7 @@ router.post('/helpline', (req, res) => {
  */
 router.post('/assessment', (req, res) => {
 	const { answers, timestamps, latitude, longitude, chat } = req.body;
-	const oldPatient = answers['23'] == 0 ? null : getId(answers['24'], answers['25']);
+	const oldPatient = answers['23'] === 0 ? null : getId(answers['24'], answers['25']);
 
 	if (oldPatient) {
 		Patient.findById(oldPatient, (err, patient) => {
@@ -244,6 +244,8 @@ router.get('/questions', (req, res) => {
 							};
 						})
 					};
+				} else if (typeof question.id=="string") {
+					return question;
 				} else return question;
 			}),
 			incomingChats: [

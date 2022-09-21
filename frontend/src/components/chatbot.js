@@ -130,7 +130,7 @@ export default class Chat extends React.Component {
    * @param customOptions Overrides the existing options
    */
 	setQuestion = (question, customOptions=null) => {
-    if (typeof question == "number") {
+    if (typeof question == "number" || typeof question == "string") {
       question = this.getQuestionById(question);
     }
     const { answers } = this.state;
@@ -821,7 +821,6 @@ export default class Chat extends React.Component {
         </div>
 			);
 		} else {
-			 // Type NONE
 			 // text field updated but message not sent. send button is to be pressed
 			console.log("renderAnswers else")
 			return (

@@ -4,8 +4,6 @@ const OPTIONS = "options"
 const NEXT_QUESTION = "nextQuestion"
 const STATEMENT = "statement"
 const VALUE = "value"
-const LANG_ENGLISH = "en"
-const LANG_HINDI = "hi"
 const TYPE = "type"
 const CARDIAC_SCORE = "cardiac_score"
 const DB_VALUE = "dbValue"
@@ -15,11 +13,17 @@ const COMMANDS = "command"
 const URL = "url"
 
 // interaction types
-const TYPE_NONE = "none"                    // send a message and move to next
+const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
+const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
 const TYPE_BUTTON = "button"                // choose option from text buttons
-const TYPE_LIST = "list"
+const TYPE_LIST = "list"                    // checkboxes?
 const TYPE_SELECT = "select"                // spinner
 const TYPE_UPLOAD = "upload"                // upload
+
+// LANGUAGES
+const LANG_ENGLISH = "en"
+const LANG_HINDI = "hi"
+const LANG_BANGLA = "bn"
 
 //DB_VALUES
 const DB_VALUE_0 = 0
@@ -39,9 +43,13 @@ const DB_VALUE_END = "End"
 const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
 
 // common values
-const YES = {
+const STATEMENT_YES = {
     [LANG_ENGLISH]: "Yes",
     [LANG_HINDI]: "हाँ"
+}
+const STATEMENT_NO = {
+    [LANG_ENGLISH]: "No",
+    [LANG_HINDI]: "नहीं"
 }
 
 module.exports = {
@@ -60,8 +68,8 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: "71.0 Cardiac screening",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Self assessment for Heart/BP",
-                        [LANG_HINDI]: "दिल/बीपी के लिए स्व-मूल्यांकन"
+                        [LANG_ENGLISH]: "Self assessment for chest pain",
+                        [LANG_HINDI]: "सीने के दर्द के लिए स्व-मूल्यांकन"
                     },
                     [VALUE]: 1
                 },
@@ -72,7 +80,15 @@ module.exports = {
                         [LANG_HINDI]: "अन्य"
                     },
                     [VALUE]: 2
-                }
+                },
+                // {
+                //     [NEXT_QUESTION]: "83.0 Cardiac fatigue",
+                //     [STATEMENT]: {
+                //         [LANG_ENGLISH]: "Jump to test",
+                //         [LANG_HINDI]: "Jump to test"
+                //     },
+                //     [VALUE]: 3
+                // },
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Choose your option for further interaction",
@@ -97,21 +113,40 @@ module.exports = {
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes. In the middle of the chest",
-                        [LANG_HINDI]: "हाँ। सीने के बीच में"
-                    },
-                    [CARDIAC_SCORE]: "0.5",
-                    [VALUE]: 1
-                },
-                {
                     [NEXT_QUESTION]: "73.0 Cardiac giddiness",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
-                    [VALUE]: 2
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "71.1 Cardiac pain middle of chest pain",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Is the pain in the middle of the chest",
+                [LANG_HINDI]: "क्या सीने के बीच में दर्द होता है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [CARDIAC_SCORE]: 1,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
                 }
             ],
             [TYPE]: TYPE_BUTTON
@@ -153,39 +188,86 @@ module.exports = {
             },
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
+                    [NEXT_QUESTION]: "74.1 Cardiac inner side left arm pain",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
                     },
                     [VALUE]: 0,
-                    [CARDIAC_SCORE]: -0.5
+                    [CARDIAC_SCORE]: 1
                 },
                 {
-                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, on the inner side of the left arm",
-                        [LANG_HINDI]: "हाँ, दर्द हाथ की भीतर किओ तरफ है?"
-                    },
-                    [CARDIAC_SCORE]: 1,
-                    [VALUE]: 1
-                },
-                {
-                    [NEXT_QUESTION]: "75.0 Cardiac acute pain",
+                    [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
-                    [VALUE]: 2
+                    [VALUE]: 1
                 }
             ],
             [TYPE]: TYPE_BUTTON
         },
         {
-            [ID]: "75.0 Cardiac acute pain",
+            [ID]: "74.1 Cardiac inner side left arm pain",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Is the pain acute? Did it start today?",
-                [LANG_HINDI]: "क्या दर्द तीव्र है और आज ही शुरू हुआ है?"
+                [LANG_ENGLISH]: "Is there pain on the inner side of the left arm?",
+                [LANG_HINDI]: "क्या बाएँ हाथ के अंदरूनी भाग में दर्द है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "73.1 Pain on arm movement",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "73.1 Pain on arm movement",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "73.1 Pain on arm movement",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Does the pain increase or decrease when you move the arm?",
+                [LANG_HINDI]: "क्या हाथ हिलाने पे दर्द घटता / बढ़त है?"
+            },
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "73.2 Cardiac pain on squeezing",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes",
+                        [LANG_HINDI]: "हाँ"
+                    },
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: -1
+                },
+                {
+                    [NEXT_QUESTION]: "73.2 Cardiac pain on squeezing",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No",
+                        [LANG_HINDI]: "नहीं"
+                    },
+                    [VALUE]: 1,
+                    [CARDIAC_SCORE]: 0.5
+                }
+            ],
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "73.2 Cardiac pain on squeezing",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Does the pain increase or decrease when you when you press?",
+                [LANG_HINDI]: "क्या दबाने पे दर्द होता है?"
             },
             [OPTIONS]: [
                 {
@@ -194,8 +276,8 @@ module.exports = {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
                     },
-                    [CARDIAC_SCORE]: 0.5,
-                    [VALUE]: 0
+                    [VALUE]: 0,
+                    [CARDIAC_SCORE]: -1
                 },
                 {
                     [NEXT_QUESTION]: "80.0 Cardiac associated symptoms",
@@ -203,7 +285,8 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
-                    [VALUE]: 1
+                    [VALUE]: 1,
+                    [CARDIAC_SCORE]: 0.5
                 }
             ],
             [TYPE]: TYPE_BUTTON
@@ -211,7 +294,7 @@ module.exports = {
         {
             [ID]: "80.0 Cardiac associated symptoms",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Are there any associated symptoms??",
+                [LANG_ENGLISH]: "Are there any associated symptoms?",
                 [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
             },
             [OPTIONS]: [
@@ -225,7 +308,7 @@ module.exports = {
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "85.0 Cardiac impact of exertion and rest",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
@@ -288,7 +371,7 @@ module.exports = {
                     [VALUE]: 1
                 }
             ],
-            [TYPE]: [TYPE_BUTTON]
+            [TYPE]: TYPE_BUTTON
         },
         {
             [ID]: "83.0 Cardiac fatigue",
@@ -307,7 +390,7 @@ module.exports = {
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: "84.0 Probable angina",//TODO: ANGINA or not angina?
+                    [NEXT_QUESTION]: "84.0 Probable angina",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
@@ -334,7 +417,8 @@ module.exports = {
             },
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: "86.0 Consult your doctor", // TODO: repeatable message
+                    [NEXT_QUESTION]: "86.0 Consult your doctor",
+                    "dbValue": "No",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
@@ -389,7 +473,7 @@ module.exports = {
         },
         {
             [ID]: "89.0 Emergency. Immediately consult doctor",
-            [NEXT_QUESTION]: 9998,
+            [NEXT_QUESTION]: 9999,
             [STATEMENT]: {
                 [LANG_ENGLISH]: "IMMEDIATELY CONSULT YOUR DOCTOR!",
                 [LANG_HINDI]: "तुरंत अपने डॉक्टर से सलाह लें!"
@@ -455,13 +539,13 @@ module.exports = {
         },
 
         {
-            "id": 2.0,
-            "nextQuestion": 3.0,
-            "statement": {
-                "hi": "आगामी कथनों में दिए गए चरणों का पालन करें",
-                "en": "Follow the steps given in the upcoming statements"
+            [ID]: 2.0,
+            [NEXT_QUESTION]: 3.0,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Follow the steps given in the upcoming statements",
+                [LANG_HINDI]: "आगामी कथनों में दिए गए चरणों का पालन करें"
             },
-            "type": "none"
+            [TYPE]: TYPE_NONE
         },
         {
             "id": 3.0,
@@ -2802,30 +2886,30 @@ module.exports = {
     			]
     		},
         {
-    			id: 9999,
-          statement: {
-            en: 'Are you ready to consult with the doctor?',
-            hi: 'क्या आप डॉक्टर के परामर्श के लिए तैयार हैं?',
-          },
-    			type: 'button',
-    			options: [
+    			  [ID]: 9999,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: 'Begin online consultation?',
+                [LANG_HINDI]: 'ऑनलाइन परामर्श शुरू करें?',
+            },
+    			  [TYPE]: 'button',
+    			  [OPTIONS]: [
     				{
-    					nextQuestion: 0,
-    					value: 0,
-              statement: {
-                en: 'Yes',
-                hi: 'हाँ',
-                bn: 'হ্যাঁ',
+    					[NEXT_QUESTION]: 0,
+    					[VALUE]: 0,
+              [STATEMENT]: {
+                [LANG_ENGLISH]: 'Yes',
+                [LANG_HINDI]: 'हाँ',
+                [LANG_BANGLA]: 'হ্যাঁ',
               },
-    					dbValue: 'Yes'
+    					[DB_VALUE]: DB_VALUE_YES
     				},
     				{
-    					nextQuestion: 0,
-    					value: 1,
-              statement: {
-                en: 'No',
-                hi: 'नहीं',
-                bn: 'না',
+    					[NEXT_QUESTION]: 0,
+    					[VALUE]: 1,
+              [STATEMENT]: {
+                [LANG_ENGLISH]: 'No',
+                [LANG_HINDI]: 'नहीं',
+                [LANG_BANGLA]: 'না',
               },
     				}
     			]
