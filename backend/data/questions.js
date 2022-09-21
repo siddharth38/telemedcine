@@ -163,7 +163,8 @@ module.exports = {
                     [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
+                        [LANG_HINDI]: "हाँ",
+                        [DESCRIPTION_IMAGE]: "point-chest-pain.jpg"
                     },
                     [VALUE]: 0,
                     [CARDIAC_SCORE]: -1
@@ -172,7 +173,8 @@ module.exports = {
                     [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, the pain is diffused",
-                        [LANG_HINDI]: "नहीं, दर्द फैल हुआ है"
+                        [LANG_HINDI]: "नहीं, दर्द फैल हुआ है",
+                        [DESCRIPTION_IMAGE]: "angina.jpg"
                     },
                     [CARDIAC_SCORE]: 0.5,
                     [VALUE]: 1
@@ -548,13 +550,13 @@ module.exports = {
             [TYPE]: TYPE_NONE
         },
         {
-            "id": 3.0,
-            "nextQuestion": 4.0,
-            "statement": {
-                "hi": "अपनी आँखें बंद करें और अपनी नाक या गाल को छूने की कोशिश करें",
-                "en": "Close your eyes and try to touch your nose or cheek"
+            [ID]: 3.0,
+            [NEXT_QUESTION]: 4.0,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Close your eyes and try to touch your nose or cheek",
+                [LANG_HINDI]: "अपनी आँखें बंद करें और अपनी नाक या गाल को छूने की कोशिश करें"
             },
-            "type": "none"
+            [TYPE]: [TYPE_NONE]
         },
         {
             "id": 4.0,

@@ -745,6 +745,7 @@ export default class Chat extends React.Component {
 								style={{ animationDelay: `1.${index}s` }}
 							>
                 {chatStatement}
+								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{width: '100%', height: undefined, aspectRatio: 1}}/>}
 							</button>
 						);
 					})}
