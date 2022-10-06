@@ -223,8 +223,9 @@ export default class Chat extends React.Component {
 	};
 
 	scrollDown = () => {
-		if ($('#chat-box').length)
-			$('#chat-box').animate({ scrollTop: $('#chat-box')[0].scrollHeight }, 800);
+		let x = $('#chat-box')
+		if (x.length)
+			x.animate({ scrollTop: x[0].scrollHeight }, 800);
 	};
 
 	/**
