@@ -29,8 +29,8 @@ export default class Chat extends React.Component {
 		answers: {},
 		timestamps: {},
 
-  	  languageSelected: 'en', // TODO: Save and load from cookie
-   	 helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
+		languageSelected: 'hi', // TODO: Save and load from cookie
+		helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
 
 		optionSelected: '0',
 		textAnswered: '',
@@ -606,6 +606,7 @@ export default class Chat extends React.Component {
 			});
 	};
 
+	/* Chat history box */
 	renderChat = () => {
 		const {
 			callModal,
@@ -630,9 +631,7 @@ export default class Chat extends React.Component {
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
 								<img src={'/api/images/' + statement.split('-')[2]} />
-							) : (
-                chatStatement
-							)}
+							) : (chatStatement)}
 							{statement.description_image && <img src={require("../data/" + statement.description_image)}/>}
 						</p>
 					);
@@ -651,6 +650,7 @@ export default class Chat extends React.Component {
 		);
 	};
 
+	/* User inputs */
 	renderAnswers = () => {
 		const {
 			optionSelected,
@@ -730,7 +730,6 @@ export default class Chat extends React.Component {
 		} else if (type === TYPE_BUTTON) {
 			/* different types of answer*/
 			// User answer buttons
-			console.log("renderAnswers button")
 			return (
 				<div className="answer-box button-row">
 					{options.map(({ value, statement, url }, index) => {
@@ -745,7 +744,8 @@ export default class Chat extends React.Component {
 								style={{ animationDelay: `1.${index}s` }}
 							>
                 {chatStatement}
-								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{width: '100%', height: undefined, aspectRatio: 1}}/>}
+								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
+									width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
 							</button>
 						);
 					})}

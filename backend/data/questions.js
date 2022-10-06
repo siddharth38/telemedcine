@@ -19,6 +19,7 @@ const TYPE_BUTTON = "button"                // choose option from text buttons
 const TYPE_LIST = "list"                    // checkboxes?
 const TYPE_SELECT = "select"                // spinner
 const TYPE_UPLOAD = "upload"                // upload
+const TYPE_TEXT = "text"                    // text
 
 // LANGUAGES
 const LANG_ENGLISH = "en"
@@ -45,11 +46,13 @@ const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
 // common values
 const STATEMENT_YES = {
     [LANG_ENGLISH]: "Yes",
-    [LANG_HINDI]: "हाँ"
+    [LANG_HINDI]: "हाँ",
+    [LANG_BANGLA]: 'হ্যাঁ'
 }
 const STATEMENT_NO = {
     [LANG_ENGLISH]: "No",
-    [LANG_HINDI]: "नहीं"
+    [LANG_HINDI]: "नहीं",
+    [LANG_BANGLA]: 'না'
 }
 
 module.exports = {
@@ -74,25 +77,144 @@ module.exports = {
                     [VALUE]: 1
                 },
                 {
+                    [NEXT_QUESTION]: "90.0 Cardiac education",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Information about the heart and blood",
+                        [LANG_HINDI]: "हृदय और रक्त के बारे में जानकारी"
+                    },
+                    [VALUE]: 2
+                },
+                {
                     [NEXT_QUESTION]: 70.0,
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Other",
                         [LANG_HINDI]: "अन्य"
                     },
-                    [VALUE]: 2
+                    [VALUE]: 3
                 },
+                // test
                 // {
                 //     [NEXT_QUESTION]: "83.0 Cardiac fatigue",
                 //     [STATEMENT]: {
                 //         [LANG_ENGLISH]: "Jump to test",
                 //         [LANG_HINDI]: "Jump to test"
                 //     },
-                //     [VALUE]: 3
+                //     [VALUE]: 4
                 // },
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Choose your option for further interaction",
                 [LANG_HINDI]: "आगे की बातचीत के लिए अपना विकल्प चुनें"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "90.0 Cardiac education",
+            [NEXT_QUESTION]: "90.1 Cardiac status",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?",
+                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?"
+            },
+            [TYPE]: TYPE_NONE
+        },
+
+        {
+            [ID]: "90.1 Cardiac status",
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "94.0 What would you like to know",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No, I have never been to the cardiologist/heart specialist",
+                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ/हृदय रोग विशेषज्ञ के पास नहीं गया"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "92.0 Cardiac medicine patient",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner/BP)",
+                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर/बीपी)"
+                    },
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "93.0 Cardiac surgery patient",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes, I have had surgery/will be having heart surgery/angioplasty",
+                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा/एंजियोप्लास्टी"
+                    },
+                    [VALUE]: 2
+                }
+            ],
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Are you a cardiac patient?",
+                [LANG_HINDI]: "क्या आप दिल के मरीज हैं?"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "92.0 Cardiac medicine patient. Taking meds",
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "94.0 What would you like to know",
+                    [STATEMENT]: STATEMENT_YES,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "92.2 Why not taking medications regularly?",
+                    [STATEMENT]: STATEMENT_NO,
+                    [VALUE]: 1
+                }
+            ],
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Are you taking your medicines regularly?",
+                [LANG_HINDI]: "क्या आप अपनी दवाएं नियमित रूप से ले रहे हैं?"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "92.2 Why not taking medications regularly?",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Why not?",
+                [LANG_HINDI]: "क्यूँ नहीं?"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+
+        {
+            [ID]: "94.0 What would you like to know",
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: "94.0 Non-cardiac patient",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "No, I have never been to the cardiologist/heart specialist",
+                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ/हृदय रोग विशेषज्ञ के पास नहीं गया"
+                    },
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "92.0 Cardiac medicine patient",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner/BP)",
+                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर/बीपी)"
+                    },
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "93.0 Cardiac surgery patient",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Yes, I have had surgery/will be having heart surgery/angioplasty",
+                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा/एंजियोप्लास्टी"
+                    },
+                    [VALUE]: 2
+                }
+            ],
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "What would you like to know??",
+                [LANG_HINDI]: "आप क्या जानना चाहेंगे?"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -293,32 +415,69 @@ module.exports = {
             ],
             [TYPE]: TYPE_BUTTON
         },
+        // {
+        //     [ID]: "80.0 Cardiac associated symptoms",
+        //     [STATEMENT]: {
+        //         [LANG_ENGLISH]: "Are there any associated symptoms?",
+        //         [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
+        //     },
+        //     [OPTIONS]: [
+        //         {
+        //             [NEXT_QUESTION]: "81.0 Cardiac sweating",
+        //             [STATEMENT]: {
+        //                 [LANG_ENGLISH]: "Yes",
+        //                 [LANG_HINDI]: "हाँ"
+        //             },
+        //             [CARDIAC_SCORE]: 0.5,
+        //             [VALUE]: 0
+        //         },
+        //         {
+        //             [NEXT_QUESTION]: "84.0 Probable angina",
+        //             [STATEMENT]: {
+        //                 [LANG_ENGLISH]: "No",
+        //                 [LANG_HINDI]: "नहीं"
+        //             },
+        //             [VALUE]: 1
+        //         }
+        //     ],
+        //     [TYPE]: TYPE_BUTTON
+        // },
         {
             [ID]: "80.0 Cardiac associated symptoms",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Are there any associated symptoms?",
                 [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
             },
+            [NEXT_QUESTION]: "84.0 Probable angina",
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: "81.0 Cardiac sweating",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
+                        [LANG_ENGLISH]: "Sweating",
+                        [LANG_HINDI]: "पसीना आना"
                     },
                     [CARDIAC_SCORE]: 0.5,
-                    [VALUE]: 0
+                    [VALUE]: 0,
+                    [DB_VALUE]: "Sweating"
                 },
                 {
-                    [NEXT_QUESTION]: "85.0 Cardiac impact of exertion and rest",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
+                        [LANG_ENGLISH]: "Difficulty in breathing",
+                        [LANG_HINDI]: "सांस लेने में परेशानी"
                     },
-                    [VALUE]: 1
+                    [VALUE]: 1,
+                    [DB_VALUE]: "Breathlessness"
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Fatigue",
+                        [LANG_HINDI]: "थकान"
+                    },
+                    [CARDIAC_SCORE]: 1,
+                    [VALUE]: 2,
+                    [DB_VALUE]: "Fatigue"
                 }
             ],
-            [TYPE]: TYPE_BUTTON
+            [TYPE]: TYPE_LIST
         },
         {
             [ID]: "81.0 Cardiac sweating",
@@ -556,7 +715,7 @@ module.exports = {
                 [LANG_ENGLISH]: "Close your eyes and try to touch your nose or cheek",
                 [LANG_HINDI]: "अपनी आँखें बंद करें और अपनी नाक या गाल को छूने की कोशिश करें"
             },
-            [TYPE]: [TYPE_NONE]
+            [TYPE]: TYPE_NONE
         },
         {
             "id": 4.0,
@@ -745,6 +904,7 @@ module.exports = {
             },
             "type": "none"
         },
+/////////////////////////////////////////////////
         {
             "id": 12.0,
             "options": [
@@ -1175,7 +1335,8 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: "9997.0 Redirecting",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "AIIMS portal"
+                        [LANG_ENGLISH]: "AIIMS portal",
+                        [LANG_HINDI]: "एम्स पोर्टल"
                     },
                     [VALUE]: 2,
                     [URL]: "https://www.aiimsjodhpur.edu.in/Patient_Portal/"
@@ -1194,7 +1355,7 @@ module.exports = {
                 "hi": "आपका नाम? पहले परामर्श के लिए प्रयुक्त Used",
                 "en": "Your name? Used for the earlier consultation"
             },
-            "type": "text"
+            [TYPE]: TYPE_TEXT
         },
         {
             "id": 25.0,
@@ -1764,70 +1925,70 @@ module.exports = {
             "type": "button"
         },
         {
-            "id": 50.0,
-            "nextQuestion": 51.0,
-            "options": [
+            [ID]: 50.0,
+            [NEXT_QUESTION]: 51.0,
+            [OPTIONS]: [
 
-				{
-                    "dbValue": "Diabetes",
+				        {
+                    [DB_VALUE]: "Diabetes",
 
-                    "statement": {
-                        "hi": "मधुमेह",
-                        "en": "Diabetes"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "मधुमेह",
+                        [LANG_ENGLISH]: "Diabetes"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "dbValue": "Hypertension (High Blood Pressure)",
+                    [DB_VALUE]: "Hypertension (High Blood Pressure)",
 
-                    "statement": {
-                        "hi": "उच्च रक्तचाप (उच्च BP)",
-                        "en": "Hypertension (High Blood Pressure)"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "उच्च रक्तचाप (उच्च BP)",
+                        [LANG_ENGLISH]: "Hypertension (High Blood Pressure)"
                     },
-                    "value": 1
+                    [VALUE]: 1
                 },
                 {
-                    "dbValue": "Asthma",
+                    [DB_VALUE]: "Asthma",
 
-                    "statement": {
-                        "hi": "दमा",
-                        "en": "Asthma"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "दमा",
+                        [LANG_ENGLISH]: "Asthma"
                     },
-                    "value": 2
+                    [VALUE]: 2
                 },
                 {
-                    "dbValue": "On Chemotherapy?",
+                    [DB_VALUE]: "On Chemotherapy?",
 
-                    "statement": {
-                        "hi": "कीमोथेरेपी पर?",
-                        "en": "On Chemotherapy?"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "कीमोथेरेपी पर?",
+                        [LANG_ENGLISH]: "On Chemotherapy?"
                     },
-                    "value": 3
+                    [VALUE]: 3
                 },
                 {
-                    "dbValue": "Tuberculosis (TB)",
+                    [DB_VALUE]: "Tuberculosis (TB)",
 
-                    "statement": {
-                        "hi": "क्षय रोग (TB)",
-                        "en": "Tuberculosis (TB)"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "क्षय रोग (TB)",
+                        [LANG_ENGLISH]: "Tuberculosis (TB)"
                     },
-                    "value": 4
+                    [VALUE]: 4
                 },
                 {
-                    "dbValue": "Anaemia",
+                    [DB_VALUE]: "Anaemia",
 
-                    "statement": {
-                        "hi": "एनीमिया",
-                        "en": "Anaemia"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "एनीमिया",
+                        [LANG_ENGLISH]: "Anaemia"
                     },
-                    "value": 5
+                    [VALUE]: 5
                 }
             ],
-            "statement": {
-                "hi": "उन स्थितियों की सूची बनाएं जिनके लिए आप दवाएं ले रहे हैं",
-                "en": "List the conditions you are taking medications for"
+            [STATEMENT]: {
+                [LANG_HINDI]: "उन स्थितियों की सूची बनाएं जिनके लिए आप दवाएं ले रहे हैं",
+                [LANG_ENGLISH]: "List the conditions you are taking medications for"
             },
-            "type": "list"
+            [TYPE]: TYPE_LIST
         },
         {
             "id": 51.0,
@@ -2859,31 +3020,23 @@ module.exports = {
             [TYPE]: TYPE_NONE
         },
         {
-    			id: 9998,
-          statement: {
+    			[ID]: 9998,
+          [STATEMENT]: {
             en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
             hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
           },
-    			type: 'button',
-    			options: [
+    			[TYPE]: [TYPE_BUTTON],
+    			[OPTIONS]: [
     				{
-    					nextQuestion: 0,
-    					value: 0,
-              statement: {
-                en: 'Yes',
-                hi: 'हाँ',
-                bn: 'হ্যাঁ',
-              },
-    					dbValue: 'Yes'
+    					[NEXT_QUESTION]: 0,
+    					[VALUE]: 0,
+              [STATEMENT]: STATEMENT_YES,
+    					[DB_VALUE]: DB_VALUE_YES
     				},
     				{
-    					nextQuestion: 0,
-    					value: 1,
-              statement: {
-                en: 'No',
-                hi: 'नहीं',
-                bn: 'না',
-              },
+    					[NEXT_QUESTION]: 0,
+    					[VALUE]: 1,
+              [STATEMENT]: STATEMENT_NO,
     				}
     			]
     		},
@@ -2893,7 +3046,7 @@ module.exports = {
                 [LANG_ENGLISH]: 'Begin online consultation?',
                 [LANG_HINDI]: 'ऑनलाइन परामर्श शुरू करें?',
             },
-    			  [TYPE]: 'button',
+    			  [TYPE]: TYPE_BUTTON,
     			  [OPTIONS]: [
     				{
     					[NEXT_QUESTION]: 0,
@@ -2917,4 +3070,4 @@ module.exports = {
     			]
     		}
     ]
-  }
+}
