@@ -16,10 +16,12 @@ const { commands } = require('../data/commands'); // TODO: Should be fetched fro
 const client = require('socket.io-client');
 
 const TYPE_BUTTON = 'button'
-const TYPE_LIST = 'list'
+const TYPE_LIST = 'list'										// checkboxes
 const TYPE_SELECT = 'select'
 const TYPE_UPLOAD = 'upload'
 const TYPE_MULTI_SELECT = 'multi_select'
+const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
+const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend. example cardiac screening
 
 //Incoming message : chatbot server to user
 
@@ -130,10 +132,11 @@ export default class Chat extends React.Component {
    * @param customOptions Overrides the existing options
    */
 	setQuestion = (question, customOptions=null) => {
+		// if ID, get object
     if (typeof question == "number" || typeof question == "string") {
       question = this.getQuestionById(question);
     }
-    const { answers } = this.state;
+    const { answers } = this.state;					// contains question ID and value of user input
 		var { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 
     if (customOptions) {
@@ -167,9 +170,12 @@ export default class Chat extends React.Component {
 			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
 			tempSelection: tempSelection
 		});
-    if (type === 'none' && command) {
+    if (type === TYPE_NONE && command) {
       commands[command](answers, question, this.setQuestion);
-    } else if (type === 'none' && nextQuestion) {
+    } else if (type === TYPE_ANALYSE && command) {
+			const { questions } = this.state;
+			commands[command](answers, question, questions, this.setQuestion);
+		} else if (type === 'none' && nextQuestion) {
       // Without delay, the present question may not get rendered
       setTimeout(function() {
         this.setQuestion(nextQuestion);
@@ -219,6 +225,7 @@ export default class Chat extends React.Component {
 		for (let i = 0; i < questions.length; i++) {
 			if (questions[i].id === id) return questions[i];
 		}
+		console.error("failed to search for question with ID = ", id)
 		return null;
 	};
 
@@ -457,6 +464,7 @@ export default class Chat extends React.Component {
 				chat: chatToSave
 			})
 			.then((response) => {
+				console.log("api/assessment contacted")
 				const { incomingChats, connectToDoctor, patientId, question } = response.data;		// messages fetched here
 				if (connectToDoctor) {
 					this.setState(
@@ -469,9 +477,12 @@ export default class Chat extends React.Component {
 
 					);
 					this.setQuestion(question);
+					console.log("question set")
 
 				} else {
+					console.log("not connect to doctor")
 					if (incomingChats) {
+						console.log("incoming chats")
 						this.setState(
 							{
 								chat: chat.concat(incomingChats)																	// This is where chat content is updated
@@ -499,7 +510,11 @@ export default class Chat extends React.Component {
 
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
+			console.log(answers)
 			commands[command](answers, questionDetails, this.setQuestion, tempSelection);
+		} else if (type === TYPE_ANALYSE && command) {
+			const { questions } = this.state;
+			commands[command](answers, questionDetails, questions, this.setQuestion);
 		} else if (nextQuestion === 0) {
 			this.endChatbotSequence();
 		} else {
@@ -755,8 +770,8 @@ export default class Chat extends React.Component {
 		} else if (type === TYPE_LIST) {
 			 console.log("renderAnswers list")
 			return (
-				<div style={{ display:"flex", "flex-direction":"column" }}>
-					<div className="answer-box button-row" style={{ "flex-wrap":"wrap" }}>
+				<div style={{ display:"flex", "flexDirection":"column" }}>
+					<div className="answer-box button-row" style={{ "flexWrap":"wrap" }}>
 						{options.map(({ value, statement }, index) => {
 	            const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 							return (

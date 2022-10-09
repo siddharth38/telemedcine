@@ -9,17 +9,19 @@ const CARDIAC_SCORE = "cardiac_score"
 const DB_VALUE = "dbValue"
 const DESCRIPTION_IMAGE = "description_image"
 const BRANCHES = "branches"
-const COMMANDS = "command"
+const COMMAND = "command"                   // handled by commands.js
 const URL = "url"
+const PARAMS_FORM = "paramsFrom"            // support commands
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
 const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
 const TYPE_BUTTON = "button"                // choose option from text buttons
-const TYPE_LIST = "list"                    // checkboxes?
+const TYPE_LIST = "list"                    // checkboxes
 const TYPE_SELECT = "select"                // spinner
 const TYPE_UPLOAD = "upload"                // upload
 const TYPE_TEXT = "text"                    // text
+const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend across multiple questions. example cardiac screening
 
 // LANGUAGES
 const LANG_ENGLISH = "en"
@@ -260,6 +262,7 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [CARDIAC_SCORE]: 1,
+                    [DB_VALUE]: "Yes",
                     [VALUE]: 0
                 },
                 {
@@ -268,6 +271,7 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
+                    [DB_VALUE]: "No",
                     [VALUE]: 1
                 }
             ],
@@ -289,6 +293,7 @@ module.exports = {
                         [DESCRIPTION_IMAGE]: "point-chest-pain.jpg"
                     },
                     [VALUE]: 0,
+                    [DB_VALUE]: "Point chest pain",
                     [CARDIAC_SCORE]: -1
                 },
                 {
@@ -299,6 +304,7 @@ module.exports = {
                         [DESCRIPTION_IMAGE]: "angina.jpg"
                     },
                     [CARDIAC_SCORE]: 0.5,
+                    [DB_VALUE]: "Diffused chest pain",
                     [VALUE]: 1
                 }
             ],
@@ -318,6 +324,7 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [VALUE]: 0,
+                    [DB_VALUE]: "Yes",
                     [CARDIAC_SCORE]: 1
                 },
                 {
@@ -326,6 +333,7 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
+                    [DB_VALUE]: "No",
                     [VALUE]: 1
                 }
             ],
@@ -345,6 +353,7 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [VALUE]: 0,
+                    [DB_VALUE]: "Yes",
                     [CARDIAC_SCORE]: 1
                 },
                 {
@@ -353,12 +362,12 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
+                    [DB_VALUE]: "No",
                     [VALUE]: 1
                 }
             ],
             [TYPE]: TYPE_BUTTON
         },
-
         {
             [ID]: "73.1 Pain on arm movement",
             [STATEMENT]: {
@@ -373,7 +382,8 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [VALUE]: 0,
-                    [CARDIAC_SCORE]: -1
+                    [CARDIAC_SCORE]: -1,
+                    [DB_VALUE]: "Pain on movement",
                 },
                 {
                     [NEXT_QUESTION]: "73.2 Cardiac pain on squeezing",
@@ -382,7 +392,8 @@ module.exports = {
                         [LANG_HINDI]: "नहीं"
                     },
                     [VALUE]: 1,
-                    [CARDIAC_SCORE]: 0.5
+                    [CARDIAC_SCORE]: 0.5,
+                    [DB_VALUE]: "Pain unaffected by movement",
                 }
             ],
             [TYPE]: TYPE_BUTTON
@@ -401,6 +412,7 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [VALUE]: 0,
+                    [DB_VALUE]: "Yes",
                     [CARDIAC_SCORE]: -1
                 },
                 {
@@ -410,52 +422,26 @@ module.exports = {
                         [LANG_HINDI]: "नहीं"
                     },
                     [VALUE]: 1,
+                    [DB_VALUE]: "Yes",
                     [CARDIAC_SCORE]: 0.5
                 }
             ],
             [TYPE]: TYPE_BUTTON
         },
-        // {
-        //     [ID]: "80.0 Cardiac associated symptoms",
-        //     [STATEMENT]: {
-        //         [LANG_ENGLISH]: "Are there any associated symptoms?",
-        //         [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
-        //     },
-        //     [OPTIONS]: [
-        //         {
-        //             [NEXT_QUESTION]: "81.0 Cardiac sweating",
-        //             [STATEMENT]: {
-        //                 [LANG_ENGLISH]: "Yes",
-        //                 [LANG_HINDI]: "हाँ"
-        //             },
-        //             [CARDIAC_SCORE]: 0.5,
-        //             [VALUE]: 0
-        //         },
-        //         {
-        //             [NEXT_QUESTION]: "84.0 Probable angina",
-        //             [STATEMENT]: {
-        //                 [LANG_ENGLISH]: "No",
-        //                 [LANG_HINDI]: "नहीं"
-        //             },
-        //             [VALUE]: 1
-        //         }
-        //     ],
-        //     [TYPE]: TYPE_BUTTON
-        // },
         {
             [ID]: "80.0 Cardiac associated symptoms",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Are there any associated symptoms?",
                 [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
             },
-            [NEXT_QUESTION]: "84.0 Probable angina",
+            [NEXT_QUESTION]: "81.0 Cardiac assessment",
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Sweating",
                         [LANG_HINDI]: "पसीना आना"
                     },
-                    [CARDIAC_SCORE]: 0.5,
+                    [CARDIAC_SCORE]: 1,
                     [VALUE]: 0,
                     [DB_VALUE]: "Sweating"
                 },
@@ -464,6 +450,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Difficulty in breathing",
                         [LANG_HINDI]: "सांस लेने में परेशानी"
                     },
+                    [CARDIAC_SCORE]: 1,
                     [VALUE]: 1,
                     [DB_VALUE]: "Breathlessness"
                 },
@@ -480,86 +467,35 @@ module.exports = {
             [TYPE]: TYPE_LIST
         },
         {
-            [ID]: "81.0 Cardiac sweating",
+            [ID]: "81.0 Cardiac assessment",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Is it associated with sweating?",
-                [LANG_HINDI]: "क्या पसीना भी आता है?"
+                [LANG_ENGLISH]: "Assessing your responses...",
+                [LANG_HINDI]: "आपकी प्रतिक्रियाओं का आकलन......"
             },
-            [OPTIONS]: [
-                {
-                    [NEXT_QUESTION]: "82.0 Cardiac breathlessness",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
-                    },
-                    [CARDIAC_SCORE]: 0.5,
-                    [VALUE]: 0,
-                    [CARDIAC_SCORE]: 1
-                },
-                {
-                    [NEXT_QUESTION]: "82.0 Cardiac breathlessness",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
-                    },
-                    [VALUE]: 1
-                }
-            ],
-            [TYPE]: TYPE_BUTTON
+            [TYPE]: TYPE_ANALYSE,
+            [COMMAND]: "anginaselfevaluation",
+            [PARAMS_FORM]: {
+                "ChestMiddlePain": "71.1 Cardiac pain middle of chest pain",
+                "CardiacPointPain": "72.0 Cardiac point pain",
+                "CardiacLeftArmPain": "74.0 Cardiac left arm pain",
+                "CardiacInnerLeftArmPain": "74.1 Cardiac inner side left arm pain",
+                "CardiacArmMovementPain": "73.1 Pain on arm movement",
+                "CardiacPressurePain": "73.2 Cardiac pain on squeezing",
+                "AssociatedSymptoms": "80.0 Cardiac associated symptoms"
+            },
+            [BRANCHES]: {
+                "non_cardiac_chest_pain": "83.0 Not angina",
+                "probable_angina": "84.0 Probable angina"
+            }
         },
         {
-            [ID]: "82.0 Cardiac breathlessness",
+            [ID]: "83.0 Not angina",
+            [NEXT_QUESTION]: 1.0,
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Do you have difficulty in breathing",
-                [LANG_HINDI]: "क्या सांस लेने में परेशानी होती है?"
+                [LANG_ENGLISH]: "You seem to be suffering from non-cardiac chest pain",
+                [LANG_HINDI]: "यह दर्द हृदय संबंधित नहीं लगता है"
             },
-            [OPTIONS]: [
-                {
-                    [NEXT_QUESTION]: "83.0 Cardiac fatigue",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
-                    },
-                    [CARDIAC_SCORE]: 1,
-                    [VALUE]: 0
-                },
-                {
-                    [NEXT_QUESTION]: "83.0 Cardiac fatigue",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
-                    },
-                    [VALUE]: 1
-                }
-            ],
-            [TYPE]: TYPE_BUTTON
-        },
-        {
-            [ID]: "83.0 Cardiac fatigue",
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "Do you feel fatigued?",
-                [LANG_HINDI]: "क्या थकान होती है?"
-            },
-            [OPTIONS]: [
-                {
-                    [NEXT_QUESTION]: "84.0 Probable angina",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
-                    },
-                    [CARDIAC_SCORE]: 1,
-                    [VALUE]: 0
-                },
-                {
-                    [NEXT_QUESTION]: "84.0 Probable angina",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
-                    },
-                    [VALUE]: 1
-                }
-            ],
-            [TYPE]: TYPE_BUTTON
+            [TYPE]: TYPE_NONE
         },
         {
             [ID]: "84.0 Probable angina",
@@ -579,7 +515,7 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [NEXT_QUESTION]: "86.0 Consult your doctor",
-                    "dbValue": "No",
+                    [DB_VALUE]: "Stable angina",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
@@ -592,6 +528,7 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
+                    [DB_VALUE]: "No",
                     [VALUE]: 1
                 }
             ],
@@ -619,6 +556,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
                     },
+                    [DB_VALUE]: "Unstable angina",
                     [VALUE]: 0
                 },
                 {
@@ -627,6 +565,7 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
+                    [DB_VALUE]: "Stable angina",
                     [VALUE]: 1
                 }
             ],
@@ -848,20 +787,20 @@ module.exports = {
             "type": "button"
         },
         {
-			      "id": 9.1,
-		        "statement": {
-                "en": "Assesing your responses...",
-                "hi": "आपकी प्रतिक्रियाओं का आकलन......"
+			      [ID]: 9.1,
+		        [STATEMENT]: {
+                [LANG_ENGLISH]: "Assessing your responses...",
+                [LANG_HINDI]: "आपकी प्रतिक्रियाओं का आकलन......"
             },
-            "type": "none",
-            "command": "selfevaluation",
-            "paramsFrom": {
+            [TYPE]: TYPE_NONE,
+            [COMMAND]: "selfevaluation",
+            [PARAMS_FORM]: {
                 "Sensation": 4,
 			          "Eye_Control": 6,
 			          "Palette1": 8,
 			          "Palette2": 9
             },
-            "branches": {
+            [BRANCHES]: {
                 "doing_fine": 11.0,
                 "Redirecting_for_consultation": 22.0
             },
@@ -1299,7 +1238,7 @@ module.exports = {
                 },
                 {
                     "dbValue": "No",
-                    "nextQuestion": 0.0,
+                    "nextQuestion": 1.0,
                     "statement": {
                         "hi": "नहीं",
                         "en": "No"
@@ -2425,143 +2364,143 @@ module.exports = {
         },
 
         {
-            "id": 59.0,
-            "nextQuestion": 62.0,
-            "options": [
+            [ID]: 59.0,
+            [NEXT_QUESTION]: 62.0,
+            [OPTIONS]: [
 
 				        {
-                    "dbValue": "Dental Pain",
+                    [DB_VALUE]: "Dental Pain",
 
-                    "statement": {
-                        "hi": "दांत का दर्द",
-                        "en": "Dental Pain"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "दांत का दर्द",
+                        [LANG_ENGLISH]: "Dental Pain"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "dbValue": "Numbness of Face",
+                    [DB_VALUE]: "Numbness of Face",
 
-                    "statement": {
-                        "hi": "चेहरे का सुन्न होना",
-                        "en": "Numbness of Face"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "चेहरे का सुन्न होना",
+                        [LANG_ENGLISH]: "Numbness of Face"
                     },
-                    "value": 1
+                    [VALUE]: 1
                 },
                 {
-                    "dbValue": "Bulging of the eye",
+                    [DB_VALUE]: "Bulging of the eye",
 
-                    "statement": {
-                        "hi": "आँख का फड़कना",
-                        "en": "Bulging of the eye"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "आँख का फड़कना",
+                        [LANG_ENGLISH]: "Bulging of the eye"
                     },
-                    "value": 2
+                    [VALUE]: 2
                 },
                 {
-                    "dbValue": "Restricted movement of the eye",
+                    [DB_VALUE]: "Restricted movement of the eye",
 
-                    "statement": {
-                        "hi": "आँख की प्रतिबंधित गति",
-                        "en": "Restricted movement of the eye"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "आँख की प्रतिबंधित गति",
+                        [LANG_ENGLISH]: "Restricted movement of the eye"
                     },
-                    "value": 3
+                    [VALUE]: 3
                 },
                 {
-                    "dbValue": "Runny Nose",
+                    [DB_VALUE]: "Runny Nose",
 
-                    "statement": {
-                        "hi": "बहती नाक",
-                        "en": "Runny Nose"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "बहती नाक",
+                        [LANG_ENGLISH]: "Runny Nose"
                     },
-                    "value": 4
+                    [VALUE]: 4
                 },
                 {
-                    "dbValue": "Nose Block",
+                    [DB_VALUE]: "Nose Block",
 
-                    "statement": {
-                        "hi": "नाक ब्लॉक",
-                        "en": "Nose Block"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "नाक ब्लॉक",
+                        [LANG_ENGLISH]: "Nose Block"
                     },
-                    "value": 5
+                    [VALUE]: 5
                 },
                 {
-                    "dbValue": "Foul Smell",
+                    [DB_VALUE]: "Foul Smell",
 
-                    "statement": {
-                        "hi": "दुर्गंध आना",
-                        "en": "Foul Smell"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "दुर्गंध आना",
+                        [LANG_ENGLISH]: "Foul Smell"
                     },
-                    "value": 6
+                    [VALUE]: 6
                 },
                 {
-                    "dbValue": "None of the listed",
+                    [DB_VALUE]: "None of the listed",
 
-                    "statement": {
-                        "hi": "सूचीबद्ध में से कोई नहीं",
-                        "en": "None of the listed"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "सूचीबद्ध में से कोई नहीं",
+                        [LANG_ENGLISH]: "None of the listed"
                     },
-                    "value": 7
+                    [VALUE]: 7
                 }
             ],
-            "statement": {
-                "hi": "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
-                "en": "Select the following symptoms you are experiencing"
+            [STATEMENT]: {
+                [VALUE]: "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
+                [VALUE]: "Select the following symptoms you are experiencing"
             },
             [TYPE]: TYPE_LIST
         },
         {
-            "id": 60.0,
-            "nextQuestion": 62.0,
-            "options": [
+            [ID]: 60.0,
+            [NEXT_QUESTION]: 62.0,
+            [OPTIONS]: [
 
 				        {
-                    "dbValue": "Loss of smell",
+                    [DB_VALUE]: "Loss of smell",
 
-                    "statement": {
-                        "hi": "गंध की हानि",
-                        "en": "Loss of smell"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "गंध की हानि",
+                        [LANG_ENGLISH]: "Loss of smell"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "dbValue": "Loss of taste",
+                    [DB_VALUE]: "Loss of taste",
 
-                    "statement": {
-                        "hi": "स्वाद की हानि",
-                        "en": "Loss of taste"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "स्वाद की हानि",
+                        [LANG_ENGLISH]: "Loss of taste"
                     },
-                    "value": 1
+                    [VALUE]: 1
                 },
                 {
-                    "dbValue": "Body ache",
+                    [DB_VALUE]: "Body ache",
 
-                    "statement": {
-                        "hi": "शरीर में दर्द",
-                        "en": "Body ache"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "शरीर में दर्द",
+                        [LANG_ENGLISH]: "Body ache"
                     },
-                    "value": 2
+                    [VALUE]: 2
                 },
                 {
-                    "dbValue": "Heaviness in breathing",
+                    [DB_VALUE]: "Heaviness in breathing",
 
-                    "statement": {
-                        "hi": "सांस लेने में भारीपन",
-                        "en": "Heaviness in breathing"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "सांस लेने में भारीपन",
+                        [LANG_ENGLISH]: "Heaviness in breathing"
                     },
-                    "value": 3
+                    [VALUE]: 3
                 },
                 {
-                    "dbValue": "None of the listed",
+                    [DB_VALUE]: "None of the listed",
 
-                    "statement": {
-                        "hi": "सूचीबद्ध में से कोई नहीं",
-                        "en": "None of the listed"
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "सूचीबद्ध में से कोई नहीं",
+                        [LANG_ENGLISH]: "None of the listed"
                     },
-                    "value": 4
+                    [VALUE]: 4
                 }
             ],
-            "statement": {
-                "hi": "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
-                "en": "Select the following symptoms you are experiencing"
+            [STATEMENT]: {
+                [LANG_HINDI]: "निम्नलिखित लक्षणों का चयन करें जो आप अनुभव कर रहे हैं",
+                [LANG_ENGLISH]: "Select the following symptoms you are experiencing"
             },
             [TYPE]: TYPE_LIST
         },
@@ -3059,7 +2998,7 @@ module.exports = {
     					[DB_VALUE]: DB_VALUE_YES
     				},
     				{
-    					[NEXT_QUESTION]: 0,
+    					[NEXT_QUESTION]: 1.0,
     					[VALUE]: 1,
               [STATEMENT]: {
                 [LANG_ENGLISH]: 'No',
