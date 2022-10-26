@@ -513,11 +513,13 @@ export default class Chat extends React.Component {
 			console.log(answers)
 			commands[command](answers, questionDetails, this.setQuestion, tempSelection);
 		} else if (type === TYPE_ANALYSE && command) {
+			// focus on analysing
 			const { questions } = this.state;
 			commands[command](answers, questionDetails, questions, this.setQuestion);
 		} else if (nextQuestion === 0) {
 			this.endChatbotSequence();
 		} else {
+			// nextQuestion has been provided
 			const question = this.getQuestionById(nextQuestion);
 			this.setQuestion(question);
 		}
@@ -750,6 +752,7 @@ export default class Chat extends React.Component {
 				<div className="answer-box button-row">
 					{options.map(({ value, statement, url }, index) => {
             const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+						// noinspection HtmlRequiredAltAttribute
 						return (
 							<button
 								value={value}

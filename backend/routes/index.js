@@ -84,11 +84,15 @@ router.post('/helpline', (req, res) => {
 /* Patient */
 /**
  * Final assessment after initial interaction
- * of chatbot with given questions
+ * of chatbot with given questions.
+ * Initiation of backend and frontend interation
  */
 router.post('/assessment', (req, res) => {
 	const { answers, timestamps, latitude, longitude, chat } = req.body;
-	const oldPatient = answers['23'] === 0 ? null : getId(answers['24'], answers['25']);
+	const oldPatient = (answers['23'] === 0 || answers['2.5'] !== 'undefined')
+		? null : 																										// if new consultation : oldPatient = null
+		getId(answers['24'], answers['25']);												// else oldPatient = name and phone entered
+	console.log("assessment started")
 
 	if (oldPatient) {
 		Patient.findById(oldPatient, (err, patient) => {
@@ -119,7 +123,9 @@ router.post('/assessment', (req, res) => {
 				question: questions[questions.length - 1]
 			});
 		});
+		// TODO : add self screening here and link to consultation. Save data before adding user
 	} else {
+		// new patient
 		answersToModel(answers, timestamps, (model) => {
 			const { name, telephone, hospital } = model;
 			Doctor.findOne({ hospital }, (err, doc) => {
@@ -200,7 +206,7 @@ router.post('/assessment', (req, res) => {
 	}
 });
 /**
- * gives questions for pre assessment
+ * Payment and disclaimer
  */
 router.get('/questions', (req, res) => {
 	/* TODO: doctor's availability status and welcome message */
