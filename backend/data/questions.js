@@ -12,6 +12,7 @@ const BRANCHES = "branches"
 const COMMAND = "command"                   // handled by commands.js
 const URL = "url"
 const PARAMS_FORM = "paramsFrom"            // support commands
+const PATTERN = "pattern"            // support commands
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
@@ -22,6 +23,7 @@ const TYPE_SELECT = "select"                // spinner
 const TYPE_UPLOAD = "upload"                // upload
 const TYPE_TEXT = "text"                    // text
 const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend across multiple questions. example cardiac screening
+const TYPE_TELEPHONE = "tel"                // complex telephone and age
 
 // LANGUAGES
 const LANG_ENGLISH = "en"
@@ -77,6 +79,7 @@ const STATEMENT_WHY_NOT = {
     [LANG_HINDI]: "क्यों नहीं"
 }
 const CARDIAC_CURIOSITY = "111.0 Still curious"
+const NEXT_QUESTION_ENDS_FLOW = 0                   // end chatbot. sometimes communicate with doctor
 
 module.exports = {
     [QUESTIONS]: [
@@ -148,24 +151,24 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: "94.0 What would you like to know",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "No, I have never been to the cardiologist/heart specialist",
-                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ/हृदय रोग विशेषज्ञ के पास नहीं गया"
+                        [LANG_ENGLISH]: "No, I have never been to the cardiologist / heart specialist",
+                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ / हृदय रोग विशेषज्ञ के पास नहीं गया"
                     },
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: "92.0 Cardiac medicine patient",
+                    [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner/BP)",
-                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर/बीपी)"
+                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner / BP)",
+                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर / बीपी)"
                     },
                     [VALUE]: 1
                 },
                 {
-                    [NEXT_QUESTION]: "93.0 Cardiac surgery patient",
+                    [NEXT_QUESTION]: "93.0 Cardiac surgery patient. Laminated?",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I have had surgery/will be having heart surgery/angioplasty",
-                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा/एंजियोप्लास्टी"
+                        [LANG_ENGLISH]: "Yes, I have had surgery / will be having heart surgery / angioplasty",
+                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा / एंजियोप्लास्टी"
                     },
                     [VALUE]: 2
                 }
@@ -205,7 +208,7 @@ module.exports = {
         },
 
         {
-            [ID]: "93.0 Laminated",
+            [ID]: "93.0 Cardiac surgery patient. Laminated?",
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
@@ -259,7 +262,7 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Cardiac tests - ECG/ECHO/TMT/Holter/ABP",
+                        [LANG_ENGLISH]: "Cardiac tests - ECG / ECHO / TMT / Holter / ABP",
                         [LANG_HINDI]: "दिल के टेस्ट ईसईगी / एको / टीमती / ऐबीपी "
                     },
                     [NEXT_QUESTION]: "95.0 Which cardiac test",
@@ -267,8 +270,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Smoking/Gutka/Khaini",
-                        [LANG_HINDI]: "धूम्रपान/गुटका/खैनी"
+                        [LANG_ENGLISH]: "Smoking / Gutka / Khaini",
+                        [LANG_HINDI]: "धूम्रपान / गुटका / खैनी"
                     },
                     [NEXT_QUESTION]: "101.0 Tobacco",
                     [VALUE]: 1
@@ -307,8 +310,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Cholestrol/Triglyceride",
-                        [LANG_HINDI]: "कोलेस्ट्रॉल/ट्रिगलीकेरिडेस"
+                        [LANG_ENGLISH]: "Cholestrol / Triglyceride",
+                        [LANG_HINDI]: "कोलेस्ट्रॉल / ट्रिगलीकेरिडेस"
                     },
                     [NEXT_QUESTION]: "183.0 Cholesterol",
                     [VALUE]: 6
@@ -331,16 +334,16 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Stent/Bypass",
+                        [LANG_ENGLISH]: "Stent / Bypass",
                         [LANG_HINDI]: "स्टेंट / बाइपैस"
                     },
-                    [NEXT_QUESTION]: "232.0 Stent/Bypass",
+                    [NEXT_QUESTION]: "232.0 Stent / Bypass",
                     [VALUE]: 9
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Angiography/Angioplasty",
-                        [LANG_HINDI]: "एंजियोग्राफी/एंजियोप्लास्टी"
+                        [LANG_ENGLISH]: "Angiography / Angioplasty",
+                        [LANG_HINDI]: "एंजियोग्राफी / एंजियोप्लास्टी"
                     },
                     [NEXT_QUESTION]: "240.0 Angio",
                     [VALUE]: 10
@@ -472,8 +475,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "I can't/don't want to quit tobacco",
-                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता/नहीं कर सकता/सकती"
+                        [LANG_ENGLISH]: "I can't / don't want to quit tobacco",
+                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता / नहीं कर सकता / सकती"
                     },
                     [NEXT_QUESTION]: "103.0 Why can't quit tobacco?",
                     [VALUE]: 2
@@ -580,7 +583,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I am disabled",
                         [LANG_HINDI]: "लेकिन मैं विकलांग हूँ"
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 2
                 },
                 {
@@ -611,7 +614,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Heart failure/Heart attack",
+                        [LANG_ENGLISH]: "Heart failure / Heart attack",
                         [LANG_HINDI]: "दिल का दौरा या पुंपिनग काम होना"
                     },
                     [NEXT_QUESTION]: "108.0 Heart failure and surgery exercise",
@@ -660,7 +663,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I have arthritis",
                         [LANG_HINDI]: "लेकिन मुझे गठिया है",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 0
                 },
                 {
@@ -668,7 +671,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I am disabled",
                         [LANG_HINDI]: "लेकिन मैं विकलांग हूँ",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 1
                 },
                 {
@@ -702,7 +705,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I have arthritis",
                         [LANG_HINDI]: "लेकिन मुझे गठिया है",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 0
                 },
                 {
@@ -710,7 +713,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I am disabled",
                         [LANG_HINDI]: "लेकिन मैं विकलांग हूँ",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 1
                 },
                 {
@@ -744,7 +747,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I have arthritis",
                         [LANG_HINDI]: "लेकिन मुझे गठिया है",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 0
                 },
                 {
@@ -752,7 +755,7 @@ module.exports = {
                         [LANG_ENGLISH]: "But I am disabled",
                         [LANG_HINDI]: "लेकिन मैं विकलांग हूँ",
                     },
-                    [NEXT_QUESTION]: "110.0 Arthritis/disabled patient hydrotherapy",
+                    [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 1
                 },
                 {
@@ -776,7 +779,7 @@ module.exports = {
         },
 
         {
-            [ID]: "110.0 Arthritis/disabled patient hydrotherapy",
+            [ID]: "110.0 Arthritis / disabled patient hydrotherapy",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "You may consider physiotherapy and hydrotherapy in that case",
                 [LANG_HINDI]: "आप उस मामले में फिजियोथेरेपी और हाइड्रोथेरेपी पर विचार कर सकते हैं"
@@ -856,14 +859,14 @@ module.exports = {
         {
             [ID]: "115.0 CAD cause",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "1. Smoking/tobacco use\n" +
-                "2. Hypertension/High blood pressure\n" +
+                [LANG_ENGLISH]: "1. Smoking / tobacco use\n" +
+                "2. Hypertension / High blood pressure\n" +
                 "3. High cholestrol\n" +
                 "4. High lipoprotein\n" +
                 "5. Lack of exercise\n" +
-                "6. Diabetes/Sugar\n" +
+                "6. Diabetes / Sugar\n" +
                 "7. Thrombosis\n",
-                [LANG_HINDI]: "1. धूम्रपान/तंबाकू का सेवन\n" +
+                [LANG_HINDI]: "1. धूम्रपान / तंबाकू का सेवन\n" +
                 "2. उच्च रक्तचाप / बी पी \n" +
                 "3. उच्च कोलेस्ट्रॉल\n" +
                 "4. उच्च लिपोप्रोटीन\n" +
@@ -964,7 +967,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "What is Hypertensio/High BP",
+                        [LANG_ENGLISH]: "What is Hypertensio / High BP",
                         [LANG_HINDI]: "उच्च रक्तचाप / बीपी क्या है?"
                     },
                     [NEXT_QUESTION]: "130.0 What is hypertension",
@@ -1151,7 +1154,7 @@ module.exports = {
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Lifestyle changes are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130/80.\n" +
+                [LANG_ENGLISH]: "Lifestyle changes are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130 / 80.\n" +
                 "\n" +
                 "The things that you need to take into consideration are: \n" +
                 "\n" +
@@ -1169,7 +1172,7 @@ module.exports = {
                 "        If lifestyle changes aren’t enough to lower your blood pressure, your doctor might recommend medication.\n" +
                 "\n" +
                 "        Blood pressure medications do not cure hypertension but help keep it in a healthier range. They usually need to be taken for life. A number of drugs can be used alone or in combination to treat high blood pressure:",
-                [LANG_HINDI]: "जीवनशैली में बदलाव सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए अनुशंसित उपचार हैं, एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130/80 से अधिक होती है।\n" +
+                [LANG_HINDI]: "जीवनशैली में बदलाव सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए अनुशंसित उपचार हैं, एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130 / 80 से अधिक होती है।\n" +
                 "\n" +
                 "जिन बातों पर आपको ध्यान देने की आवश्यकता है वे हैं:\n" +
                 "\n" +
@@ -1263,7 +1266,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Atherosclerosis: Damage to arteries",
-                        [LANG_HINDI]: "नसों/धमनियों को नुकसान"
+                        [LANG_HINDI]: "नसों / धमनियों को नुकसान"
                     },
                     [NEXT_QUESTION]: "181.0 BP atherosclerosis",
                     [VALUE]: 4
@@ -1528,7 +1531,7 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Cutting back on table salt is the best way to cut sodium",
-                [LANG_HINDI]: "फीका खान नामक/सोडियम काम करने का सबसे अच्छा तरीका है"
+                [LANG_HINDI]: "फीका खान नामक / सोडियम काम करने का सबसे अच्छा तरीका है"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -1825,7 +1828,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Diabetes",
-                        [LANG_HINDI]: "मधुमेह/डाइबीटीज़/शुगर"
+                        [LANG_HINDI]: "मधुमेह / डाइबीटीज़ / शुगर"
                     },
                     [VALUE]: 2
                 },
@@ -2188,8 +2191,8 @@ module.exports = {
         {
             [ID]: "178.0 BP stroke",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Hypertension can lead to stroke, either by contributing to the process of atherosclerosis (which can lead to blockages and/or clots), or by weakening the blood vessel wall and causing it to rupture.",
-                [LANG_HINDI]: "उच्च रक्तचाप स्ट्रोक का कारण बन सकता है, या तो एथेरोस्क्लेरोसिस की प्रक्रिया में योगदान करके (जो रुकावट और/या थक्के का कारण बन सकता है), या रक्त वाहिका की दीवार को कमजोर करके और इसके टूटने का कारण बन सकता है।"
+                [LANG_ENGLISH]: "Hypertension can lead to stroke, either by contributing to the process of atherosclerosis (which can lead to blockages and / or clots), or by weakening the blood vessel wall and causing it to rupture.",
+                [LANG_HINDI]: "उच्च रक्तचाप स्ट्रोक का कारण बन सकता है, या तो एथेरोस्क्लेरोसिस की प्रक्रिया में योगदान करके (जो रुकावट और / या थक्के का कारण बन सकता है), या रक्त वाहिका की दीवार को कमजोर करके और इसके टूटने का कारण बन सकता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2407,8 +2410,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Diet for stent/bypass",
-                        [LANG_HINDI]: "स्टेंट/बाईपास के लिए आहार"
+                        [LANG_ENGLISH]: "Diet for stent / bypass",
+                        [LANG_HINDI]: "स्टेंट / बाईपास के लिए आहार"
                     },
                     [NEXT_QUESTION]: "194.0 Stent diet",
                     [VALUE]: 4
@@ -2451,7 +2454,7 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "1. Eat healthy food that tastes good because it exists for you.\n" +
                 "2. Reduce salt because it leads to excess water in your blood. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so.\n" +
-                "3. Avoid eating street/outside food as it contains excess salt, oil, spices and fat/oil.\n" +
+                "3. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil.\n" +
                 "4. Reduce milk and milk product consumption because it contains triglycerides and fats which cause atherosclerosis, which is a direct cause of hypertension.\n" +
                 "5. Reduce sugar because it is a can increase blood pressure, weight and cholesterol.\n" +
                 ".\n" +
@@ -2460,7 +2463,7 @@ module.exports = {
                 "Eat everything else and maintain this habit throughout your life.",
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके खून में पानी की अधिकता हो जाती है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
-                "3. सड़क/बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा/तेल अधिक होता है।\n" +
+                "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
                 "4. दूध और दुग्ध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं, जो उच्च रक्तचाप का प्रत्यक्ष कारण है।\n" +
                 "5. शुगर कम करें क्योंकि यह ब्लड प्रेशर, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें \n" +
@@ -2474,7 +2477,7 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "1. Eat healthy food that tastes good because it exists for you.\n" +
                 "2. Reduce salt because it leads to excess water in your blood which cause stress for heart. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so.\n" +
-                "3. Avoid eating street/outside food as it contains excess salt, oil, spices and fat/oil.\n" +
+                "3. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil.\n" +
                 "4. Reduce milk and milk product consumption because it contains triglycerides and fat which cause atherosclerosis which causes heart attacks and strokes.\n" +
                 "5. Reduce sugar because it is a can increase blood pressure, weight and cholesterol.\n" +
                 "6. Reduce red meat \n" +
@@ -2482,7 +2485,7 @@ module.exports = {
                 "Eat everything else and maintain this habit throughout your life.",
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
-                "3. सड़क/बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा/तेल अधिक होता है।\n" +
+                "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
                 "4. दूध और दूध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
                 "5. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें\n" +
@@ -2496,7 +2499,7 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "1. Eat healthy food that tastes good because it exists for you.\n" +
                 "2. Reduce salt because it is a factor in weight gain. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so.\n" +
-                "3. Avoid eating street/outside food as it contains excess salt, oil, spices and fat/oil all of which lead to weight gain.\n" +
+                "3. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil all of which lead to weight gain.\n" +
                 "4. Reduce milk and milk products consumption because it contains triglycerides and fat which cause atherosclerosis, which lead to weight gain.\n" +
                 "5. Reduce sugar because it gets stored as fat readily. Prefer carbohydrates.\n" +
                 "6. Reduce red meat \n" +
@@ -2505,7 +2508,7 @@ module.exports = {
                 "Eat everything else and maintain this habit throughout your life.",
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि यह वजन बढ़ाने का कारक है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
-                "3. बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा/तेल की अधिकता होती है, जिससे वजन बढ़ता है।\n" +
+                "3. बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल की अधिकता होती है, जिससे वजन बढ़ता है।\n" +
                 "4. दूध और दुग्ध उत्पादों का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है, जिससे वजन बढ़ता है।\n" +
                 "5. चीनी कम करें क्योंकि यह आसानी से वसा के रूप में जमा हो जाती है। कार्बोहाइड्रेट को प्राथमिकता दें।\n" +
                 "6. रेड मीट कम करें\n" +
@@ -2520,7 +2523,7 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "1. Eat healthy food that tastes good because it exists for you.\n" +
                 "2. Reduce salt because it leads to excess water in your blood which cause stress for heart. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so.\n" +
-                "3. Avoid eating street/outside food as it contains excess salt, oil, spices and fat/oil.\n" +
+                "3. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil.\n" +
                 "4. Reduce milk and milk product consumption because it contains triglycerides and fat which cause atherosclerosis which causes heart attacks and strokes.\n" +
                 "5. Reduce sugar because it is a can increase blood pressure, weight and cholesterol.\n" +
                 "6. Reduce red meat \n" +
@@ -2528,7 +2531,7 @@ module.exports = {
                 "Eat everything else and maintain this habit throughout your life.",
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
-                "3. सड़क/बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा/तेल अधिक होता है।\n" +
+                "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
                 "4. दूध और दूध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
                 "5. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें\n" +
@@ -2543,7 +2546,7 @@ module.exports = {
                 [LANG_ENGLISH]: "1. Make sure that your water intake is less than water output because you will see the results.  \n" +
                 "2. Eat healthy food that tastes good because it exists for you.\n" +
                 "3. Reduce salt because it leads to excess water in your blood which cause stress for heart. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so.\n" +
-                "4. Avoid eating street/outside food as it contains excess salt, oil, spices and fat/oil.\n" +
+                "4. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil.\n" +
                 "5. Reduce milk and milk product consumption because it contains triglycerides and fat which cause atherosclerosis which causes heart attacks and strokes.\n" +
                 "6. Reduce sugar because it is a can increase blood pressure, weight and cholesterol.\n" +
                 "7. Reduce red meat \n" +
@@ -2552,7 +2555,7 @@ module.exports = {
                 [LANG_HINDI]: "1. सुनिश्चित करें कि आपके पानी का सेवन पानी के उत्पादन से कम है क्योंकि आप परिणाम देखेंगे।\n" +
                 "2. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "3. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
-                "4. सड़क/बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा/तेल अधिक होता है।\n" +
+                "4. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
                 "5. दूध और दुग्ध उत्पाद का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है जो दिल के दौरे और स्ट्रोक का कारण बनता है।\n" +
                 "6. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल बढ़ा सकता है।\n" +
                 "7. रेड मीट कम करें\n" +
@@ -2944,7 +2947,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "High blood pressure",
-                        [LANG_HINDI]: "उच्च रक्तचाप/बीपी",
+                        [LANG_HINDI]: "उच्च रक्तचाप / बीपी",
                     },
                     [NEXT_QUESTION]: "216.0 HF BP",
                     [VALUE]: 2
@@ -2952,7 +2955,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Diabetes",
-                        [LANG_HINDI]: "डैबिटीस/शुगर/मधुमेह",
+                        [LANG_HINDI]: "डैबिटीस / शुगर / मधुमेह",
                     },
                     [NEXT_QUESTION]: "217.0 HF diabetes",
                     [VALUE]: 3
@@ -3262,7 +3265,7 @@ module.exports = {
 
         // Stent
         {
-            [ID]: "232.0 Stent/Bypass",
+            [ID]: "232.0 Stent / Bypass",
             [OPTIONS]:[
                 {
                     [STATEMENT]: {
@@ -3547,7 +3550,8 @@ module.exports = {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
                     },
-                    [VALUE]: 0
+                    [VALUE]: 0,
+                    [DB_VALUE]: DB_VALUE_YES
                 },
                 {
                     [NEXT_QUESTION]: "73.0 Cardiac giddiness",
@@ -3555,41 +3559,42 @@ module.exports = {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
                     },
-                    [VALUE]: 1
+                    [VALUE]: 1,
+                    [DB_VALUE]: DB_VALUE_NO
                 }
             ],
             [TYPE]: TYPE_BUTTON
         },
 
-        {
-            [ID]: "71.1 Cardiac pain middle of chest pain",
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "Is the pain in the middle of the chest",
-                [LANG_HINDI]: "क्या सीने के बीच में दर्द होता है?"
-            },
-            [OPTIONS]: [
-                {
-                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
-                    },
-                    [CARDIAC_SCORE]: 1,
-                    [DB_VALUE]: "Yes",
-                    [VALUE]: 0
-                },
-                {
-                    [NEXT_QUESTION]: "72.0 Cardiac point pain",
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
-                    },
-                    [DB_VALUE]: "No",
-                    [VALUE]: 1
-                }
-            ],
-            [TYPE]: TYPE_BUTTON
-        },
+        // {
+        //     [ID]: "71.1 Cardiac pain middle of chest pain",
+        //     [STATEMENT]: {
+        //         [LANG_ENGLISH]: "Is the pain in the middle of the chest",
+        //         [LANG_HINDI]: "क्या सीने के बीच में दर्द होता है?"
+        //     },
+        //     [OPTIONS]: [
+        //         {
+        //             [NEXT_QUESTION]: "72.0 Cardiac point pain",
+        //             [STATEMENT]: {
+        //                 [LANG_ENGLISH]: "Yes",
+        //                 [LANG_HINDI]: "हाँ"
+        //             },
+        //             [CARDIAC_SCORE]: 1,
+        //             [DB_VALUE]: "Yes",
+        //             [VALUE]: 0
+        //         },
+        //         {
+        //             [NEXT_QUESTION]: "72.0 Cardiac point pain",
+        //             [STATEMENT]: {
+        //                 [LANG_ENGLISH]: "No",
+        //                 [LANG_HINDI]: "नहीं"
+        //             },
+        //             [DB_VALUE]: "No",
+        //             [VALUE]: 1
+        //         }
+        //     ],
+        //     [TYPE]: TYPE_BUTTON
+        // },
         {
             [ID]: "72.0 Cardiac point pain",
             [STATEMENT]: {
@@ -3849,7 +3854,7 @@ module.exports = {
         },
         {
             [ID]: "86.0 Consult your doctor",
-            [NEXT_QUESTION]: 9999,
+            [NEXT_QUESTION]: 2.5,
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Consult your doctor",
                 [LANG_HINDI]: "अपने डॉक्टर से सलाह करें"
@@ -3870,6 +3875,7 @@ module.exports = {
                         [LANG_HINDI]: "हाँ"
                     },
                     [DB_VALUE]: "Unstable angina",
+                    [CARDIAC_SCORE]: 1,
                     [VALUE]: 0
                 },
                 {
@@ -4142,13 +4148,13 @@ module.exports = {
             "type": "button"
         },
         {
-            "id": 11.1,
-            "nextQuestion": 0,
-            "statement": {
-                "hi": "आपका दिन शुभ हो",
-                "en": "Have a nice day."
+            [ID]: 11.1,
+            [NEXT_QUESTION]: NEXT_QUESTION_ENDS_FLOW,
+            [STATEMENT]: {
+                [LANG_HINDI]: "आपका दिन शुभ हो",
+                [LANG_ENGLISH]: "Have a nice day."
             },
-            "type": "none"
+            [TYPE]: TYPE_NONE
         },
 /////////////////////////////////////////////////
         {
@@ -4366,8 +4372,8 @@ module.exports = {
             "id": 14.1,
             "nextQuestion": 14.2,
             "statement": {
-                "hi": "निम्नलिखित स्थितियों में म्यूकोर्मिकोसिस संक्रमण का खतरा बढ़ जाता है: \n 1. अनियंत्रित मधुमेह! \n 2. स्टेरॉयड के उपयोग के कारण प्रतिरक्षा प्रणाली का कमजोर होना! \n 3. लंबे समय तक आईसीयू/अस्पताल में रहना! \n 4. सह-रुग्णता / अंग प्रत्यारोपण के बाद / कैंसर!",
-                "en": "Following conditions increase the risk of mucormycosis infection: \n 1. Uncontrolled/Undiagnosed diabetes. \n 2. Weakening of immune system due to use of steroids. \n 3. Prolonged ICU/hospital stay. \n 4. Co-morbidities / post organ transplant / cancer"
+                "en": "Following conditions increase the risk of mucormycosis infection: \n 1. Uncontrolled / Undiagnosed diabetes. \n 2. Weakening of immune system due to use of steroids. \n 3. Prolonged ICU / hospital stay. \n 4. Co-morbidities / post organ transplant / cancer",
+                "hi": "निम्नलिखित स्थितियों में म्यूकोर्मिकोसिस संक्रमण का खतरा बढ़ जाता है: \n 1. अनियंत्रित मधुमेह! \n 2. स्टेरॉयड के उपयोग के कारण प्रतिरक्षा प्रणाली का कमजोर होना! \n 3. लंबे समय तक आईसीयू / अस्पताल में रहना! \n 4. सह-रुग्णता / अंग प्रत्यारोपण के बाद / कैंसर!"
             },
             "type": "none"
         },
@@ -4480,7 +4486,7 @@ module.exports = {
               ],
             "statement": {
                 "hi": "नाक के आसपास की त्वचा का काला पड़ना / मलिनकिरण, दृष्टि की हानि, नाक बंद होना, चेहरे की संवेदना में कमी और चेहरे का दर्द खतरनाक लक्षण हैं और इन स्थितियों में तुरंत डॉक्टर से संपर्क करना चाहिए।",
-                "en": "Blackening/discoloration of skin around Nose, loss of vision, Nasal congestion, loss of facial sensation and Facial pain are the alarming  symptoms and one must immediately contact Doctor in these situations"
+                "en": "Blackening / discoloration of skin around Nose, loss of vision, Nasal congestion, loss of facial sensation and Facial pain are the alarming  symptoms and one must immediately contact Doctor in these situations"
             },
             "type": "button"
         },
@@ -4641,6 +4647,7 @@ module.exports = {
             },
             "type": "text"
         },
+        // TODO
         {
             "id": 26.1,
             "options": [
@@ -4653,7 +4660,7 @@ module.exports = {
                     "value": 0
                 },
                 {
-                    "nextQuestion": 0,
+                    [NEXT_QUESTION]: NEXT_QUESTION_ENDS_FLOW,
                     "statement": {
                         "hi": "छोड़ें",
                         "en": "Skip"
@@ -4669,7 +4676,7 @@ module.exports = {
         },
         {
             "id": 26.2,
-            "nextQuestion": 0,
+            [NEXT_QUESTION]: NEXT_QUESTION_ENDS_FLOW,
             "statement": {
                 "hi": "कृपया अपलोड करने के लिए एक तस्वीर का चयन करें",
                 "en": "Please select an image to upload"
@@ -4677,33 +4684,34 @@ module.exports = {
             "type": "upload"
         },
         {
-            "id": 28.0,
-            "options": [
+            [ID]: 28.0,
+            [OPTIONS]: [
                 {
-                    "dbValue": "OPD",
-                    "nextQuestion": 2.5,
-                    "statement": {
-                        "hi": "ओ.पी.डी / सामान्य परामर्श",
-                        "en": "O.P.D / General counseling"
+                    [DB_VALUE]: "OPD",
+                    [NEXT_QUESTION]: 2.5,
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "ओ.पी.डी / सामान्य परामर्श",
+                        [LANG_ENGLISH]: "O.P.D / General counseling"
                     },
-                    "value": 0
+                    [VALUE]: 0
                 },
                 {
-                    "dbValue": "COVID-19",
-                    "nextQuestion": 29.0,
-                    "statement": {
-                        "hi": "COVID-19 या ब्लैक फंगस संबंधित परामर्श",
-                        "en": "COVID-19 or Black Fungus related counseling"
+                    [DB_VALUE]: "COVID-19",
+                    [NEXT_QUESTION]: 29.0,
+                    [STATEMENT]: {
+                        [LANG_HINDI]: "COVID-19 या ब्लैक फंगस संबंधित परामर्श",
+                        [LANG_ENGLISH]: "COVID-19 or Black Fungus related counseling"
                     },
-                    "value": 1
+                    [VALUE]: 1
                 }
             ],
-            "statement": {
-                "hi": "अपना विकल्प चुनें",
-                "en": "Choose your option"
+            [STATEMENT]: {
+                [LANG_HINDI]: "अपना विकल्प चुनें",
+                [LANG_ENGLISH]: "Choose your option"
             },
-            "type": "button"
+            [TYPE]: TYPE_BUTTON
         },
+      // Covid/Mucormycosis consultation
         {
             "id": 29.0,
             "nextQuestion": 30.0,
@@ -4714,14 +4722,14 @@ module.exports = {
             "type": "text"
         },
         {
-            "id": 30.0,
-            "nextQuestion": 31.0,
-            "pattern": "[0-9]{10}",
-            "statement": {
-                "hi": "आपका संपर्क नंबर? भविष्य में यदि आवश्यक हो तो संपर्क करने के लिए",
-                "en": "Your contact number? To contact in the future if required"
+            [ID]: 30.0,
+            [NEXT_QUESTION]: 31.0,
+            [PATTERN]: "[0-9]{10}",
+            [STATEMENT]: {
+                [LANG_HINDI]: "आपका संपर्क नंबर? भविष्य में यदि आवश्यक हो तो संपर्क करने के लिए",
+                [LANG_ENGLISH]: "Your contact number? To contact in the future if required"
             },
-            "type": "tel"
+            [TYPE]: TYPE_TELEPHONE
         },
         {
             "id": 31.0,
@@ -5304,11 +5312,11 @@ module.exports = {
                     "value": 6
                 },
                 {
-                    "dbValue": "None available/All uploaded",
+                    "dbValue": "None available / All uploaded",
                     "nextQuestion": 53.0,
                     "statement": {
-                        "hi": "कोई उपलब्ध नहीं/सभी अपलोड किए गए",
-                        "en": "None available/All uploaded"
+                        "hi": "कोई उपलब्ध नहीं / सभी अपलोड किए गए",
+                        "en": "None available / All uploaded"
                     },
                     "value": 7
                 }
@@ -5372,7 +5380,7 @@ module.exports = {
 
                     "statement": {
                         "hi": "त्वचा का काला पड़ना / मलिनकिरण",
-                        "en": "Blackening/discoloration of Skin"
+                        "en": "Blackening / discoloration of Skin"
                     },
                     "value": 4
                 },
@@ -5409,7 +5417,7 @@ module.exports = {
                 "en": "Select the following symptoms you are experiencing"
             },
             "type": "list",
-			 "command": "firstassessement",
+			      "command": "firstassessement",
             "paramsFrom": {
               "symptoms": 53.0,
             },
@@ -6125,10 +6133,11 @@ module.exports = {
             ],
             "statement": {
                 "hi": "आपका पेशा क्या है?",
-                "en": "What type of Job/Profession you have?"
+                "en": "What type of Job / Profession you have?"
             },
             "type": "button"
         },
+      // OPD questionnaire
         {
             "id": 2.5,
             "nextQuestion": 2.6,
@@ -6236,7 +6245,7 @@ module.exports = {
             "id": 2.4,
             "nextQuestion": 2.41,
             "statement": {
-                "hi": "अपनी समस्याओं/दृश्यमान लक्षणों का उल्लेख करें",
+                "hi": "अपनी समस्याओं / दृश्यमान लक्षणों का उल्लेख करें",
                 "en": "Mention your problems / visible symptoms"
             },
             "type": "text"
