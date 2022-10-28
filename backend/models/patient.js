@@ -104,6 +104,80 @@ const PatientSchema = new Schema(
 		vaccination_status: String,
 		symptomatic_forcovid: Boolean,
 
+		/*
+		 * Cardiac screening
+		 */
+		chest_pain: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_point_chest_pain: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_score: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_left_arm_pain: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_left_arm_pain_inside: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_arm_movement_pain: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_arm_pressure_pain: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_sweating: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_breathlessness: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_fatigue: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		angina: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		cardiac_exertion: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		angina_episodes: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+		unstable_angina: {
+			type: String,
+			required: false,
+			default: 'NA'
+		},
+
 		/**
 		 * based on AIIMS delhi guidelines
 		 * pre-assessment of patient is assessed

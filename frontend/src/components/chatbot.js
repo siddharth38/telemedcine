@@ -477,7 +477,7 @@ export default class Chat extends React.Component {
 
 					);
 					this.setQuestion(question);
-					console.log("question set")
+					console.log('scrolledDown()')
 
 				} else {
 					console.log("not connect to doctor")

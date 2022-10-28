@@ -162,15 +162,17 @@ function cardiac_analysis(answers, qID, modelTimestamps, timestamps, varToString
 
 /*
  * Push user responses into DB and make decisions based on user responses
+ * callback = mongoose model
  */
-function answersToModel(answers, timestamps, callback) {
+function answersToModel(answers, timestamps, mongooseModelCallback) {
   if (!answers) {
-    callback({});
+    // don't add anything into the db
+    mongooseModelCallback({});
   } else {
     Doctor.find().distinct("hospital", (err, hospitals) => {
       let type;
       console.log("answersToModel()")
-      if (err || !hospitals) return callback({});
+      if (err || !hospitals) return mongooseModelCallback({});
       let hospital = hospitals[answers["26"]];
       let aiims_id = hospital === "AIIMS Jodhpur" ? answers["27"] : "";
 
@@ -195,7 +197,7 @@ function answersToModel(answers, timestamps, callback) {
           telephone
         } = opdCommonQuestions(answers, modelTimestamps, timestamps);
 
-        callback({
+        mongooseModelCallback({
           name,
           age,
           gender,
@@ -296,7 +298,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
@@ -387,7 +389,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
@@ -472,7 +474,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
@@ -536,7 +538,7 @@ function answersToModel(answers, timestamps, callback) {
           angina,
           cardiac_exertion } = cardiac_analysis(answers, "71.0 Cardiac screening", modelTimestamps, timestamps, varToString);
 
-        callback({
+        mongooseModelCallback({
           name,
           age,
           gender,
@@ -637,7 +639,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
@@ -716,7 +718,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
@@ -788,7 +790,7 @@ function answersToModel(answers, timestamps, callback) {
             ...symptoms5, ...symptoms6, ...symptoms7);
           modelTimestamps.push({ id: "symptoms", time: timestamps["53"] });
 
-          callback({
+          mongooseModelCallback({
             name,
             age,
             gender,
