@@ -159,6 +159,7 @@ router.post('/assessment', (req, res) => {
 					},
 					(err, patient) => {
 						if (err) {
+							// doctor not found
 							console.error(err);
 							return res.json({
 								incomingChats: [
@@ -173,6 +174,8 @@ router.post('/assessment', (req, res) => {
 								]
 							});
 						}
+
+						// no error in patient creation - begin call
 
 						const { _id } = patient;
 
@@ -205,6 +208,7 @@ router.post('/assessment', (req, res) => {
 		});
 	}
 });
+
 /**
  * Payment and disclaimer
  */
@@ -309,6 +313,7 @@ router.get('/patient-list', authenticate, (req, res) => {
 		}
 	);
 });
+
 /**
  * Used by doctor to get other doctors
  * of the same hospital he can refer the same patient to
@@ -330,6 +335,7 @@ router.get('/logout', authenticate, (req, res) => {
 	req.session.username = null;
 	res.json({ loggedOut: true });
 });
+
 /**
  * doctors login
  */

@@ -89,8 +89,8 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: 23.0,
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Consultation",
-                        [LANG_HINDI]: "परामर्श"
+                        [LANG_ENGLISH]: "Consultation👨‍⚕️",
+                        [LANG_HINDI]: "परामर्श👨‍⚕️"
                     },
                     [VALUE]: 0
                 },
@@ -105,8 +105,8 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: "90.0 Cardiac education",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Information about the heart and blood",
-                        [LANG_HINDI]: "हृदय और रक्त के बारे में जानकारी"
+                        [LANG_ENGLISH]: "Information about the heart❤️",
+                        [LANG_HINDI]: "हृदय के बारे में जानकारी❤️"
                     },
                     [VALUE]: 2
                 },
@@ -139,8 +139,8 @@ module.exports = {
             [ID]: "90.0 Cardiac education",
             [NEXT_QUESTION]: "90.1 Cardiac status",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?",
-                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?"
+                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?☠️",
+                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
             },
             [TYPE]: TYPE_NONE
         },
@@ -152,23 +152,23 @@ module.exports = {
                     [NEXT_QUESTION]: "94.0 What would you like to know",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, I have never been to the cardiologist / heart specialist",
-                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ / हृदय रोग विशेषज्ञ के पास नहीं गया"
+                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग के पास नहीं गया/गई"
                     },
                     [VALUE]: 0
                 },
                 {
                     [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner / BP)",
-                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर / बीपी)"
+                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner / BP)💊",
+                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर / बीपी)💊"
                     },
                     [VALUE]: 1
                 },
                 {
                     [NEXT_QUESTION]: "93.0 Cardiac surgery patient. Laminated?",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I have had surgery / will be having heart surgery / angioplasty",
-                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा / एंजियोप्लास्टी"
+                        [LANG_ENGLISH]: "Yes, I have had surgery / will be having heart surgery / angioplasty🏥",
+                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा / एंजियोप्लास्टी🏥"
                     },
                     [VALUE]: 2
                 }
@@ -195,8 +195,8 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Are you taking your medicines regularly?",
-                [LANG_HINDI]: "क्या आप अपनी दवाएं नियमित रूप से ले रहे हैं?"
+                [LANG_ENGLISH]: "Are you taking your medicines regularly?🕝",
+                [LANG_HINDI]: "क्या आप अपनी दवाएं नियमित रूप से ले रहे हैं?🕝"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -212,8 +212,8 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Laminated",
-                        [LANG_HINDI]: "लैमिनेटेड"
+                        [LANG_ENGLISH]: "Laminated👌",
+                        [LANG_HINDI]: "लैमिनेटेड👌"
                     },
                     [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds",
                     [VALUE]: 0
@@ -237,14 +237,14 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is your heart document laminated?",
-                [LANG_HINDI]: "क्या आपका हार्ट डॉक्यूमेंट लैमिनेटेड है?"
+                [LANG_HINDI]: "क्या आपका दिल के पेपर लैमिनेटेड है?"
             }
         },
         {
             [ID]: "93.1 Get Laminated",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "You should get it done at the earliest. The document must last longer than you",
-                [LANG_HINDI]: "आपको इसे जल्द से जल्द करवाना चाहिए। दस्तावेज़ आपसे अधिक समय तक चलना चाहिए"
+                [LANG_ENGLISH]: "You should get it done at the earliest. ⌛💨 The document must last longer than you∞",
+                [LANG_HINDI]: "आपको इसे जल्द से जल्द करवाना चाहिए। ⌛💨 आपके दस्तावेज़ आपसे अधिक समय तक चलना चाहिए∞"
             },
             [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds"
         },
@@ -270,7 +270,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Smoking / Gutka / Khaini",
+                        [LANG_ENGLISH]: "Smoking 🚬 / Gutka / Khaini",
                         [LANG_HINDI]: "धूम्रपान / गुटका / खैनी"
                     },
                     [NEXT_QUESTION]: "101.0 Tobacco",
@@ -278,10 +278,10 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Exercise for heart",
+                        [LANG_ENGLISH]: "Exercise for heart🤾‍♀️",
                         [LANG_HINDI]: "दिल के लिए कसरत"
                     },
-                    [NEXT_QUESTION]: "105.1 Heart exercise",
+                    [NEXT_QUESTION]: "105.1 Heart exercise🤾‍♀️",
                     [VALUE]: 2
                 },
                 {
@@ -318,8 +318,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Diet",
-                        [LANG_HINDI]: "खान पीन"
+                        [LANG_ENGLISH]: "Diet🍔",
+                        [LANG_HINDI]: "खान पीन🍔"
                     },
                     [NEXT_QUESTION]: "189.0 Cardiac Diet",
                     [VALUE]: 7
@@ -401,7 +401,7 @@ module.exports = {
                     [VALUE]: 4
                 },
             ],
-            [STATEMENT]: {
+             [STATEMENT]: {
                 [LANG_ENGLISH]: "What do you want to know about?",
                 [LANG_HINDI]: "आप किसके बारे में जानना चाहते हैं?"
             },
@@ -410,8 +410,8 @@ module.exports = {
         {
             [ID]: "96.0 ECG",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "An electrocardiogram (ECG) is a simple test that can be used to check your heart's rhythm and electrical activity. Sensors attached to the skin are used to detect the electrical signals produced by your heart each time it beats.",
-                [LANG_HINDI]: "एक इलेक्ट्रोकार्डियोग्राम (ईसीजी) एक सरल परीक्षण है जिसका उपयोग आपके दिल की लय और विद्युत गतिविधि की जांच के लिए किया जा सकता है। त्वचा से जुड़े सेंसर हर बार धड़कने पर आपके दिल द्वारा उत्पादित विद्युत संकेतों का पता लगाने के लिए उपयोग किए जाते हैं।"
+                [LANG_ENGLISH]: "An electrocardiogram (ECG) is a simple test that can be used to check your heart's rhythm and electrical activity⚡. Sensors attached to the skin are used to detect the electrical signals produced by your heart each time it beats.",
+                [LANG_HINDI]: "एक इलेक्ट्रोकार्डियोग्राम (ईसीजी) एक सरल परीक्षण है जिसका उपयोग आपके दिल की लय और विद्युत गतिविधि की जांच के लिए किया जा सकता है⚡। त्वचा से जुड़े सेंसर हर बार धड़कने पर आपके दिल द्वारा उत्पादित विद्युत संकेतों का पता लगाने के लिए उपयोग किए जाते हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -419,8 +419,8 @@ module.exports = {
         {
             [ID]: "97.0 Echo",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "An echocardiogram uses sound waves to produce images of your heart. This common test allows your doctor to see your heart beating and pumping blood. Your doctor can use the images from an echocardiogram to identify heart disease.",
-                [LANG_HINDI]: "एक इकोकार्डियोग्राम आपके दिल की छवियों को बनाने के लिए ध्वनि तरंगों का उपयोग करता है। यह सामान्य परीक्षण आपके डॉक्टर को आपके दिल की धड़कन और रक्त पंप करते हुए देखने की अनुमति देता है। हृदय रोग की पहचान करने के लिए आपका डॉक्टर एक इकोकार्डियोग्राम से छवियों का उपयोग कर सकता है।"
+                [LANG_ENGLISH]: "An echocardiogram uses sound waves to produce images of your heart. 🔊 This common test allows your doctor to see your heart beating and pumping blood. Your doctor can use the images from an echocardiogram to identify heart disease.",
+                [LANG_HINDI]: "एक इकोकार्डियोग्राम आपके दिल की छवियों को बनाने के लिए ध्वनि तरंगों का उपयोग करता है। 🔊 यह सामान्य परीक्षण आपके डॉक्टर को आपके दिल की धड़कन और रक्त पंप करते हुए देखने की अनुमति देता है। हृदय रोग की पहचान करने के लिए आपका डॉक्टर एक इकोकार्डियोग्राम से छवियों का उपयोग कर सकता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -428,8 +428,8 @@ module.exports = {
         {
             [ID]: "98.0 TMT",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "A treadmill test (TMT) or cardiac stress test helps determine how far your heart can go before an abnormal rhythm or blood flow to the heart muscle drops. It helps your doctor know how your heart responds on being pushed. You will be asked to walk on a treadmill, and the difficulty level will be gradually increased.",
-                [LANG_HINDI]: "ट्रेडमिल टेस्ट (टीएमटी) या कार्डियक स्ट्रेस टेस्ट यह निर्धारित करने में मदद करता है कि हृदय की मांसपेशियों में असामान्य लय या रक्त के प्रवाह से पहले आपका दिल कितनी दूर जा सकता है। यह आपके डॉक्टर को यह जानने में मदद करता है कि धक्का दिए जाने पर आपका दिल कैसे प्रतिक्रिया करता है। आपको ट्रेडमिल पर चलने के लिए कहा जाएगा, और कठिनाई का स्तर धीरे-धीरे बढ़ जाएगा।"
+                [LANG_ENGLISH]: "A treadmill test (TMT) or cardiac stress test helps determine how far your heart can go before an abnormal rhythm or blood flow to the heart muscle drops🏃. It helps your doctor know how your heart responds on being pushed. You will be asked to walk on a treadmill, and the difficulty level will be gradually increased.",
+                [LANG_HINDI]: "ट्रेडमिल टेस्ट (टीएमटी) या कार्डियक स्ट्रेस टेस्ट यह निर्धारित करने में मदद करता है कि हृदय की मांसपेशियों में असामान्य लय या रक्त के प्रवाह से पहले आपका दिल कितनी मेहनत सकता है🏃। यह आपके डॉक्टर को यह जानने में मदद करता है कि धक्का दिए जाने पर आपका दिल कैसे प्रतिक्रिया करता है। आपको ट्रेडमिल पर चलने के लिए कहा जाएगा, और कठिनाई का स्तर धीरे-धीरे बढ़ जाएगा।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -447,7 +447,7 @@ module.exports = {
             [ID]: "100.0 ABP",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Ambulatory Blood Pressure (ABP) monitoring is a diagnostic tool designed to monitor the blood pressure over 24 hours and thus gain an overall profile of variation in a day. It is a portable test undertaken in the course of a normal day.",
-                [LANG_HINDI]: "एम्बुलेटरी ब्लड प्रेशर (एबीपी) मॉनिटरिंग एक डायग्नोस्टिक टूल है जिसे 24 घंटे से अधिक ब्लड प्रेशर की निगरानी के लिए डिज़ाइन किया गया है और इस प्रकार एक दिन में भिन्नता का समग्र प्रोफ़ाइल प्राप्त करता है। यह एक सामान्य दिन के दौरान किया जाने वाला एक पोर्टेबल परीक्षण है।"
+                [LANG_HINDI]: "चलते फिरते ब्लड प्रेशर (एबीपी) में 24 घंटे से अधिक ब्लड प्रेशर की निगरानी करी जाती है और इस प्रकार एक दिन में आने वाले अंतर पता चल जाते हैं। यह एक सामान्य दिन के दौरान किया जाने वाला एक पोर्टेबल परीक्षण है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -475,23 +475,23 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "I can't / don't want to quit tobacco",
-                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता / नहीं कर सकता / सकती"
+                        [LANG_ENGLISH]: "I can't / don't want to quit tobacco🚫",
+                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता / नहीं कर सकता / सकती🚫"
                     },
                     [NEXT_QUESTION]: "103.0 Why can't quit tobacco?",
                     [VALUE]: 2
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Tobacco not only causes cancer, but is also the biggest enemy of the heart. It causes atherosclerosis which is the narrowing of arteries. The narrowing of arteries leads to -\n" +
+                [LANG_ENGLISH]: "Tobacco not only causes cancer, but is also the biggest enemy of the heart💔. It causes atherosclerosis which is the narrowing of arteries. The narrowing of arteries leads to -\n" +
                 "1. Reduced stamina\n" +
                 "2. Hypertension - High blood pressure\n" +
                 "3. Angina - chest pain due to heart\n" +
                 "4. Peripheral artery disease - low blood supply to arms and limbs - can lead to amputation and impotence\n" +
                 "5. Ischemia",
-                [LANG_HINDI]: "तंबाकू न सिर्फ कैंसर का कारण बनता है, बल्कि दिल का सबसे बड़ा दुश्मन भी है। यह एथेरोस्क्लेरोसिस का कारण बनता है जो धमनियों का संकुचन है। धमनियों के सिकुड़ने से होता है -\n" +
-                "1. कम सहनशक्ति\n" +
-                "2. उच्च रक्तचाप - उच्च रक्तचाप\n" +
+                [LANG_HINDI]: "तंबाकू न सिर्फ कैंसर का कारण बनता है, बल्कि दिल का सबसे बड़ा दुश्मन भी है💔। यह एथेरोस्क्लेरोसिस का कारण बनता है जो धमनियों में जमावट है। धमनियों के सिकुड़ने से होता है -\n" +
+                "1. कम आंतरिक बल\n" +
+                "2. उच्च रक्तचाप\n" +
                 "3. एनजाइना - दिल के कारण सीने में दर्द\n" +
                 "4. परिधीय धमनी रोग - बाहों और अंगों को कम रक्त की आपूर्ति - विच्छेदन और नपुंसकता का कारण बन सकती है\n" +
                 "5. इस्किमिया"
@@ -505,12 +505,12 @@ module.exports = {
                 "\n" +
                 "Ischemia can lead to tissue death called infarction.\n" +
                 "\n" +
-                "A heart attack happens happens when the heart gets ischemic and a stroke happens when the same happens in the brain. Brain stroke leads to paralysis or disability.\n",
-                [LANG_HINDI]: "जब आपके शरीर के किसी हिस्से को आवश्यक रक्त की आपूर्ति नहीं होती है, तो इसे इस्केमिक माना जाता है। यह अक्सर तब होता है जब रक्त प्रवाह को अवरुद्ध करने वाली धमनी के अंदर एक थक्का बन जाता है।\n" +
+                "A heart attack happens happens when the heart gets ischemic and a stroke happens when the same happens in the brain. Brain stroke leads to paralysis or disability♿.\n",
+                [LANG_HINDI]: "जब आपके शरीर के किसी हिस्से को खून की कमी होती है, तो इसे इस्केमिक माना जाता है। यह अक्सर तब होता है जब धमनी के अंदर एक थक्का बन जाता है।\n" +
                 "\n" +
-                "इस्किमिया से ऊतक मृत्यु हो सकती है जिसे रोधगलन कहा जाता है।\n" +
+                "इस्किमिया से दिल या दिमाग का हिस्सा मार सकता है।\n" +
                 "\n" +
-                "दिल का दौरा तब होता है जब दिल इस्केमिक हो जाता है और स्ट्रोक तब होता है जब मस्तिष्क में ऐसा ही होता है। ब्रेन स्ट्रोक से लकवा या विकलांगता हो जाती है।"
+                "दिल का दौरा तब होता है जब दिल इस्केमिक हो जाता है और स्ट्रोक तब होता है जब दिमाग में ऐसा ही होता है। स्ट्रोक से लकवा या विकलांगता हो जाती है♿।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -539,8 +539,8 @@ module.exports = {
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "A doctor can help in de-addiction. Ready to begin consultation?",
-                [LANG_HINDI]: "एक डॉक्टर नशामुक्ति में मदद कर सकता है। परामर्श शुरू करने के लिए तैयार हैं?"
+                [LANG_ENGLISH]: "A doctor can help in de-addiction. Ready to begin consultation?👨‍⚕️",
+                [LANG_HINDI]: "एक डॉक्टर नशामुक्ति में मदद कर सकता है। परामर्श शुरू करने के लिए तैयार हैं?👨‍⚕️"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -549,8 +549,8 @@ module.exports = {
         {
             [ID]: "105.1 Heart exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Let me gather my thoughts",
-                [LANG_HINDI]: "एक सेकंड सोचने दी जिए"
+                [LANG_ENGLISH]: "Let me gather my thoughts🤔",
+                [LANG_HINDI]: "एक सेकंड सोचने दी जिए🤔"
             },
             [TYPE]: TYPE_NONE,
             [COMMAND]: "iscardiacpatient",
@@ -564,24 +564,24 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I have arthritis",
-                        [LANG_HINDI]: "लेकिन मुझे गठिया है"
+                        [LANG_ENGLISH]: "But I have arthritis🦵",
+                        [LANG_HINDI]: "लेकिन मुझे गठिया है🦵"
                     },
                     [NEXT_QUESTION]: "112.0 Arthritis patient non-cardiac",
                     [VALUE]: 0
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am visually impaired",
-                        [LANG_HINDI]: "पर मुझे दिखता नहीं"
+                        [LANG_ENGLISH]: "But I am visually impaired👨‍🦯",
+                        [LANG_HINDI]: "पर मुझे दिखता नहीं👨‍🦯"
                     },
                     [NEXT_QUESTION]: "112.1 Blind patient non-cardiac",
                     [VALUE]: 1
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am disabled",
-                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ"
+                        [LANG_ENGLISH]: "But I am disabled♿",
+                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ♿"
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 2
@@ -596,8 +596,8 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Because the heart is a muscle, it is necessary to give is a good work out. The simplest rule is to exercise as much as possible unless there is discomfort. It doesn't matter what your age is, you should run a couple of kilometres daily.",
-                [LANG_HINDI]: "चूंकि हृदय एक मांसपेशी है, इसलिए इसे देना आवश्यक है, एक अच्छा वर्कआउट। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए।"
+                [LANG_ENGLISH]: "Because the heart is a muscle💪, it is necessary to give is a good work out. The simplest rule is to exercise as much as possible unless there is discomfort. It doesn't matter what your age is, you should run 🏃 a couple of kilometres daily.",
+                [LANG_HINDI]: "चूंकि हृदय एक मांसपेशी है💪, इसलिए इसकों कसरत देना आवश्यक है। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए 🏃।"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -696,8 +696,8 @@ module.exports = {
         {
             [ID]: "108.0 Heart failure and surgery exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Light exercise, and walking for a couple of kilometres is recommended.",
-                [LANG_HINDI]: "हल्का व्यायाम और कुछ किलोमीटर चलने की सलाह दी जाती है।"
+                [LANG_ENGLISH]: "Light exercise, and walking for a couple of kilometres is recommended.🚶",
+                [LANG_HINDI]: "हल्का व्यायाम और कुछ किलोमीटर चलने की सलाह दी जाती है।🚶"
             },
             [OPTIONS]: [
                 {
@@ -744,24 +744,24 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I have arthritis",
-                        [LANG_HINDI]: "लेकिन मुझे गठिया है",
+                        [LANG_ENGLISH]: "But I have arthritis🦵",
+                        [LANG_HINDI]: "लेकिन मुझे गठिया है🦵",
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 0
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am disabled",
-                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ",
+                        [LANG_ENGLISH]: "But I am disabled♿",
+                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ♿",
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 1
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am visually impaired",
-                        [LANG_HINDI]: "लेकनी मुझे दिखता नहीं",
+                        [LANG_ENGLISH]: "But I am visually impaired👨‍🦯",
+                        [LANG_HINDI]: "लेकनी मुझे दिखता नहीं👨‍🦯",
                     },
                     [NEXT_QUESTION]: "112.1 Blind patient non-cardiac",
                     [VALUE]: 2
@@ -791,7 +791,7 @@ module.exports = {
             [ID]: "112.0 Arthritis patient non-cardiac",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Swimming is the best exercise overall. Since you are unable to run, it is mandatory for you to run",
-                [LANG_HINDI]: "तैरना समग्र रूप से सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए दौड़ना अनिवार्य है"
+                [LANG_HINDI]: "तैरना सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए दौड़ना अनिवार्य है"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -799,7 +799,7 @@ module.exports = {
         {
             [ID]: "112.1 Blind patient non-cardiac",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "You may consider walking on a treadmill with some inclanation. It would significantly increase your confidence also",
+                [LANG_ENGLISH]: "You may consider walking on a treadmill with some inclination. It would significantly increase your confidence also",
                 [LANG_HINDI]: "आप कुछ झुकाव के साथ ट्रेडमिल पर चलने पर विचार कर सकते हैं। यह आपके आत्मविश्वास में भी काफी वृद्धि करेगा"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -848,10 +848,10 @@ module.exports = {
                 "\n" +
                 "The usual cause is the build-up of plaque. This causes coronary arteries to narrow, limiting blood flow to the heart.\n" +
                 "Coronary artery disease can range from no symptoms, to chest pain, to a heart attack.",
-                [LANG_HINDI]: "हृदय की प्रमुख रक्त वाहिकाओं में क्षति या रोग।\n" +
+                [LANG_HINDI]: "हृदय की प्रमुख रक्त वाहिकाओं में रोग⚠️।\n" +
                 "\n" +
-                "सामान्य कारण पट्टिका का निर्माण है। इससे कोरोनरी धमनियां संकीर्ण हो जाती हैं, जिससे हृदय में रक्त का प्रवाह सीमित हो जाता है।\n" +
-                "कोरोनरी धमनी की बीमारी बिना किसी लक्षण के, सीने में दर्द से लेकर दिल के दौरे तक हो सकती है।"
+                "ईसक कारण है प्लैक का जमाव। इससे दिल की पतली हो जाती हैं, जिससे हृदय में खून का प्रवाह सीमित हो जाता है।\n" +
+                "कोरोनरी धमनी की बीमारी बिना किसी लक्षण के, सीने में दर्द से लेकर दिल के दौरे तक हो सकती है⚠️।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -859,14 +859,14 @@ module.exports = {
         {
             [ID]: "115.0 CAD cause",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "1. Smoking / tobacco use\n" +
+                [LANG_ENGLISH]: "1. Smoking / tobacco use🚬\n" +
                 "2. Hypertension / High blood pressure\n" +
                 "3. High cholestrol\n" +
                 "4. High lipoprotein\n" +
                 "5. Lack of exercise\n" +
                 "6. Diabetes / Sugar\n" +
                 "7. Thrombosis\n",
-                [LANG_HINDI]: "1. धूम्रपान / तंबाकू का सेवन\n" +
+                [LANG_HINDI]: "1. धूम्रपान / तंबाकू का सेवन🚬\n" +
                 "2. उच्च रक्तचाप / बी पी \n" +
                 "3. उच्च कोलेस्ट्रॉल\n" +
                 "4. उच्च लिपोप्रोटीन\n" +
@@ -880,8 +880,8 @@ module.exports = {
         {
             [ID]: "116.0 CAD treatment",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Treatments include lifestyle changes, medication, angioplasty and surgery.",
-                [LANG_HINDI]: "उपचार में जीवनशैली में बदलाव, दवाएं, एंजियोप्लास्टी और सर्जरी शामिल हैं।"
+                [LANG_ENGLISH]: "Treatments include lifestyle changes☺️, medication💊, angioplasty and surgery😔.",
+                [LANG_HINDI]: "उपचार में जीवनशैली में बदलाव☺️, दवाएं💊, एंजियोप्लास्टी और सर्जरी शामिल हैं😔।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -909,8 +909,8 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "What do you want to know about?",
-                [LANG_HINDI]: "आप किसके बारे में जानना चाहते हैं?"
+                [LANG_ENGLISH]: "What else do you want to know about?",
+                [LANG_HINDI]: "आप किसके किसके बारे में जानना चाहते हैं?"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -1082,8 +1082,8 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Quit smoking",
-                        [LANG_HINDI]: "धूम्रपान छोड़ने"
+                        [LANG_ENGLISH]: "Quit smoking🚬",
+                        [LANG_HINDI]: "धूम्रपान छोड़ने🚬"
                     },
                     [NEXT_QUESTION]: "168.0 BP treatment smoking",
                     [VALUE]: 0
@@ -1098,32 +1098,32 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Diet",
-                        [LANG_HINDI]: "खान पीन"
+                        [LANG_ENGLISH]: "Diet🍔",
+                        [LANG_HINDI]: "खान पीन🍔"
                     },
                     [NEXT_QUESTION]: "170.0 BP treatment diet",
                     [VALUE]: 2
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Salt",
-                        [LANG_HINDI]: "नमक"
+                        [LANG_ENGLISH]: "Salt🧂",
+                        [LANG_HINDI]: "नमक🧂"
                     },
                     [NEXT_QUESTION]: "171.0 BP treatment salt",
                     [VALUE]: 3
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Exercise",
-                        [LANG_HINDI]: "कसरत "
+                        [LANG_ENGLISH]: "Exercise🏃",
+                        [LANG_HINDI]: "कसरत 🏃"
                     },
                     [NEXT_QUESTION]: "172.0 BP treatment exercise",
                     [VALUE]: 4
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Alcohol",
-                        [LANG_HINDI]: "दारू"
+                        [LANG_ENGLISH]: "Alcohol🍺",
+                        [LANG_HINDI]: "दारू🍺"
                     },
                     [NEXT_QUESTION]: "173.0 BP treatment alcohol",
                     [VALUE]: 5
@@ -1146,50 +1146,50 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Medication",
-                        [LANG_HINDI]: "दवाइयाँ"
+                        [LANG_ENGLISH]: "Medication 💊",
+                        [LANG_HINDI]: "दवाइयाँ 💊"
                     },
                     [NEXT_QUESTION]: "176.0 BP treatment medication",
                     [VALUE]: 8
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Lifestyle changes are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130 / 80.\n" +
+                [LANG_ENGLISH]: "Lifestyle changes 🧘 are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130 / 80.\n" +
                 "\n" +
                 "The things that you need to take into consideration are: \n" +
                 "\n" +
-                "1. Quit smoking \n" +
+                "1. Quit smoking 🚬 \n" +
                 "2. Lose weight\n" +
-                "3. Diet\n" +
-                "4. Reduce salt\n" +
-                "5. Exercise\n" +
-                "6. Limit alcohol\n" +
+                "3. Diet 😋\n" +
+                "4. Reduce salt 🧂\n" +
+                "5. Exercise 🚲\n" +
+                "6. Limit alcohol 🍺\n" +
                 "7. Reduce stress\n" +
                 "8. Birth control pills\n" +
-                "9. Medicines\n" +
+                "9. Medicines 💊\n" +
                 "\n" +
                 "        \n" +
                 "        If lifestyle changes aren’t enough to lower your blood pressure, your doctor might recommend medication.\n" +
                 "\n" +
-                "        Blood pressure medications do not cure hypertension but help keep it in a healthier range. They usually need to be taken for life. A number of drugs can be used alone or in combination to treat high blood pressure:",
-                [LANG_HINDI]: "जीवनशैली में बदलाव सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए अनुशंसित उपचार हैं, एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130 / 80 से अधिक होती है।\n" +
+                "        Blood pressure medications do not cure hypertension but help keep it in a healthier range. Medicines usually need to be taken for life. A number of drugs can be used alone or in combination to treat high blood pressure:",
+                [LANG_HINDI]: "जीवनशैली में बदलाव 🧘 सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए सही उपचार हैं। उच्च रक्तचाप यानि एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130 / 80 से अधिक होती है।\n" +
                 "\n" +
                 "जिन बातों पर आपको ध्यान देने की आवश्यकता है वे हैं:\n" +
                 "\n" +
-                "1. धूम्रपान छोड़ो\n" +
+                "1. धूम्रपान छोड़ो 🚬\n" +
                 "2. वजन कम करें\n" +
-                "3. आहार\n" +
-                "4. नमक कम करें\n" +
-                "5. व्यायाम\n" +
-                "6. शराब सीमित करें\n" +
+                "3. आहार 😋\n" +
+                "4. नमक कम करें 🧂\n" +
+                "5. व्यायाम 🚲\n" +
+                "6. शराब सीमित करें 🍺\n" +
                 "7. तनाव कम करें\n" +
                 "8. गर्भनिरोधक गोलियां\n" +
-                "9. दवाएं\n" +
+                "9. दवाएं 💊\n" +
                 "\n" +
                 "        \n" +
-                "        यदि जीवनशैली में बदलाव आपके रक्तचाप को कम करने के लिए पर्याप्त नहीं हैं, तो आपका डॉक्टर दवा की सिफारिश कर सकता है।\n" +
+                "        यदि जीवनशैली में बदलाव आपके रक्तचाप को कम करने के लिए पर्याप्त नहीं हैं, तो आपका डॉक्टर दवा की सिफारिश कर सकता है। ☺️\n" +
                 "\n" +
-                "        रक्तचाप की दवाएं उच्च रक्तचाप का इलाज नहीं करती हैं, लेकिन इसे स्वस्थ श्रेणी में रखने में मदद करती हैं। उन्हें आमतौर पर जीवन के लिए लेने की आवश्यकता होती है। उच्च रक्तचाप के इलाज के लिए कई दवाओं का अकेले या संयोजन में उपयोग किया जा सकता है:"
+                "        रक्तचाप की दवाएं उच्च रक्तचाप का इलाज नहीं करती हैं, लेकिन इसे स्वस्थ श्रेणी में रखने में मदद करती हैं। दवाओं को आमतौर पर जीवन के लिए लेने की आवश्यकता होती है। उच्च रक्तचाप के इलाज के लिए कई दवाओं का अकेले या संयोजन में उपयोग किया जा सकता है:"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -1203,7 +1203,7 @@ module.exports = {
                 "        If your blood pressure is extremely high, you may have unusually strong headaches, chest pain, difficulty breathing, or poor exercise tolerance. If you have any of these symptoms, seek an evaluation promptly",
                 [LANG_HINDI]: "उच्च रक्तचाप के अक्सर कोई लक्षण नहीं होते हैं, इसलिए आप आमतौर पर इसे महसूस नहीं करते हैं। इस कारण से, नियमित जांच के दौरान आमतौर पर स्वास्थ्य देखभाल पेशेवर द्वारा उच्च रक्तचाप का निदान किया जाता है। यदि आपके पास उच्च रक्तचाप, या अन्य जोखिम वाले कारकों के साथ एक करीबी रिश्तेदार है, तो अपने रक्तचाप पढ़ने पर ध्यान देना विशेष रूप से महत्वपूर्ण है।\n" +
                 "    \n" +
-                "        उच्च रक्तचाप का निदान करने के लिए, आपका डॉक्टर ब्लड प्रेशर कफ के साथ आपके रक्तचाप की जाँच करेगा। अपने रक्तचाप रीडिंग में उच्च (सिस्टोलिक) और निम्न (डायस्टोलिक) दोनों संख्याओं पर ध्यान देना महत्वपूर्ण है।\n" +
+                "        उच्च रक्तचाप चेक करने के लिए, आपका डॉक्टर ब्लड प्रेशर कफ के साथ आपके रक्तचाप की जाँच करेगा। अपने रक्तचाप रीडिंग में उच्च (सिस्टोलिक) और निम्न (डायस्टोलिक) दोनों संख्याओं पर ध्यान देना महत्वपूर्ण है।\n" +
                 "    \n" +
                 "        यदि आपका रक्तचाप बहुत अधिक है, तो आपको असामान्य रूप से तेज सिरदर्द, सीने में दर्द, सांस लेने में कठिनाई, या खराब व्यायाम सहनशीलता हो सकती है। यदि आपके पास इनमें से कोई भी लक्षण है, तो तुरंत मूल्यांकन करवाएं"
             },
@@ -1213,8 +1213,8 @@ module.exports = {
         {
             [ID]: "125.0 Systole and diastole",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "The blood pressure reading is measured in millimeters of mercury (mmHg) and is written as systolic pressure, the force of the blood against the artery walls as your heart beats, over diastolic pressure, the blood pressure between heartbeats. For example, a blood pressure reading is written as 120/80 mmHg, or \"120 over 80\". The systolic pressure is 120 and the diastolic pressure is 80.",
-                [LANG_HINDI]: "रक्तचाप रीडिंग को पारा के मिलीमीटर (एमएमएचजी) में मापा जाता है और इसे सिस्टोलिक दबाव के रूप में लिखा जाता है, धमनी की दीवारों के खिलाफ रक्त का बल जैसे आपका दिल धड़कता है, डायस्टोलिक दबाव पर, दिल की धड़कन के बीच रक्तचाप। उदाहरण के लिए, रक्तचाप की रीडिंग को 120/80 mmHg, या \"120 बटा 80\" के रूप में लिखा जाता है। सिस्टोलिक दबाव 120 है और डायस्टोलिक दबाव 80 है।"
+                [LANG_ENGLISH]: "The blood pressure reading is measured in millimeters of mercury (mmHg) and is written as systolic pressure (upper), the force of the blood against the artery walls as your heart beats, over diastolic pressure, the blood pressure between heartbeats. For example, a blood pressure reading is written as 120/80 mmHg, or \"120 over 80\". The systolic pressure is 120 and the diastolic pressure is 80.",
+                [LANG_HINDI]: "रक्तचाप रीडिंग को पारा के मिलीमीटर (एमएमएचजी) में मापा जाता है और इसे सिस्टोलिक (ऊपर वाला ) दबाव के रूप में लिखा जाता है, धमनी की दीवारों के खिलाफ रक्त का बल जैसे आपका दिल धड़कता है, डायस्टोलिक दबाव पर, दिल की धड़कन के बीच रक्तचाप। उदाहरण के लिए, रक्तचाप की रीडिंग को 120/80 mmHg, या \"120 बटा 80\" के रूप में लिखा जाता है। सिस्टोलिक दबाव 120 है और डायस्टोलिक दबाव 80 है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1223,7 +1223,7 @@ module.exports = {
             [ID]: "126.0 BP cause",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "While the cause of high blood pressure in most people remains unclear, inactivity, poor diet, obesity, older age, and genetics -- can all contribute to the development of hypertension.",
-                [LANG_HINDI]: "जबकि अधिकांश लोगों में उच्च रक्तचाप का कारण स्पष्ट नहीं है, निष्क्रियता, खराब आहार, मोटापा, वृद्धावस्था और आनुवंशिकी - ये सभी उच्च रक्तचाप के विकास में योगदान कर सकते हैं।"
+                [LANG_HINDI]: "अधिकांश लोगों में उच्च रक्तचाप का कारण स्पष्ट नहीं है, निष्क्रियता, खराब आहार, मोटापा, वृद्धावस्था और आनुवंशिकी - ये सभी उच्च रक्तचाप के विकास में योगदान कर सकते हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1233,7 +1233,7 @@ module.exports = {
             [OPTIONS]:[
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Eye Disease",
+                        [LANG_ENGLISH]: "Eye Disease 👀",
                         [LANG_HINDI]: "नेत्र रोग"
                     },
                     [NEXT_QUESTION]: "177.0 BP eye damage",
@@ -1241,8 +1241,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Stroke",
-                        [LANG_HINDI]: "स्ट्रोक / लक़वा"
+                        [LANG_ENGLISH]: "Stroke 🧠",
+                        [LANG_HINDI]: "स्ट्रोक / लक़वा 🧠"
                     },
                     [NEXT_QUESTION]: "178.0 BP stroke",
                     [VALUE]: 1
@@ -1257,8 +1257,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Heart Disease",
-                        [LANG_HINDI]: "दिल की बीमारी"
+                        [LANG_ENGLISH]: "Heart Disease ❤️",
+                        [LANG_HINDI]: "दिल की बीमारी ❤️"
                     },
                     [NEXT_QUESTION]: "180.0 BP heart damage",
                     [VALUE]: 3
@@ -1294,8 +1294,8 @@ module.exports = {
         {
             [ID]: "128.0 BP meds lifelong",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Yes. Hypertension medication is lifelong and stopping them can have fatal consequences.",
-                [LANG_HINDI]: "हाँ। उच्च रक्तचाप की दवा आजीवन होती है और इसे रोकना जानलेवा हो सकता है।"
+                [LANG_ENGLISH]: "Yes. Hypertension medication is lifelong and stopping them can have fatal consequences. ⚠️💊",
+                [LANG_HINDI]: "हाँ। उच्च रक्तचाप की दवा आजीवन होती है और इसे रोकना जानलेवा हो सकता है। ⚠️💊"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1311,7 +1311,11 @@ module.exports = {
         },
         {
             [ID]: "130.0 What is hypertension",
-            [OPTIONS]:[
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Hypertension is when blood pressure is too high",
+                [LANG_HINDI]: "उच्च रक्तचाप तब होता है जब रक्तचाप बहुत अधिक होता है।"
+            },
+            [OPTIONS]: [
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "What is normal blood pressure?",
@@ -1319,15 +1323,10 @@ module.exports = {
                     },
                     [NEXT_QUESTION]: "182.0 Normal BP",
                     [VALUE]: 0
-                },
+                }
             ],
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "Hypertension is when blood pressure is too high.\n" +
-                "Blood pressure is written as two numbers.",
-                [LANG_HINDI]: "उच्च रक्तचाप तब होता है जब रक्तचाप बहुत अधिक होता है।\n" +
-                "रक्तचाप को दो संख्याओं के रूप में लिखा जाता है।"
-            },
-            [TYPE]: TYPE_BUTTON
+            [TYPE]: TYPE_BUTTON,
+            [NEXT_QUESTION]: "130.1 What is normal BP"
         },
         {
             [ID]: "131.0 Good BP",
@@ -2048,10 +2047,10 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "This might be the most important step you can take to improve health.\n" +
                 "\n" +
-                "Stop smoking cigarettes\n",
+                "Stop smoking cigarettes! 🛑🚬🛑",
                 [LANG_HINDI]: "स्वास्थ्य में सुधार के लिए यह सबसे महत्वपूर्ण कदम हो सकता है।\n" +
                 "\n" +
-                "बीड़ी, सिगरेट पीना बंद करें| खैनी गुटका तंबाकू बंद करें"
+                "बीड़ी, सिगरेट पीना बंद करें| खैनी गुटका तंबाकू बंद करें! 🛑🚬🛑"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2068,8 +2067,8 @@ module.exports = {
         {
             [ID]: "170.0 BP treatment diet",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Eat a healthy diet, such as the DASH diet, which is high in fruits, vegetables, lean protein and whole grains and low in salt and fat. Also make sure you get enough vitamins and minerals. Some studies show that having the recommended daily amounts of vitamin C, vitamin E, potassium, magnesium, and calcium can improve heart health. There is no real evidence regarding the benefits of multivitamins. Getting your vitamins through your food is a better alternative.",
-                [LANG_HINDI]: "एक स्वस्थ आहार खाएं, जैसे डीएएसएच आहार, जो फलों, सब्जियों, दुबला प्रोटीन और साबुत अनाज में उच्च और नमक और वसा में कम है। यह भी सुनिश्चित करें कि आपको पर्याप्त विटामिन और खनिज मिले। कुछ अध्ययनों से पता चलता है कि अनुशंसित दैनिक मात्रा में विटामिन सी, विटामिन ई, पोटेशियम, मैग्नीशियम और कैल्शियम हृदय स्वास्थ्य में सुधार कर सकते हैं। मल्टीविटामिन के लाभों के संबंध में कोई वास्तविक प्रमाण नहीं है। अपने भोजन के माध्यम से अपने विटामिन प्राप्त करना एक बेहतर विकल्प है।"
+                [LANG_ENGLISH]: "Eat a healthy diet, such as the DASH diet, which is high in fruits🥝, vegetables🥑, lean protein🍛 and whole grains and low in salt and fat. Also make sure you get enough vitamins and minerals. Some studies show that having the recommended daily amounts of vitamin C, vitamin E, potassium, magnesium, and calcium can improve heart health. There is no real evidence regarding the benefits of multivitamins. Getting your vitamins through your food is a better alternative.",
+                [LANG_HINDI]: "एक स्वस्थ आहार खाएं, जैसे डीएएसएच आहार, जो फलों🥝, सब्जियों🥑, दुबला प्रोटीन🍛 और साबुत अनाज में उच्च और नमक और वसा में कम है। यह भी सुनिश्चित करें कि आपको पर्याप्त विटामिन और खनिज मिले। कुछ अध्ययनों से पता चलता है कि अनुशंसित दैनिक मात्रा में विटामिन सी, विटामिन ई, पोटेशियम, मैग्नीशियम और कैल्शियम हृदय स्वास्थ्य में सुधार कर सकते हैं। मल्टीविटामिन के लाभों के संबंध में कोई वास्तविक प्रमाण नहीं है। अपने भोजन के माध्यम से अपने विटामिन प्राप्त करना एक बेहतर विकल्प है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2088,7 +2087,7 @@ module.exports = {
         {
             [ID]: "172.0 BP treatment exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Regular aerobic activity, such as brisk walking on most days of the week, can lower blood pressure. Regularity of exercise is as important as intensity.",
+                [LANG_ENGLISH]: "Regular aerobic activity, such as brisk walking 🚶 on most days of the week, can lower blood pressure. Regularity ⌚ of exercise is as important as intensity. 🏃 🏋️‍♀️️",
                 [LANG_HINDI]: "नियमित एरोबिक गतिविधि, जैसे सप्ताह के अधिकांश दिनों में तेज चलना, रक्तचाप को कम कर सकता है। व्यायाम की नियमितता उतनी ही महत्वपूर्ण है जितनी तीव्रता।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -2097,8 +2096,8 @@ module.exports = {
         {
             [ID]: "173.0 BP treatment alcohol",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "If you drink, women should drink no more than one alcoholic drink per day; men should limit intake to two drinks. \"One drink\" means 5 ounces of wine, 12 ounces of beer, or 1.5 ounces of hard liquor.",
-                [LANG_HINDI]: "यदि आप पीते हैं, तो महिलाओं को प्रति दिन एक से अधिक मादक पेय नहीं पीना चाहिए; पुरुषों को दो पेय पदार्थों का सेवन सीमित करना चाहिए। \"वन ड्रिंक\" का अर्थ है 5 औंस वाइन, 12 औंस बीयर या 1.5 औंस हार्ड शराब।"
+                [LANG_ENGLISH]: "If you drink, women should drink no more than one 1️⃣ alcoholic drink per day; men should limit intake to two 2️⃣ drinks. 'One drink' means 5 ounces of wine, 12 ounces of beer, or 1.5 ounces of hard liquor.",
+                [LANG_HINDI]: "यदि आप पीते हैं, तो महिलाओं को प्रति दिन एक 1️⃣ से अधिक नहीं पीना चाहिए; पुरुषों को दो 2️⃣ के सेवन पे सीमित करना चाहिए। 'एक ड्रिंक' का अर्थ है 5 औंस वाइन, 12 औंस बीयर या 1.5 औंस हार्ड शराब।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2201,7 +2200,7 @@ module.exports = {
             [ID]: "179.0 BP renal damage",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Hypertension can damage the blood vessels and filters in the kidneys, so that the kidneys cannot excrete waste properly. Kidney disease can also cause high blood pressure, when electrolytes (including sodium) cannot be adequately secreted from the body",
-                [LANG_HINDI]: "उच्च रक्तचाप गुर्दे में रक्त वाहिकाओं और फिल्टर को नुकसान पहुंचा सकता है, जिससे कि गुर्दे ठीक से अपशिष्ट का उत्सर्जन नहीं कर सकते हैं। गुर्दे की बीमारी भी उच्च रक्तचाप का कारण बन सकती है, जब शरीर से इलेक्ट्रोलाइट्स (सोडियम सहित) को पर्याप्त रूप से स्रावित नहीं किया जा सकता है"
+                [LANG_HINDI]: "उच्च रक्तचाप गुर्दे में रक्त वाहिकाओं और फिल्टर को नुकसान पहुंचा सकता है, जिससे कि गुर्दे ठीक से अपशिष्ट का उत्सर्जन नहीं कर सकते हैं। गुर्दे की बीमारी भी उच्च रक्तचाप का कारण बन सकती है, जब शरीर से इलेक्ट्रोलाइट्स (सोडियम सहित) को पर्याप्त रूप से नहीं निकाल पाता"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2210,7 +2209,7 @@ module.exports = {
             [ID]: "180.0 BP heart damage",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Heart failure (the heart is not strong enough to pump blood adequately), ischemic heart disease (the heart tissue doesn't get enough blood and oxygen), and hypertensive cardiomyopathy (thickened, abnormally functioning heart muscle) are all associated with high blood pressure.",
-                [LANG_HINDI]: "दिल की विफलता (हृदय पर्याप्त रूप से रक्त पंप करने के लिए पर्याप्त मजबूत नहीं है), इस्केमिक हृदय रोग (हृदय के ऊतकों को पर्याप्त रक्त और ऑक्सीजन नहीं मिलता है), और उच्च रक्तचाप से ग्रस्त कार्डियोमायोपैथी (मोटी, असामान्य रूप से काम करने वाली हृदय की मांसपेशी) सभी उच्च रक्तचाप से जुड़े हैं।"
+                [LANG_HINDI]: "हार्ट फैल्यर (हृदय पर्याप्त रूप से रक्त पंप करने के लिए पर्याप्त मजबूत नहीं है), इस्केमिक हृदय रोग (हृदय के ऊतकों/टिशू को पर्याप्त रक्त और ऑक्सीजन नहीं मिलता है), और उच्च रक्तचाप से ग्रस्त कार्डियोमायोपैथी (मोटी, असामान्य रूप से काम करने वाली हृदय की मांसपेशी) सभी उच्च रक्तचाप से जुड़े हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2219,7 +2218,7 @@ module.exports = {
             [ID]: "181.0 BP atherosclerosis",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "A disease of the arteries caused by a buildup of plaque, or fatty material, on the inside walls of the blood vessels; hypertension contributes to this buildup by putting added stress and force on the artery walls.",
-                [LANG_HINDI]: "रक्त वाहिकाओं की अंदरूनी दीवारों पर पट्टिका, या वसायुक्त पदार्थ के निर्माण के कारण होने वाली धमनियों की बीमारी; धमनी की दीवारों पर अतिरिक्त तनाव और बल लगाकर उच्च रक्तचाप इस निर्माण में योगदान देता है।"
+                [LANG_HINDI]: "रक्त वाहिकाओं की अंदरूनी दीवारों पर पट्टिका/प्लैक, या वसायुक्त पदार्थ (चर्बी) के निर्माण के कारण होने वाली धमनियों की बीमारी; धमनी की दीवारों पर अतिरिक्त तनाव और बल लगाकर उच्च रक्तचाप इस निर्माण में योगदान देता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2258,7 +2257,7 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "What is cholestrol?",
+                        [LANG_ENGLISH]: "What is cholesterol?",
                         [LANG_HINDI]: "कोलेस्ट्रॉल क्या है?"
                     },
                     [NEXT_QUESTION]: "184.0 What's Cholesterol",
@@ -2266,7 +2265,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Problem with cholestrol",
+                        [LANG_ENGLISH]: "Problem with cholesterol",
                         [LANG_HINDI]: "कोलेस्ट्रॉल की समस्या"
                     },
                     [NEXT_QUESTION]: "185.0 Cholesterol problem",
@@ -2323,7 +2322,7 @@ module.exports = {
                 "Plaque also can build up in other arteries in your body, including the arteries that bring oxygen-rich blood to your brain and limbs. This can lead to problems such as carotid artery disease, stroke, and peripheral arterial disease.",
                 [LANG_HINDI]: "यदि आपके रक्त में बहुत अधिक कोलेस्ट्रॉल है, तो यह रक्त में अन्य पदार्थों के साथ मिलकर प्लाक बना सकता है। प्लाक आपकी धमनियों की दीवारों से चिपक जाता है। पट्टिका के इस निर्माण को एथेरोस्क्लेरोसिस के रूप में जाना जाता है। यह कोरोनरी धमनी की बीमारी का कारण बन सकता है, जहां आपकी कोरोनरी धमनियां संकीर्ण या अवरुद्ध हो जाती हैं।\n" +
                 "\n" +
-                "यदि आपकी धमनियों में बड़ी मात्रा में प्लाक जमा है, तो पट्टिका का एक क्षेत्र टूट सकता है (खुला हो सकता है)। इससे प्लाक की सतह पर रक्त का थक्का बन सकता है। यदि थक्का काफी बड़ा हो जाता है, तो यह कोरोनरी धमनी में रक्त के प्रवाह को अधिकतर या पूरी तरह से अवरुद्ध कर सकता है।\n" +
+                "यदि आपकी धमनियों में बड़ी मात्रा में प्लाक जमा है, तो पट्टिका/प्लैक का एक क्षेत्र टूट सकता है (खुला हो सकता है)। इससे प्लाक की सतह पर रक्त का थक्का बन सकता है। यदि थक्का काफी बड़ा हो जाता है, तो यह कोरोनरी धमनी में रक्त के प्रवाह को अधिकतर या पूरी तरह से अवरुद्ध कर सकता है।\n" +
                 "\n" +
                 "यदि आपके हृदय की मांसपेशियों में ऑक्सीजन युक्त रक्त का प्रवाह कम या अवरुद्ध हो जाता है, तो इससे एनजाइना (सीने में दर्द) या दिल का दौरा पड़ सकता है।\n" +
                 "\n" +
@@ -2447,6 +2446,7 @@ module.exports = {
                 "5. फ़ास्ट फ़ूड ख़रीदने की बजाय घर पर ही स्वादिष्ट खाना बनाएँ क्योंकि यह ज़्यादा रोमांचक होता है। बेचने के लिए भोजन में हमेशा अतिरिक्त चीनी, नमक, मसाले और तेल होता है।\n" +
                 "6. ज्यादा मसालेदार खाना न खाएं"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2470,6 +2470,7 @@ module.exports = {
                 "\n" +
                 "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2492,6 +2493,7 @@ module.exports = {
                 "\n" +
                 "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2516,6 +2518,7 @@ module.exports = {
                 "\n" +
                 "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2538,6 +2541,7 @@ module.exports = {
                 "\n" +
                 "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2562,6 +2566,7 @@ module.exports = {
                 "\n" +
                 "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
 
