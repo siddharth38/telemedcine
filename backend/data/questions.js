@@ -302,8 +302,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Blood pressure",
-                        [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप"
+                        [LANG_ENGLISH]: "Blood pressure🤯",
+                        [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप🤯"
                     },
                     [NEXT_QUESTION]: "121.0 BP information",
                     [VALUE]: 5
@@ -3546,7 +3546,7 @@ module.exports = {
             [ID]: "71.0 Cardiac screening",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Do you have pain in your chest?",
-                [LANG_HINDI]: "क्या आपके सीने में दर है?"
+                [LANG_HINDI]: "क्या आपके सीने में दरद है?"
             },
             [OPTIONS]: [
                 {
@@ -3604,8 +3604,7 @@ module.exports = {
             [ID]: "72.0 Cardiac point pain",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is it point pain?  (You can tell the location with tip of the finger)",
-                [LANG_HINDI]: "क्या आप उंगली से बता सकते हैं की दर्द कहा पे है?",
-                [DESCRIPTION_IMAGE]: "anginavspointchestpain.jpg"
+                [LANG_HINDI]: "क्या आप उंगली से बता सकते हैं की दर्द कहा पे है?"
             },
             [OPTIONS]: [
                 {
@@ -3613,7 +3612,7 @@ module.exports = {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ",
-                        [DESCRIPTION_IMAGE]: "point-chest-pain.jpg"
+                        [DESCRIPTION_IMAGE]: "point_chest_pain.jpg"
                     },
                     [VALUE]: 0,
                     [DB_VALUE]: "Point chest pain",
@@ -3637,7 +3636,8 @@ module.exports = {
             [ID]: "74.0 Cardiac left arm pain",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is there pain in the left arm?",
-                [LANG_HINDI]: "क्या बाएँ हाथ में दर्द है ?"
+                [LANG_HINDI]: "क्या बाएँ हाथ में दर्द है ?",
+                [DESCRIPTION_IMAGE]: "left_arm.jpg"
             },
             [OPTIONS]: [
                 {
@@ -3654,7 +3654,7 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
+                        [LANG_HINDI]: "नहीं",
                     },
                     [DB_VALUE]: "No",
                     [VALUE]: 1
@@ -3673,7 +3673,8 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
+                        [LANG_HINDI]: "हाँ",
+                        [DESCRIPTION_IMAGE]: "left_arm_inside.jpg"
                     },
                     [VALUE]: 0,
                     [DB_VALUE]: "Yes",
@@ -3683,7 +3684,8 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
+                        [LANG_HINDI]: "नहीं",
+                        [DESCRIPTION_IMAGE]: "left_arm_outside.jpg"
                     },
                     [DB_VALUE]: "No",
                     [VALUE]: 1
@@ -3725,7 +3727,8 @@ module.exports = {
             [ID]: "73.2 Cardiac pain on squeezing",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Does the pain increase or decrease when you when you press?",
-                [LANG_HINDI]: "क्या दबाने पे दर्द होता है?"
+                [LANG_HINDI]: "क्या दबाने पे दर्द होता है?",
+                [DESCRIPTION_IMAGE]: "pressure.jpg"
             },
             [OPTIONS]: [
                 {

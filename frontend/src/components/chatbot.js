@@ -467,6 +467,7 @@ export default class Chat extends React.Component {
 				console.log("api/assessment contacted")
 				const { incomingChats, connectToDoctor, patientId, question } = response.data;		// messages fetched here
 				if (connectToDoctor) {
+					console.log('connectToDoctor = ', connectToDoctor)
 					this.setState(
 						{
 							connectToDoctor,
@@ -500,6 +501,7 @@ export default class Chat extends React.Component {
 	};
 
 	answerEntered = () => {
+		console.log("answerEntered() entered")
 		const { answers, connectToDoctor, optionSelected,
 			answerFormat, questionDetails, tempSelection} = this.state;
 		const { type, options } = answerFormat;
@@ -507,6 +509,8 @@ export default class Chat extends React.Component {
 		const { nextQuestion } = options && typeof options[optionSelected].nextQuestion != 'undefined'
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
+
+		console.log("nextQuestion = ", nextQuestion)
 
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
@@ -540,6 +544,7 @@ export default class Chat extends React.Component {
 				this.completedChatbot.bind(this),
 				this.completedChatbot.bind(this)
 			);
+			console.log("got current user location")
 		}
 	};
 
