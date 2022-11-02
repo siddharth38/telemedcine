@@ -765,7 +765,7 @@ export default class Chat extends React.Component {
 								id="optionSelected"
 								onClick={this.handleChange}
 								className="fadeInUp"
-								style={{ animationDelay: `1.${index}s` }}
+								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111' }}
 							>
                 {chatStatement}
 								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{

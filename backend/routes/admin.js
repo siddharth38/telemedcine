@@ -56,7 +56,7 @@ router.post('/doctor/:id', (req, res) => {
 				fees
 			}
 		},
-		(err, doctor) => {
+		(err) => {
 			if (err) console.error(err);
 			res.json({});
 		}
@@ -92,7 +92,7 @@ router.put('/doctor', (req, res) => {
 			fees,
 			created_at: Date.now()
 		},
-		(err, doctor) => {
+		(err) => {
 			if (err) {
 				console.error(err);
 				return res.json({});
@@ -169,6 +169,7 @@ router.get('/logout', (req, res) => {
  * admin login
  */
 router.post('/login', (req, res) => {
+	console.log("admin/login")
 	const { username } = req.user;
 	res.json({ login: true, username });
 });

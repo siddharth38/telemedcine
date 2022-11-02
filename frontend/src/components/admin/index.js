@@ -16,6 +16,7 @@ class Doctor extends React.Component {
 	};
 
 	componentDidMount() {
+		console.log("component did mount. logging in")
 		this.login();
 	}
 
@@ -81,6 +82,7 @@ class Doctor extends React.Component {
 	};
 
 	render() {
+		console.log("rendering admin")
 		const { loggedin, username, password, error, loading } = this.state;
 
 		if (!loggedin) {

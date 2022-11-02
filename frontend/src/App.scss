@@ -625,16 +625,16 @@ h6 {
     }
   }
   p.incoming-message {
-    color: $gray;
+    color: $gray-dark;
     align-self: flex-start;
     border-bottom-left-radius: 0px;
   }
   p.outgoing-message {
-    color: $white;
-    background: $blue;
+    color: $gray;
+    background: $white;
     align-self: flex-end;
     border-bottom-right-radius: 0px;
-    border: none;
+    //border: none;
   }
 
   div.button-row {
