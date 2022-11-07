@@ -210,7 +210,7 @@ router.post('/assessment', (req, res) => {
 });
 
 /**
- * Payment and disclaimer
+ * Payment and disclaimer. Chat opening
  */
 router.get('/questions', (req, res) => {
 	/* TODO: doctor's availability status and welcome message */

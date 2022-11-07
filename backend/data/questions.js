@@ -238,7 +238,8 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is your heart document laminated?",
                 [LANG_HINDI]: "क्या आपका दिल के पेपर लैमिनेटेड है?"
-            }
+            },
+            [TYPE]: TYPE_BUTTON
         },
         {
             [ID]: "93.1 Get Laminated",
@@ -254,7 +255,7 @@ module.exports = {
                 [LANG_ENGLISH]: "Which procedure will you be going through?",
                 [LANG_HINDI]: "आप किस प्रक्रिया से गुजरेंगे?"
             },
-            [NEXT_QUESTION]: 9998
+            [NEXT_QUESTION]: "9998 dead end"
         },
 
         {
@@ -2295,6 +2296,14 @@ module.exports = {
                     },
                     [NEXT_QUESTION]: "188.0 Cholesterol cure",
                     [VALUE]: 4
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Triglycerides",
+                        [LANG_HINDI]: "ट्राइग्लिसराइड्"
+                    },
+                    [NEXT_QUESTION]: "183.1 Triglycerides",
+                    [VALUE]: 5
                 }
             ],
             [STATEMENT]: {
@@ -2366,6 +2375,21 @@ module.exports = {
                 "यदि केवल जीवनशैली में बदलाव से आपका कोलेस्ट्रॉल पर्याप्त रूप से कम नहीं होता है, तो आपको दवाएँ लेने की भी आवश्यकता हो सकती है। स्टैटिन सहित कई प्रकार की कोलेस्ट्रॉल कम करने वाली दवाएं उपलब्ध हैं। यदि आप अपने कोलेस्ट्रॉल को कम करने के लिए दवाएं लेते हैं, तो भी आपको जीवनशैली में बदलाव जारी रखना चाहिए।\n" +
                 "\n" +
                 "पारिवारिक हाइपरकोलेस्ट्रोलेमिया (एफएच) वाले कुछ लोग लिपोप्रोटीन एफेरेसिस नामक उपचार प्राप्त कर सकते हैं। यह उपचार रक्त से एलडीएल कोलेस्ट्रॉल को हटाने के लिए एक फ़िल्टरिंग मशीन का उपयोग करता है। फिर मशीन शेष रक्त व्यक्ति को वापस लौटा देती है।"
+            },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "183.1 Triglycerides",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Just like cholesterol, triglycerides are a type of fats.\n" +
+                    "Triglycerides are an energy reserve while cholesterol are used as building material for cells.\n" +
+                    "Fatty foods and milk products are high in triglycerides.\n" +
+                    "Excess triglycerides are managed in a way similar to cholesterol.",
+                [LANG_HINDI]: "कोलेस्ट्रॉल की तरह ही, ट्राइग्लिसराइड्स भी एक प्रकार का वसा होता है।\n" +
+                    "ट्राइग्लिसराइड्स एक ऊर्जा आरक्षित हैं जबकि कोलेस्ट्रॉल का उपयोग कोशिकाओं के निर्माण सामग्री के रूप में किया जाता है।\n" +
+                    "वसायुक्त खाद्य पदार्थ और दुग्ध उत्पाद ट्राइग्लिसराइड्स में उच्च होते हैं।\n" +
+                    "अतिरिक्त ट्राइग्लिसराइड्स को कोलेस्ट्रॉल के समान तरीके से प्रबंधित किया जाता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2938,7 +2962,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Coronary Artery Disease (CAD)",
-                        [LANG_HINDI]: "कोरोनरी धमनी रोग",
+                        [LANG_HINDI]: "दिल की  धमनी का रोग",
                     },
                     [NEXT_QUESTION]: "214.0 HF CAD",
                     [VALUE]: 0
@@ -2986,7 +3010,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Heart muscle disease",
-                        [LANG_HINDI]: "हृदय की मांसपेशी रोग",
+                        [LANG_HINDI]: "हृदय की मांसपेशी का रोग",
                     },
                     [NEXT_QUESTION]: "220.0 HF cardiomyopathy",
                     [VALUE]: 6
@@ -3030,8 +3054,8 @@ module.exports = {
                 [LANG_ENGLISH]: "Coronary Artery Disease (CAD)\n" +
                 "CAD happens when a fatty substance called plaque builds up in your arteries (the blood vessels that carry oxygen-rich blood from your heart to the rest of your body). Over time, plaque hardens and your arteries get narrow. An artery clogged with plaque is like a clogged drainpipe -- less blood can squeeze through. This is called atherosclerosis.\n" +
                 "Your heart has to pump harder to push blood through those narrow arteries, and it doesn't get the blood it needs to work as well as it should. Over time, this can make your heart so weak that it leads to heart failure.",
-                [LANG_HINDI]: "कोरोनरी धमनी रोग (सीएडी)\n" +
-                "सीएडी तब होता है जब प्लाक नामक एक वसायुक्त पदार्थ आपकी धमनियों (आपके हृदय से आपके शरीर के बाकी हिस्सों तक ऑक्सीजन युक्त रक्त ले जाने वाली रक्त वाहिकाओं) में बनता है। समय के साथ, पट्टिका सख्त हो जाती है और आपकी धमनियां संकीर्ण हो जाती हैं। पट्टिका से भरी हुई धमनी एक बंद नाली की तरह होती है - कम रक्त के माध्यम से निचोड़ सकता है। इसे एथेरोस्क्लेरोसिस कहते हैं।\n" +
+                [LANG_HINDI]: "दिल की  धमनी का रोग (सीएडी)\n" +
+                "सीएडी तब होता है जब प्लाक नामक एक वसायुक्त पदार्थ आपकी धमनियों (आपके हृदय से आपके शरीर के बाकी हिस्सों तक ऑक्सीजन युक्त रक्त ले जाने वाली रक्त वाहिकाओं) में बनता है। समय के साथ, पट्टिका (प्लैक) सख्त हो जाती है और आपकी धमनियां संकीर्ण हो जाती हैं। पट्टिका से भरी हुई धमनी एक बंद नाली की तरह होती है - कम रक्त के माध्यम से निचोड़ सकता है। इसे एथेरोस्क्लेरोसिस कहते हैं।\n" +
                 "आपके हृदय को उन संकरी धमनियों से रक्त को धकेलने के लिए अधिक पंप करना पड़ता है, और उसे उतना रक्त नहीं मिल पाता जितना उसे काम करना चाहिए। समय के साथ, यह आपके दिल को इतना कमजोर बना सकता है कि यह हार्ट फैल्यर की ओर ले जाता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -3325,9 +3349,9 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Stent risks",
-                        [LANG_HINDI]: "स्टेंट जोखिम",
+                        [LANG_HINDI]: "स्टेंट के जोखिम",
                     },
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [VALUE]: 6
                 },
                 {
@@ -3446,7 +3470,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Risk",
                         [LANG_HINDI]: "जोखिम",
                     },
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [VALUE]: 3
                 },
                 {
@@ -3537,7 +3561,7 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Still curious?",
-                [LANG_HINDI]: "अभी भी उत्सुक?"
+                [LANG_HINDI]: "अभी भी जिज्ञासु?"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -3920,7 +3944,7 @@ module.exports = {
             },
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
@@ -3928,7 +3952,7 @@ module.exports = {
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
@@ -6278,23 +6302,25 @@ module.exports = {
             [TYPE]: TYPE_NONE
         },
         {
-    			[ID]: 9998,
-          [STATEMENT]: {
-            en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
-            hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
-          },
-    			[TYPE]: [TYPE_BUTTON],
-    			[OPTIONS]: [
+    			  [ID]: "9998 dead end",
+            [STATEMENT]: {
+                en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
+                hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
+            },
+            [NEXT_QUESTION]: 0,
+    			  [TYPE]: TYPE_BUTTON,
+    			  [OPTIONS]: [
     				{
-    					[NEXT_QUESTION]: 0,
-    					[VALUE]: 0,
-              [STATEMENT]: STATEMENT_YES,
-    					[DB_VALUE]: DB_VALUE_YES
+    				    [NEXT_QUESTION]: 1,
+    					  [VALUE]: 0,
+                [STATEMENT]: STATEMENT_YES,
+    					  [DB_VALUE]: DB_VALUE_YES
     				},
     				{
-    					[NEXT_QUESTION]: 0,
-    					[VALUE]: 1,
-              [STATEMENT]: STATEMENT_NO,
+    					  [NEXT_QUESTION]: 1,
+    					  [VALUE]: 1,
+                [STATEMENT]: STATEMENT_NO,
+                [DB_VALUE]: DB_VALUE_NO
     				}
     			]
     		},

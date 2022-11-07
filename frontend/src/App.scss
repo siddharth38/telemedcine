@@ -116,42 +116,42 @@ body {
 }
 
 h1 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 24px !important;
   font-weight: 900;
   // text-transform: uppercase;
 }
 
 h2 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 18px !important;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 h3 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 14px !important;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 h4 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 13px !important;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 h5 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 12px !important;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 h6 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 11px !important;
   font-weight: 600;
   text-transform: uppercase;
@@ -533,7 +533,7 @@ h6 {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     white-space: pre-line;
     -ms-overflow-style: none;
   }
