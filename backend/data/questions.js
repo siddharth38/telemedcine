@@ -16,11 +16,11 @@ const PATTERN = "pattern"            // support commands
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
-const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
+// const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
 const TYPE_BUTTON = "button"                // choose option from text buttons
 const TYPE_LIST = "list"                    // checkboxes
-const TYPE_SELECT = "select"                // spinner
-const TYPE_UPLOAD = "upload"                // upload
+// const TYPE_SELECT = "select"                // spinner
+// const TYPE_UPLOAD = "upload"                // upload
 const TYPE_TEXT = "text"                    // text
 const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend across multiple questions. example cardiac screening
 const TYPE_TELEPHONE = "tel"                // complex telephone and age
@@ -31,21 +31,21 @@ const LANG_HINDI = "hi"
 const LANG_BANGLA = "bn"
 
 //DB_VALUES
-const DB_VALUE_0 = 0
-const DB_VALUE_1 = 1
-const DB_VALUE_2 = 2
-const DB_VALUE_3 = 3
-const DB_VALUE_4 = 4
-const DB_VALUE_5 = 5
-const DB_VALUE_6 = 6
-const DB_VALUE_7 = 7
-const DB_VALUE_8 = 8
-const DB_VALUE_OPD = "OPD"
+// const DB_VALUE_0 = 0
+// const DB_VALUE_1 = 1
+// const DB_VALUE_2 = 2
+// const DB_VALUE_3 = 3
+// const DB_VALUE_4 = 4
+// const DB_VALUE_5 = 5
+// const DB_VALUE_6 = 6
+// const DB_VALUE_7 = 7
+// const DB_VALUE_8 = 8
+// const DB_VALUE_OPD = "OPD"
 const DB_VALUE_YES = "Yes"
 const DB_VALUE_NO = "No"
-const DB_VALUE_RESTART = "Restart"
-const DB_VALUE_END = "End"
-const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
+// const DB_VALUE_RESTART = "Restart"
+// const DB_VALUE_END = "End"
+// const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
 
 // common values
 const STATEMENT_YES = {
@@ -58,14 +58,14 @@ const STATEMENT_NO = {
     [LANG_HINDI]: "नहीं",
     [LANG_BANGLA]: 'না'
 }
-const STATEMENT_CORRECT = {
-    [LANG_ENGLISH]: "Correct answer!",
-    [LANG_HINDI]: "सही जवाब!",
-}
-const STATEMENT_WRONG = {
-    [LANG_ENGLISH]: "Wrong answer",
-    [LANG_HINDI]: "गलत जवाब"
-}
+// const STATEMENT_CORRECT = {
+//     [LANG_ENGLISH]: "Correct answer!",
+//     [LANG_HINDI]: "सही जवाब!",
+// }
+// const STATEMENT_WRONG = {
+//     [LANG_ENGLISH]: "Wrong answer",
+//     [LANG_HINDI]: "गलत जवाब"
+// }
 const STATEMENT_TRUE = {
     [LANG_ENGLISH]: "True",
     [LANG_HINDI]: "सत्य",
@@ -3066,8 +3066,8 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "If you have CAD, a piece of the plaque that's built up in your arteries can break off. This can lead to a blood clot. If the clot gets lodged in one of the arteries bringing blood to your heart, it can block the blood flow and you could have a heart attack.\n" +
                 "Without enough oxygen, the part of the heart that's blocked can die. This damage weakens your heart and can lead to heart failure.",
-                [LANG_HINDI]: "यदि आपके पास सीएडी है, तो आपकी धमनियों में बनी पट्टिका का एक टुकड़ा टूट सकता है। इससे रक्त का थक्का बन सकता है। यदि आपके हृदय में रक्त लाने वाली धमनियों में से एक में थक्का जमा हो जाता है, तो यह रक्त के प्रवाह को अवरुद्ध कर सकता है और आपको दिल का दौरा पड़ सकता है।\n" +
-                "पर्याप्त ऑक्सीजन के बिना, हृदय का वह हिस्सा जो अवरुद्ध है, मर सकता है। यह क्षति आपके दिल को कमजोर करती है और हार्ट फैल्यर का कारण बन सकती है।"
+                [LANG_HINDI]: "यदि आपको दिल की धमनी का रोग है, तो आपकी धमनियों में बनी पट्टिका (प्लैक) का एक टुकड़ा टूट सकता है। इससे रक्त का थक्का बन सकता है। यदि आपके हृदय में रक्त लाने वाली धमनियों में से एक में थक्का जमा हो जाता है, तो यह रक्त के प्रवाह को अवरुद्ध कर सकता है और आपको दिल का दौरा पड़ सकता है।\n" +
+                "पर्याप्त ऑक्सीजन के बिना, हृदय का वह हिस्सा मर सकता है। यह आपके दिल को कमजोर करती है और हार्ट फैल्यर का कारण बन सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3076,7 +3076,7 @@ module.exports = {
             [ID]: "216.0 HF BP",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Blood pressure is the force of blood as your heart pumps it through your arteries. When the blood pushes against your artery walls with more force than usual, you have high blood pressure. This makes your heart work harder to push blood through your body, and that extra work makes your heart bigger and weaker. High blood pressure that's not managed well can double or triple your chances of heart failure.",
-                [LANG_HINDI]: "रक्तचाप रक्त का बल है क्योंकि आपका हृदय इसे आपकी धमनियों के माध्यम से पंप करता है। जब रक्त आपकी धमनी की दीवारों के खिलाफ सामान्य से अधिक बल के साथ धक्का देता है, तो आपको उच्च रक्तचाप होता है। यह आपके हृदय को आपके शरीर में रक्त को धकेलने के लिए अधिक मेहनत करता है, और यह अतिरिक्त कार्य आपके हृदय को बड़ा और कमजोर बनाता है। उच्च रक्तचाप जिसे अच्छी तरह से प्रबंधित नहीं किया जाता है, आपके हार्ट फैल्यर की संभावना को दोगुना या तिगुना कर सकता है।"
+                [LANG_HINDI]: "उच्च रक्तचाप जिसे अच्छी तरह से रोका नहीं किया जाता है, आपके हार्ट फैल्यर की संभावना को दोगुना या तिगुना कर सकता है। रक्तचाप हृदय का वो बल है जो खून को आपकी धमनियों में पंप करता है। जब रक्त आपकी धमनी की दीवारों के खिलाफ सामान्य से अधिक बल के साथ धक्का देता है, तो आपको उच्च रक्तचाप होता है। इसके कारण आपके हृदय को आपके शरीर में खून को धकेलने के लिए अधिक मेहनत करता है, और यह अतिरिक्त मेहनत आपके हृदय को बड़ा और कमजोर बनाती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3572,7 +3572,7 @@ module.exports = {
             [ID]: "71.0 Cardiac screening",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Do you have pain in your chest?",
-                [LANG_HINDI]: "क्या आपके सीने में दरद है?"
+                [LANG_HINDI]: "क्या आपके सीने में दर्द है?"
             },
             [OPTIONS]: [
                 {
@@ -3723,7 +3723,7 @@ module.exports = {
             [ID]: "73.1 Pain on arm movement",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Does the pain increase or decrease when you move the arm?",
-                [LANG_HINDI]: "क्या हाथ हिलाने पे दर्द घटता / बढ़त है?"
+                [LANG_HINDI]: "क्या हाथ हिलाने पे दर्द घटता या बढ़ता है?"
             },
             [OPTIONS]: [
                 {
