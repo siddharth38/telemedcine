@@ -1,16 +1,16 @@
-import React from 'react';
-import * as Icon from 'react-feather';
-import $ from 'jquery';
-import _ from 'lodash';
+import React from "react";
+import * as Icon from "react-feather";
+import $ from "jquery";
+import _ from "lodash";
 
-import Progress from 'react-progressbar';
+import Progress from "react-progressbar";
 
-import axios from 'axios';
+import axios from "axios";
 import { BACKEND_URL_DEV, ENDPOINT, languages } from "../config";
 
-import PeerConnection from './webrtc/PeerConnection';
-import CallWindow from './webrtc/CallWindow';
-import CallModal from './webrtc/CallModal';
+import PeerConnection from "./webrtc/PeerConnection";
+import CallWindow from "./webrtc/CallWindow";
+import CallModal from "./webrtc/CallModal";
 
 const { commands } = require('../data/commands'); // TODO: Should be fetched from backend or be executed at the backend via APIs
 const client = require('socket.io-client');
@@ -115,7 +115,9 @@ export default class Chat extends React.Component {
 		if (this.socket) this.socket.disconnect();
 	}
 
+	// unused?
   jumpToNextQuestion = (message) => {
+		console.log("jumpToNextQuestion()")
     const { optionSelected, answerFormat, questionDetails } = this.state;
     const { options } = answerFormat;
     const { nextQuestion } = options && options[optionSelected].nextQuestion
@@ -137,9 +139,9 @@ export default class Chat extends React.Component {
       question = this.getQuestionById(question);
     }
     const { answers } = this.state;					// contains question ID and value of user input
-		var { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
+		let { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 
-    if (customOptions) {
+		if (customOptions) {
       options = customOptions;
     }
 
@@ -220,7 +222,6 @@ export default class Chat extends React.Component {
 	};
 
 	getQuestionById = (id) => {
-		console.log("Next Question- "  + id);
 		const { questions } = this.state;
 		for (let i = 0; i < questions.length; i++) {
 			if (questions[i].id === id) return questions[i];
@@ -437,7 +438,9 @@ export default class Chat extends React.Component {
 		}
 	};
 
-	/* this function is called when chatbot completes its loop and is passed in location */
+	/*
+	 * called when bot completes questionnaire and is passed in user's physical location
+	 */
 	completedChatbot = (position) => {
 		const { latitude, longitude } = (position && position.coords) || {};
 		const { chat, answers, timestamps } = this.state;
@@ -445,16 +448,12 @@ export default class Chat extends React.Component {
 		this.setState({ requesting: true });
 
     // Save the statements in the selected language.
-    const chatToSave = [];
-    for (let i=0; i<chat.length; ++i) {
-      let statement = (typeof chat[i].statement === "string")
-        ? chat[i].statement
-        : chat[i].statement[this.state.languageSelected];
-      let type = chat[i].type;
-      chatToSave.push({ statement, type });
-    }
+		const chatToSave = this.saveChatStatements(chat);
 
-		// fill chat for user
+		/*
+		 * send the chat to the server and push into DB.
+		 * run the assessment code
+		 */
 		axios
 			.post(ENDPOINT + '/api/assessment', {
 				answers,
@@ -483,6 +482,7 @@ export default class Chat extends React.Component {
 				} else {
 					console.log("not connect to doctor")
 					if (incomingChats) {
+						// bot to user
 						console.log("incoming chats")
 						this.setState(
 							{
@@ -500,6 +500,18 @@ export default class Chat extends React.Component {
 			});
 	};
 
+	saveChatStatements(chat) {
+		const chatToSave = [];
+		for (let i = 0; i < chat.length; ++i) {
+			let statement = (typeof chat[i].statement === "string")
+				? chat[i].statement
+				: chat[i].statement[this.state.languageSelected];
+			let type = chat[i].type;
+			chatToSave.push({ statement, type });
+		}
+		return chatToSave;
+	}
+
 	answerEntered = () => {
 		console.log("answerEntered() entered")
 		const { answers, connectToDoctor, optionSelected,
@@ -509,8 +521,6 @@ export default class Chat extends React.Component {
 		const { nextQuestion } = options && typeof options[optionSelected].nextQuestion != 'undefined'
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
-
-		console.log("nextQuestion = ", nextQuestion)
 
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
@@ -529,7 +539,11 @@ export default class Chat extends React.Component {
 		}
 	}; 
 
+	/**
+	 * End of flow.
+	 */
 	endChatbotSequence = () => {
+		console.log("endChatbotSequence()")
 		const { connectToDoctor, optionSelected} = this.state;
 		if (connectToDoctor) {
 			const lastMessage = {
@@ -646,11 +660,14 @@ export default class Chat extends React.Component {
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+					this.speak(chatStatement);
 					// noinspection HtmlRequiredAltAttribute
 					return (
 						<p
 							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
+							onMouseEnter={() => this.speak(chatStatement)}
+							// onMouseLeave={() => window.speechSynthesis.cancel()}
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
 								<img src={'/api/images/' + statement.split('-')[2]} />
@@ -672,6 +689,18 @@ export default class Chat extends React.Component {
 			</div>
 		);
 	};
+
+	speak(chatStatement) {
+		// console.log("speaking ", chatStatement)
+		window.speechSynthesis.cancel()
+		const msg = new SpeechSynthesisUtterance()
+		msg.text = chatStatement;
+		// msg.volume = 1;
+		msg.lang = this.state.languageSelected
+		window.speechSynthesis.speak(msg);
+		console.log("speechSynthesis.speaking = ", window.speechSynthesis.speaking)
+		window.speechSynthesis.resume()
+	}
 
 	/* User inputs */
 	renderAnswers = () => {
@@ -766,6 +795,7 @@ export default class Chat extends React.Component {
 								onClick={this.handleChange}
 								className="fadeInUp"
 								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111' }}
+								onMouseEnter={() => this.speak(chatStatement)}
 							>
                 {chatStatement}
 								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
@@ -788,7 +818,10 @@ export default class Chat extends React.Component {
 										id={value}
 										onChange={this.handleChange}
 										className="fadeInUp"
-										style={{ marginRight: "10px" }}/>
+										style={{ marginRight: "10px" }}
+										onMouseEnter={() => this.speak(chatStatement)}
+										onTouchStart={() => this.speak(chatStatement)}
+									/>
 										{chatStatement}
 								</label>
 							);
@@ -805,7 +838,7 @@ export default class Chat extends React.Component {
 			);
 		} else if (type === TYPE_SELECT) {
 			 // spinner
-			 console.log("renderAnswers select")
+			console.log("renderAnswers select")
 			return (
 				<div className="answer-box select-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<select id="optionSelected" value={optionSelected} onChange={this.handleChange}>
@@ -847,7 +880,6 @@ export default class Chat extends React.Component {
 			);
 		} else {
 			 // text field updated but message not sent. send button is to be pressed
-			console.log("renderAnswers else")
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<form onSubmit={this.answer} className="message-form">

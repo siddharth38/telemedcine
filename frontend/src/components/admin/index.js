@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+// import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
 import axios from 'axios';
 import Table from './table';
@@ -48,6 +49,7 @@ class Doctor extends React.Component {
 	login = (e) => {
 		if (e && e.preventDefault) e.preventDefault();
 
+		// noinspection JSUnusedLocalSymbols
 		const { loading, username, password } = this.state;
 
 		this.setState({ loading: true, error: '' });

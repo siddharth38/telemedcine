@@ -16,7 +16,7 @@ function Row(props) {
 	const getObjByID = (arr, key) => {
 		if (!arr) return null;
 		for (let obj of arr) {
-			if (obj.id == key) return obj;
+			if (obj.id === key) return obj;
 		}
 		return null;
 	};
@@ -25,9 +25,9 @@ function Row(props) {
 		let objB = getObjByID(patient.timestamps, b);
 		let propA = patient[a];
 		let propB = patient[b];
-		if ((propA && propA != 'NA') && (propB && propB != 'NA')) {
+		if ((propA && propA !== 'NA') && (propB && propB !== 'NA')) {
 			return (objA && objB) ? objA.time - objB.time : 0;
-		} else if ((propA && propA != 'NA') && !(propB && propB != 'NA')) {
+		} else if ((propA && propA !== 'NA') && !(propB && propB !== 'NA')) {
 			return -1;
 		} else {
 			return 1;
@@ -83,9 +83,9 @@ function Row(props) {
 			</tr>
 
 			<tr className={`spacer`} style={{ display: reveal && !props.total ? '' : 'none' }}>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td/>
+				<td/>
+				<td/>
 			</tr>
 
 			{sortedkeys.map((dataKey, index) => {
@@ -104,9 +104,9 @@ function Row(props) {
 			})}
 
 			<tr className={`spacer`} style={{ display: reveal && !props.total ? '' : 'none' }}>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td/>
+				<td/>
+				<td/>
 			</tr>
 		</React.Fragment>
 	);
