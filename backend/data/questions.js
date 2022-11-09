@@ -49,14 +49,14 @@ const DB_VALUE_NO = "No"
 
 // common values
 const STATEMENT_YES = {
-    [LANG_ENGLISH]: "Yes",
-    [LANG_HINDI]: "हाँ",
-    [LANG_BANGLA]: 'হ্যাঁ'
+    [LANG_ENGLISH]: "Yes✔️",
+    [LANG_HINDI]: "हाँ✔️",
+    [LANG_BANGLA]: 'হ্যাঁ✔️'
 }
 const STATEMENT_NO = {
-    [LANG_ENGLISH]: "No",
-    [LANG_HINDI]: "नहीं",
-    [LANG_BANGLA]: 'না'
+    [LANG_ENGLISH]: "No ❌",
+    [LANG_HINDI]: "नहीं ❌",
+    [LANG_BANGLA]: 'না ❌'
 }
 // const STATEMENT_CORRECT = {
 //     [LANG_ENGLISH]: "Correct answer!",
@@ -83,6 +83,60 @@ const NEXT_QUESTION_ENDS_FLOW = 0                   // end chatbot. sometimes co
 
 module.exports = {
     [QUESTIONS]: [
+        {
+            [ID]: "-1.0 Consent message",
+            [OPTIONS]: [
+                {
+                    [NEXT_QUESTION]: 1.0,
+                    [STATEMENT]: STATEMENT_YES,
+                    [VALUE]: 0
+                },
+                {
+                    [NEXT_QUESTION]: "-1.1 Why no consent",
+                    [STATEMENT]: STATEMENT_NO,
+                    [VALUE]: 1
+                },
+                {
+                    [NEXT_QUESTION]: "9997.0 Redirecting",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "AIIMS portal",
+                        [LANG_HINDI]: "एम्स पोर्टल"
+                    },
+                    [VALUE]: 2,
+                    [URL]: "https://www.aiimsjodhpur.edu.in/Patient_Portal/"
+                }
+                // test
+                // {
+                //     [NEXT_QUESTION]: "83.0 Cardiac fatigue",
+                //     [STATEMENT]: {
+                //         [LANG_ENGLISH]: "Jump to test",
+                //         [LANG_HINDI]: "Jump to test"
+                //     },
+                //     [VALUE]: 4
+                // },
+            ],
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "You agree to take part in the testing of this chat-bot and your data being collected and used for research purposes",
+                [LANG_HINDI]: "इस चटबॉट का उपयोग करके आप इस चैट-बॉट के परीक्षण में भाग लेने के लिए सहमत हैं और आपका डेटा एकत्र किया जा रहा है और शोध उद्देश्यों के लिए उपयोग किया जा रहा है"
+            },
+            [TYPE]: TYPE_BUTTON
+        },
+        {
+            [ID]: "-1.1 Why no consent",
+            [STATEMENT]: STATEMENT_WHY_NOT,
+            [NEXT_QUESTION]: "-1.2 Disclaimer",
+            [TYPE]: TYPE_TEXT
+        },
+        {
+            [ID]: "-1.2 Disclaimer",
+            [STATEMENT]: {
+                en: 'Disclaimer: We collect your personal information such as name, age, phone number for registration purposes. We do not share this information with any other third party nor do we use it for commercial purposes. We may use your information for the purpose of our research and to create innovative and advanced services. We also use third party web analytics services such as Google Analytics which may collect information related to your use of this website.',
+                hi: 'अस्वीकरण: हम आपकी व्यक्तिगत जानकारी जैसे नाम, आयु, फोन नंबर पंजीकरण के प्रयोजनों के लिए एकत्र करते हैं। हम इस जानकारी को किसी अन्य तीसरे पक्ष के साथ साझा नहीं करते हैं और न ही हम इसका उपयोग व्यावसायिक उद्देश्यों में करते हैं। हम आपकी जानकारी का उपयोग हमारे शोध के उद्देश्य और नवीन और उन्नत सेवाओं को बनाने के लिए कर सकते हैं। हम गूगल एनालिटिक्स जैसी थर्ड पार्टी वेब विश्लेषणात्मक सेवाओं का भी उपयोग करते हैं जो इस वेबसाइट के आपके उपयोग से संबंधित जानकारी एकत्र कर सकती हैं।',
+                bn: 'দাবি অস্বীকার: আমরা আপনার ব্যক্তিগত তথ্য যেমন নাম, বয়স, নাম্বার জন্য ফোন নম্বর সংগ্রহ করি। আমরা এই তথ্যটি অন্য কোনও তৃতীয় পক্ষের সাথে ভাগ করি না বা আমরা বাণিজ্যিক উদ্দেশ্যে এটি ব্যবহার করি না। আমরা আপনার তথ্য আমাদের গবেষণার উদ্দেশ্যে এবং উদ্ভাবনী এবং উন্নত পরিষেবা তৈরি করতে ব্যবহার করতে পারি। আমরা তৃতীয় পক্ষের ওয়েব অ্যানালিটিক্স পরিষেবাদি যেমন গুগল অ্যানালিটিক্স ব্যবহার করি যা আপনার ওয়েবসাইটের ব্যবহার সম্পর্কিত তথ্য সংগ্রহ করতে পারে।'
+            },
+            [NEXT_QUESTION]: 1.0,
+            [TYPE]: TYPE_NONE
+        },
         {
             [ID]: 1.0,
             [OPTIONS]: [

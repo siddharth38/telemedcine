@@ -19,7 +19,7 @@ const TYPE_BUTTON = 'button'
 const TYPE_LIST = 'list'										// checkboxes
 const TYPE_SELECT = 'select'
 const TYPE_UPLOAD = 'upload'
-const TYPE_MULTI_SELECT = 'multi_select'
+// const TYPE_MULTI_SELECT = 'multi_select'
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
 const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend. example cardiac screening
 
@@ -368,6 +368,7 @@ export default class Chat extends React.Component {
 	answer = (event) => {
 		const { optionSelected, questionDetails, answerFormat, answers, tempSelection } = this.state;
 		const { options, type } = answerFormat;
+		// noinspection JSUnusedLocalSymbols
 		const { id, paramsFrom, branches, loopStart } = questionDetails;
 		let { textAnswered } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
@@ -514,6 +515,7 @@ export default class Chat extends React.Component {
 
 	answerEntered = () => {
 		console.log("answerEntered() entered")
+		// noinspection JSUnusedLocalSymbols
 		const { answers, connectToDoctor, optionSelected,
 			answerFormat, questionDetails, tempSelection} = this.state;
 		const { type, options } = answerFormat;
@@ -596,7 +598,7 @@ export default class Chat extends React.Component {
 				[id]: value
 			},
 			() => {
-				const { languageSelected } = this.state.languageSelected;
+				// const { languageSelected } = this.state.languageSelected;
 				this.scrollDown();
 			}
 		);
@@ -660,13 +662,12 @@ export default class Chat extends React.Component {
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
-					this.speak(chatStatement);
 					// noinspection HtmlRequiredAltAttribute
 					return (
 						<p
 							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
-							onMouseEnter={() => this.speak(chatStatement)}
+							onMouseEnter={() => this.speak(chatStatement, true)}
 							// onMouseLeave={() => window.speechSynthesis.cancel()}
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
@@ -690,15 +691,15 @@ export default class Chat extends React.Component {
 		);
 	};
 
-	speak(chatStatement) {
+	speak(chatStatement, stopOldSpeach=true) {
 		// console.log("speaking ", chatStatement)
-		window.speechSynthesis.cancel()
+		if (stopOldSpeach) window.speechSynthesis.cancel()
 		const msg = new SpeechSynthesisUtterance()
-		msg.text = chatStatement;
+		msg.text = chatStatement.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
 		// msg.volume = 1;
 		msg.lang = this.state.languageSelected
 		window.speechSynthesis.speak(msg);
-		console.log("speechSynthesis.speaking = ", window.speechSynthesis.speaking)
+		console.log("speechSynthesis.speaking = ", window.speechSynthesis.speaking, "stopSpeaking = ", stopOldSpeach)
 		window.speechSynthesis.resume()
 	}
 
@@ -795,7 +796,7 @@ export default class Chat extends React.Component {
 								onClick={this.handleChange}
 								className="fadeInUp"
 								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111' }}
-								onMouseEnter={() => this.speak(chatStatement)}
+								onMouseEnter={() => this.speak(chatStatement, true)}
 							>
                 {chatStatement}
 								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
@@ -819,8 +820,8 @@ export default class Chat extends React.Component {
 										onChange={this.handleChange}
 										className="fadeInUp"
 										style={{ marginRight: "10px" }}
-										onMouseEnter={() => this.speak(chatStatement)}
-										onTouchStart={() => this.speak(chatStatement)}
+										onMouseEnter={() => this.speak(chatStatement, true)}
+										onTouchStart={() => this.speak(chatStatement, true)}
 									/>
 										{chatStatement}
 								</label>
