@@ -130,6 +130,7 @@ export default class Chat extends React.Component {
   }
 
   /**
+	 * sets different types of questions - configures variables to be used later
    * @param question Either a question object or a question ID
    * @param customOptions Overrides the existing options
    */
@@ -221,6 +222,9 @@ export default class Chat extends React.Component {
 		);
 	};
 
+	/*
+	 * Return question object from questions list
+	 */
 	getQuestionById = (id) => {
 		const { questions } = this.state;
 		for (let i = 0; i < questions.length; i++) {
@@ -230,6 +234,9 @@ export default class Chat extends React.Component {
 		return null;
 	};
 
+	/**
+	 * UI
+	 */
 	scrollDown = () => {
 		let x = $('#chat-box')
 		if (x.length)
@@ -513,6 +520,13 @@ export default class Chat extends React.Component {
 		return chatToSave;
 	}
 
+	/*
+	 * Runs after answer is entered by the user.
+	 * Sets up command execution
+	 * Calls setQuestion()
+	 * Will update server
+	 * Before endchatbotsequence()
+	 */
 	answerEntered = () => {
 		console.log("answerEntered() entered")
 		// noinspection JSUnusedLocalSymbols
@@ -564,6 +578,12 @@ export default class Chat extends React.Component {
 		}
 	};
 
+	/**
+	 * Called on UI, state, etc changes on frontend
+	 * Redirects to URLs if needed
+	 * Most frequently called
+	 * Best for tracking of user behavior
+	 */
 	handleChange = (event) => {
 		const { id, value } = event.target;
 		const { type } = this.state.answerFormat;
@@ -662,6 +682,7 @@ export default class Chat extends React.Component {
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+					this.speak(chatStatement, true)
 					// noinspection HtmlRequiredAltAttribute
 					return (
 						<p
@@ -795,7 +816,7 @@ export default class Chat extends React.Component {
 								id="optionSelected"
 								onClick={this.handleChange}
 								className="fadeInUp"
-								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111' }}
+								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'larger' }}
 								onMouseEnter={() => this.speak(chatStatement, true)}
 							>
                 {chatStatement}

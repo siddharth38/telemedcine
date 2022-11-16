@@ -179,7 +179,6 @@ h6 {
       // border-radius: 5px;
       text-decoration: none;
       color: $gray;
-      padding: 0;
       background: $gray-light;
       border-radius: 1rem;
       padding: 0.5rem 1rem;
@@ -628,6 +627,7 @@ h6 {
     color: $gray-dark;
     align-self: flex-start;
     border-bottom-left-radius: 0px;
+    font-size: x-large;
   }
   p.outgoing-message {
     color: $gray;
