@@ -627,7 +627,7 @@ h6 {
     color: $gray-dark;
     align-self: flex-start;
     border-bottom-left-radius: 0px;
-    font-size: x-large;
+    font-size: larger;
   }
   p.outgoing-message {
     color: $gray;
@@ -825,7 +825,7 @@ h6 {
 }
 
 .chat-options {
-  font-family: "cambay", Arial;
+  font-family: "cambay", Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
 
@@ -837,13 +837,13 @@ h6 {
   height: 6vh;
 
   padding: 0.5rem;
-  border-radius: 0.5rem;
+  //border-radius: 0.5rem;
   position: static;
 
   border-radius: 1rem;
   border: 2px $gray-mid dashed;
   &.expand {
-    width: calc(69% - 2rem);
+    width: calc(100% - 5rem);
     padding: 0.5rem 1rem;
   }
 

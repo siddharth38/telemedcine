@@ -23,6 +23,7 @@ const authenticate = require('../helper/auth');
 const { questions } = require('../data/questions');
 
 const Patient = require('../models/patient');
+const Session = require('../models/session');
 const Doctor = require('../models/doctor');
 const { Hits } = require('../models/miscellaneous');
 
@@ -83,9 +84,10 @@ router.post('/helpline', (req, res) => {
 
 /* Patient */
 /**
- * Final assessment after initial interaction
- * of chatbot with given questions.
- * Initiation of backend and frontend interation
+ * Final assessment after initial interaction of patient and chat bot with given questions.
+ * Initiation of backend and frontend interaction
+ * Pushes into DB after everything is done at the frontend
+ * realtime() will gradually replace this or this will be called from backend in the future
  */
 router.post('/assessment', (req, res) => {
 	const { answers, timestamps, latitude, longitude, chat } = req.body;
@@ -143,10 +145,11 @@ router.post('/assessment', (req, res) => {
 						]
 					});
 
+				// Actual push into DB
 				Patient.create(
 					{
 						_id: getId(name, telephone),
-						...model,
+						...model,																			// data prepared through callback from answersToModel
 						latitude,
 						longitude,
 						ip: req.headers['x-real-ip'] || req.ip,

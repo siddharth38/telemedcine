@@ -12,9 +12,11 @@ import PeerConnection from "./webrtc/PeerConnection";
 import CallWindow from "./webrtc/CallWindow";
 import CallModal from "./webrtc/CallModal";
 
+const bson = require('bson');
 const { commands } = require('../data/commands'); // TODO: Should be fetched from backend or be executed at the backend via APIs
 const client = require('socket.io-client');
 
+const TYPE_TEXT = 'text'
 const TYPE_BUTTON = 'button'
 const TYPE_LIST = 'list'										// checkboxes
 const TYPE_SELECT = 'select'
@@ -23,10 +25,18 @@ const TYPE_UPLOAD = 'upload'
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
 const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend. example cardiac screening
 
+const MUTE_ALL = 'muteall'
+const SPEAK_ALL = 'speakall'
+const STOP_SPEECH = 'stop'
+
+const INCOMING_MESSAGE = 'incoming'
+const OUTGOING_MESSAGE = 'outgoing'
+
 //Incoming message : chatbot server to user
 
 export default class Chat extends React.Component {
 	state = {
+		session_id: '',
 		questions: [],
 		answers: {},
 		timestamps: {},
@@ -36,6 +46,7 @@ export default class Chat extends React.Component {
 
 		optionSelected: '0',
 		textAnswered: '',
+		textOverrideAnswered: '',
 
 		chat: [],
 		loadingChat: true,
@@ -54,13 +65,18 @@ export default class Chat extends React.Component {
 		callWindow: '',
 		callModal: '',
 		localSrc: null,
-		peerSrc: null
+		peerSrc: null,
+
+		mute: SPEAK_ALL
 	};
 
 	socket = null;
 	pc = {};
 
 	componentDidMount() {
+		// generate sessionID for mongodb.
+		this.state.session_id = new bson.ObjectId().toString();
+
 		axios
 			.get(ENDPOINT + '/api/questions')
 			.then((response) => {
@@ -107,7 +123,7 @@ export default class Chat extends React.Component {
         }
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
   }
 
@@ -116,23 +132,24 @@ export default class Chat extends React.Component {
 	}
 
 	// unused?
-  jumpToNextQuestion = (message) => {
-		console.log("jumpToNextQuestion()")
-    const { optionSelected, answerFormat, questionDetails } = this.state;
-    const { options } = answerFormat;
-    const { nextQuestion } = options && options[optionSelected].nextQuestion
-        ? options[optionSelected] : questionDetails;
-    if (message) {
-      this.enterMessageIntoChat(message, 'outgoing');
-    }
-    const question = this.getQuestionById(nextQuestion);
-    this.setQuestion(question);
-  }
+  // jumpToNextQuestion = (message) => {
+	// 	console.log("jumpToNextQuestion()")
+  //   const { optionSelected, answerFormat, questionDetails } = this.state;
+  //   const { options } = answerFormat;
+  //   const { nextQuestion } = options && options[optionSelected].nextQuestion
+  //       ? options[optionSelected] : questionDetails;
+  //   if (message) {
+  //     this.enterMessageIntoChat(message, 'outgoing');
+  //   }
+  //   const question = this.getQuestionById(nextQuestion);
+  //   this.setQuestion(question);
+  // }
 
   /**
 	 * sets different types of questions - configures variables to be used later
    * @param question Either a question object or a question ID
    * @param customOptions Overrides the existing options
+	 * Sends information to the backend with every message
    */
 	setQuestion = (question, customOptions=null) => {
 		// if ID, get object
@@ -246,10 +263,10 @@ export default class Chat extends React.Component {
 	/**
 	 * Sends on send button press. Attached to form. Uses socket
 	 */
-	sendMessage = (e) => {
+	sendMessage = (event) => {
 		const { textAnswered, doctor } = this.state;
 
-		if (e && e.preventDefault) e.preventDefault();
+		if (event && event.preventDefault) event.preventDefault();
 
 		if (textAnswered.length) {
 			this.setState({ textAnswered: '' });
@@ -258,6 +275,7 @@ export default class Chat extends React.Component {
 		}
 	};
 
+	// used while uploading image
 	handleMessageChange = (event) => {
 		const { id, value } = event.target;
 		const { textAnswered, doctor } = this.state;
@@ -271,11 +289,16 @@ export default class Chat extends React.Component {
 		}
 	};
 
+	/**
+	 * For doctor-patient interaction?
+	 * For call or only messages?
+	 */
 	connect = () => {
 		const { patientId } = this.state;
 
 		this.setState({ requesting: true });
 
+		// create socket based on environment - dev/prod
 		this.socket = client(process.env.NODE_ENV === 'development' ? BACKEND_URL_DEV : '/', {
 			path: '/app_chat',
 			transports: ['websocket'],
@@ -380,9 +403,11 @@ export default class Chat extends React.Component {
 		let { textAnswered } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
+		// prevent Default faolowup to the event. No idea when?
 		if (event && event.preventDefault) event.preventDefault();
 
 		if (type === TYPE_LIST) {
+			// Don't do much other than update things
 			textTypeAnswer = true;
 			textAnswered = "";
 			let savedValues = [];
@@ -482,7 +507,6 @@ export default class Chat extends React.Component {
 							chat: chat.concat(incomingChats)
 						},
 						this.scrollDown
-
 					);
 					this.setQuestion(question);
 					console.log('scrolledDown()')
@@ -534,7 +558,7 @@ export default class Chat extends React.Component {
 			answerFormat, questionDetails, tempSelection} = this.state;
 		const { type, options } = answerFormat;
 		//const textTypeAnswer = ['text', 'tel', 'password', 'email', 'date', 'list'].includes(type);
-		const { nextQuestion } = options && typeof options[optionSelected].nextQuestion != 'undefined'
+		let { nextQuestion } = options && typeof options[optionSelected].nextQuestion != 'undefined'
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
 
@@ -553,7 +577,7 @@ export default class Chat extends React.Component {
 			const question = this.getQuestionById(nextQuestion);
 			this.setQuestion(question);
 		}
-	}; 
+	};
 
 	/**
 	 * End of flow.
@@ -583,6 +607,7 @@ export default class Chat extends React.Component {
 	 * Redirects to URLs if needed
 	 * Most frequently called
 	 * Best for tracking of user behavior
+	 * Updates state
 	 */
 	handleChange = (event) => {
 		const { id, value } = event.target;
@@ -596,14 +621,21 @@ export default class Chat extends React.Component {
 				}
 			});
 		} else {
+			// everything default behavior, update things
+
+			// external site
 			let redirectUrl = event.target.getAttribute("data-url")
+
 			this.setState(
 				{
 					[id]: value
 				},
 				() => {
 					if (type === TYPE_BUTTON) {
+
+						// open external site
 						if (redirectUrl) window.open(redirectUrl)
+
 						this.answer();
 					}
 				}
@@ -689,6 +721,7 @@ export default class Chat extends React.Component {
 							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
 							onMouseEnter={() => this.speak(chatStatement, true)}
+							onTouchStart={() => this.speak(chatStatement, true)}
 							// onMouseLeave={() => window.speechSynthesis.cancel()}
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
@@ -720,7 +753,7 @@ export default class Chat extends React.Component {
 		// msg.volume = 1;
 		msg.lang = this.state.languageSelected
 		window.speechSynthesis.speak(msg);
-		console.log("speechSynthesis.speaking = ", window.speechSynthesis.speaking, "stopSpeaking = ", stopOldSpeach)
+		// console.log("speechSynthesis.speaking = ", window.speechSynthesis.speaking, "stopSpeaking = ", stopOldSpeach)
 		window.speechSynthesis.resume()
 	}
 
@@ -835,12 +868,12 @@ export default class Chat extends React.Component {
 						{options.map(({ value, statement }, index) => {
 	            const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 							return (
-								<label style={{ animationDelay: `1.${index}s` }}>
+								<label style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large' }}>
 									<input type="checkbox"
 										id={value}
 										onChange={this.handleChange}
 										className="fadeInUp"
-										style={{ marginRight: "10px" }}
+										style={{ marginRight: "10px", background: '#CCCCFF', color: '#111111', fontSize: 'large' }}
 										onMouseEnter={() => this.speak(chatStatement, true)}
 										onTouchStart={() => this.speak(chatStatement, true)}
 									/>
@@ -852,9 +885,13 @@ export default class Chat extends React.Component {
 					<button
 						onClick={this.answer}
 						className="fadeInUp"
-						style={{ animationDelay: `2.0s` }}
+						style={{ animationDelay: `2.0s`, background: '#CCCCFF', color: '#111111', fontSize: 'large', position:'relative', whiteSpace:'nowrap' }}
 					>
-						Submit
+						<object>
+						{ this.state.languageSelected==='hi' ? "भेजें" : "SUBMIT" }
+							<object hspace="5"/>
+							<Icon.Send/>
+						</object>
 					</button>
 				</div>
 			);
@@ -875,6 +912,7 @@ export default class Chat extends React.Component {
 				</div>
 			);
 		} else if (type === TYPE_UPLOAD) {
+			// Media upload
 			console.log("renderAnswers upload")
       return (
         <div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
@@ -930,7 +968,7 @@ export default class Chat extends React.Component {
 			languageSelected
 		} = this.state;
 
-    return (
+		return (
       <div className="select-row fadeInUp" style={{ animationDelay: '0.2s' }}>
 			<label>Language:</label>
       <select id="languageSelected" value={languageSelected} onChange={this.handleLanguageChange}>
@@ -965,7 +1003,7 @@ export default class Chat extends React.Component {
         {this.renderLanguageSelect()}
       </div>
       <div className="Chat fadeInUp" style={{ animationDelay: '0.7s' }}>
-        {loadingChat && <div class="lds-dual-ring"/>}
+        {loadingChat && <div className="lds-dual-ring"/>}
         {this.renderChat()}
         {this.renderAnswers()}
       </div>
