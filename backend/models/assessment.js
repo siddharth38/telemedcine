@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+// seems like never used
 
 // create a schema
 const AssessmentSchema = new Schema({
@@ -12,7 +13,7 @@ const AssessmentSchema = new Schema({
     sore_throat: String,
     international_traveller: String,
     patient_in_household: String,
-    contact_with_atient: String,
+    contact_with_patient: String,
     symptomatic: Boolean,
     suspect: Boolean,
     additional: String,

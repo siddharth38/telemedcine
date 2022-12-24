@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+// import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
 import axios from 'axios';
 import Table from './table';
@@ -16,6 +17,7 @@ class Doctor extends React.Component {
 	};
 
 	componentDidMount() {
+		console.log("component did mount. logging in")
 		this.login();
 	}
 
@@ -47,6 +49,7 @@ class Doctor extends React.Component {
 	login = (e) => {
 		if (e && e.preventDefault) e.preventDefault();
 
+		// noinspection JSUnusedLocalSymbols
 		const { loading, username, password } = this.state;
 
 		this.setState({ loading: true, error: '' });
@@ -81,6 +84,7 @@ class Doctor extends React.Component {
 	};
 
 	render() {
+		console.log("rendering admin")
 		const { loggedin, username, password, error, loading } = this.state;
 
 		if (!loggedin) {

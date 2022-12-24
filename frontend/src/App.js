@@ -108,7 +108,7 @@ function App() {
 						</a>
 					</div>
 				</div>
-				<div class="hits">
+				<div className="hits">
 					<h6 className="sources">कुल वेब हिट: {normalise(hits)}</h6>
 				</div>
 			</footer>

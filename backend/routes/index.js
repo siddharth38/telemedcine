@@ -23,6 +23,7 @@ const authenticate = require('../helper/auth');
 const { questions } = require('../data/questions');
 
 const Patient = require('../models/patient');
+const Session = require('../models/session');
 const Doctor = require('../models/doctor');
 const { Hits } = require('../models/miscellaneous');
 
@@ -75,7 +76,7 @@ router.post('/image', upload.any(), (req, res) => {
  * TODO: Give number based on location
  */
 router.post('/helpline', (req, res) => {
-  const { latitude, longitude } = req.body;
+  // const { latitude, longitude } = req.body;
 	res.json({
     helpline: '011-23978046',
   });
@@ -83,9 +84,10 @@ router.post('/helpline', (req, res) => {
 
 /* Patient */
 /**
- * Final assessment after initial interaction
- * of chatbot with given questions.
- * Initiation of backend and frontend interation
+ * Final assessment after initial interaction of patient and chat bot with given questions.
+ * Initiation of backend and frontend interaction
+ * Pushes into DB after everything is done at the frontend
+ * realtime() will gradually replace this or this will be called from backend in the future
  */
 router.post('/assessment', (req, res) => {
 	const { answers, timestamps, latitude, longitude, chat } = req.body;
@@ -143,10 +145,11 @@ router.post('/assessment', (req, res) => {
 						]
 					});
 
+				// Actual push into DB
 				Patient.create(
 					{
 						_id: getId(name, telephone),
-						...model,
+						...model,																			// data prepared through callback from answersToModel
 						latitude,
 						longitude,
 						ip: req.headers['x-real-ip'] || req.ip,
@@ -159,6 +162,7 @@ router.post('/assessment', (req, res) => {
 					},
 					(err, patient) => {
 						if (err) {
+							// doctor not found
 							console.error(err);
 							return res.json({
 								incomingChats: [
@@ -173,6 +177,8 @@ router.post('/assessment', (req, res) => {
 								]
 							});
 						}
+
+						// no error in patient creation - begin call
 
 						const { _id } = patient;
 
@@ -205,8 +211,9 @@ router.post('/assessment', (req, res) => {
 		});
 	}
 });
+
 /**
- * Payment and disclaimer
+ * Payment and disclaimer. Chat opening
  */
 router.get('/questions', (req, res) => {
 	/* TODO: doctor's availability status and welcome message */
@@ -257,17 +264,9 @@ router.get('/questions', (req, res) => {
 			incomingChats: [
 				{
           statement: {
-            en: 'Disclaimer: We collect your personal information such as name, age, phone number for registration purposes. We do not share this information with any other third party nor do we use it for commercial purposes. We may use your information for the purpose of our research and to create innovative and advanced services. We also use third party web analytics services such as Google Analytics which may collect information related to your use of this website.',
-            hi: 'अस्वीकरण: हम आपकी व्यक्तिगत जानकारी जैसे नाम, आयु, फोन नंबर पंजीकरण के प्रयोजनों के लिए एकत्र करते हैं। हम इस जानकारी को किसी अन्य तीसरे पक्ष के साथ साझा नहीं करते हैं और न ही हम इसका उपयोग व्यावसायिक उद्देश्यों में करते हैं। हम आपकी जानकारी का उपयोग हमारे शोध के उद्देश्य और नवीन और उन्नत सेवाओं को बनाने के लिए कर सकते हैं। हम गूगल एनालिटिक्स जैसी थर्ड पार्टी वेब विश्लेषणात्मक सेवाओं का भी उपयोग करते हैं जो इस वेबसाइट के आपके उपयोग से संबंधित जानकारी एकत्र कर सकती हैं।',
-            bn: 'দাবি অস্বীকার: আমরা আপনার ব্যক্তিগত তথ্য যেমন নাম, বয়স, নাম্বার জন্য ফোন নম্বর সংগ্রহ করি। আমরা এই তথ্যটি অন্য কোনও তৃতীয় পক্ষের সাথে ভাগ করি না বা আমরা বাণিজ্যিক উদ্দেশ্যে এটি ব্যবহার করি না। আমরা আপনার তথ্য আমাদের গবেষণার উদ্দেশ্যে এবং উদ্ভাবনী এবং উন্নত পরিষেবা তৈরি করতে ব্যবহার করতে পারি। আমরা তৃতীয় পক্ষের ওয়েব অ্যানালিটিক্স পরিষেবাদি যেমন গুগল অ্যানালিটিক্স ব্যবহার করি যা আপনার ওয়েবসাইটের ব্যবহার সম্পর্কিত তথ্য সংগ্রহ করতে পারে।'
-          },
-					type: 'incoming'
-				},
-				{
-          statement: {
-            en: 'We welcome you 👩‍⚕️',
-            hi: 'आपका स्वागत है 👩‍⚕️',
-            bn: 'আপনি স্বাগত জানাই 👩‍⚕️'
+            en: 'We welcome you 🙏👩‍⚕️',
+            hi: 'आपका स्वागत है 🙏👩‍⚕️',
+            bn: 'আপনি স্বাগত জানাই 🙏👩‍⚕️'
           },
 					type: 'incoming'
 				}
@@ -309,6 +308,7 @@ router.get('/patient-list', authenticate, (req, res) => {
 		}
 	);
 });
+
 /**
  * Used by doctor to get other doctors
  * of the same hospital he can refer the same patient to
@@ -330,6 +330,7 @@ router.get('/logout', authenticate, (req, res) => {
 	req.session.username = null;
 	res.json({ loggedOut: true });
 });
+
 /**
  * doctors login
  */

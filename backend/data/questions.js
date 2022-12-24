@@ -16,11 +16,11 @@ const PATTERN = "pattern"            // support commands
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
-const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
+// const TYPE_INCOMING = "incoming"            // send a message and move to next message. Probably
 const TYPE_BUTTON = "button"                // choose option from text buttons
 const TYPE_LIST = "list"                    // checkboxes
-const TYPE_SELECT = "select"                // spinner
-const TYPE_UPLOAD = "upload"                // upload
+// const TYPE_SELECT = "select"                // spinner
+// const TYPE_UPLOAD = "upload"                // upload
 const TYPE_TEXT = "text"                    // text
 const TYPE_ANALYSE = "analyse"              // complex analyses of user answers on frontend across multiple questions. example cardiac screening
 const TYPE_TELEPHONE = "tel"                // complex telephone and age
@@ -31,41 +31,41 @@ const LANG_HINDI = "hi"
 const LANG_BANGLA = "bn"
 
 //DB_VALUES
-const DB_VALUE_0 = 0
-const DB_VALUE_1 = 1
-const DB_VALUE_2 = 2
-const DB_VALUE_3 = 3
-const DB_VALUE_4 = 4
-const DB_VALUE_5 = 5
-const DB_VALUE_6 = 6
-const DB_VALUE_7 = 7
-const DB_VALUE_8 = 8
-const DB_VALUE_OPD = "OPD"
+// const DB_VALUE_0 = 0
+// const DB_VALUE_1 = 1
+// const DB_VALUE_2 = 2
+// const DB_VALUE_3 = 3
+// const DB_VALUE_4 = 4
+// const DB_VALUE_5 = 5
+// const DB_VALUE_6 = 6
+// const DB_VALUE_7 = 7
+// const DB_VALUE_8 = 8
+// const DB_VALUE_OPD = "OPD"
 const DB_VALUE_YES = "Yes"
 const DB_VALUE_NO = "No"
-const DB_VALUE_RESTART = "Restart"
-const DB_VALUE_END = "End"
-const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
+// const DB_VALUE_RESTART = "Restart"
+// const DB_VALUE_END = "End"
+// const DB_VALUE_AIIMSJ = "AIIMS Jodhpur"
 
 // common values
 const STATEMENT_YES = {
-    [LANG_ENGLISH]: "Yes",
-    [LANG_HINDI]: "हाँ",
-    [LANG_BANGLA]: 'হ্যাঁ'
+    [LANG_ENGLISH]: "Yes✔️",
+    [LANG_HINDI]: "हाँ✔️",
+    [LANG_BANGLA]: 'হ্যাঁ✔️'
 }
 const STATEMENT_NO = {
-    [LANG_ENGLISH]: "No",
-    [LANG_HINDI]: "नहीं",
-    [LANG_BANGLA]: 'না'
+    [LANG_ENGLISH]: "No ❌",
+    [LANG_HINDI]: "नहीं ❌",
+    [LANG_BANGLA]: 'না ❌'
 }
-const STATEMENT_CORRECT = {
-    [LANG_ENGLISH]: "Correct answer!",
-    [LANG_HINDI]: "सही जवाब!",
-}
-const STATEMENT_WRONG = {
-    [LANG_ENGLISH]: "Wrong answer",
-    [LANG_HINDI]: "गलत जवाब"
-}
+// const STATEMENT_CORRECT = {
+//     [LANG_ENGLISH]: "Correct answer!",
+//     [LANG_HINDI]: "सही जवाब!",
+// }
+// const STATEMENT_WRONG = {
+//     [LANG_ENGLISH]: "Wrong answer",
+//     [LANG_HINDI]: "गलत जवाब"
+// }
 const STATEMENT_TRUE = {
     [LANG_ENGLISH]: "True",
     [LANG_HINDI]: "सत्य",
@@ -83,14 +83,81 @@ const NEXT_QUESTION_ENDS_FLOW = 0                   // end chatbot. sometimes co
 
 module.exports = {
     [QUESTIONS]: [
+        // {
+        //     [ID]: "-1.0 Consent message",
+        //     [OPTIONS]: [
+        //         {
+        //             [NEXT_QUESTION]: 1.0,
+        //             [STATEMENT]: STATEMENT_YES,
+        //             [VALUE]: 0
+        //         },
+        //         {
+        //             [NEXT_QUESTION]: "-1.1 Why no consent",
+        //             [STATEMENT]: STATEMENT_NO,
+        //             [VALUE]: 1
+        //         },
+        //         {
+        //             [NEXT_QUESTION]: "9997.0 Redirecting",
+        //             [STATEMENT]: {
+        //                 [LANG_ENGLISH]: "AIIMS portal",
+        //                 [LANG_HINDI]: "एम्स पोर्टल"
+        //             },
+        //             [VALUE]: 2,
+        //             [URL]: "https://www.aiimsjodhpur.edu.in/Patient_Portal/"
+        //         }
+        //         // test
+        //         // {
+        //         //     [NEXT_QUESTION]: "83.0 Cardiac fatigue",
+        //         //     [STATEMENT]: {
+        //         //         [LANG_ENGLISH]: "Jump to test",
+        //         //         [LANG_HINDI]: "Jump to test"
+        //         //     },
+        //         //     [VALUE]: 4
+        //         // },
+        //     ],
+        //     [STATEMENT]: {
+        //         [LANG_ENGLISH]: "By continuing, you agree to take part in the testing of this chat-bot 🤖 and your data being collected and used for research purposes. 📝\n" +
+        //         "It will be kept securely 🛡️ and will not be shared with any third parties.",
+        //         [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट 🤖 के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा। 📝\n" +
+        //         "इसे सुरक्षित रखा जाएगा 🛡️ और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
+        //     },
+        //     [TYPE]: TYPE_BUTTON
+        // },
+        {
+            [ID]: "-1.0 Consent message",
+            [NEXT_QUESTION]: 1.0,
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "By continuing, you agree to take part in the testing of this chat-bot 🤖 and your data being collected and used for research purposes. 📝\n" +
+                "It will be kept securely 🛡️ and will not be shared with any third parties.",
+                [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट 🤖 के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा। 📝\n" +
+                "इसे सुरक्षित रखा जाएगा 🛡️ और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
+            },
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "-1.1 Why no consent",
+            [STATEMENT]: STATEMENT_WHY_NOT,
+            [NEXT_QUESTION]: "-1.2 Disclaimer",
+            [TYPE]: TYPE_TEXT
+        },
+        {
+            [ID]: "-1.2 Disclaimer",
+            [STATEMENT]: {
+                en: 'Disclaimer: We collect your personal information such as name, age, phone number for registration purposes. We do not share this information with any other third party nor do we use it for commercial purposes. We may use your information for the purpose of our research and to create innovative and advanced services. We also use third party web analytics services such as Google Analytics which may collect information related to your use of this website.',
+                hi: 'अस्वीकरण: हम आपकी व्यक्तिगत जानकारी जैसे नाम, आयु, फोन नंबर पंजीकरण के प्रयोजनों के लिए एकत्र करते हैं। हम इस जानकारी को किसी अन्य तीसरे पक्ष के साथ साझा नहीं करते हैं और न ही हम इसका उपयोग व्यावसायिक उद्देश्यों में करते हैं। हम आपकी जानकारी का उपयोग हमारे शोध के उद्देश्य और नवीन और उन्नत सेवाओं को बनाने के लिए कर सकते हैं। हम गूगल एनालिटिक्स जैसी थर्ड पार्टी वेब विश्लेषणात्मक सेवाओं का भी उपयोग करते हैं जो इस वेबसाइट के आपके उपयोग से संबंधित जानकारी एकत्र कर सकती हैं।',
+                bn: 'দাবি অস্বীকার: আমরা আপনার ব্যক্তিগত তথ্য যেমন নাম, বয়স, নাম্বার জন্য ফোন নম্বর সংগ্রহ করি। আমরা এই তথ্যটি অন্য কোনও তৃতীয় পক্ষের সাথে ভাগ করি না বা আমরা বাণিজ্যিক উদ্দেশ্যে এটি ব্যবহার করি না। আমরা আপনার তথ্য আমাদের গবেষণার উদ্দেশ্যে এবং উদ্ভাবনী এবং উন্নত পরিষেবা তৈরি করতে ব্যবহার করতে পারি। আমরা তৃতীয় পক্ষের ওয়েব অ্যানালিটিক্স পরিষেবাদি যেমন গুগল অ্যানালিটিক্স ব্যবহার করি যা আপনার ওয়েবসাইটের ব্যবহার সম্পর্কিত তথ্য সংগ্রহ করতে পারে।'
+            },
+            [NEXT_QUESTION]: 1.0,
+            [TYPE]: TYPE_NONE
+        },
         {
             [ID]: 1.0,
             [OPTIONS]: [
                 {
                     [NEXT_QUESTION]: 23.0,
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Consultation",
-                        [LANG_HINDI]: "परामर्श"
+                        [LANG_ENGLISH]: "Consultation👨‍⚕️",
+                        [LANG_HINDI]: "परामर्श👨‍⚕️"
                     },
                     [VALUE]: 0
                 },
@@ -105,8 +172,8 @@ module.exports = {
                 {
                     [NEXT_QUESTION]: "90.0 Cardiac education",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Information about the heart and blood",
-                        [LANG_HINDI]: "हृदय और रक्त के बारे में जानकारी"
+                        [LANG_ENGLISH]: "Information about the heart❤️",
+                        [LANG_HINDI]: "हृदय के बारे में जानकारी❤️"
                     },
                     [VALUE]: 2
                 },
@@ -135,12 +202,14 @@ module.exports = {
             [TYPE]: TYPE_BUTTON
         },
 
+////////////////////////////////////////////////////////////////////////////////
+
         {
             [ID]: "90.0 Cardiac education",
             [NEXT_QUESTION]: "90.1 Cardiac status",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?",
-                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?"
+                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?☠️",
+                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
             },
             [TYPE]: TYPE_NONE
         },
@@ -152,23 +221,23 @@ module.exports = {
                     [NEXT_QUESTION]: "94.0 What would you like to know",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, I have never been to the cardiologist / heart specialist",
-                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग विशेषज्ञ / हृदय रोग विशेषज्ञ के पास नहीं गया"
+                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग के पास नहीं गया/गई"
                     },
                     [VALUE]: 0
                 },
                 {
                     [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner / BP)",
-                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर / बीपी)"
+                        [LANG_ENGLISH]: "Yes, I am on medication - (blood thinner / BP)💊",
+                        [LANG_HINDI]: "हाँ, मैं दवा ले रहा हूँ - (ब्लड थिनर / बीपी)💊"
                     },
                     [VALUE]: 1
                 },
                 {
                     [NEXT_QUESTION]: "93.0 Cardiac surgery patient. Laminated?",
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Yes, I have had surgery / will be having heart surgery / angioplasty",
-                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा / एंजियोप्लास्टी"
+                        [LANG_ENGLISH]: "Yes, I have had surgery / will be having heart surgery / angioplasty🏥",
+                        [LANG_HINDI]: "हां, मेरी सर्जरी हो चुकी है / होने वाली है हृदय शल्य चिकित्सा / एंजियोप्लास्टी🏥"
                     },
                     [VALUE]: 2
                 }
@@ -195,8 +264,8 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Are you taking your medicines regularly?",
-                [LANG_HINDI]: "क्या आप अपनी दवाएं नियमित रूप से ले रहे हैं?"
+                [LANG_ENGLISH]: "Are you taking your medicines regularly?🕝",
+                [LANG_HINDI]: "क्या आप अपनी दवाएं नियमित रूप से ले रहे हैं?🕝"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -212,8 +281,8 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Laminated",
-                        [LANG_HINDI]: "लैमिनेटेड"
+                        [LANG_ENGLISH]: "Laminated👌",
+                        [LANG_HINDI]: "लैमिनेटेड👌"
                     },
                     [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds",
                     [VALUE]: 0
@@ -237,14 +306,15 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is your heart document laminated?",
-                [LANG_HINDI]: "क्या आपका हार्ट डॉक्यूमेंट लैमिनेटेड है?"
-            }
+                [LANG_HINDI]: "क्या आपका दिल के पेपर लैमिनेटेड है?"
+            },
+            [TYPE]: TYPE_BUTTON
         },
         {
             [ID]: "93.1 Get Laminated",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "You should get it done at the earliest. The document must last longer than you",
-                [LANG_HINDI]: "आपको इसे जल्द से जल्द करवाना चाहिए। दस्तावेज़ आपसे अधिक समय तक चलना चाहिए"
+                [LANG_ENGLISH]: "You should get it done at the earliest. ⌛💨 The document must last longer than you∞",
+                [LANG_HINDI]: "आपको इसे जल्द से जल्द करवाना चाहिए। ⌛💨 आपके दस्तावेज़ आपसे अधिक समय तक चलना चाहिए∞"
             },
             [NEXT_QUESTION]: "92.0 Cardiac medicine patient. Taking meds"
         },
@@ -254,7 +324,7 @@ module.exports = {
                 [LANG_ENGLISH]: "Which procedure will you be going through?",
                 [LANG_HINDI]: "आप किस प्रक्रिया से गुजरेंगे?"
             },
-            [NEXT_QUESTION]: 9998
+            [NEXT_QUESTION]: "9998 dead end"
         },
 
         {
@@ -270,7 +340,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Smoking / Gutka / Khaini",
+                        [LANG_ENGLISH]: "Smoking 🚬 / Gutka / Khaini",
                         [LANG_HINDI]: "धूम्रपान / गुटका / खैनी"
                     },
                     [NEXT_QUESTION]: "101.0 Tobacco",
@@ -278,10 +348,10 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Exercise for heart",
+                        [LANG_ENGLISH]: "Exercise for heart🤾‍♀️",
                         [LANG_HINDI]: "दिल के लिए कसरत"
                     },
-                    [NEXT_QUESTION]: "105.1 Heart exercise",
+                    [NEXT_QUESTION]: "105.1 Heart exercise️",
                     [VALUE]: 2
                 },
                 {
@@ -302,8 +372,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Blood pressure",
-                        [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप"
+                        [LANG_ENGLISH]: "Blood pressure🤯",
+                        [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप🤯"
                     },
                     [NEXT_QUESTION]: "121.0 BP information",
                     [VALUE]: 5
@@ -318,8 +388,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Diet",
-                        [LANG_HINDI]: "खान पीन"
+                        [LANG_ENGLISH]: "Diet🍔",
+                        [LANG_HINDI]: "खान पीन🍔"
                     },
                     [NEXT_QUESTION]: "189.0 Cardiac Diet",
                     [VALUE]: 7
@@ -401,7 +471,7 @@ module.exports = {
                     [VALUE]: 4
                 },
             ],
-            [STATEMENT]: {
+             [STATEMENT]: {
                 [LANG_ENGLISH]: "What do you want to know about?",
                 [LANG_HINDI]: "आप किसके बारे में जानना चाहते हैं?"
             },
@@ -410,8 +480,8 @@ module.exports = {
         {
             [ID]: "96.0 ECG",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "An electrocardiogram (ECG) is a simple test that can be used to check your heart's rhythm and electrical activity. Sensors attached to the skin are used to detect the electrical signals produced by your heart each time it beats.",
-                [LANG_HINDI]: "एक इलेक्ट्रोकार्डियोग्राम (ईसीजी) एक सरल परीक्षण है जिसका उपयोग आपके दिल की लय और विद्युत गतिविधि की जांच के लिए किया जा सकता है। त्वचा से जुड़े सेंसर हर बार धड़कने पर आपके दिल द्वारा उत्पादित विद्युत संकेतों का पता लगाने के लिए उपयोग किए जाते हैं।"
+                [LANG_ENGLISH]: "An electrocardiogram (ECG) is a simple test that can be used to check your heart's rhythm and electrical activity⚡. Sensors attached to the skin are used to detect the electrical signals produced by your heart each time it beats.",
+                [LANG_HINDI]: "एक इलेक्ट्रोकार्डियोग्राम (ईसीजी) एक सरल परीक्षण है जिसका उपयोग आपके दिल की लय और विद्युत गतिविधि की जांच के लिए किया जा सकता है⚡। त्वचा से जुड़े सेंसर हर बार धड़कने पर आपके दिल द्वारा उत्पादित विद्युत संकेतों का पता लगाने के लिए उपयोग किए जाते हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -419,8 +489,8 @@ module.exports = {
         {
             [ID]: "97.0 Echo",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "An echocardiogram uses sound waves to produce images of your heart. This common test allows your doctor to see your heart beating and pumping blood. Your doctor can use the images from an echocardiogram to identify heart disease.",
-                [LANG_HINDI]: "एक इकोकार्डियोग्राम आपके दिल की छवियों को बनाने के लिए ध्वनि तरंगों का उपयोग करता है। यह सामान्य परीक्षण आपके डॉक्टर को आपके दिल की धड़कन और रक्त पंप करते हुए देखने की अनुमति देता है। हृदय रोग की पहचान करने के लिए आपका डॉक्टर एक इकोकार्डियोग्राम से छवियों का उपयोग कर सकता है।"
+                [LANG_ENGLISH]: "An echocardiogram uses sound waves to produce images of your heart. 🔊 This common test allows your doctor to see your heart beating and pumping blood. Your doctor can use the images from an echocardiogram to identify heart disease.",
+                [LANG_HINDI]: "एक इकोकार्डियोग्राम आपके दिल की छवियों को बनाने के लिए ध्वनि तरंगों का उपयोग करता है। 🔊 यह सामान्य परीक्षण आपके डॉक्टर को आपके दिल की धड़कन और रक्त पंप करते हुए देखने की अनुमति देता है। हृदय रोग की पहचान करने के लिए आपका डॉक्टर एक इकोकार्डियोग्राम से छवियों का उपयोग कर सकता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -428,8 +498,8 @@ module.exports = {
         {
             [ID]: "98.0 TMT",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "A treadmill test (TMT) or cardiac stress test helps determine how far your heart can go before an abnormal rhythm or blood flow to the heart muscle drops. It helps your doctor know how your heart responds on being pushed. You will be asked to walk on a treadmill, and the difficulty level will be gradually increased.",
-                [LANG_HINDI]: "ट्रेडमिल टेस्ट (टीएमटी) या कार्डियक स्ट्रेस टेस्ट यह निर्धारित करने में मदद करता है कि हृदय की मांसपेशियों में असामान्य लय या रक्त के प्रवाह से पहले आपका दिल कितनी दूर जा सकता है। यह आपके डॉक्टर को यह जानने में मदद करता है कि धक्का दिए जाने पर आपका दिल कैसे प्रतिक्रिया करता है। आपको ट्रेडमिल पर चलने के लिए कहा जाएगा, और कठिनाई का स्तर धीरे-धीरे बढ़ जाएगा।"
+                [LANG_ENGLISH]: "A treadmill test (TMT) or cardiac stress test helps determine how far your heart can go before an abnormal rhythm or blood flow to the heart muscle drops🏃. It helps your doctor know how your heart responds on being pushed. You will be asked to walk on a treadmill, and the difficulty level will be gradually increased.",
+                [LANG_HINDI]: "ट्रेडमिल टेस्ट (टीएमटी) या कार्डियक स्ट्रेस टेस्ट यह निर्धारित करने में मदद करता है कि हृदय की मांसपेशियों में असामान्य लय या रक्त के प्रवाह से पहले आपका दिल कितनी मेहनत सकता है🏃। यह आपके डॉक्टर को यह जानने में मदद करता है कि धक्का दिए जाने पर आपका दिल कैसे प्रतिक्रिया करता है। आपको ट्रेडमिल पर चलने के लिए कहा जाएगा, और कठिनाई का स्तर धीरे-धीरे बढ़ जाएगा।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -447,7 +517,7 @@ module.exports = {
             [ID]: "100.0 ABP",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Ambulatory Blood Pressure (ABP) monitoring is a diagnostic tool designed to monitor the blood pressure over 24 hours and thus gain an overall profile of variation in a day. It is a portable test undertaken in the course of a normal day.",
-                [LANG_HINDI]: "एम्बुलेटरी ब्लड प्रेशर (एबीपी) मॉनिटरिंग एक डायग्नोस्टिक टूल है जिसे 24 घंटे से अधिक ब्लड प्रेशर की निगरानी के लिए डिज़ाइन किया गया है और इस प्रकार एक दिन में भिन्नता का समग्र प्रोफ़ाइल प्राप्त करता है। यह एक सामान्य दिन के दौरान किया जाने वाला एक पोर्टेबल परीक्षण है।"
+                [LANG_HINDI]: "चलते फिरते ब्लड प्रेशर (एबीपी) में 24 घंटे से अधिक ब्लड प्रेशर की निगरानी करी जाती है और इस प्रकार एक दिन में आने वाले अंतर पता चल जाते हैं। यह एक सामान्य दिन के दौरान किया जाने वाला एक पोर्टेबल परीक्षण है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -475,23 +545,23 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "I can't / don't want to quit tobacco",
-                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता / नहीं कर सकता / सकती"
+                        [LANG_ENGLISH]: "I can't / don't want to quit tobacco🚫",
+                        [LANG_HINDI]: "मैं तंबाकू छोड़ना नहीं चाहता / नहीं कर सकता / सकती🚫"
                     },
                     [NEXT_QUESTION]: "103.0 Why can't quit tobacco?",
                     [VALUE]: 2
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Tobacco not only causes cancer, but is also the biggest enemy of the heart. It causes atherosclerosis which is the narrowing of arteries. The narrowing of arteries leads to -\n" +
+                [LANG_ENGLISH]: "Tobacco not only causes cancer, but is also the biggest enemy of the heart💔. It causes atherosclerosis which is the narrowing of arteries. The narrowing of arteries leads to -\n" +
                 "1. Reduced stamina\n" +
                 "2. Hypertension - High blood pressure\n" +
                 "3. Angina - chest pain due to heart\n" +
                 "4. Peripheral artery disease - low blood supply to arms and limbs - can lead to amputation and impotence\n" +
                 "5. Ischemia",
-                [LANG_HINDI]: "तंबाकू न सिर्फ कैंसर का कारण बनता है, बल्कि दिल का सबसे बड़ा दुश्मन भी है। यह एथेरोस्क्लेरोसिस का कारण बनता है जो धमनियों का संकुचन है। धमनियों के सिकुड़ने से होता है -\n" +
-                "1. कम सहनशक्ति\n" +
-                "2. उच्च रक्तचाप - उच्च रक्तचाप\n" +
+                [LANG_HINDI]: "तंबाकू न सिर्फ कैंसर का कारण बनता है, बल्कि दिल का सबसे बड़ा दुश्मन भी है💔। यह एथेरोस्क्लेरोसिस का कारण बनता है जो धमनियों में जमावट है। धमनियों के सिकुड़ने से होता है -\n" +
+                "1. कम आंतरिक बल\n" +
+                "2. उच्च रक्तचाप\n" +
                 "3. एनजाइना - दिल के कारण सीने में दर्द\n" +
                 "4. परिधीय धमनी रोग - बाहों और अंगों को कम रक्त की आपूर्ति - विच्छेदन और नपुंसकता का कारण बन सकती है\n" +
                 "5. इस्किमिया"
@@ -505,12 +575,12 @@ module.exports = {
                 "\n" +
                 "Ischemia can lead to tissue death called infarction.\n" +
                 "\n" +
-                "A heart attack happens happens when the heart gets ischemic and a stroke happens when the same happens in the brain. Brain stroke leads to paralysis or disability.\n",
-                [LANG_HINDI]: "जब आपके शरीर के किसी हिस्से को आवश्यक रक्त की आपूर्ति नहीं होती है, तो इसे इस्केमिक माना जाता है। यह अक्सर तब होता है जब रक्त प्रवाह को अवरुद्ध करने वाली धमनी के अंदर एक थक्का बन जाता है।\n" +
+                "A heart attack happens happens when the heart gets ischemic and a stroke happens when the same happens in the brain. Brain stroke leads to paralysis or disability♿.\n",
+                [LANG_HINDI]: "जब आपके शरीर के किसी हिस्से को खून की कमी होती है, तो इसे इस्केमिक माना जाता है। यह अक्सर तब होता है जब धमनी के अंदर एक थक्का बन जाता है।\n" +
                 "\n" +
-                "इस्किमिया से ऊतक मृत्यु हो सकती है जिसे रोधगलन कहा जाता है।\n" +
+                "इस्किमिया से दिल या दिमाग का हिस्सा मार सकता है।\n" +
                 "\n" +
-                "दिल का दौरा तब होता है जब दिल इस्केमिक हो जाता है और स्ट्रोक तब होता है जब मस्तिष्क में ऐसा ही होता है। ब्रेन स्ट्रोक से लकवा या विकलांगता हो जाती है।"
+                "दिल का दौरा तब होता है जब दिल इस्केमिक हो जाता है और स्ट्रोक तब होता है जब दिमाग में ऐसा ही होता है। स्ट्रोक से लकवा या विकलांगता हो जाती है♿।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -539,8 +609,8 @@ module.exports = {
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "A doctor can help in de-addiction. Ready to begin consultation?",
-                [LANG_HINDI]: "एक डॉक्टर नशामुक्ति में मदद कर सकता है। परामर्श शुरू करने के लिए तैयार हैं?"
+                [LANG_ENGLISH]: "A doctor can help in de-addiction. Ready to begin consultation?👨‍⚕️",
+                [LANG_HINDI]: "एक डॉक्टर नशामुक्ति में मदद कर सकता है। परामर्श शुरू करने के लिए तैयार हैं?👨‍⚕️"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -549,8 +619,8 @@ module.exports = {
         {
             [ID]: "105.1 Heart exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Let me gather my thoughts",
-                [LANG_HINDI]: "एक सेकंड सोचने दी जिए"
+                [LANG_ENGLISH]: "Let me gather my thoughts🤔",
+                [LANG_HINDI]: "एक सेकंड सोचने दी जिए🤔"
             },
             [TYPE]: TYPE_NONE,
             [COMMAND]: "iscardiacpatient",
@@ -564,24 +634,24 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I have arthritis",
-                        [LANG_HINDI]: "लेकिन मुझे गठिया है"
+                        [LANG_ENGLISH]: "But I have arthritis🦵",
+                        [LANG_HINDI]: "लेकिन मुझे गठिया है🦵"
                     },
                     [NEXT_QUESTION]: "112.0 Arthritis patient non-cardiac",
                     [VALUE]: 0
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am visually impaired",
-                        [LANG_HINDI]: "पर मुझे दिखता नहीं"
+                        [LANG_ENGLISH]: "But I am visually impaired👨‍🦯",
+                        [LANG_HINDI]: "पर मुझे दिखता नहीं👨‍🦯"
                     },
                     [NEXT_QUESTION]: "112.1 Blind patient non-cardiac",
                     [VALUE]: 1
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am disabled",
-                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ"
+                        [LANG_ENGLISH]: "But I am disabled♿",
+                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ♿"
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 2
@@ -596,8 +666,8 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Because the heart is a muscle, it is necessary to give is a good work out. The simplest rule is to exercise as much as possible unless there is discomfort. It doesn't matter what your age is, you should run a couple of kilometres daily.",
-                [LANG_HINDI]: "चूंकि हृदय एक मांसपेशी है, इसलिए इसे देना आवश्यक है, एक अच्छा वर्कआउट। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए।"
+                [LANG_ENGLISH]: "Because the heart is a muscle💪, it is necessary to give is a good work out. The simplest rule is to exercise as much as possible unless there is discomfort. It doesn't matter what your age is, you should run 🏃 a couple of kilometres daily.",
+                [LANG_HINDI]: "चूंकि हृदय एक मांसपेशी है💪, इसलिए इसकों कसरत देना आवश्यक है। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए 🏃।"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -696,8 +766,8 @@ module.exports = {
         {
             [ID]: "108.0 Heart failure and surgery exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Light exercise, and walking for a couple of kilometres is recommended.",
-                [LANG_HINDI]: "हल्का व्यायाम और कुछ किलोमीटर चलने की सलाह दी जाती है।"
+                [LANG_ENGLISH]: "Light exercise, and walking for a couple of kilometres is recommended.🚶",
+                [LANG_HINDI]: "हल्का व्यायाम और कुछ किलोमीटर चलने की सलाह दी जाती है।🚶"
             },
             [OPTIONS]: [
                 {
@@ -744,24 +814,24 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I have arthritis",
-                        [LANG_HINDI]: "लेकिन मुझे गठिया है",
+                        [LANG_ENGLISH]: "But I have arthritis🦵",
+                        [LANG_HINDI]: "लेकिन मुझे गठिया है🦵",
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 0
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am disabled",
-                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ",
+                        [LANG_ENGLISH]: "But I am disabled♿",
+                        [LANG_HINDI]: "लेकिन मैं विकलांग हूँ♿",
                     },
                     [NEXT_QUESTION]: "110.0 Arthritis / disabled patient hydrotherapy",
                     [VALUE]: 1
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "But I am visually impaired",
-                        [LANG_HINDI]: "लेकनी मुझे दिखता नहीं",
+                        [LANG_ENGLISH]: "But I am visually impaired👨‍🦯",
+                        [LANG_HINDI]: "लेकनी मुझे दिखता नहीं👨‍🦯",
                     },
                     [NEXT_QUESTION]: "112.1 Blind patient non-cardiac",
                     [VALUE]: 2
@@ -791,7 +861,7 @@ module.exports = {
             [ID]: "112.0 Arthritis patient non-cardiac",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Swimming is the best exercise overall. Since you are unable to run, it is mandatory for you to run",
-                [LANG_HINDI]: "तैरना समग्र रूप से सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए दौड़ना अनिवार्य है"
+                [LANG_HINDI]: "तैरना सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए दौड़ना अनिवार्य है"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -799,7 +869,7 @@ module.exports = {
         {
             [ID]: "112.1 Blind patient non-cardiac",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "You may consider walking on a treadmill with some inclanation. It would significantly increase your confidence also",
+                [LANG_ENGLISH]: "You may consider walking on a treadmill with some inclination. It would significantly increase your confidence also",
                 [LANG_HINDI]: "आप कुछ झुकाव के साथ ट्रेडमिल पर चलने पर विचार कर सकते हैं। यह आपके आत्मविश्वास में भी काफी वृद्धि करेगा"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -848,10 +918,10 @@ module.exports = {
                 "\n" +
                 "The usual cause is the build-up of plaque. This causes coronary arteries to narrow, limiting blood flow to the heart.\n" +
                 "Coronary artery disease can range from no symptoms, to chest pain, to a heart attack.",
-                [LANG_HINDI]: "हृदय की प्रमुख रक्त वाहिकाओं में क्षति या रोग।\n" +
+                [LANG_HINDI]: "हृदय की प्रमुख रक्त वाहिकाओं में रोग⚠️।\n" +
                 "\n" +
-                "सामान्य कारण पट्टिका का निर्माण है। इससे कोरोनरी धमनियां संकीर्ण हो जाती हैं, जिससे हृदय में रक्त का प्रवाह सीमित हो जाता है।\n" +
-                "कोरोनरी धमनी की बीमारी बिना किसी लक्षण के, सीने में दर्द से लेकर दिल के दौरे तक हो सकती है।"
+                "ईसक कारण है प्लैक का जमाव। इससे दिल की पतली हो जाती हैं, जिससे हृदय में खून का प्रवाह सीमित हो जाता है।\n" +
+                "कोरोनरी धमनी की बीमारी बिना किसी लक्षण के, सीने में दर्द से लेकर दिल के दौरे तक हो सकती है⚠️।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -859,14 +929,14 @@ module.exports = {
         {
             [ID]: "115.0 CAD cause",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "1. Smoking / tobacco use\n" +
+                [LANG_ENGLISH]: "1. Smoking / tobacco use🚬\n" +
                 "2. Hypertension / High blood pressure\n" +
                 "3. High cholestrol\n" +
                 "4. High lipoprotein\n" +
                 "5. Lack of exercise\n" +
                 "6. Diabetes / Sugar\n" +
                 "7. Thrombosis\n",
-                [LANG_HINDI]: "1. धूम्रपान / तंबाकू का सेवन\n" +
+                [LANG_HINDI]: "1. धूम्रपान / तंबाकू का सेवन🚬\n" +
                 "2. उच्च रक्तचाप / बी पी \n" +
                 "3. उच्च कोलेस्ट्रॉल\n" +
                 "4. उच्च लिपोप्रोटीन\n" +
@@ -880,8 +950,8 @@ module.exports = {
         {
             [ID]: "116.0 CAD treatment",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Treatments include lifestyle changes, medication, angioplasty and surgery.",
-                [LANG_HINDI]: "उपचार में जीवनशैली में बदलाव, दवाएं, एंजियोप्लास्टी और सर्जरी शामिल हैं।"
+                [LANG_ENGLISH]: "Treatments include lifestyle changes☺️, medication💊, angioplasty and surgery😔.",
+                [LANG_HINDI]: "उपचार में जीवनशैली में बदलाव☺️, दवाएं💊, एंजियोप्लास्टी और सर्जरी शामिल हैं😔।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -909,7 +979,7 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "What do you want to know about?",
+                [LANG_ENGLISH]: "What else do you want to know about?",
                 [LANG_HINDI]: "आप किसके बारे में जानना चाहते हैं?"
             },
             [TYPE]: TYPE_BUTTON
@@ -1082,8 +1152,8 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Quit smoking",
-                        [LANG_HINDI]: "धूम्रपान छोड़ने"
+                        [LANG_ENGLISH]: "Quit smoking🚬",
+                        [LANG_HINDI]: "धूम्रपान छोड़ने🚬"
                     },
                     [NEXT_QUESTION]: "168.0 BP treatment smoking",
                     [VALUE]: 0
@@ -1098,32 +1168,32 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Diet",
-                        [LANG_HINDI]: "खान पीन"
+                        [LANG_ENGLISH]: "Diet🍔",
+                        [LANG_HINDI]: "खान पीन🍔"
                     },
                     [NEXT_QUESTION]: "170.0 BP treatment diet",
                     [VALUE]: 2
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Salt",
-                        [LANG_HINDI]: "नमक"
+                        [LANG_ENGLISH]: "Salt🧂",
+                        [LANG_HINDI]: "नमक🧂"
                     },
                     [NEXT_QUESTION]: "171.0 BP treatment salt",
                     [VALUE]: 3
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Exercise",
-                        [LANG_HINDI]: "कसरत "
+                        [LANG_ENGLISH]: "Exercise🏃",
+                        [LANG_HINDI]: "कसरत 🏃"
                     },
                     [NEXT_QUESTION]: "172.0 BP treatment exercise",
                     [VALUE]: 4
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Alcohol",
-                        [LANG_HINDI]: "दारू"
+                        [LANG_ENGLISH]: "Alcohol🍺",
+                        [LANG_HINDI]: "दारू🍺"
                     },
                     [NEXT_QUESTION]: "173.0 BP treatment alcohol",
                     [VALUE]: 5
@@ -1146,50 +1216,50 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Medication",
-                        [LANG_HINDI]: "दवाइयाँ"
+                        [LANG_ENGLISH]: "Medication 💊",
+                        [LANG_HINDI]: "दवाइयाँ 💊"
                     },
-                    [NEXT_QUESTION]: "176.0 BP treatment medication",
+                    [NEXT_QUESTION]: "176.1 BP basic medication",
                     [VALUE]: 8
                 },
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Lifestyle changes are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130 / 80.\n" +
+                [LANG_ENGLISH]: "Lifestyle changes 🧘 are key to keeping normal blood pressure. In fact, most doctors will suggest them before prescribing drugs. Lifestyle changes are also the recommended treatment for elevated blood pressure, a condition in which blood pressure readings are higher than 120 (systolic) over 80 (diastolic) and regularly over 130 / 80.\n" +
                 "\n" +
                 "The things that you need to take into consideration are: \n" +
                 "\n" +
-                "1. Quit smoking \n" +
+                "1. Quit smoking 🚬 \n" +
                 "2. Lose weight\n" +
-                "3. Diet\n" +
-                "4. Reduce salt\n" +
-                "5. Exercise\n" +
-                "6. Limit alcohol\n" +
+                "3. Diet 😋\n" +
+                "4. Reduce salt 🧂\n" +
+                "5. Exercise 🚲\n" +
+                "6. Limit alcohol 🍺\n" +
                 "7. Reduce stress\n" +
                 "8. Birth control pills\n" +
-                "9. Medicines\n" +
+                "9. Medicines 💊\n" +
                 "\n" +
                 "        \n" +
                 "        If lifestyle changes aren’t enough to lower your blood pressure, your doctor might recommend medication.\n" +
                 "\n" +
-                "        Blood pressure medications do not cure hypertension but help keep it in a healthier range. They usually need to be taken for life. A number of drugs can be used alone or in combination to treat high blood pressure:",
-                [LANG_HINDI]: "जीवनशैली में बदलाव सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए अनुशंसित उपचार हैं, एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130 / 80 से अधिक होती है।\n" +
+                "        Blood pressure medications do not cure hypertension but help keep it in a healthier range. Medicines usually need to be taken for life. A number of drugs can be used alone or in combination to treat high blood pressure:",
+                [LANG_HINDI]: "जीवनशैली में बदलाव 🧘 सामान्य रक्तचाप को बनाए रखने की कुंजी है। वास्तव में, अधिकांश डॉक्टर दवाओं को निर्धारित करने से पहले उन्हें सुझाव देंगे। जीवनशैली में बदलाव भी उच्च रक्तचाप के लिए सही उपचार हैं। उच्च रक्तचाप यानि एक ऐसी स्थिति जिसमें रक्तचाप की रीडिंग 120 (सिस्टोलिक) से 80 (डायस्टोलिक) से अधिक और नियमित रूप से 130 / 80 से अधिक होती है।\n" +
                 "\n" +
                 "जिन बातों पर आपको ध्यान देने की आवश्यकता है वे हैं:\n" +
                 "\n" +
-                "1. धूम्रपान छोड़ो\n" +
+                "1. धूम्रपान छोड़ो 🚬\n" +
                 "2. वजन कम करें\n" +
-                "3. आहार\n" +
-                "4. नमक कम करें\n" +
-                "5. व्यायाम\n" +
-                "6. शराब सीमित करें\n" +
+                "3. आहार 😋\n" +
+                "4. नमक कम करें 🧂\n" +
+                "5. व्यायाम 🚲\n" +
+                "6. शराब सीमित करें 🍺\n" +
                 "7. तनाव कम करें\n" +
                 "8. गर्भनिरोधक गोलियां\n" +
-                "9. दवाएं\n" +
+                "9. दवाएं 💊\n" +
                 "\n" +
                 "        \n" +
-                "        यदि जीवनशैली में बदलाव आपके रक्तचाप को कम करने के लिए पर्याप्त नहीं हैं, तो आपका डॉक्टर दवा की सिफारिश कर सकता है।\n" +
+                "        यदि जीवनशैली में बदलाव आपके रक्तचाप को कम करने के लिए पर्याप्त नहीं हैं, तो आपका डॉक्टर दवा की सिफारिश कर सकता है। ☺️\n" +
                 "\n" +
-                "        रक्तचाप की दवाएं उच्च रक्तचाप का इलाज नहीं करती हैं, लेकिन इसे स्वस्थ श्रेणी में रखने में मदद करती हैं। उन्हें आमतौर पर जीवन के लिए लेने की आवश्यकता होती है। उच्च रक्तचाप के इलाज के लिए कई दवाओं का अकेले या संयोजन में उपयोग किया जा सकता है:"
+                "        रक्तचाप की दवाएं उच्च रक्तचाप का इलाज नहीं करती हैं, लेकिन इसे स्वस्थ श्रेणी में रखने में मदद करती हैं। दवाओं को आमतौर पर जीवन के लिए लेने की आवश्यकता होती है। उच्च रक्तचाप के इलाज के लिए कई दवाओं का अकेले या संयोजन में उपयोग किया जा सकता है:"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -1203,7 +1273,7 @@ module.exports = {
                 "        If your blood pressure is extremely high, you may have unusually strong headaches, chest pain, difficulty breathing, or poor exercise tolerance. If you have any of these symptoms, seek an evaluation promptly",
                 [LANG_HINDI]: "उच्च रक्तचाप के अक्सर कोई लक्षण नहीं होते हैं, इसलिए आप आमतौर पर इसे महसूस नहीं करते हैं। इस कारण से, नियमित जांच के दौरान आमतौर पर स्वास्थ्य देखभाल पेशेवर द्वारा उच्च रक्तचाप का निदान किया जाता है। यदि आपके पास उच्च रक्तचाप, या अन्य जोखिम वाले कारकों के साथ एक करीबी रिश्तेदार है, तो अपने रक्तचाप पढ़ने पर ध्यान देना विशेष रूप से महत्वपूर्ण है।\n" +
                 "    \n" +
-                "        उच्च रक्तचाप का निदान करने के लिए, आपका डॉक्टर ब्लड प्रेशर कफ के साथ आपके रक्तचाप की जाँच करेगा। अपने रक्तचाप रीडिंग में उच्च (सिस्टोलिक) और निम्न (डायस्टोलिक) दोनों संख्याओं पर ध्यान देना महत्वपूर्ण है।\n" +
+                "        उच्च रक्तचाप चेक करने के लिए, आपका डॉक्टर ब्लड प्रेशर कफ के साथ आपके रक्तचाप की जाँच करेगा। अपने रक्तचाप रीडिंग में उच्च (सिस्टोलिक) और निम्न (डायस्टोलिक) दोनों संख्याओं पर ध्यान देना महत्वपूर्ण है।\n" +
                 "    \n" +
                 "        यदि आपका रक्तचाप बहुत अधिक है, तो आपको असामान्य रूप से तेज सिरदर्द, सीने में दर्द, सांस लेने में कठिनाई, या खराब व्यायाम सहनशीलता हो सकती है। यदि आपके पास इनमें से कोई भी लक्षण है, तो तुरंत मूल्यांकन करवाएं"
             },
@@ -1213,8 +1283,8 @@ module.exports = {
         {
             [ID]: "125.0 Systole and diastole",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "The blood pressure reading is measured in millimeters of mercury (mmHg) and is written as systolic pressure, the force of the blood against the artery walls as your heart beats, over diastolic pressure, the blood pressure between heartbeats. For example, a blood pressure reading is written as 120/80 mmHg, or \"120 over 80\". The systolic pressure is 120 and the diastolic pressure is 80.",
-                [LANG_HINDI]: "रक्तचाप रीडिंग को पारा के मिलीमीटर (एमएमएचजी) में मापा जाता है और इसे सिस्टोलिक दबाव के रूप में लिखा जाता है, धमनी की दीवारों के खिलाफ रक्त का बल जैसे आपका दिल धड़कता है, डायस्टोलिक दबाव पर, दिल की धड़कन के बीच रक्तचाप। उदाहरण के लिए, रक्तचाप की रीडिंग को 120/80 mmHg, या \"120 बटा 80\" के रूप में लिखा जाता है। सिस्टोलिक दबाव 120 है और डायस्टोलिक दबाव 80 है।"
+                [LANG_ENGLISH]: "The blood pressure reading is measured in millimeters of mercury (mmHg) and is written as systolic pressure (upper), the force of the blood against the artery walls as your heart beats, over diastolic pressure, the blood pressure between heartbeats. For example, a blood pressure reading is written as 120/80 mmHg, or \"120 over 80\". The systolic pressure is 120 and the diastolic pressure is 80.",
+                [LANG_HINDI]: "रक्तचाप रीडिंग को पारा के मिलीमीटर (एमएमएचजी) में मापा जाता है और इसे सिस्टोलिक (ऊपर वाला ) दबाव के रूप में लिखा जाता है, धमनी की दीवारों के खिलाफ रक्त का बल जैसे आपका दिल धड़कता है, डायस्टोलिक दबाव पर, दिल की धड़कन के बीच रक्तचाप। उदाहरण के लिए, रक्तचाप की रीडिंग को 120/80 mmHg, या \"120 बटा 80\" के रूप में लिखा जाता है। सिस्टोलिक दबाव 120 है और डायस्टोलिक दबाव 80 है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1223,7 +1293,7 @@ module.exports = {
             [ID]: "126.0 BP cause",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "While the cause of high blood pressure in most people remains unclear, inactivity, poor diet, obesity, older age, and genetics -- can all contribute to the development of hypertension.",
-                [LANG_HINDI]: "जबकि अधिकांश लोगों में उच्च रक्तचाप का कारण स्पष्ट नहीं है, निष्क्रियता, खराब आहार, मोटापा, वृद्धावस्था और आनुवंशिकी - ये सभी उच्च रक्तचाप के विकास में योगदान कर सकते हैं।"
+                [LANG_HINDI]: "अधिकांश लोगों में उच्च रक्तचाप का कारण स्पष्ट नहीं है, निष्क्रियता, खराब आहार, मोटापा, वृद्धावस्था और आनुवंशिकी - ये सभी उच्च रक्तचाप के विकास में योगदान कर सकते हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1233,7 +1303,7 @@ module.exports = {
             [OPTIONS]:[
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Eye Disease",
+                        [LANG_ENGLISH]: "Eye Disease 👀",
                         [LANG_HINDI]: "नेत्र रोग"
                     },
                     [NEXT_QUESTION]: "177.0 BP eye damage",
@@ -1241,8 +1311,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Stroke",
-                        [LANG_HINDI]: "स्ट्रोक / लक़वा"
+                        [LANG_ENGLISH]: "Stroke 🧠",
+                        [LANG_HINDI]: "स्ट्रोक / लक़वा 🧠"
                     },
                     [NEXT_QUESTION]: "178.0 BP stroke",
                     [VALUE]: 1
@@ -1257,8 +1327,8 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Heart Disease",
-                        [LANG_HINDI]: "दिल की बीमारी"
+                        [LANG_ENGLISH]: "Heart Disease ❤️",
+                        [LANG_HINDI]: "दिल की बीमारी ❤️"
                     },
                     [NEXT_QUESTION]: "180.0 BP heart damage",
                     [VALUE]: 3
@@ -1294,8 +1364,8 @@ module.exports = {
         {
             [ID]: "128.0 BP meds lifelong",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Yes. Hypertension medication is lifelong and stopping them can have fatal consequences.",
-                [LANG_HINDI]: "हाँ। उच्च रक्तचाप की दवा आजीवन होती है और इसे रोकना जानलेवा हो सकता है।"
+                [LANG_ENGLISH]: "Yes. Hypertension medication is lifelong and stopping them can have fatal consequences. ⚠️💊",
+                [LANG_HINDI]: "हाँ। उच्च रक्तचाप की दवा आजीवन होती है और इसे रोकना जानलेवा हो सकता है। ⚠️💊"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -1311,7 +1381,11 @@ module.exports = {
         },
         {
             [ID]: "130.0 What is hypertension",
-            [OPTIONS]:[
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Hypertension is when blood pressure is too high",
+                [LANG_HINDI]: "उच्च रक्तचाप तब होता है जब रक्तचाप बहुत अधिक होता है।"
+            },
+            [OPTIONS]: [
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "What is normal blood pressure?",
@@ -1319,15 +1393,10 @@ module.exports = {
                     },
                     [NEXT_QUESTION]: "182.0 Normal BP",
                     [VALUE]: 0
-                },
+                }
             ],
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "Hypertension is when blood pressure is too high.\n" +
-                "Blood pressure is written as two numbers.",
-                [LANG_HINDI]: "उच्च रक्तचाप तब होता है जब रक्तचाप बहुत अधिक होता है।\n" +
-                "रक्तचाप को दो संख्याओं के रूप में लिखा जाता है।"
-            },
-            [TYPE]: TYPE_BUTTON
+            [TYPE]: TYPE_BUTTON,
+            [NEXT_QUESTION]: "130.1 What is normal BP"
         },
         {
             [ID]: "131.0 Good BP",
@@ -1344,7 +1413,9 @@ module.exports = {
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
+
         // Quiz
+        // TODO: Incomplete implementation
         {
             [ID]: "132.0 Q No exercise in BP",
             [OPTIONS]:[
@@ -2048,10 +2119,10 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "This might be the most important step you can take to improve health.\n" +
                 "\n" +
-                "Stop smoking cigarettes\n",
+                "Stop smoking cigarettes! 🛑🚬🛑",
                 [LANG_HINDI]: "स्वास्थ्य में सुधार के लिए यह सबसे महत्वपूर्ण कदम हो सकता है।\n" +
                 "\n" +
-                "बीड़ी, सिगरेट पीना बंद करें| खैनी गुटका तंबाकू बंद करें"
+                "बीड़ी, सिगरेट पीना बंद करें| खैनी गुटका तंबाकू बंद करें! 🛑🚬🛑"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2068,8 +2139,11 @@ module.exports = {
         {
             [ID]: "170.0 BP treatment diet",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Eat a healthy diet, such as the DASH diet, which is high in fruits, vegetables, lean protein and whole grains and low in salt and fat. Also make sure you get enough vitamins and minerals. Some studies show that having the recommended daily amounts of vitamin C, vitamin E, potassium, magnesium, and calcium can improve heart health. There is no real evidence regarding the benefits of multivitamins. Getting your vitamins through your food is a better alternative.",
-                [LANG_HINDI]: "एक स्वस्थ आहार खाएं, जैसे डीएएसएच आहार, जो फलों, सब्जियों, दुबला प्रोटीन और साबुत अनाज में उच्च और नमक और वसा में कम है। यह भी सुनिश्चित करें कि आपको पर्याप्त विटामिन और खनिज मिले। कुछ अध्ययनों से पता चलता है कि अनुशंसित दैनिक मात्रा में विटामिन सी, विटामिन ई, पोटेशियम, मैग्नीशियम और कैल्शियम हृदय स्वास्थ्य में सुधार कर सकते हैं। मल्टीविटामिन के लाभों के संबंध में कोई वास्तविक प्रमाण नहीं है। अपने भोजन के माध्यम से अपने विटामिन प्राप्त करना एक बेहतर विकल्प है।"
+                [LANG_ENGLISH]: "Eat a healthy diet, such as the DASH diet, which is high in seasonal fruits🥝, vegetables🥑, lean protein🍛 and whole grains and low in salt and fat. Also make sure you get enough vitamins and minerals. Some studies show that having the recommended daily amounts of vitamin C, vitamin E, potassium, magnesium, and calcium can improve heart health. There is no real evidence regarding the benefits of multivitamins. Getting your vitamins through your food is a better alternative." +
+                "Eat the following - lemon, orange, apple, mango, watermelon, papaya, pear, tomato, cucumber, black berries, high fiber fruits like plums. Green leafy vegetables like spinach, bottle gourd, tori (zucchini), ladyfinger, greens, fenugreek, bitter gourd, cabbage, mustard.",
+                [LANG_HINDI]: "एक स्वस्थ आहार खाएं, जैसे डीएएसएच आहार, जो मौसम के फलों🥝, सब्जियों🥑, दुबला प्रोटीन🍛 और साबुत अनाज में उच्च और नमक और वसा में कम है। यह भी सुनिश्चित करें कि आपको पर्याप्त विटामिन और खनिज मिले। कुछ अध्ययनों से पता चलता है कि अनुशंसित दैनिक मात्रा में विटामिन सी, विटामिन ई, पोटेशियम, मैग्नीशियम और कैल्शियम हृदय स्वास्थ्य में सुधार कर सकते हैं। मल्टीविटामिन के लाभों के संबंध में कोई वास्तविक प्रमाण नहीं है। अपने भोजन के माध्यम से अपने विटामिन प्राप्त करना एक बेहतर विकल्प है।" +
+                "नींबू, संतरा, सेब, आम, तरबूज, पपीता, नाशपाती, टमाटर, खीरा, खीरा और केल उच्च फाइबर वाले फल जैसे आलूबुखारा खाएं। हरी पत्तेदार सब्जियां जैसे पालक, लौकी, तोरी, भिंडी, साग, मेथी, करेला, पत्ता गोभी, हरी सरसों का सेवन करें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2088,7 +2162,7 @@ module.exports = {
         {
             [ID]: "172.0 BP treatment exercise",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Regular aerobic activity, such as brisk walking on most days of the week, can lower blood pressure. Regularity of exercise is as important as intensity.",
+                [LANG_ENGLISH]: "Regular aerobic activity, such as brisk walking 🚶 on most days of the week, can lower blood pressure. Regularity ⌚ of exercise is as important as intensity. 🏃 🏋️‍♀️️",
                 [LANG_HINDI]: "नियमित एरोबिक गतिविधि, जैसे सप्ताह के अधिकांश दिनों में तेज चलना, रक्तचाप को कम कर सकता है। व्यायाम की नियमितता उतनी ही महत्वपूर्ण है जितनी तीव्रता।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -2097,8 +2171,8 @@ module.exports = {
         {
             [ID]: "173.0 BP treatment alcohol",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "If you drink, women should drink no more than one alcoholic drink per day; men should limit intake to two drinks. \"One drink\" means 5 ounces of wine, 12 ounces of beer, or 1.5 ounces of hard liquor.",
-                [LANG_HINDI]: "यदि आप पीते हैं, तो महिलाओं को प्रति दिन एक से अधिक मादक पेय नहीं पीना चाहिए; पुरुषों को दो पेय पदार्थों का सेवन सीमित करना चाहिए। \"वन ड्रिंक\" का अर्थ है 5 औंस वाइन, 12 औंस बीयर या 1.5 औंस हार्ड शराब।"
+                [LANG_ENGLISH]: "If you drink, women should drink no more than one 1️⃣ alcoholic drink per day; men should limit intake to two 2️⃣ drinks. 'One drink' means 5 ounces of wine, 12 ounces of beer, or 1.5 ounces of hard liquor.",
+                [LANG_HINDI]: "यदि आप पीते हैं, तो महिलाओं को प्रति दिन एक 1️⃣ से अधिक नहीं पीना चाहिए; पुरुषों को दो 2️⃣ के सेवन पे सीमित करना चाहिए। 'एक ड्रिंक' का अर्थ है 5 औंस वाइन, 12 औंस बीयर या 1.5 औंस हार्ड शराब।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2119,6 +2193,17 @@ module.exports = {
                 [LANG_HINDI]: "महिलाओं को गर्भनिरोधक गोलियां लेने से उच्च रक्तचाप के उच्च जोखिम के बारे में डॉक्टर से बात करनी चाहिए, खासकर यदि वे 35 से अधिक और अधिक वजन वाले हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "176.1 BP basic medication",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "BP / Hypertension medication is often lifelong. If you have been prescribed medication for blood pressure, never stop them without consulting your doctor first.\n" +
+                " Even if your BP drops below 110! Systole (higher) should be between 90 and 120 and the lower (diastolic) should be between 60 and 90",
+                [LANG_HINDI]: "बीपी की दवा आजीवन लेनी पड़ सकती है। यदि आपको बीपी के लिए निर्धारित दवाएं दी गई हैं, तो पहले अपने चिकित्सक से परामर्श किए बिना उन्हें कभी भी बंद न करें। बीपी 110 के नीचे आने पे भी दवाएं लेते रहें!\n" +
+                "ऊपरी बीपी 90 से 120 के बीच में होना चाहिए और नीचे वाला 90 से 60 के बीच में होना चाहिए!"
+            },
+            [NEXT_QUESTION]: "176.0 BP treatment medication",
             [TYPE]: TYPE_NONE
         },
         {
@@ -2201,7 +2286,7 @@ module.exports = {
             [ID]: "179.0 BP renal damage",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Hypertension can damage the blood vessels and filters in the kidneys, so that the kidneys cannot excrete waste properly. Kidney disease can also cause high blood pressure, when electrolytes (including sodium) cannot be adequately secreted from the body",
-                [LANG_HINDI]: "उच्च रक्तचाप गुर्दे में रक्त वाहिकाओं और फिल्टर को नुकसान पहुंचा सकता है, जिससे कि गुर्दे ठीक से अपशिष्ट का उत्सर्जन नहीं कर सकते हैं। गुर्दे की बीमारी भी उच्च रक्तचाप का कारण बन सकती है, जब शरीर से इलेक्ट्रोलाइट्स (सोडियम सहित) को पर्याप्त रूप से स्रावित नहीं किया जा सकता है"
+                [LANG_HINDI]: "उच्च रक्तचाप गुर्दे में रक्त वाहिकाओं और फिल्टर को नुकसान पहुंचा सकता है, जिससे कि गुर्दे ठीक से अपशिष्ट का उत्सर्जन नहीं कर सकते हैं। गुर्दे की बीमारी भी उच्च रक्तचाप का कारण बन सकती है, जब शरीर से इलेक्ट्रोलाइट्स (सोडियम सहित) को पर्याप्त रूप से नहीं निकाल पाता"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2210,7 +2295,7 @@ module.exports = {
             [ID]: "180.0 BP heart damage",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Heart failure (the heart is not strong enough to pump blood adequately), ischemic heart disease (the heart tissue doesn't get enough blood and oxygen), and hypertensive cardiomyopathy (thickened, abnormally functioning heart muscle) are all associated with high blood pressure.",
-                [LANG_HINDI]: "दिल की विफलता (हृदय पर्याप्त रूप से रक्त पंप करने के लिए पर्याप्त मजबूत नहीं है), इस्केमिक हृदय रोग (हृदय के ऊतकों को पर्याप्त रक्त और ऑक्सीजन नहीं मिलता है), और उच्च रक्तचाप से ग्रस्त कार्डियोमायोपैथी (मोटी, असामान्य रूप से काम करने वाली हृदय की मांसपेशी) सभी उच्च रक्तचाप से जुड़े हैं।"
+                [LANG_HINDI]: "हार्ट फैल्यर (हृदय पर्याप्त रूप से रक्त पंप करने के लिए पर्याप्त मजबूत नहीं है), इस्केमिक हृदय रोग (हृदय के ऊतकों/टिशू को पर्याप्त रक्त और ऑक्सीजन नहीं मिलता है), और उच्च रक्तचाप से ग्रस्त कार्डियोमायोपैथी (मोटी, असामान्य रूप से काम करने वाली हृदय की मांसपेशी) सभी उच्च रक्तचाप से जुड़े हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2219,7 +2304,7 @@ module.exports = {
             [ID]: "181.0 BP atherosclerosis",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "A disease of the arteries caused by a buildup of plaque, or fatty material, on the inside walls of the blood vessels; hypertension contributes to this buildup by putting added stress and force on the artery walls.",
-                [LANG_HINDI]: "रक्त वाहिकाओं की अंदरूनी दीवारों पर पट्टिका, या वसायुक्त पदार्थ के निर्माण के कारण होने वाली धमनियों की बीमारी; धमनी की दीवारों पर अतिरिक्त तनाव और बल लगाकर उच्च रक्तचाप इस निर्माण में योगदान देता है।"
+                [LANG_HINDI]: "रक्त वाहिकाओं की अंदरूनी दीवारों पर पट्टिका/प्लैक, या वसायुक्त पदार्थ (चर्बी) के निर्माण के कारण होने वाली धमनियों की बीमारी; धमनी की दीवारों पर अतिरिक्त तनाव और बल लगाकर उच्च रक्तचाप इस निर्माण में योगदान देता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2258,7 +2343,7 @@ module.exports = {
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "What is cholestrol?",
+                        [LANG_ENGLISH]: "What is cholesterol?",
                         [LANG_HINDI]: "कोलेस्ट्रॉल क्या है?"
                     },
                     [NEXT_QUESTION]: "184.0 What's Cholesterol",
@@ -2266,7 +2351,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: {
-                        [LANG_ENGLISH]: "Problem with cholestrol",
+                        [LANG_ENGLISH]: "Problem with cholesterol",
                         [LANG_HINDI]: "कोलेस्ट्रॉल की समस्या"
                     },
                     [NEXT_QUESTION]: "185.0 Cholesterol problem",
@@ -2296,6 +2381,14 @@ module.exports = {
                     },
                     [NEXT_QUESTION]: "188.0 Cholesterol cure",
                     [VALUE]: 4
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Triglycerides",
+                        [LANG_HINDI]: "ट्राइग्लिसराइड्"
+                    },
+                    [NEXT_QUESTION]: "183.1 Triglycerides",
+                    [VALUE]: 5
                 }
             ],
             [STATEMENT]: {
@@ -2323,7 +2416,7 @@ module.exports = {
                 "Plaque also can build up in other arteries in your body, including the arteries that bring oxygen-rich blood to your brain and limbs. This can lead to problems such as carotid artery disease, stroke, and peripheral arterial disease.",
                 [LANG_HINDI]: "यदि आपके रक्त में बहुत अधिक कोलेस्ट्रॉल है, तो यह रक्त में अन्य पदार्थों के साथ मिलकर प्लाक बना सकता है। प्लाक आपकी धमनियों की दीवारों से चिपक जाता है। पट्टिका के इस निर्माण को एथेरोस्क्लेरोसिस के रूप में जाना जाता है। यह कोरोनरी धमनी की बीमारी का कारण बन सकता है, जहां आपकी कोरोनरी धमनियां संकीर्ण या अवरुद्ध हो जाती हैं।\n" +
                 "\n" +
-                "यदि आपकी धमनियों में बड़ी मात्रा में प्लाक जमा है, तो पट्टिका का एक क्षेत्र टूट सकता है (खुला हो सकता है)। इससे प्लाक की सतह पर रक्त का थक्का बन सकता है। यदि थक्का काफी बड़ा हो जाता है, तो यह कोरोनरी धमनी में रक्त के प्रवाह को अधिकतर या पूरी तरह से अवरुद्ध कर सकता है।\n" +
+                "यदि आपकी धमनियों में बड़ी मात्रा में प्लाक जमा है, तो पट्टिका/प्लैक का एक क्षेत्र टूट सकता है (खुला हो सकता है)। इससे प्लाक की सतह पर रक्त का थक्का बन सकता है। यदि थक्का काफी बड़ा हो जाता है, तो यह कोरोनरी धमनी में रक्त के प्रवाह को अधिकतर या पूरी तरह से अवरुद्ध कर सकता है।\n" +
                 "\n" +
                 "यदि आपके हृदय की मांसपेशियों में ऑक्सीजन युक्त रक्त का प्रवाह कम या अवरुद्ध हो जाता है, तो इससे एनजाइना (सीने में दर्द) या दिल का दौरा पड़ सकता है।\n" +
                 "\n" +
@@ -2367,6 +2460,21 @@ module.exports = {
                 "यदि केवल जीवनशैली में बदलाव से आपका कोलेस्ट्रॉल पर्याप्त रूप से कम नहीं होता है, तो आपको दवाएँ लेने की भी आवश्यकता हो सकती है। स्टैटिन सहित कई प्रकार की कोलेस्ट्रॉल कम करने वाली दवाएं उपलब्ध हैं। यदि आप अपने कोलेस्ट्रॉल को कम करने के लिए दवाएं लेते हैं, तो भी आपको जीवनशैली में बदलाव जारी रखना चाहिए।\n" +
                 "\n" +
                 "पारिवारिक हाइपरकोलेस्ट्रोलेमिया (एफएच) वाले कुछ लोग लिपोप्रोटीन एफेरेसिस नामक उपचार प्राप्त कर सकते हैं। यह उपचार रक्त से एलडीएल कोलेस्ट्रॉल को हटाने के लिए एक फ़िल्टरिंग मशीन का उपयोग करता है। फिर मशीन शेष रक्त व्यक्ति को वापस लौटा देती है।"
+            },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "183.1 Triglycerides",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Just like cholesterol, triglycerides are a type of fats.\n" +
+                    "Triglycerides are an energy reserve while cholesterol are used as building material for cells.\n" +
+                    "Fatty foods and milk products are high in triglycerides.\n" +
+                    "Excess triglycerides are managed in a way similar to cholesterol.",
+                [LANG_HINDI]: "कोलेस्ट्रॉल की तरह ही, ट्राइग्लिसराइड्स भी एक प्रकार का वसा होता है।\n" +
+                    "ट्राइग्लिसराइड्स एक ऊर्जा आरक्षित हैं जबकि कोलेस्ट्रॉल का उपयोग कोशिकाओं के निर्माण सामग्री के रूप में किया जाता है।\n" +
+                    "वसायुक्त खाद्य पदार्थ और दुग्ध उत्पाद ट्राइग्लिसराइड्स में उच्च होते हैं।\n" +
+                    "अतिरिक्त ट्राइग्लिसराइड्स को कोलेस्ट्रॉल के समान तरीके से प्रबंधित किया जाता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2442,11 +2550,12 @@ module.exports = {
                 "6. Don't eat too much of spicy food",
                 [LANG_HINDI]: "1. सफेद नमक की जगह सेंधा नमक का इस्तेमाल करें क्योंकि यह बेहतर होता है।\n" +
                 "2. भैंस के दूध के बजाय गाय के दूध का प्रयोग करें क्योंकि यह स्वास्थ्यवर्धक होता है क्योंकि इसमें वसा और टीजीसी कम होता है।\n" +
-                "3. चीनी (कैंडी, चॉकलेट, चाय, ग्लूकोज) के बजाय कार्बोहाइड्रेट (शहद, फल और अनाज) खाएं क्योंकि वे अधिक स्वादिष्ट होते हैं। कृत्रिम मिठास का भी प्रयोग करें क्योंकि वे मीठे होते हैं। चीनी आपको थोड़ी देर बाद मदहोश कर देती है और मधुमेह, वजन बढ़ना, हाई बीपी जैसी कई अन्य समस्याओं को भी जन्म देती है।\n" +
+                "3. चीनी (टॉफी, चॉकलेट, चाय, ग्लूकोज) के बजाय कार्बोहाइड्रेट (शहद, फल और अनाज) खाएं क्योंकि वे अधिक स्वादिष्ट होते हैं। कृत्रिम मिठास का भी प्रयोग करें क्योंकि वे मीठे होते हैं। चीनी आपको थोड़ी देर बाद मदहोश कर देती है और मधुमेह, वजन बढ़ना, हाई बीपी जैसी कई अन्य समस्याओं को भी जन्म देती है।\n" +
                 "4. गेहूं और चावल की जगह जौ, मक्का, राई, जई आदि का प्रयोग करें क्योंकि इनमें स्वाद अधिक होता है और यह स्वास्थ्य के लिए बेहतर होते हैं।\n" +
                 "5. फ़ास्ट फ़ूड ख़रीदने की बजाय घर पर ही स्वादिष्ट खाना बनाएँ क्योंकि यह ज़्यादा रोमांचक होता है। बेचने के लिए भोजन में हमेशा अतिरिक्त चीनी, नमक, मसाले और तेल होता है।\n" +
                 "6. ज्यादा मसालेदार खाना न खाएं"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2457,19 +2566,20 @@ module.exports = {
                 "3. Avoid eating street / outside food as it contains excess salt, oil, spices and fat / oil.\n" +
                 "4. Reduce milk and milk product consumption because it contains triglycerides and fats which cause atherosclerosis, which is a direct cause of hypertension.\n" +
                 "5. Reduce sugar because it is a can increase blood pressure, weight and cholesterol.\n" +
-                ".\n" +
                 "6. Reduce red meat\n" +
                 "\n" +
                 "Eat everything else and maintain this habit throughout your life.",
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके खून में पानी की अधिकता हो जाती है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
                 "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
-                "4. दूध और दुग्ध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं, जो उच्च रक्तचाप का प्रत्यक्ष कारण है।\n" +
+                "4. दूध और दूध से बनी चीजों की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं, जो उच्च रक्तचाप का प्रत्यक्ष कारण है।\n" +
                 "5. शुगर कम करें क्योंकि यह ब्लड प्रेशर, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें \n" +
                 "\n" +
-                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
+                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2486,12 +2596,14 @@ module.exports = {
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
                 "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
-                "4. दूध और दूध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
+                "4. दूध और दूध से बनी चीजों की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
                 "5. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें\n" +
                 "\n" +
-                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
+                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2509,13 +2621,15 @@ module.exports = {
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि यह वजन बढ़ाने का कारक है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
                 "3. बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल की अधिकता होती है, जिससे वजन बढ़ता है।\n" +
-                "4. दूध और दुग्ध उत्पादों का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है, जिससे वजन बढ़ता है।\n" +
+                "4. दूध और दूध से बनी चीजों का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है, जिससे वजन बढ़ता है।\n" +
                 "5. चीनी कम करें क्योंकि यह आसानी से वसा के रूप में जमा हो जाती है। कार्बोहाइड्रेट को प्राथमिकता दें।\n" +
                 "6. रेड मीट कम करें\n" +
                 "7. भोजन में प्रोटीन भूख को दबाते हैं इसलिए शर्करा, कार्ब्स और वसा को प्रोटीन से बदलना एक अच्छा विचार है। प्रोटीन युक्त भोजन में शर्करा और कार्बोहाइड्रेट भी शामिल होंगे इसलिए भोजन की समग्र खपत को सीमित करना सुनिश्चित करें।\n" +
                 "\n" +
-                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
+                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2532,12 +2646,14 @@ module.exports = {
                 [LANG_HINDI]: "1. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "2. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
                 "3. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
-                "4. दूध और दूध उत्पाद की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स  और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
+                "4. दूध और दूध से बनी चीजों की खपत कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और फैट होते हैं जो एथेरोस्क्लेरोसिस का कारण बनते हैं जो दिल के दौरे और स्ट्रोक का कारण बनते हैं।\n" +
                 "5. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल को बढ़ा सकता है।\n" +
                 "6. रेड मीट कम करें\n" +
                 "\n" +
-                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
+                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -2556,12 +2672,14 @@ module.exports = {
                 "2. स्वस्थ भोजन खाएं जिसका स्वाद अच्छा हो क्योंकि यह आपके लिए मौजूद है।\n" +
                 "3. नमक कम करें क्योंकि इससे आपके रक्त में पानी की अधिकता हो जाती है जिससे हृदय पर दबाव पड़ता है। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है।\n" +
                 "4. सड़क / बाहर का खाना खाने से बचें क्योंकि इसमें नमक, तेल, मसाले और वसा / तेल अधिक होता है।\n" +
-                "5. दूध और दुग्ध उत्पाद का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है जो दिल के दौरे और स्ट्रोक का कारण बनता है।\n" +
+                "5. दूध और दूध से बनी चीजों का सेवन कम करें क्योंकि इसमें ट्राइग्लिसराइड्स और वसा होता है जो एथेरोस्क्लेरोसिस का कारण बनता है जो दिल के दौरे और स्ट्रोक का कारण बनता है।\n" +
                 "6. चीनी कम करें क्योंकि यह रक्तचाप, वजन और कोलेस्ट्रॉल बढ़ा सकता है।\n" +
                 "7. रेड मीट कम करें\n" +
                 "\n" +
-                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।"
+                "बाकी सब कुछ खाएं और इस आदत को जीवन भर बनाए रखें।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
 
@@ -2572,7 +2690,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "What is heart failure",
-                        [LANG_HINDI]: "दिल की विफलता क्या है"
+                        [LANG_HINDI]: "हार्ट फैल्यर क्या है"
                     },
                     [NEXT_QUESTION]: "197.0 What's HF",
                     [VALUE]: 0
@@ -2580,7 +2698,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Heart failure symptoms",
-                        [LANG_HINDI]: "दिल की विफलता के लक्षण"
+                        [LANG_HINDI]: "हार्ट फैल्यर के लक्षण"
                     },
                     [NEXT_QUESTION]: "198.0 HF symptoms",
                     [VALUE]: 1
@@ -2588,7 +2706,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Heart failure cure",
-                        [LANG_HINDI]: "दिल की विफलता का इलाज"
+                        [LANG_HINDI]: "हार्ट फैल्यर का इलाज"
                     },
                     [NEXT_QUESTION]: "210.0 HF cure",
                     [VALUE]: 2
@@ -2604,11 +2722,43 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Heart failure lifestyle",
-                        [LANG_HINDI]: "दिल की विफलता जीवन शैली"
+                        [LANG_HINDI]: "हार्ट फैल्यर जीवन शैली"
                     },
                     [NEXT_QUESTION]: "224.0 HF lifestyle",
                     [VALUE]: 4
-                }
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "What's EF",
+                        [LANG_HINDI]: "इजेक्शन फ्रैक्शन क्या है"
+                    },
+                    [NEXT_QUESTION]: "196.1 What's EF",
+                    [VALUE]: 5
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "How is heart failure diagnosed",
+                        [LANG_HINDI]: "हार्ट फैल्यर का पता कैसे लगाया जाए"
+                    },
+                    [NEXT_QUESTION]: "196.2 HF diagnosis",
+                    [VALUE]: 6
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Heart failure precautions",
+                        [LANG_HINDI]: "हार्ट फैल्यर की सावधानियाँ"
+                    },
+                    [NEXT_QUESTION]: "196.3 HF precautions",
+                    [VALUE]: 7
+                },
+                {
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Record sheet",
+                        [LANG_HINDI]: "रिकार्ड शीट"
+                    },
+                    [NEXT_QUESTION]: "196.4 HF record sheet",
+                    [VALUE]: 8
+                },
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Choose your preference",
@@ -2619,14 +2769,82 @@ module.exports = {
         {
             [ID]: "197.0 What's HF",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "When you have this condition your heart works less efficiently. When that happens, it can't pump enough blood that you need.\n" +
-                "The chambers of your heart can respond by stretching to hold more blood to pump. This helps to keep the blood moving, but in time, your heart muscle walls may weaken and won't be able to pump as strongly.\n" +
-                "Your kidneys may react to all this by causing your body to hold on to fluid and salt. The fluid may build up in your arms, legs, ankles, feet, lungs or other organs.",
-                [LANG_HINDI]: "जब आपकी यह स्थिति होती है तो आपका दिल कम कुशलता से काम करता है। जब ऐसा होता है, तो यह पर्याप्त रक्त पंप नहीं कर पाता है जिसकी आपको आवश्यकता होती है।\n" +
-                "आपके हृदय के कक्ष अधिक रक्त पंप करने के लिए खींचकर प्रतिक्रिया कर सकते हैं। यह रक्त को गतिमान रखने में मदद करता है, लेकिन समय के साथ, आपके हृदय की मांसपेशियों की दीवारें कमजोर हो सकती हैं और उतनी मजबूती से पंप नहीं कर पाएंगी।\n" +
-                "आपके गुर्दे इस सब पर प्रतिक्रिया कर सकते हैं, जिससे आपका शरीर तरल पदार्थ और नमक को रोक कर रख सकता है। तरल पदार्थ आपके हाथ, पैर, टखनों, पैरों, फेफड़ों या अन्य अंगों में जमा हो सकता है।"
+                // [LANG_ENGLISH]: "When you have this condition your heart works less efficiently. When that happens, it can't pump enough blood that you need.\n" +
+                // "The chambers of your heart can respond by stretching to hold more blood to pump. This helps to keep the blood moving, but in time, your heart muscle walls may weaken and won't be able to pump as strongly.\n" +
+                // "Your kidneys may react to all this by causing your body to hold on to fluid and salt. The fluid may build up in your arms, legs, ankles, feet, lungs or other organs.",
+                // [LANG_HINDI]: "हार्ट फैल्यर में आपका दिल कम कुशलता से काम करता है। जब ऐसा होता है, तो यह पर्याप्त रक्त पंप नहीं कर पाता है जिसकी आपको आवश्यकता होती है।\n" +
+                // "आपके हृदय के कक्ष अधिक रक्त पंप करने के लिए खींचकर प्रतिक्रिया कर सकते हैं। यह रक्त को गतिमान रखने में मदद करता है, लेकिन समय के साथ, आपके हृदय की मांसपेशियों की दीवारें कमजोर हो सकती हैं और उतनी मजबूती से पंप नहीं कर पाएंगी।\n" +
+                // "आपके गुर्दे इस सब पर प्रतिक्रिया कर सकते हैं, जिससे आपका शरीर तरल पदार्थ और नमक को रोक कर रख सकता है। तरल पदार्थ आपके हाथ, पैर, टखनों, पैरों, फेफड़ों या अन्य अंगों में जमा हो सकता है।"
+                [LANG_ENGLISH]: "Heart failure is a serious condition in which our heart is not able to pump enough blood to make other parts of the body work. This happens because our heart muscles become weak and they are unable to fill the heart with blood.",
+                [LANG_HINDI]: "हार्ट फैल्यर एक गंभीर स्थिति है, जिसमें हमारा दिल रक्त को शरीर के दूसरे अंगों को काम करने के लिए पर्याप्त मातत्रा में  पम्प नहीं कर पाता है। ऐसा इसिलए होता क्योंकि हमारे हृदय की मासपेशियाँ कमजोर हो जाती हैं और वो दिल  में खुद रकत को भरने देने में असमर्थ होती हैं।"
             },
-            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+            [NEXT_QUESTION]: "196.0 HF",
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "196.1 What's EF",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Ejection is an important parameter to determine how hard your heart is pumping blood. The normal value of the ejection fraction is 55-65%. \n" +
+                "If the ejection fraction is less than 55%, it means that the patient is suffering from heart failure.",
+                [LANG_HINDI]: "आपका दिल रक्त को कितनी अच्छी तरह से पम्प कर रहा है यह निर्धारित करने में इजेक्शन फ्रैक्शन एक महत्वपूर्ण मॅप है| इजेक्शन फ्रैक्शन  55-65% है, होना चाहिए \n" +
+                "अगर इजेक्शन िीोमूगदल 55% से कम है, तो इसका मतलब है कि व्यक्ति हार्ट फैल्यर से पीड़ित है।" +
+                "है।"
+            },
+            [NEXT_QUESTION]: "196.0 HF",
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "196.2 HF diagnosis",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "1. ECG" +
+                "2. Echocardiography" +
+                "3. Blood tests",
+                [LANG_HINDI]: "1. ई सी जी " +
+                "2. एकोकार्डियोग्राफी " +
+                "3. खून की जाँचें"
+            },
+            [NEXT_QUESTION]: "95.0 Which cardiac test",
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "196.3 HF precautions",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Take medicines as prescribed by your doctor.\n" +
+                "Don't smoke.\n" +
+                "Get regular exercise.\n" +
+                "Take healthy diet and consume minimum quantity of salt, sugar and oil.\n" +
+                "Take only 1.5 liters of fluid throughout the day.\n" +
+                "Charting the daily input output.\n" +
+                "Weigh yourself at the same time every morning and track it regularly.\n" +
+                "Keep the joke.\n" +
+                "Eat 5 to 6 small portions throughout the day.\n" +
+                "Stay away from stress.\n" +
+                " Wear a mask in a crowded places.\n" +
+                "Get regular vaccinations for flu and influenza vaccines.",
+                [LANG_HINDI]: "1. अपने चिकित्सक के आदेश के अनुसार दवाइयोंका सेवन करें।\n" +
+                " धूम्रपान ना करें।\n" +
+                " नियिमत व्यायाम करें।\n" +
+                " स्वस्थ आहार लें एवं नमक, चीनी व तेल का कम से कम मात्रा में सेवन करें।\n" +
+                " पूरे दिन में केवल 1.5 लीटर तरल पदाथŊ लें।\n" +
+                " रोज़ पानी के इनपुट-आउटपुट की छारतींग करें।\n" +
+                " प्रत्येक सुबह एक ही समय पर अपना वजन करें व नियिमत रूप से उसका लेखा जोखा रखेँ।\n" +
+                " पूरे दिन में 5 से 6 छोटे छोटे भागों में भोजन करें।\n" +
+                " तनाव से दूर रहें।\n" +
+                " भीड़भाड़ वाली जगह पर मास्क लगाएं ।\n" +
+                " न्यूमोकोकल और इंफ्लुएंजा टीके का नियमित रूप से टीकाकरण करवाएं।",
+                [DESCRIPTION_IMAGE]: "fruits_and_vegetables.png"
+            },
+            [NEXT_QUESTION]: "196.0 HF",
+            [TYPE]: TYPE_NONE
+        },
+        {
+            [ID]: "196.3 HF precautions",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "Please fill this record sheet before every test",
+                [LANG_HINDI]: "कृपया हर जाँच तिथि पर इस फोरम को भरें",
+                [DESCRIPTION_IMAGE]: "HF_record_sheet.png"
+            },
+            [NEXT_QUESTION]: "196.0 HF",
             [TYPE]: TYPE_NONE
         },
         // symptoms
@@ -2735,27 +2953,29 @@ module.exports = {
                 "1. Trouble breathing or shortness of breath\n" +
                 "2. Fatigue\n" +
                 "3. Persistent cough\n" +
-                "4. Weight gain or swelling\n" +
+                "4. Weight gain\n" +
                 "5. Lack of appetite or nausea\n" +
-                "6. Increased heart rate\n" +
+                "6. Increased or irregular heart rate\n" +
                 "7. Confusion, trouble thinking\n" +
+                "8. Swelling in legs or abdomen\n" +
                 "If you’ve seen any of these seven red flags, get medical help right away. Waiting for symptoms to get worse can be dangerous. With the right care, you can keep things under control.",
-                [LANG_HINDI]: "दिल की विफलता के लक्षण हल्के, मध्यम या गंभीर हो सकते हैं, और इसमें निम्न चीज़ें शामिल हो सकती हैं:\n" +
-                "1. भीड़भाड़ वाले फेफड़े।\n" +
+                [LANG_HINDI]: "हार्ट फैल्यर के लक्षण हल्के, मध्यम या गंभीर हो सकते हैं, और इसमें निम्न चीज़ें शामिल हो सकती हैं:\n" +
+                "1. भरे हुए फेफड़े।\n" +
                 "2. द्रव और पानी का निर्माण\n" +
                 "3. चक्कर आना, थकान और कमजोरी\n" +
                 "4. तेज या अनियमित दिल की धड़कन\n" +
                 "\n" +
-                "यदि आपको दिल की विफलता है, तो आपको इनमें से एक या सभी लक्षण हो सकते हैं, या आपको इनमें से कोई भी नहीं हो सकता है।\n" +
+                "यदि आपको हार्ट फैल्यर है, तो आपको इनमें से एक या सभी लक्षण हो सकते हैं, या आपको इनमें से कोई भी नहीं हो सकता है।\n" +
                 "हो सकता है कि आपके लक्षण इस बात से संबंधित न हों कि आपका दिल कितना कमजोर है।\n" +
                 "\n" +
                 "1. सांस लेने में तकलीफ या सांस लेने में तकलीफ\n" +
                 "2. थकान\n" +
                 "3. लगातार खांसी\n" +
-                "4. वजन बढ़ना या सूजन होना\n" +
+                "4. वजन बढ़ना\n" +
                 "5. भूख न लगना या जी मिचलाना\n" +
-                "6. बढ़ी हुई हृदय गति\n" +
+                "6. बढ़ी हुई या अनियमित हृदय गति\n" +
                 "7. भ्रम, सोचने में परेशानी\n" +
+                "8. टांगों या पेट में सूजन\n" +
                 "यदि आपने इन सात लाल झंडों में से कोई भी देखा है, तो तुरंत चिकित्सा सहायता प्राप्त करें। लक्षणों के खराब होने की प्रतीक्षा करना खतरनाक हो सकता है। सही देखभाल से आप चीजों को नियंत्रण में रख सकते हैं।"
             },
             [TYPE]: TYPE_BUTTON
@@ -2764,7 +2984,7 @@ module.exports = {
             [ID]: "199.0 HF lungs",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Fluid backup in your lungs can make you short of breath when you exercise or have trouble breathing while you rest. Air is often harder to get when you're lying flat in bed. You may also wheeze or get a dry, hacking cough.",
-                [LANG_HINDI]: "जब आप व्यायाम करते हैं या आराम करते समय सांस लेने में परेशानी होती है, तो आपके फेफड़ों में तरल पदार्थ का बैकअप आपको सांस लेने में तकलीफ दे सकता है। जब आप बिस्तर पर सपाट लेटे होते हैं तो अक्सर हवा मिलना कठिन होता है। आपको घरघराहट भी हो सकती है या सूखी खांसी हो सकती है।"
+                [LANG_HINDI]: "जब आप व्यायाम करते हैं या आराम करते समय सांस लेने में परेशानी होती है, तो आपके फेफड़ों में अतिरिक्त तरल पदार्थ का बनना आपको सांस लेने में तकलीफ दे सकता है। जब आप बिस्तर पर सपाट लेटे होते हैं तो अक्सर हवा मिलना कठिन होता है। आपको घरघराहट भी हो सकती है या सूखी खांसी हो सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2802,7 +3022,7 @@ module.exports = {
             [ID]: "203.0 HF breathlessness",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "When your heart can’t properly fill and empty, blood backs up in your veins. This causes fluid to leak into your lungs. Your doctor may call it pulmonary edema. This can make it hard to breathe during activities, rest, or even sleep. A sudden lack of breath might wake you up. You may need to prop yourself up with extra pillows to breathe easier. This constant search for air can leave you tired and anxious.",
-                [LANG_HINDI]: "जब आपका दिल ठीक से नहीं भर पाता और खाली हो जाता है, तो रक्त आपकी नसों में वापस आ जाता है। इससे आपके फेफड़ों में तरल पदार्थ रिसने लगता है। आपका डॉक्टर इसे पल्मोनरी एडिमा कह सकता है। इससे गतिविधियों, आराम, या यहां तक ​​कि सोने के दौरान सांस लेना मुश्किल हो सकता है। सांस की अचानक कमी आपको जगा सकती है। आपको आसानी से सांस लेने के लिए अतिरिक्त तकियों के साथ खुद को ऊपर उठाने की आवश्यकता हो सकती है। हवा की यह निरंतर खोज आपको थका और चिंतित कर सकती है।"
+                [LANG_HINDI]: "जब आपका दिल ठीक से नहीं भर खाली हो जाता है, तो रक्त आपकी नसों में वापस आ जाता है। इससे आपके फेफड़ों में तरल पदार्थ रिसने लगता है। आपका डॉक्टर इसे पल्मोनरी एडिमा कह सकता है। इससे गतिविधियों, आराम, या यहां तक ​​कि सोने के दौरान सांस लेना मुश्किल हो सकता है। सांस की अचानक कमी आपको जगा सकती है। आपको आसानी से सांस लेने के लिए अतिरिक्त तकियों के साथ खुद को ऊपर उठाने की आवश्यकता हो सकती है। हवा की यह निरंतर खोज आपको थका और चिंतित कर सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2838,7 +3058,7 @@ module.exports = {
             [ID]: "207.0 HF appetite",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Because blood is being moved away from your digestive system, your appetite may not be as big as it usually is. You might also feel sick to your stomach.",
-                [LANG_HINDI]: "चूंकि रक्त आपके पाचन तंत्र से दूर जा रहा है, इसलिए हो सकता है कि आपकी भूख उतनी बड़ी न हो जितनी आमतौर पर होती है। आप अपने पेट के लिए भी बीमार महसूस कर सकते हैं।"
+                [LANG_HINDI]: "चूंकि रक्त आपके पाचन तंत्र से दूर जा रहा है, इसलिए हो सकता है कि आपकी भूख उतनी न हो जितनी आमतौर पर होती है। आप अपने पेट के लिए भी बीमार महसूस कर सकते हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2846,8 +3066,8 @@ module.exports = {
         {
             [ID]: "208.0 HF tachycardia",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "When your heart struggles to pump the right amount of blood, it may speed up to make up for it. This can lead to palpitations, which could cause your heart to race or feel like it’s fluttering or throbbing.",
-                [LANG_HINDI]: "जब आपका दिल सही मात्रा में रक्त पंप करने के लिए संघर्ष करता है, तो यह इसकी भरपाई के लिए तेजी से बढ़ सकता है। इससे धड़कन बढ़ सकती है, जिससे आपका दिल दौड़ सकता है या ऐसा महसूस हो सकता है कि यह फड़फड़ा रहा है या धड़क रहा है।"
+                [LANG_ENGLISH]: "When your heart struggles to pump the right amount of blood, it may speed up 💓 to make up for it. This can lead to palpitations, which could cause your heart to race or feel like it’s fluttering or throbbing.",
+                [LANG_HINDI]: "जब आपका दिल सही मात्रा में रक्त पंप करने के लिए संघर्ष करता है, तो यह इसकी भरपाई के लिए तेजी से धडक 💓 सकता है। इससे धड़कन बढ़ सकती है, जिससे आपका दिल दौड़ सकता है या ऐसा महसूस हो सकता है कि यह फड़फड़ा रहा है या धड़क रहा है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2855,8 +3075,8 @@ module.exports = {
         {
             [ID]: "209.0 HF confusion",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Unusual amounts of things like sodium in your blood can bring disorientation, confusion, or memory loss.",
-                [LANG_HINDI]: "आपके रक्त में सोडियम जैसी असामान्य मात्रा में चीजें भटकाव, भ्रम या स्मृति हानि ला सकती हैं।"
+                [LANG_ENGLISH]: "Unusual amounts of things like sodium in your blood can bring disorientation, confusion 🤔, or memory loss.",
+                [LANG_HINDI]: "आपके रक्त में सोडियम जैसी असामान्य मात्रा में भ्रम 🤔, दुश भ्रम 😵 या स्मृति हानि ला सकती हैं।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2883,9 +3103,9 @@ module.exports = {
                 }
             ],
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Heart failure is a lifelong condition. The most important way of dealing with it is to improve the lifestyle.\n" +
+                [LANG_ENGLISH]: "Heart failure is a lifelong condition. The most important way of dealing with it is to improve the lifestyle 🧘.\n" +
                 "The lifestyle changes often need to be augmented with medication or surgeries.",
-                [LANG_HINDI]: "दिल की विफलता एक आजीवन स्थिति है। इससे निपटने का सबसे महत्वपूर्ण तरीका है जीवनशैली में सुधार लाना।\n" +
+                [LANG_HINDI]: "हार्ट फैल्यर एक आजीवन स्थिति है। इससे निपटने का सबसे महत्वपूर्ण तरीका है जीवनशैली में सुधार लाना। 🧘\n" +
                 "जीवनशैली में बदलाव को अक्सर दवा या सर्जरी के साथ बढ़ाने की आवश्यकता होती है।"
             },
             [TYPE]: TYPE_BUTTON
@@ -2893,10 +3113,10 @@ module.exports = {
         {
             [ID]: "211.0 HF medication",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "It's important to keep up with your medications and take them the way your doctor tells you to. Common types of drugs that treat heart failure are:\n" +
+                [LANG_ENGLISH]: "It's important to keep up with your medications and take them the way your doctor tells you to❗ Common types of drugs that treat heart failure are:\n" +
                 "Aldosterone antagonist, ACE inhibitors, ARBs (angiotensin II receptor blockers), ARNIs (angiotensin receptor-neprilysin inhibitors), Beta-blockers, Blood vessel dilators, Calcium channel blockers (unless you have systolic heart failure), Digoxin, Diuretics, Heart pump medication , Potassium or magnesium, Selective sinus node inhibitors, Soluble Guanylate Cyclase (sGC) stimulator",
-                [LANG_HINDI]: "अपनी दवाओं के साथ बने रहना और उन्हें वैसे ही लेना महत्वपूर्ण है जैसे आपका डॉक्टर आपको बताता है। दिल की विफलता का इलाज करने वाली सामान्य प्रकार की दवाएं हैं:\n" +
-                "एल्डोस्टेरोन प्रतिपक्षी, एसीई अवरोधक, एआरबी (एंजियोटेंसिन II रिसेप्टर ब्लॉकर्स), एआरएनआई (एंजियोटेंसिन रिसेप्टर-नेप्रिलिसिन अवरोधक), बीटा-ब्लॉकर्स, रक्त वाहिका dilators, कैल्शियम चैनल ब्लॉकर्स (जब तक कि आपको सिस्टोलिक दिल की विफलता नहीं है), डिगॉक्सिन, मूत्रवर्धक, हृदय पंप दवा , पोटेशियम या मैग्नीशियम, चयनात्मक साइनस नोड अवरोधक, घुलनशील गनीलेट साइक्लेज (sGC) उत्तेजक"
+                [LANG_HINDI]: "अपनी दवाएं सही समय पर लेते रहना और उन्हें वैसे ही लेना जैसे डॉक्टर आपको बताता है महत्वपूर्ण है❗ हार्ट फैल्यर का इलाज करने वाली सामान्य प्रकार की दवाएं हैं:\n" +
+                "एल्डोस्टेरोन प्रतिपक्षी, एसीई अवरोधक, एआरबी (एंजियोटेंसिन II रिसेप्टर ब्लॉकर्स), एआरएनआई (एंजियोटेंसिन रिसेप्टर-नेप्रिलिसिन अवरोधक), बीटा-ब्लॉकर्स, रक्त वाहिका dilators, कैल्शियम चैनल ब्लॉकर्स (जब तक कि आपको सिस्टोलिक हार्ट फैल्यर नहीं है), डिगॉक्सिन, मूत्रवर्धक, हृदय पंप दवा , पोटेशियम या मैग्नीशियम, चयनात्मक साइनस नोड अवरोधक, घुलनशील गनीलेट साइक्लेज (sGC) उत्तेजक"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2906,20 +3126,22 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Surgery and Medical Device Options\n" +
                 "The goal of surgery is to make your heart work better.\n" +
-                "Bypass surgery. Routes blood around a blocked artery. Learn more about heart bypass surgery.\n" +
-                "Cardiac resynchronization therapy (CRT). When your heartbeat is off-kilter, it can make heart failure worse. This treatment uses a pacemaker that sends timed electrical impulses to both of your heart's lower chambers (the left and right ventricles) so they pump better and more in sync. Your doctor may call it a biventricular pacemaker. They could also pair it with an ICD (see below). Read more on CRT, also called biventricular pacing, for heart failure.Heart transplant. This is done when heart failure is so severe that it doesn't respond to any other treatments. Get more information on heart transplant for heart failure.\n" +
-                "Heart valve surgery. If a faulty heart valve causes your heart failure, your doctor may recommend repairing or replacing it. A surgeon can repair or replace the valves. Find out more on heart valve disease.\n" +
-                "Implantable cardioverter-defibrillator (ICD). This device is similar to a pacemaker. It's put under your skin in your chest. Wires lead through your veins and into your heart to keep track of your heart rhythm. If your heart starts to beat at a dangerous rhythm, or if it stops, the ICD tries to pace your heart or shock it back into normal rhythm. An ICD can also act as a pacemaker and speed your heart up if it's going too slow. Learn more about ICDs for heart failure.\n" +
+                "Bypass surgery - Routes blood around a blocked artery. Learn more about heart bypass surgery.\n" +
+                "Cardiac resynchronization therapy (CRT) - When your heartbeat is strange, it can make heart failure worse. This treatment uses a pacemaker that sends timed electrical impulses to both of your heart's lower chambers (the left and right ventricles) so they pump better and more in sync. Your doctor may call it a biventricular pacemaker.\n" +
+                "Heart transplant - This is done when heart failure is so severe that it doesn't respond to any other treatments.\n" +
+                "Heart valve surgery - If a faulty heart valve causes your heart failure, your doctor may recommend repairing or replacing it. A surgeon can repair or replace the valves.\n" +
+                "Implantable cardioverter-defibrillator (ICD). This device is similar to a pacemaker. It's put under your skin in your chest. Wires lead through your veins and into your heart to keep track of your heart rhythm. If your heart starts to beat at a dangerous rhythm, or if it stops, the ICD tries to pace your heart or shock it back into normal rhythm. An ICD can also act as a pacemaker and speed your heart up if it's going too slow.\n" +
                 "Infarct exclusion surgery (modified Dor or Dor procedure). When a heart attack happens in the left ventricle (the lower left chamber of your heart), a scar forms. The scarred area is thin and can bulge out with each beat, forming what's called an aneurysm. A heart surgeon can remove it.\n" +
-                "Ventricular assist device. The doctor puts it into the abdomen or chest and attaches it to your heart to help it pump blood to the rest of your body. VADs are most often used in the heart's left ventricle, but they can also be used in the right ventricle or in both ventricles. Read more on the left ventricular assist device (LVAD) for heart failure.",
-                [LANG_HINDI]: "सर्जरी और चिकित्सा उपकरण विकल्प\n" +
-                "सर्जरी का लक्ष्य आपके दिल को बेहतर तरीके से काम करना है।\n" +
-                "बाईपास सर्जरी। एक अवरुद्ध धमनी के चारों ओर रक्त को रूट करता है। हार्ट बाईपास सर्जरी के बारे में और जानें।\n" +
-                "कार्डिएक रीसिंक्रनाइज़ेशन थेरेपी (CRT)। जब आपके दिल की धड़कन तेज होती है, तो यह दिल की विफलता को और भी खराब कर सकता है। यह उपचार एक पेसमेकर का उपयोग करता है जो आपके दिल के दोनों निचले कक्षों (बाएं और दाएं वेंट्रिकल) को समयबद्ध विद्युत आवेग भेजता है ताकि वे बेहतर और अधिक सिंक में पंप कर सकें। आपका डॉक्टर इसे बायवेंट्रिकुलर पेसमेकर कह सकता है। वे इसे आईसीडी के साथ भी जोड़ सकते हैं (नीचे देखें)। दिल की विफलता के लिए सीआरटी, जिसे बायवेंट्रिकुलर पेसिंग भी कहा जाता है, के बारे में और पढ़ें। हृदय प्रत्यारोपण। यह तब किया जाता है जब दिल की विफलता इतनी गंभीर होती है कि यह किसी अन्य उपचार का जवाब नहीं देती है। दिल की विफलता के लिए हृदय प्रत्यारोपण के बारे में अधिक जानकारी प्राप्त करें।\n" +
-                "हार्ट वाल्व सर्जरी। यदि एक दोषपूर्ण हृदय वाल्व आपके दिल की विफलता का कारण बनता है, तो आपका डॉक्टर इसे सुधारने या बदलने की सिफारिश कर सकता है। एक सर्जन वाल्व की मरम्मत या बदल सकता है। हृदय वाल्व रोग के बारे में अधिक जानकारी प्राप्त करें।\n" +
-                "इम्प्लांटेबल कार्डियोवर्टर-डिफाइब्रिलेटर (ICD)। यह उपकरण पेसमेकर के समान है। यह आपकी त्वचा के नीचे आपकी छाती में रखा गया है। आपके दिल की लय पर नज़र रखने के लिए तार आपकी नसों और आपके दिल में जाते हैं। यदि आपका दिल खतरनाक लय में धड़कना शुरू कर देता है, या यदि यह रुक जाता है, तो आईसीडी आपके दिल को गति देने की कोशिश करता है या इसे वापस सामान्य लय में झटका देता है। एक आईसीडी एक पेसमेकर के रूप में भी काम कर सकता है और अगर यह बहुत धीमी गति से चल रहा है तो आपके दिल को तेज कर सकता है। दिल की विफलता के लिए आईसीडी के बारे में और जानें।\n" +
-                "रोधगलन अपवर्जन सर्जरी (संशोधित डोर या डोर प्रक्रिया)। जब बाएं वेंट्रिकल (आपके दिल के निचले बाएं कक्ष) में दिल का दौरा पड़ता है, तो एक निशान बन जाता है। जख्म वाला क्षेत्र पतला होता है और प्रत्येक धड़कन के साथ बाहर निकल सकता है, जिसे एन्यूरिज्म कहा जाता है। एक हृदय सर्जन इसे हटा सकता है।\n" +
-                "वेंट्रिकुलर असिस्ट डिवाइस। डॉक्टर इसे पेट या छाती में डालता है और इसे आपके दिल से जोड़ता है ताकि यह आपके शरीर के बाकी हिस्सों में रक्त पंप कर सके। वीएडी का उपयोग अक्सर हृदय के बाएं वेंट्रिकल में किया जाता है, लेकिन उनका उपयोग दाएं वेंट्रिकल या दोनों वेंट्रिकल में भी किया जा सकता है। हृदय गति रुकने के लिए लेफ्ट वेंट्रिकुलर असिस्ट डिवाइस (LVAD) के बारे में और पढ़ें।"
+                "Ventricular assist device. The doctor puts it into the abdomen or chest and attaches it to your heart to help it pump blood to the rest of your body. VADs are most often used in the heart's left ventricle, but they can also be used in the right ventricle or in both ventricles.",
+                [LANG_HINDI]: "सर्जरी और मेडिकल उपकरण का विकल्प\n" +
+                "सर्जरी का लक्ष्य आपके दिल को बेहतर तरीके से काम कराना है।\n" +
+                "बाईपास सर्जरी - एक अवरुद्ध धमनी के बाहर से रक्त के लिए रास्ता बनती है। हार्ट बाईपास सर्जरी के बारे में और जानें।\n" +
+                "कार्डिएक रीसिंक्रनाइज़ेशन थेरेपी (CRT) - जब आपके दिल की धड़कन गड़बड़ होती है, तो यह हार्ट फेल्यर को और भी खराब कर सकता है। इस में एक पेसमेकर का उपयोग होता है जो आपके दिल के दोनों निचले कक्षों (बाएं और दाएं वेंट्रिकल) को समयबद्ध सिग्नल भेजता है ताकि वे सही तालमेल में पंप कर सकें।\n" +
+                "हृदय ट्रांसप्लांट - यह तब किया जाता है जब हार्ट फैल्यर इतनी गंभीर होती है कि यह किसी अन्य उपचार का जवाब नहीं देती है।\n" +
+                "हार्ट वाल्व सर्जरी - यदि एक दोषपूर्ण हृदय वाल्व आपके हार्ट फैल्यर का कारण बनता है, तो आपका डॉक्टर इसे सुधारने या बदलने की सिफारिश कर सकता है। एक सर्जन वाल्व की मरम्मत या बदल सकता है।\n" +
+                "इम्प्लांटेबल कार्डियोवर्टर-डिफाइब्रिलेटर (ICD) - यह उपकरण पेसमेकर के समान है। यह आपकी त्वचा के नीचे आपकी छाती में रखा जाता है। आपके दिल की लय पर नज़र रखने के लिए तार आपकी नसों और आपके दिल में जाते हैं। यदि आपका दिल खतरनाक लय में धड़कना शुरू कर देता है, या यदि यह रुक जाता है, तो आईसीडी आपके दिल को गति देने की कोशिश करता है या इसे वापस सामान्य लय में ल देता है। एक आईसीडी एक पेसमेकर के रूप में भी काम कर सकता है और अगर दिल बहुत धीमी गति से चल रहा है तो आपके दिल को तेज कर सकता है।\n" +
+                "रोधगलन अपवर्जन सर्जरी - जब बाएं वेंट्रिकल (आपके दिल के निचले बाएं कक्ष) में दिल का दौरा पड़ता है, तो एक हिस्सा मर जाता है। जख्म वाला क्षेत्र पतला होता है और प्रत्येक धड़कन के साथ बाहर निकल सकता है, जिसे एन्यूरिज्म कहा जाता है। एक हृदय सर्जन इसे हटा सकता है।\n" +
+                "वेंट्रिकुलर असिस्ट डिवाइस - डॉक्टर इसे पेट या छाती में डालता है और इसे आपके दिल से जोड़ता है ताकि यह आपके शरीर के बाकी हिस्सों में रक्त पंप कर सके। वीएडी का उपयोग अक्सर हृदय के बाएं वेंट्रिकल में किया जाता है, लेकिन उनका उपयोग दाएं वेंट्रिकल या दोनों वेंट्रिकल में भी किया जा सकता है। हृदय गति रुकने के लिए लेफ्ट वेंट्रिकुलर असिस्ट डिवाइस (LVAD) के बारे में और पढ़ें।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -2931,7 +3153,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Coronary Artery Disease (CAD)",
-                        [LANG_HINDI]: "कोरोनरी धमनी रोग",
+                        [LANG_HINDI]: "दिल की  धमनी का रोग",
                     },
                     [NEXT_QUESTION]: "214.0 HF CAD",
                     [VALUE]: 0
@@ -2979,7 +3201,7 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Heart muscle disease",
-                        [LANG_HINDI]: "हृदय की मांसपेशी रोग",
+                        [LANG_HINDI]: "हृदय की मांसपेशी का रोग",
                     },
                     [NEXT_QUESTION]: "220.0 HF cardiomyopathy",
                     [VALUE]: 6
@@ -3011,9 +3233,34 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Heart failure can happen when your heart is too weak or too stiff to pump enough blood to the rest of your body. \n" +
-                "Some health conditions can affect how well your heart works and lead to heart failure.",
-                [LANG_HINDI]: "दिल की विफलता तब हो सकती है जब आपका दिल आपके शरीर के बाकी हिस्सों में पर्याप्त रक्त पंप करने के लिए बहुत कमजोर या बहुत कठोर हो। \n" +
-                "कुछ स्वास्थ्य स्थितियां प्रभावित कर सकती हैं कि आपका दिल कितनी अच्छी तरह काम करता है और दिल की विफलता का कारण बन सकता है।"
+                "Some health conditions can affect how well your heart works and lead to heart failure.\n" +
+                "1. Congenital heart disease / heart valve disease\n" +
+                "2. Excessive alcohol or drug abuse\n" +
+                "3. Hot Attack\n" +
+                "4. Severe case of anemia\n" +
+                "5. Diabetes\n" +
+                "6. High blood pressure\n" +
+                "7. Cardiomyopathy, from the muscles of the heart\n" +
+                "8. Arthritis is a disease that causes weakening of the heart.\n" +
+                "9. Certain types of arrhythmias or irregular heart rhythms\n" +
+                "10. Emphysema\n" +
+                "11. Infectious Diseases\n" +
+                "12. Certain cancer treatments such as chemotherapy\n" +
+                "13. An overactive thyroid or underactive thyroid",
+                [LANG_HINDI]: "हार्ट फैल्यर तब हो सकता है जब आपका दिल आपके शरीर के बाकी हिस्सों में पर्याप्त रक्त पंप करने के लिए बहुत कमजोर या बहुत कठोर हो। \n" +
+                "कुछ स्वास्थ्य स्थितियां प्रभावित कर सकती हैं कि आपका दिल कितनी अच्छी तरह काम करता है और हार्ट फैल्यर का कारण बन सकता है।\n" +
+                "1. जन्मजात हृदय रोग /हृदय वैल्व रोग\n" +
+                "2. अिधक मात्रा में शराब या दवाओं का दुरुपयोग\n" +
+                "3. हार्ट अटैक\n" +
+                "4. एनीिमया (anemia) का गंभीर रूप\n" +
+                "5. डायिबटीज\n" +
+                "6. उच्च रक्तचाप (high blood pressure)\n" +
+                "7. कार्डिओमायोपैथी   (cardiomyopathy), यह हृदय की मांसपेिशयों से संबंधित एक रोग है जो हृदय के कमजोर होने का कारण बनता है।\n" +
+                "8. कुछ प्रकार के अतालता (arrhythmias) या अिनयिमत हृदय ताल\n" +
+                "9. वातस्फीति (emphysema)\n" +
+                "10. संक्रामक बीमारियाँ \n" +
+                "11. कुछ कैंसर के उपचार जैसे कि कीमोथेरेपी\n" +
+                "12. एक ओवरऐक्टिव या अंडरऐक्टिव थायराइड"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -3023,9 +3270,9 @@ module.exports = {
                 [LANG_ENGLISH]: "Coronary Artery Disease (CAD)\n" +
                 "CAD happens when a fatty substance called plaque builds up in your arteries (the blood vessels that carry oxygen-rich blood from your heart to the rest of your body). Over time, plaque hardens and your arteries get narrow. An artery clogged with plaque is like a clogged drainpipe -- less blood can squeeze through. This is called atherosclerosis.\n" +
                 "Your heart has to pump harder to push blood through those narrow arteries, and it doesn't get the blood it needs to work as well as it should. Over time, this can make your heart so weak that it leads to heart failure.",
-                [LANG_HINDI]: "कोरोनरी धमनी रोग (सीएडी)\n" +
-                "सीएडी तब होता है जब प्लाक नामक एक वसायुक्त पदार्थ आपकी धमनियों (आपके हृदय से आपके शरीर के बाकी हिस्सों तक ऑक्सीजन युक्त रक्त ले जाने वाली रक्त वाहिकाओं) में बनता है। समय के साथ, पट्टिका सख्त हो जाती है और आपकी धमनियां संकीर्ण हो जाती हैं। पट्टिका से भरी हुई धमनी एक बंद नाली की तरह होती है - कम रक्त के माध्यम से निचोड़ सकता है। इसे एथेरोस्क्लेरोसिस कहते हैं।\n" +
-                "आपके हृदय को उन संकरी धमनियों से रक्त को धकेलने के लिए अधिक पंप करना पड़ता है, और उसे उतना रक्त नहीं मिल पाता जितना उसे काम करना चाहिए। समय के साथ, यह आपके दिल को इतना कमजोर बना सकता है कि यह दिल की विफलता की ओर ले जाता है।"
+                [LANG_HINDI]: "दिल की  धमनी का रोग (सीएडी)\n" +
+                "सीएडी तब होता है जब प्लाक नामक एक वसायुक्त पदार्थ आपकी धमनियों (आपके हृदय से आपके शरीर के बाकी हिस्सों तक ऑक्सीजन युक्त रक्त ले जाने वाली रक्त वाहिकाओं) में बनता है। समय के साथ, पट्टिका (प्लैक) सख्त हो जाती है और आपकी धमनियां संकीर्ण हो जाती हैं। पट्टिका से भरी हुई धमनी एक बंद नाली की तरह होती है - कम रक्त के माध्यम से निचोड़ सकता है। इसे एथेरोस्क्लेरोसिस कहते हैं।\n" +
+                "आपके हृदय को उन संकरी धमनियों से रक्त को धकेलने के लिए अधिक पंप करना पड़ता है, और उसे उतना रक्त नहीं मिल पाता जितना उसे काम करना चाहिए। समय के साथ, यह आपके दिल को इतना कमजोर बना सकता है कि यह हार्ट फैल्यर की ओर ले जाता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3035,8 +3282,8 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "If you have CAD, a piece of the plaque that's built up in your arteries can break off. This can lead to a blood clot. If the clot gets lodged in one of the arteries bringing blood to your heart, it can block the blood flow and you could have a heart attack.\n" +
                 "Without enough oxygen, the part of the heart that's blocked can die. This damage weakens your heart and can lead to heart failure.",
-                [LANG_HINDI]: "यदि आपके पास सीएडी है, तो आपकी धमनियों में बनी पट्टिका का एक टुकड़ा टूट सकता है। इससे रक्त का थक्का बन सकता है। यदि आपके हृदय में रक्त लाने वाली धमनियों में से एक में थक्का जमा हो जाता है, तो यह रक्त के प्रवाह को अवरुद्ध कर सकता है और आपको दिल का दौरा पड़ सकता है।\n" +
-                "पर्याप्त ऑक्सीजन के बिना, हृदय का वह हिस्सा जो अवरुद्ध है, मर सकता है। यह क्षति आपके दिल को कमजोर करती है और दिल की विफलता का कारण बन सकती है।"
+                [LANG_HINDI]: "यदि आपको दिल की धमनी का रोग है, तो आपकी धमनियों में बनी पट्टिका (प्लैक) का एक टुकड़ा टूट सकता है। इससे रक्त का थक्का बन सकता है। यदि आपके हृदय में रक्त लाने वाली धमनियों में से एक में थक्का जमा हो जाता है, तो यह रक्त के प्रवाह को अवरुद्ध कर सकता है और आपको दिल का दौरा पड़ सकता है।\n" +
+                "पर्याप्त ऑक्सीजन के बिना, हृदय का वह हिस्सा मर सकता है। यह आपके दिल को कमजोर करती है और हार्ट फैल्यर का कारण बन सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3045,7 +3292,7 @@ module.exports = {
             [ID]: "216.0 HF BP",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Blood pressure is the force of blood as your heart pumps it through your arteries. When the blood pushes against your artery walls with more force than usual, you have high blood pressure. This makes your heart work harder to push blood through your body, and that extra work makes your heart bigger and weaker. High blood pressure that's not managed well can double or triple your chances of heart failure.",
-                [LANG_HINDI]: "रक्तचाप रक्त का बल है क्योंकि आपका हृदय इसे आपकी धमनियों के माध्यम से पंप करता है। जब रक्त आपकी धमनी की दीवारों के खिलाफ सामान्य से अधिक बल के साथ धक्का देता है, तो आपको उच्च रक्तचाप होता है। यह आपके हृदय को आपके शरीर में रक्त को धकेलने के लिए अधिक मेहनत करता है, और यह अतिरिक्त कार्य आपके हृदय को बड़ा और कमजोर बनाता है। उच्च रक्तचाप जिसे अच्छी तरह से प्रबंधित नहीं किया जाता है, आपके दिल की विफलता की संभावना को दोगुना या तिगुना कर सकता है।"
+                [LANG_HINDI]: "उच्च रक्तचाप जिसे अच्छी तरह से रोका नहीं किया जाता है, आपके हार्ट फैल्यर की संभावना को दोगुना या तिगुना कर सकता है। रक्तचाप हृदय का वो बल है जो खून को आपकी धमनियों में पंप करता है। जब रक्त आपकी धमनी की दीवारों के खिलाफ सामान्य से अधिक बल के साथ धक्का देता है, तो आपको उच्च रक्तचाप होता है। इसके कारण आपके हृदय को आपके शरीर में खून को धकेलने के लिए अधिक मेहनत करता है, और यह अतिरिक्त मेहनत आपके हृदय को बड़ा और कमजोर बनाती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3055,8 +3302,8 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "The hormone insulin normally moves sugar from your bloodstream into your cells, where it's used for energy or stored for later. When you have diabetes, your body doesn't make enough insulin or doesn't use insulin well enough. This can leave too much sugar in your blood (high blood sugar).\n" +
                 "High blood sugar damages arteries and weakens your heart. That can lead to heart failure. People who have diabetes are also more likely to have high blood pressure and atherosclerosis.",
-                [LANG_HINDI]: "हार्मोन इंसुलिन आम तौर पर आपके रक्तप्रवाह से चीनी को आपकी कोशिकाओं में ले जाता है, जहां इसका उपयोग ऊर्जा के लिए किया जाता है या बाद में संग्रहीत किया जाता है। जब आपको मधुमेह होता है, तो आपका शरीर पर्याप्त इंसुलिन नहीं बनाता है या पर्याप्त रूप से इंसुलिन का उपयोग नहीं करता है। यह आपके रक्त (उच्च रक्त शर्करा) में बहुत अधिक शर्करा छोड़ सकता है।\n" +
-                "हाई ब्लड शुगर धमनियों को नुकसान पहुंचाता है और आपके दिल को कमजोर करता है। जिससे दिल की विफलता हो सकती है। जिन लोगों को मधुमेह है, उनमें भी उच्च रक्तचाप और एथेरोस्क्लेरोसिस होने की संभावना अधिक होती है।"
+                [LANG_HINDI]: "हार्मोन इंसुलिन आम तौर पर आपके रक्तप्रवाह से शुगर को आपकी कोशिकाओं में ले जाता है, जहां इसका उपयोग ऊर्जा के लिए किया जाता है या बाद के लिए संग्रहीत किया जाता है। जब आपको मधुमेह / शुगर / डाइअबीटीज़ होती है, तो आपका शरीर पर्याप्त इंसुलिन नहीं बनाता है या पर्याप्त रूप से इंसुलिन का उपयोग नहीं करता है। यह आपके रक्त (उच्च रक्त शर्करा) में बहुत अधिक शर्करा छोड़ सकता है।\n" +
+                "अधिक ब्लड शुगर धमनियों को नुकसान पहुंचाती है और आपके दिल को कमजोर करती है। जिससे हार्ट फैल्यर हो सकता है। जिन लोगों को मधुमेह है, उनमें भी उच्च रक्तचाप और एथेरोस्क्लेरोसिस होने की संभावना अधिक होती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3065,7 +3312,7 @@ module.exports = {
             [ID]: "218.0 HF sleep apnea",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "This is when your breathing pauses over and over again while you sleep. Each time you stop breathing, your brain jolts you awake to get it restarted. It may be linked to atrial fibrillation (a quivering or irregular heartbeat) and high blood pressure in your lungs, which can lead to heart failure.",
-                [LANG_HINDI]: "यह तब होता है जब आप सोते समय आपकी सांस बार-बार रुकती है। हर बार जब आप सांस लेना बंद कर देते हैं, तो आपका मस्तिष्क इसे फिर से शुरू करने के लिए आपको जगाता है। यह आलिंद फिब्रिलेशन (एक तरकश या अनियमित दिल की धड़कन) और आपके फेफड़ों में उच्च रक्तचाप से जुड़ा हो सकता है, जिससे दिल की विफलता हो सकती है।"
+                [LANG_HINDI]: "यह तब होता है जब सोते समय आपकी सांस बार-बार रुकती है। जब भी आप सांस लेना बंद कर देते हैं, तो आपका दिमाग आपको झटके से जगाता है। यह एट्रियल फिब्रिलेशन (अनियमित दिल की धड़कन या दिल का कांपना) और आपके फेफड़ों में उच्च रक्तचाप से जुड़ा हो सकता है, जिससे हार्ट फैल्यर हो सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3073,9 +3320,9 @@ module.exports = {
         {
             [ID]: "219.0 HF obesity",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "More than one-third of Americans are obese. That means the ratio of their weight to their height, known as body mass index or BMI, is 30 or higher.\n" +
+                [LANG_ENGLISH]: "Being obese means the ratio of their weight to their height, known as body mass index or BMI, is 30 or higher.\n" +
                 "Extra weight puts more strain on your heart. Being obese also makes you more likely to have diseases linked to heart failure, such as high blood pressure, diabetes, or sleep apnea.",
-                [LANG_HINDI]: "एक तिहाई से अधिक अमेरिकी मोटे हैं। इसका मतलब है कि उनके वजन का उनकी ऊंचाई से अनुपात, जिसे बॉडी मास इंडेक्स या बीएमआई के रूप में जाना जाता है, 30 या अधिक है।\n" +
+                [LANG_HINDI]: "मोटापा मतलब वजन का ऊंचाई से अनुपात, जिसे बॉडी मास इंडेक्स या बीएमआई कहा जाता है, 30 या अधिक है।\n" +
                 "अतिरिक्त वजन आपके दिल पर अधिक दबाव डालता है। मोटे होने से आपको उच्च रक्तचाप, मधुमेह, या स्लीप एपनिया जैसी हृदय गति रुकने से जुड़ी बीमारियां होने की संभावना भी बढ़ जाती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -3086,8 +3333,8 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Heart Muscle Disease (Cardiomyopathy)\n" +
                 "This disease damages your heart muscle and makes it so weak it can't pump blood like it should. Cardiomyopathy can run in families, or it can be caused by coronary artery disease, a virus, or another condition.",
-                [LANG_HINDI]: "हृदय स्नायु रोग (कार्डियोमायोपैथी)\n" +
-                "यह रोग आपके हृदय की मांसपेशियों को नुकसान पहुंचाता है और इसे इतना कमजोर बना देता है कि यह रक्त को पंप नहीं कर सकता जैसा इसे करना चाहिए। कार्डियोमायोपैथी परिवारों में चल सकती है, या यह कोरोनरी धमनी की बीमारी, वायरस या किसी अन्य स्थिति के कारण हो सकती है।"
+                [LANG_HINDI]: "हृदय की मासपेशी का रोग (कार्डियोमायोपैथी)\n" +
+                "यह रोग आपके हृदय की मांसपेशियों को नुकसान पहुंचाता है और इसे इतना कमजोर बना देता है कि यह रक्त को अच्छे से पंप नहीं कर सकता। कार्डियोमायोपैथी परिवारों के अनेक सदस्यों को हो सकती है, या यह कोरोनरी धमनी की बीमारी, वायरस या किसी अन्य स्थिति के कारण हो सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3100,7 +3347,7 @@ module.exports = {
                 "When a valve doesn't open or shut the way it should, your heart has to work harder to pump blood. A valve problem that isn't treated can lead to heart failure.",
                 [LANG_HINDI]: "असामान्य हृदय वाल्व\n" +
                 "चार वाल्व आपके हृदय में रक्त के प्रवाह को नियंत्रित करते हैं। ये खून को पीछे की ओर बहने से रोकते हैं। यदि आपको हृदय वाल्व की बीमारी है, तो इनमें से कम से कम एक वाल्व ठीक से काम नहीं करता है। समस्या तब शुरू हो सकती है जब आप पैदा होते हैं, या यह किसी ऐसी चीज के कारण हो सकता है जो आपके दिल को नुकसान पहुंचाती है, जैसे दिल का दौरा या संक्रमण।\n" +
-                "जब कोई वाल्व उस तरह से नहीं खुलता या बंद नहीं होता है, जैसा होना चाहिए, तो आपके हृदय को रक्त पंप करने के लिए अधिक मेहनत करनी पड़ती है। एक वाल्व समस्या जिसका इलाज नहीं किया जाता है वह दिल की विफलता का कारण बन सकती है।"
+                "जब कोई वाल्व सही तरह से नहीं खुलता या बंद होता है, तो आपके हृदय को रक्त पंप करने के लिए अधिक मेहनत करनी पड़ती है। वाल्व कि समस्या जिसका इलाज नहीं किया जाता है वह हार्ट फैल्यर का कारण बन सकती है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3111,9 +3358,9 @@ module.exports = {
                 [LANG_ENGLISH]: "Irregular Heart Rhythm (Arrhythmia)\n" +
                 "Your heart usually beats in a regular lub-dub pattern. The upper chambers squeeze, and then the lower chambers squeeze. When you have an irregular heart rhythm, your heart beats too quickly, too slowly, or out of rhythm.\n" +
                 "If your heart is off its beat for too long, it won't pump enough blood. This can eventually lead to heart failure.",
-                [LANG_HINDI]: "अनियमित हृदय ताल (अतालता)\n" +
-                "आपका दिल आमतौर पर एक नियमित लब-डब पैटर्न में धड़कता है। ऊपरी कक्ष निचोड़ते हैं, और फिर निचले कक्ष निचोड़ते हैं। जब आपके दिल की लय अनियमित होती है, तो आपका दिल बहुत तेज़ी से, बहुत धीरे-धीरे या लय से बाहर धड़कता है।\n" +
-                "यदि आपका दिल बहुत देर तक अपनी धड़कन बंद कर देता है, तो यह पर्याप्त रक्त पंप नहीं करेगा। यह अंततः दिल की विफलता का कारण बन सकता है।"
+                [LANG_HINDI]: "अनियमित हृदय ताल\n" +
+                "आपका दिल आमतौर पर एक नियमित लब-डब पैटर्न में धड़कता है। ऊपरी कक्ष निचोड़ते हैं, और फिर निचले कक्ष निचोड़ते हैं। जब आपके दिल की लय अनियमित होती है, तो आपका दिल बहुत तेज़ी से, बहुत धीरे-धीरे या लय के बिना धड़कता है।\n" +
+                "यदि आपका दिल बहुत देर तक गलत तरह धड़कता है, तो यह पर्याप्त रक्त पंप नहीं करेगा। यह अंततः हार्ट फैल्यर का कारण बन सकता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -3126,8 +3373,8 @@ module.exports = {
                 "Drugs like cocaine, amphetamines, and ecstasy (MDMA) ramp up your heart rate and raise your blood pressure. Using these drugs can lead to a heart attack and eventually make your heart fail.\n" +
                 "Smoking also damages your heart and raises your blood pressure. The chemicals in cigarette smoke keep your blood from carrying enough oxygen through your body. That makes your heart work harder. Smoking also narrows your blood vessels and makes your blood more likely to clot.",
                 [LANG_HINDI]: "शराब, ड्रग्स और तंबाकू\n" +
-                "दिन में एक या दो पेय आपके दिल के लिए अच्छे हो सकते हैं, लेकिन इससे अधिक मोटापा, उच्च रक्तचाप और दिल की विफलता का कारण बन सकता है।\n" +
-                "कोकीन, एम्फ़ैटेमिन और एक्स्टसी (एमडीएमए) जैसी दवाएं आपके हृदय गति को बढ़ाती हैं और आपके रक्तचाप को बढ़ाती हैं। इन दवाओं का उपयोग करने से दिल का दौरा पड़ सकता है और अंततः आपका दिल विफल हो सकता है।\n" +
+                "दिन में एक या दो ग्लास आपके दिल के लिए अच्छे हो सकते हैं, लेकिन इससे अधिक मोटापा, उच्च रक्तचाप और हार्ट फैल्यर का कारण बन सकता है।\n" +
+                "कोकेन, एम्फ़ैटेमिन और एक्स्टसी जैसी दवाएं आपकी हृदय गति और आपके रक्तचाप को बढ़ाती हैं। इन दवाओं का उपयोग करने से दिल का दौरा पड़ सकता है और अंततः आपको हार्ट फैल्यर हो सकता है।\n" +
                 "धूम्रपान आपके दिल को भी नुकसान पहुंचाता है और आपका रक्तचाप बढ़ाता है। सिगरेट के धुएं में मौजूद रसायन आपके रक्त को आपके शरीर में पर्याप्त ऑक्सीजन ले जाने से रोकते हैं। जिससे आपका दिल ज्यादा मेहनत करता है। धूम्रपान आपकी रक्त वाहिकाओं को भी संकरा कर देता है और आपके रक्त के थक्का बनने की संभावना को बढ़ा देता है।"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
@@ -3204,8 +3451,9 @@ module.exports = {
             [ID]: "225.0 HF salt",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "If you have heart failure, you should have NO MORE THAN 1.5 grams of salt every day. Don't add it to your food separately. It is okay to have some salt in your flour if you have been doing so. Don't eat food cooked outside.",
-                [LANG_HINDI]: "अगर आपको हार्ट फेलियर है, तो आपको रोजाना 1.5 ग्राम से ज्यादा नमक नहीं खाना चाहिए। इसे अपने खाने में अलग से शामिल न करें। अगर आप ऐसा कर रहे हैं तो आपके आटे में थोड़ा नमक होना ठीक है। बाहर का बना खाना न खाएं।"
+                [LANG_HINDI]: "अगर आपको हार्ट फेलियर है, तो आपको रोजाना 1.5 ग्राम से ज्यादा नमक नहीं खाना चाहिए। इसे अपने खाने में अलग से शामिल न करें। आपके आटे में थोड़ा सा नमक होना ठीक है लेकिन अलग से खाने में न डालें। बाहर का बना खाना न खाएं।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -3215,25 +3463,28 @@ module.exports = {
                 "People with heart failure can regain up to 70% of their exercise capacity if they stick to an exercise program.\n" +
                 "Heart-pumping aerobic exercise is the kind that doctors have in mind when they recommend at least 150 minutes per week of moderate activity.",
                 [LANG_HINDI]: "आपको भौतिक चिकित्सा पर भी ध्यान देना चाहिए क्योंकि यह मजेदार है और स्वस्थ होने का सबसे अच्छा तरीका है। इसमें नियमित रूप से व्यायाम करना शामिल है।\n" +
-                "दिल की विफलता वाले लोग अपनी व्यायाम क्षमता का 70% तक पुनः प्राप्त कर सकते हैं यदि वे एक व्यायाम कार्यक्रम से चिपके रहते हैं।\n" +
-                "हार्ट-पंपिंग एरोबिक व्यायाम वह प्रकार है जो डॉक्टरों के दिमाग में होता है जब वे प्रति सप्ताह कम से कम 150 मिनट की मध्यम गतिविधि की सलाह देते हैं।"
+                "हार्ट फैल्यर वाले लोग अपनी व्यायाम क्षमता का 70% तक पुनः प्राप्त कर सकते हैं यदि वे एक व्यायाम कार्यक्रम से चिपके रहते हैं।\n" +
+                "हार्ट-पंपिंग करने वाले एरोबिक व्यायाम वह प्रकार है जो डॉक्टरों के दिमाग में होता है जब वे प्रति सप्ताह कम से कम 150 मिनट की मध्यम गतिविधि की सलाह देते हैं।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
             [ID]: "227.0 HF infections",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Prevent lung infections. Ask your doctor about flu and pneumonia vaccines. Wear a mask irrespective of covid.",
-                [LANG_HINDI]: "फेफड़ों के संक्रमण को रोकें। अपने डॉक्टर से फ्लू और निमोनिया के टीके के बारे में पूछें। कोविड की परवाह किए बिना मास्क पहनें।"
+                [LANG_ENGLISH]: "Prevent lung infections. Ask your doctor about flu and pneumonia vaccines. Always wear a mask, irrespective of covid.",
+                [LANG_HINDI]: "फेफड़ों के संक्रमण को रोकें। अपने डॉक्टर से फ्लू और निमोनिया के टीके के बारे में पूछें। हुमएश मास्क पहनें कोरोना फैले या न फैले या न हो।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
             [ID]: "228.0 HF meds",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Take your medications as prescribed. Don't stop taking them without first asking your doctor. Even if you have no symptoms, the drugs help your heart pump better.",
-                [LANG_HINDI]: "फेफड़ों के संक्रमण को रोकें। अपने डॉक्टर से फ्लू और निमोनिया के टीके के बारे में पूछें। कोविड की परवाह किए बिना मास्क पहनें।"
+                [LANG_HINDI]: "अपनी दवाएं निर्धारित तौर पर लें। अपने डॉक्टर से पूछे बिना उन्हें लेना बंद न करें। अगर आपके कोई लक्षण नहीं हैं, तो दवाएं आपके दिल को बेहतर पंप करने में मदद करती हैं।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
@@ -3242,24 +3493,47 @@ module.exports = {
                 [LANG_ENGLISH]: "Be the Star of Your Team\n" +
                 "It takes a team to manage heart failure, and you are the key player. Your heart doctor will prescribe your medications and manage other medical problems. Other team members, including nurses, dietitians, pharmacists, exercise specialists, and social workers, will also lend a hand. But it's up to you to take your medicine, change your diet, live a healthy lifestyle, keep your follow-up appointments, and be an active member of the team.",
                 [LANG_HINDI]: "अपनी टीम के स्टार बनें\n" +
-                "दिल की विफलता को प्रबंधित करने के लिए एक टीम की आवश्यकता होती है, और आप प्रमुख खिलाड़ी हैं। आपका हृदय चिकित्सक आपकी दवाएं लिखेंगे और अन्य चिकित्सा समस्याओं का प्रबंधन करेंगे। नर्स, आहार विशेषज्ञ, फार्मासिस्ट, व्यायाम विशेषज्ञ और सामाजिक कार्यकर्ता सहित टीम के अन्य सदस्य भी हाथ बंटाएंगे। लेकिन यह आप पर निर्भर है कि आप अपनी दवा लें, अपना आहार बदलें, एक स्वस्थ जीवन शैली जीएं, अपनी अनुवर्ती नियुक्तियां रखें और टीम के सक्रिय सदस्य बनें।"
+                "हार्ट फैल्यर को मैनेज करने के लिए एक टीम की आवश्यकता होती है, और आप इसके सबसे जरूरी खिलाड़ी हैं। आपके हृदय चिकित्सक आपकी दवाएं लिखेंगे और अन्य चिकित्सा समस्याओं का प्रबंधन करेंगे। नर्स, आहार विशेषज्ञ, केमिस्ट, व्यायाम विशेषज्ञ और सामाजिक कार्यकर्ता सहित टीम के अन्य सदस्य भी हाथ बंटाएंगे। लेकिन यह आप पर निर्भर है कि आप अपनी दवा लें, अपना आहार बदलें, एक स्वस्थ जीवन शैली जीएं, अपने डॉक्टर से सही समय पे वापस जाके मिलें और टीम के सक्रिय सदस्य बनें।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
             [ID]: "230.0 HF fluid",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Maintain fluid balance. Keep a record of the amount of fluids you drink or eat and how often you go to the bathroom using a urometer. Remember, the more fluid you carry in your blood vessels, the harder your heart must work to pump excess fluid through your body. Limiting your fluid intake to less than two litres per day will help decrease the workload of your heart and prevent symptoms from recurring.",
-                [LANG_HINDI]: "द्रव संतुलन बनाए रखें। आप कितने तरल पदार्थ पीते हैं या खाते हैं और आप मूत्रमापी का उपयोग करके कितनी बार बाथरूम जाते हैं, इसका रिकॉर्ड रखें। याद रखें, आप अपनी रक्त वाहिकाओं में जितना अधिक तरल पदार्थ ले जाते हैं, आपके हृदय को आपके शरीर में अतिरिक्त तरल पदार्थ को पंप करने के लिए उतनी ही अधिक मेहनत करनी पड़ती है। अपने तरल पदार्थ का सेवन प्रति दिन दो लीटर से कम करने से आपके दिल के कार्यभार को कम करने और लक्षणों की पुनरावृत्ति को रोकने में मदद मिलेगी।"
+                [LANG_HINDI]: "द्रव संतुलन बनाए रखें। आप कितने तरल पदार्थ पीते हैं या खाते हैं और कितनी बार बाथरूम जाकर उरोमीटर का उपयोग करते हैं, इसका रिकॉर्ड रखें। याद रखें, आप अपनी रक्त वाहिकाओं में जितना अधिक तरल पदार्थ ले जाते हैं, आपके हृदय को आपके शरीर में अतिरिक्त तरल पदार्थ को पंप करने के लिए उतनी ही अधिक मेहनत करनी पड़ती है। अपने तरल पदार्थ का सेवन प्रति दिन दो लीटर से कम करने से आपके दिल के कार्यभार को कम करने और लक्षणों की पुनरावृत्ति को रोकने में मदद मिलेगी।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
         {
             [ID]: "231.0 HF weight",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Monitor your weight and lose weight if needed. Learn what your \"dry\" or \"ideal\" weight is. This is your weight without extra fluid. Your goal is to keep your weight within four pounds of your dry weight. Weigh yourself at the same time each day, preferably in the morning, in similar clothing, after urinating but before eating, and on the same scale. Record your weight in a diary or calendar. If you gain 2 pounds in one day or 5 pounds in one week, call your doctor.",
-                [LANG_HINDI]: "अपने वजन की निगरानी करें और जरूरत पड़ने पर वजन कम करें। जानें कि आपका \"सूखा\" या \"आदर्श\" वजन क्या है। अतिरिक्त तरल पदार्थ के बिना यह आपका वजन है। आपका लक्ष्य अपने वजन को अपने सूखे वजन के चार पाउंड के भीतर रखना है। प्रत्येक दिन एक ही समय पर, अधिमानतः सुबह में, इसी तरह के कपड़ों में, पेशाब करने के बाद लेकिन खाने से पहले, और उसी पैमाने पर वजन करें। एक डायरी या कैलेंडर में अपना वजन रिकॉर्ड करें। यदि आप एक दिन में 2 पाउंड या एक सप्ताह में 5 पाउंड प्राप्त करते हैं, तो अपने डॉक्टर को बुलाएं।"
+                [LANG_HINDI]: "अपने वजन की निगरानी करें और जरूरत पड़ने पर वजन कम करें। जानें कि आपका \"सूखा\" या \"आदर्श\" वजन क्या है। अतिरिक्त तरल पदार्थ के बिना यह आपका वजन है। आपका लक्ष्य अपने वजन को अपने सूखे वजन के चार पाउंड (1.8 किलो) के भीतर रखना है। प्रत्येक दिन एक ही समय पर (सुबह में) एक ही तरह के कपड़ों में, पेशाब करने के बाद लेकिन खाने से पहले, और उसी पैमाने पर वजन करें। एक डायरी या कैलेंडर में अपना वजन रिकॉर्ड करें। यदि आप एक दिन में 2 पाउंड या एक सप्ताह में 5 पाउंड बढ़ा रहे हैं, तो अपने डॉक्टर को बुलाएं।"
             },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+            [TYPE]: TYPE_NONE
+        },
+        // other
+        {
+            [ID]: "196.3 HF risk factors",
+            [STATEMENT]: {
+                [LANG_ENGLISH]: "1. Age - The risk of heart failure is higher in people above 65 years of age.\n" +
+                "2. Gender – Men are more prone to heart failure than women.\n" +
+                "3. Family History - If someone in your family has had heart failure, then you too can have heart failure.\n" +
+                "4. Diabetes - Along with diabetes, high blood pressure and coronary artery disease increase the chances of heart failure.\n" +
+                "5. Lifestyle - Obesity, smoking, alcohol consumption increases the risk of heart failure over time.\n" +
+                "6. Medicines - Medicines like steroids or cancer medicine can affect the heart, which can increase the risk of heart failure.\n",
+                [LANG_HINDI]: "1. आयु - 65 वर्ष से अिधक आयु के लोगों में हार्ट फेलयर का खतरा अिधक होता है।\n" +
+                "2. लिंग – मिहलाओं की तुलना में पुरुषों में हार्ट फैल्यर  की संभावना अिधक होती है।\n" +
+                "3. पारिवारिक इतिहास - अगर आपके परिवार में किसी को हार्ट फैल्यर रहा है तो आपको भी हार्ट फैल्यर हो सकता है।\n" +
+                "4. डायबिटीज़ - डायबिटीज़ के साथ-साथ हाई ब्लड प्रेशर और कोरोनरी धमनी रोग हार्ट फैल्यर होने की संभावना बढ़ देता है।\n" +
+                "5. जीवनशैली - मोटापा, धूम्रपान, शराब का सेवन समय के साथ साथ हार्ट फैल्यर के खतरे को बढा देता है।\n" +
+                "6. दवाएँ - स्टेरॉइड या कैंसर की दवा जैसी दवाएं दिल को प्रभावित कर सकती हैं, जिस से हार्ट फैल्यर का खतरा बढ़ सकता है।"
+            },
+            [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
         },
 
@@ -3318,9 +3592,9 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Stent risks",
-                        [LANG_HINDI]: "स्टेंट जोखिम",
+                        [LANG_HINDI]: "स्टेंट के जोखिम",
                     },
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [VALUE]: 6
                 },
                 {
@@ -3439,7 +3713,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Risk",
                         [LANG_HINDI]: "जोखिम",
                     },
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [VALUE]: 3
                 },
                 {
@@ -3530,7 +3804,7 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Still curious?",
-                [LANG_HINDI]: "अभी भी उत्सुक?"
+                [LANG_HINDI]: "अभी भी जिज्ञासु?"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -3541,7 +3815,7 @@ module.exports = {
             [ID]: "71.0 Cardiac screening",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Do you have pain in your chest?",
-                [LANG_HINDI]: "क्या आपके सीने में दर है?"
+                [LANG_HINDI]: "क्या आपके सीने में दर्द है?"
             },
             [OPTIONS]: [
                 {
@@ -3599,8 +3873,7 @@ module.exports = {
             [ID]: "72.0 Cardiac point pain",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is it point pain?  (You can tell the location with tip of the finger)",
-                [LANG_HINDI]: "क्या आप उंगली से बता सकते हैं की दर्द कहा पे है?",
-                [DESCRIPTION_IMAGE]: "anginavspointchestpain.jpg"
+                [LANG_HINDI]: "क्या आप उंगली से बता सकते हैं की दर्द कहा पे है?"
             },
             [OPTIONS]: [
                 {
@@ -3608,7 +3881,7 @@ module.exports = {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ",
-                        [DESCRIPTION_IMAGE]: "point-chest-pain.jpg"
+                        [DESCRIPTION_IMAGE]: "point_chest_pain.jpg"
                     },
                     [VALUE]: 0,
                     [DB_VALUE]: "Point chest pain",
@@ -3618,7 +3891,7 @@ module.exports = {
                     [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, the pain is diffused",
-                        [LANG_HINDI]: "नहीं, दर्द फैल हुआ है",
+                        [LANG_HINDI]: "नहीं, दर्द फैला हुआ है",
                         [DESCRIPTION_IMAGE]: "angina.jpg"
                     },
                     [CARDIAC_SCORE]: 0.5,
@@ -3632,7 +3905,8 @@ module.exports = {
             [ID]: "74.0 Cardiac left arm pain",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Is there pain in the left arm?",
-                [LANG_HINDI]: "क्या बाएँ हाथ में दर्द है ?"
+                [LANG_HINDI]: "क्या बाएँ हाथ में दर्द है ?",
+                [DESCRIPTION_IMAGE]: "left_arm.jpg"
             },
             [OPTIONS]: [
                 {
@@ -3649,7 +3923,7 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
+                        [LANG_HINDI]: "नहीं",
                     },
                     [DB_VALUE]: "No",
                     [VALUE]: 1
@@ -3668,7 +3942,8 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
-                        [LANG_HINDI]: "हाँ"
+                        [LANG_HINDI]: "हाँ",
+                        [DESCRIPTION_IMAGE]: "left_arm_inside.jpg"
                     },
                     [VALUE]: 0,
                     [DB_VALUE]: "Yes",
@@ -3678,7 +3953,8 @@ module.exports = {
                     [NEXT_QUESTION]: "73.1 Pain on arm movement",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
-                        [LANG_HINDI]: "नहीं"
+                        [LANG_HINDI]: "नहीं",
+                        [DESCRIPTION_IMAGE]: "left_arm_outside.jpg"
                     },
                     [DB_VALUE]: "No",
                     [VALUE]: 1
@@ -3690,7 +3966,7 @@ module.exports = {
             [ID]: "73.1 Pain on arm movement",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Does the pain increase or decrease when you move the arm?",
-                [LANG_HINDI]: "क्या हाथ हिलाने पे दर्द घटता / बढ़त है?"
+                [LANG_HINDI]: "क्या हाथ हिलाने पे दर्द घटता या बढ़ता है?"
             },
             [OPTIONS]: [
                 {
@@ -3720,7 +3996,8 @@ module.exports = {
             [ID]: "73.2 Cardiac pain on squeezing",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Does the pain increase or decrease when you when you press?",
-                [LANG_HINDI]: "क्या दबाने पे दर्द होता है?"
+                [LANG_HINDI]: "क्या दबाने पे दर्द होता है?",
+                [DESCRIPTION_IMAGE]: "pressure.jpg"
             },
             [OPTIONS]: [
                 {
@@ -3750,7 +4027,7 @@ module.exports = {
             [ID]: "80.0 Cardiac associated symptoms",
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Are there any associated symptoms?",
-                [LANG_HINDI]: "क्या कोई संबद्ध लक्षण हैं?"
+                [LANG_HINDI]: "क्या कोई संबद्धित लक्षण हैं?"
             },
             [NEXT_QUESTION]: "81.0 Cardiac assessment",
             [OPTIONS]: [
@@ -3905,12 +4182,12 @@ module.exports = {
         {
             [ID]: "73.0 Cardiac giddiness",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Does the world spin or does it turn black?",
-                [LANG_HINDI]: "क्या दुनिया घूमती दिखती है या काली होती है?"
+                [LANG_ENGLISH]: "Does the world spin or turn black?",
+                [LANG_HINDI]: "क्या दुनिया घूमती या काली होती दिखती है?"
             },
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Yes",
                         [LANG_HINDI]: "हाँ"
@@ -3918,7 +4195,7 @@ module.exports = {
                     [VALUE]: 0
                 },
                 {
-                    [NEXT_QUESTION]: 9998,
+                    [NEXT_QUESTION]: "9998 dead end",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No",
                         [LANG_HINDI]: "नहीं"
@@ -6268,23 +6545,25 @@ module.exports = {
             [TYPE]: TYPE_NONE
         },
         {
-    			[ID]: 9998,
-          [STATEMENT]: {
-            en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
-            hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
-          },
-    			[TYPE]: [TYPE_BUTTON],
-    			[OPTIONS]: [
+    			  [ID]: "9998 dead end",
+            [STATEMENT]: {
+                en: 'You have asked something I am yet to learn. We will figure it out shortly. Did you enjoy the experience?',
+                hi: 'आपने कुछ पूछा है जो मुझे अभी सीखना बाकी है। हम जल्द ही इसका पता लगा लेंगे। क्या आपने अनुभव का आनंद लिया?',
+            },
+            [NEXT_QUESTION]: 0,
+    			  [TYPE]: TYPE_BUTTON,
+    			  [OPTIONS]: [
     				{
-    					[NEXT_QUESTION]: 0,
-    					[VALUE]: 0,
-              [STATEMENT]: STATEMENT_YES,
-    					[DB_VALUE]: DB_VALUE_YES
+    				    [NEXT_QUESTION]: 1,
+    					  [VALUE]: 0,
+                [STATEMENT]: STATEMENT_YES,
+    					  [DB_VALUE]: DB_VALUE_YES
     				},
     				{
-    					[NEXT_QUESTION]: 0,
-    					[VALUE]: 1,
-              [STATEMENT]: STATEMENT_NO,
+    					  [NEXT_QUESTION]: 1,
+    					  [VALUE]: 1,
+                [STATEMENT]: STATEMENT_NO,
+                [DB_VALUE]: DB_VALUE_NO
     				}
     			]
     		},

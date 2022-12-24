@@ -116,42 +116,42 @@ body {
 }
 
 h1 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 24px !important;
   font-weight: 900;
   // text-transform: uppercase;
 }
 
 h2 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 18px !important;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 h3 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 14px !important;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 h4 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 13px !important;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 h5 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 12px !important;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 h6 {
-  font-family: "yatra-one", Arial;
+  font-family: "yatra-one", Arial, system-ui;
   font-size: 11px !important;
   font-weight: 600;
   text-transform: uppercase;
@@ -179,7 +179,6 @@ h6 {
       // border-radius: 5px;
       text-decoration: none;
       color: $gray;
-      padding: 0;
       background: $gray-light;
       border-radius: 1rem;
       padding: 0.5rem 1rem;
@@ -533,7 +532,7 @@ h6 {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     white-space: pre-line;
     -ms-overflow-style: none;
   }
@@ -625,16 +624,17 @@ h6 {
     }
   }
   p.incoming-message {
-    color: $gray;
+    color: $gray-dark;
     align-self: flex-start;
     border-bottom-left-radius: 0px;
+    font-size: larger;
   }
   p.outgoing-message {
-    color: $white;
-    background: $blue;
+    color: $gray;
+    background: $white;
     align-self: flex-end;
     border-bottom-right-radius: 0px;
-    border: none;
+    //border: none;
   }
 
   div.button-row {
@@ -825,7 +825,7 @@ h6 {
 }
 
 .chat-options {
-  font-family: "cambay", Arial;
+  font-family: "cambay", Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
 
@@ -837,13 +837,13 @@ h6 {
   height: 6vh;
 
   padding: 0.5rem;
-  border-radius: 0.5rem;
+  //border-radius: 0.5rem;
   position: static;
 
   border-radius: 1rem;
   border: 2px $gray-mid dashed;
   &.expand {
-    width: calc(69% - 2rem);
+    width: calc(100% - 5rem);
     padding: 0.5rem 1rem;
   }
 
