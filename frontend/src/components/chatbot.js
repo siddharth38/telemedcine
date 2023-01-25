@@ -157,7 +157,7 @@ export default class Chat extends React.Component {
       question = this.getQuestionById(question);
     }
     const { answers } = this.state;					// contains question ID and value of user input
-		let { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
+		let { statement, type: type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 
 		if (customOptions) {
       options = customOptions;
@@ -181,12 +181,25 @@ export default class Chat extends React.Component {
 				tempSelection[i] = false;
 			}
 		}
-		this.enterMessageIntoChat(statement, 'incoming');
+		this.enterMessageIntoChat(statement, INCOMING_MESSAGE);
+		this.realtime({
+			language: this.state.languageSelected,
+			statement:statement,
+			direction:INCOMING_MESSAGE,
+			message_type: type,
+			id:id,
+			nextQuestion: nextQuestion,
+			command:command,
+			branches:branches,
+			options:options,
+			textAnswered: this.answerEntered,
+			tempSelection:tempSelection
+		})
 		this.setState({
 			answerBoxHidden: type==='none',
 			textAnswered: '',
 			optionSelected: '0',
-			answerFormat: { type, options, pattern },
+			answerFormat: { type: type, options, pattern },
 			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
 			tempSelection: tempSelection
 		});
@@ -395,12 +408,12 @@ export default class Chat extends React.Component {
 		);
 	};
 
-	answer = (event) => {
+	answer = (event, textOverrides) => {
 		const { optionSelected, questionDetails, answerFormat, answers, tempSelection } = this.state;
 		const { options, type } = answerFormat;
 		// noinspection JSUnusedLocalSymbols
 		const { id, paramsFrom, branches, loopStart } = questionDetails;
-		let { textAnswered } = this.state;
+		let { textAnswered, textOverrideAnswered } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
 		// prevent Default faolowup to the event. No idea when?
@@ -439,8 +452,17 @@ export default class Chat extends React.Component {
 				},
 				this.answerEntered
 			);
-		} else if (!textTypeAnswer || textAnswered) {
-    	  if (type === 'password') {
+		} else if (this.state.reset){
+			console.log('reset')
+			this.realtime()
+			this.setState(this.state, this.answerEntered)
+		} else if ((!textTypeAnswer || textAnswered) && (!textOverrides)) {
+			// accept as an answer if type is not text.
+			console.log('textOverrides = ', textOverrides)
+
+    	this.realtime()
+
+			if (type === 'password') {
     	    this.enterMessageIntoChat('****', 'outgoing');
 		  } else if (type !== 'none') {
     	    this.enterMessageIntoChat(
@@ -562,6 +584,12 @@ export default class Chat extends React.Component {
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
 
+		if (this.state.reset){
+			nextQuestion = 1.0
+			this.state.reset = false
+			this.setState(this.state)
+		}
+
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
 			console.log(answers)
@@ -620,6 +648,17 @@ export default class Chat extends React.Component {
 					[id]: !this.state.tempSelection[id]
 				}
 			});
+		} else if (event.target.id === 'textOverrideAnswered') {
+			// text message overrides other ui inputs
+			console.log('textOverrideAnswered')
+			this.setState(
+				{
+					[id]: value
+				},
+				() => {
+					this.answer(null, true);
+				}
+			);
 		} else {
 			// everything default behavior, update things
 
@@ -655,6 +694,40 @@ export default class Chat extends React.Component {
 			}
 		);
   };
+
+	/*
+	 * live chat-bot text communication with server
+	 */
+	realtime = () => {
+		console.log("realtime()")
+		const { optionSelected, answerFormat, questionDetails, textAnswered, session_id, answers } = this.state;
+		const { options } = answerFormat;
+		const { nextQuestion } = options && options[optionSelected].nextQuestion
+			? options[optionSelected] : questionDetails;
+		const question = this.getQuestionById(nextQuestion);
+
+		console.log("questionDetails = ", questionDetails)
+		console.log(textAnswered)
+		console.log(optionSelected)
+
+		axios
+			.post(ENDPOINT + '/api/realtime', {
+				optionSelected: optionSelected,
+				answerFormat: answerFormat,
+				options: options,
+				nextQuestion: nextQuestion,
+				session_id: session_id,
+				answers: answers
+			})
+			.then((response) => {
+				// TODO: nothing happens here. Will need to override others
+				// this.setQuestion()
+				this.scrollDown()
+			})
+			.catch((error) => {
+				console.error(error)
+			});
+	}
 
 	imageUpload = (event) => {
 		const { questionDetails } = this.state;
@@ -757,6 +830,46 @@ export default class Chat extends React.Component {
 		window.speechSynthesis.resume()
 	}
 
+	textAnswerOverrides = (event) => {
+		const answerFormat = this.state.answerFormat;
+		answerFormat.type = TYPE_TEXT
+		this.setState({answerFormat})
+		this.state.textAnswered = this.state.textOverrideAnswered
+		this.state.textOverrideAnswered = ''
+		this.setState(this.state)
+		this.answer(event)
+	};
+
+	/*
+	 * Create UI for when user wants to text instead of button, etc.
+	 * Used in TYPE_LIST, TYPE_BUTTON, TYPE_SELECT, TYPE_UPLOAD
+	 */
+	renderTextOverrideMessage = () => {
+		const { textOverrideAnswered } = this.state;
+		const { pattern } = this.state.answerFormat;
+
+		return (
+			<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
+				<form onSubmit={this.textAnswerOverrides} className="message-form">
+					<input
+						id="textOverrideAnswered"
+						value={textOverrideAnswered}
+						onChange={this.handleChange}
+						type={TYPE_TEXT}
+						pattern={pattern}
+						autoComplete="off"
+						autoCorrect="off"
+						spellCheck="false"
+						onFocus={this.scrollDown}
+					/>
+					<button type="submit" className="send">
+						<Icon.Send />
+					</button>
+				</form>
+			</div>
+		)
+	}
+
 	/* User inputs */
 	renderAnswers = () => {
 		const {
@@ -838,31 +951,36 @@ export default class Chat extends React.Component {
 			/* different types of answer*/
 			// User answer buttons
 			return (
-				<div className="answer-box button-row">
-					{options.map(({ value, statement, url }, index) => {
-            const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
-						// noinspection HtmlRequiredAltAttribute
-						return (
-							<button
-								value={value}
-								data-url={url}
-								id="optionSelected"
-								onClick={this.handleChange}
-								className="fadeInUp"
-								style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'larger' }}
-								onMouseEnter={() => this.speak(chatStatement, true)}
-							>
-                {chatStatement}
-								{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
-									width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
-							</button>
-						);
-					})}
+				<div>
+					<div className="answer-box button-row">
+						{options.map(({ value, statement, url }, index) => {
+							const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+							// noinspection HtmlRequiredAltAttribute
+							return (
+								<button
+									value={value}
+									data-url={url}
+									id="optionSelected"
+									onClick={this.handleChange}
+									className="fadeInUp"
+									style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large' }}
+									onMouseEnter={() => this.speak(chatStatement, true)}
+									onTouchStart={() => this.speak(chatStatement, true)}
+								>
+									{chatStatement}
+									{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
+										width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
+								</button>
+							);
+						})}
+					</div>
+					{this.renderTextOverrideMessage()}
 				</div>
 			);
 		} else if (type === TYPE_LIST) {
 			 console.log("renderAnswers list")
 			return (
+				<div>
 				<div style={{ display:"flex", "flexDirection":"column" }}>
 					<div className="answer-box button-row" style={{ "flexWrap":"wrap" }}>
 						{options.map(({ value, statement }, index) => {
@@ -894,11 +1012,14 @@ export default class Chat extends React.Component {
 						</object>
 					</button>
 				</div>
+					{this.renderTextOverrideMessage()}
+				</div>
 			);
 		} else if (type === TYPE_SELECT) {
 			 // spinner
 			console.log("renderAnswers select")
 			return (
+				<div>
 				<div className="answer-box select-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<select id="optionSelected" value={optionSelected} onChange={this.handleChange}>
 						{options && options.map(({ value, statement }) => {
@@ -910,11 +1031,14 @@ export default class Chat extends React.Component {
 						<Icon.Send />
 					</button>
 				</div>
+					{this.renderTextOverrideMessage()}
+				</div>
 			);
 		} else if (type === TYPE_UPLOAD) {
 			// Media upload
 			console.log("renderAnswers upload")
       return (
+				<div>
         <div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
           <form className="message-form">
             <button
@@ -937,6 +1061,8 @@ export default class Chat extends React.Component {
             </div>
           </form>
         </div>
+					{this.renderTextOverrideMessage()}
+				</div>
 			);
 		} else {
 			 // text field updated but message not sent. send button is to be pressed
@@ -963,6 +1089,38 @@ export default class Chat extends React.Component {
 		}
 	};
 
+	resetConversation = (event) => {
+		this.state.reset = true
+		// this.state.nextQuestion = 1.0
+		// this.state.type = 'none'
+		this.setState(this.state)
+		this.handleChange(event)
+	}
+
+	// needs to be implemented properly using speach state and event
+	toggleMuter = (event) => {
+		const muter = document.getElementById("muter");
+		 // TODO : Use set on progress listener
+		 if (this.state.mute === MUTE_ALL){
+			this.state.mute = SPEAK_ALL
+			 const muted = document.getElementById('muted')
+			 muted.style.visibility = 'hidden'
+			 const speaks = document.getElementById('speaks')
+			 speaks.style.visibility = 'visible'
+			this.setState(this.state)
+		} else if (this.state.mute === SPEAK_ALL){
+			this.state.mute = MUTE_ALL
+			 const muted = document.getElementById('muted')
+			 muted.style.visibility = 'visible'
+			 const speaks = document.getElementById('speaks')
+			 speaks.style.visibility = 'hidden'
+			this.setState(this.state)
+		}
+	}
+
+	/*
+	 * Render language selector and chat refresher
+	 */
   renderLanguageSelect = () => {
     const {
 			languageSelected
@@ -970,12 +1128,18 @@ export default class Chat extends React.Component {
 
 		return (
       <div className="select-row fadeInUp" style={{ animationDelay: '0.2s' }}>
-			<label>Language:</label>
-      <select id="languageSelected" value={languageSelected} onChange={this.handleLanguageChange}>
-        {languages.map(({ code, name }) => {
-          return <option value={code}>{name}</option>;
-        })}
-      </select>
+				<label>Language:</label>
+				<select id="languageSelected" value={languageSelected} onChange={this.handleLanguageChange}>
+					{languages.map(({ code, name }) => {
+						return <option value={code}>{name}</option>;
+					})}
+				</select>
+				<object hspace="30"/>
+				<Icon.VolumeX id={"muted"} onClick={this.toggleMuter} alt={Icon.Volume} style={{ visibility: "hidden" }}/>
+				<Icon.Volume2 id={"speaks"} onClick={this.toggleMuter} alt={Icon.Volume}/>
+				<object hspace="30"/>
+				<Icon.Repeat onClick={this.resetConversation}/>
+				<object hspace="5"/>
       </div>
     );
   };

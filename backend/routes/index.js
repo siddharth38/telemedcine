@@ -212,6 +212,67 @@ router.post('/assessment', (req, res) => {
 	}
 });
 
+function dummyAnswersToModel(answers,Timestamps,session_id,mongooseModelCallback){
+	console.log('filling session')
+	mongooseModelCallback({
+		_id: session_id,
+		'dummy_data': 'dummy_data'
+	})
+}
+
+router.post('/realtime', (req, res) => {
+	console.log("received realtime post request")
+	const data = (req.body)
+	const { answers, timestamps, chat, question, answer, session_id } = data
+
+	// console.log(data)
+	console.log("session_id = ", session_id)
+	console.log("answer = ", answer)
+	console.log('answers = ', answers)
+	console.log('timestamps = ', timestamps)
+	console.log('question = ', question)
+	console.log('chat = ', chat)
+
+	const message = {
+			statement: "stxatement",
+			messageType: "txypeX",
+			direction: "direxction"
+	}
+
+	// if (!Session.exists({ _id: session_id })) {
+		Session.create(
+			{
+				_id: session_id
+			},
+			(err, session) => {
+				if (err) {
+					// doctor not found
+					console.error('failed to create session in mongo - ' + err)
+					console.log("err typr = ", typeof err)
+					// console.log("err instance = ", instanceof err)
+
+					// Session.findOneAndUpdate({ _id: session_id }, update )
+
+					Session.findOne({_id:session_id}, (err, sess) => {
+						if (err) {
+							console.error(err)
+							return res;
+						}
+						sess.messages.push(message)
+						sess.save()
+						return res
+					})
+					return res
+				}
+				session.messages.push(message)
+				session.save()
+			})
+
+	res.json({
+		"none": "none"
+	});
+});
+
 /**
  * Payment and disclaimer. Chat opening
  */
