@@ -1,7 +1,7 @@
 # Telemedicine
 Telemedicine portal modified for the project with Dr. Sumit Kalra at IIT Jodhpur
 
-Staging servers : `ubuntu@3.13.75.55`, `34.131.129.247`
+Staging servers : `ubuntu@3.13.75.55`, `34.131.107.243`
 
 Production server : `3.135.245.234`
 
