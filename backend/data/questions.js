@@ -4247,8 +4247,8 @@ module.exports = {
             [ID]: 3.0,
             [NEXT_QUESTION]: 4.0,
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Close your eyes and try to touch your nose or cheek",
-                [LANG_HINDI]: "अपनी आँखें बंद करें और अपनी नाक या गाल को छूने की कोशिश करें"
+                [LANG_ENGLISH]: "Close your eyes 👀 and try to touch your nose 👃 or cheek",
+                [LANG_HINDI]: "अपनी आँखें 👀 बंद करें और अपनी नाक 👃 या गाल को छूने की कोशिश करें"
             },
             [TYPE]: TYPE_NONE
         },
@@ -4419,7 +4419,7 @@ module.exports = {
             ],
 
             "statement": {
-                "hi": "आपमें mucormycosis के कोई लक्षण दिखाई नही देते हैं। कृपया अपना और विकल्प चुनें",
+                "hi": "आपमें mucormycosis के कोई लक्षण दिखाई नही देते हैं। कृपया अपने आगे के विकल्प का चयन करें",
                 "en": "You don't appear to have any signs and symptoms of mucormycosis. Please select your further option"
             },
             "type": "button"
@@ -4428,8 +4428,8 @@ module.exports = {
             [ID]: 11.1,
             [NEXT_QUESTION]: NEXT_QUESTION_ENDS_FLOW,
             [STATEMENT]: {
-                [LANG_HINDI]: "आपका दिन शुभ हो",
-                [LANG_ENGLISH]: "Have a nice day."
+                [LANG_HINDI]: "आपका दिन शुभ हो 😊",
+                [LANG_ENGLISH]: "Have a nice day 😊."
             },
             [TYPE]: TYPE_NONE
         },
