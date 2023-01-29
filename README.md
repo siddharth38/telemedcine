@@ -22,23 +22,29 @@ To connect with staging server `ssh -i path_to_.ssh/id_rsa ubuntu@3.13.75.55` us
 To connect with 2nd staging server `ssh -i manik_aws_1.pem ec2-user@ec2_instance_dns` from the directory.
 
 ### How do I get set up?
-* **Summary of set up**
-1. Install MongoDB
-2. Insall NodeJS - v16.15.1
-3. Install nginx on server
-4. Install pm2 on server
-5. Install redis
-6. **Start them**
 
 * **Dependencies**
 1. In package.json
 2. MongoDB
 3. nginx
-4. nodejs
+4. nodejs - 16.15.1
 5. pm2
 6. redis
 
-### Deployment instructions
+* **Environment set up**
+1. Install MongoDB
+2. Install redis
+3. Insall NodeJS - v16.15.1
+4. Install nginx on server
+5. Install pm2 on server
+6. **Start them**
+
+### Development Deployment instructions
+1. Make sure that the dependencies are installed and running
+2. `npm start` in backend
+3. `npm start` in frontend
+
+### Production Deployment instructions
 **Backend**
 1. On local machine, go to 'backend/' and run `scp -i path_to_.ssh/id_rsa -r ./app.js ./bin ./chat ./data ./helper ./models ./routes ./package.json ./package-lock.json ubuntu@3.13.75.55:sync` to move the backend files to the sync folder on the staging server.
 2. Manually backup the respective folders from `server/` to `server-bkp` 
