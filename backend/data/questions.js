@@ -5078,8 +5078,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपके पास ईमेल आईडी है? नवीनतम जानकारी प्रदान करना चाहते हैं?",
-                "en": "Do you have an email ID? Want to provide for latest information?"
+                "hi": "क्या आपके पास ईमेल आईडी है 📧? नवीनतम जानकारी प्रदान करना चाहते हैं?",
+                "en": "Do you have an email ID 📧? Want to provide for latest information?"
             },
             "type": "button"
         },
@@ -5226,8 +5226,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपके पास थर्मामीटर है?",
-                "en": "Do you have thermometer?"
+                "hi": "क्या आपके पास थर्मामीटर 🌡️ है ?",
+                "en": "Do you have thermometer 🌡️?"
             },
             "type": "button"
         },
@@ -5301,7 +5301,7 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "आपने ग्लूकोज का स्तर किस समय मापा?",
+                "hi": "आपने ग्लूकोज का स्तर किस समय मापे थे ?",
                 "en": "At what time did you measured the glucose level?"
             },
             "type": "button"
@@ -5413,8 +5413,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपने स्टेरॉयड को दवा के रूप में लिया?",
-                "en": "Did you take steroids as medication?"
+                "hi": "क्या आपने स्टेरॉयड को दवा 💊 के रूप में लिया?",
+                "en": "Did you take steroids as medication 💊 ?"
             },
             "type": "button"
         },
@@ -5608,7 +5608,7 @@ module.exports = {
             "id": 52.0,
             "nextQuestion": 51.0,
             "statement": {
-                "hi": "कृपया रिपोर्ट अपलोड कर (चित्र)",
+                "hi": "कृपया रिपोर्ट अपलोड कर (चित्र के रूप में)",
                 "en": "Please upload the report (as an image file)"
             },
             "type": "upload"
@@ -5620,8 +5620,8 @@ module.exports = {
                     "dbValue": "Fever",
 
                     "statement": {
-                        "hi": "बुखार",
-                        "en": "Fever"
+                        "hi": "बुखार 🤒",
+                        "en": "Fever 🤒"
                     },
                     "value": 0
                 },
@@ -5722,8 +5722,8 @@ module.exports = {
                     "dbValue": "Nose Block",
 
                     "statement": {
-                        "hi": "नाक ब्लॉक",
-                        "en": "Nose Block"
+                        "hi": "बंद नाक 👃",
+                        "en": "Nose 👃 Block"
                     },
                     "value": 1
                 },
@@ -5731,8 +5731,8 @@ module.exports = {
                     "dbValue": "Runny Nose",
 
                     "statement": {
-                        "hi": "बहती नाक",
-                        "en": "Runny Nose"
+                        "hi": "बहती नाक 👃",
+                        "en": "Runny Nose 👃"
                     },
                     "value": 2
                 },
@@ -5767,8 +5767,8 @@ module.exports = {
                     "dbValue": "Bulging of the eye",
 
                     "statement": {
-                        "hi": "आँख का फड़कना",
-                        "en": "Bulging of the eye"
+                        "hi": "आँख 👁️ का फड़कना",
+                        "en": "Bulging of the eye 👁️"
                     },
                     "value": 6
                 },
@@ -5776,8 +5776,8 @@ module.exports = {
                     "dbValue": "Restricted movement of the eye",
 
                     "statement": {
-                        "hi": "आँख की प्रतिबंधित गति",
-                        "en": "Restricted movement of the eye"
+                        "hi": "आँख 👁️ की प्रतिबंधित गति",
+                        "en": "Restricted movement of the eye 👁️"
                     },
                     "value": 7
                 },
@@ -5833,7 +5833,7 @@ module.exports = {
                     "dbValue": "Loss of smell",
 
                     "statement": {
-                        "hi": "गंध की हानि",
+                        "hi": "सुगंध ना आना",
                         "en": "Loss of smell"
                     },
                     "value": 1
@@ -5842,7 +5842,7 @@ module.exports = {
                     "dbValue": "Loss of taste",
 
                     "statement": {
-                        "hi": "स्वाद की हानि",
+                        "hi": "स्वाद ना आना",
                         "en": "Loss of taste"
                     },
                     "value": 2
@@ -5982,8 +5982,8 @@ module.exports = {
                     [DB_VALUE]: "Bulging of the eye",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "आँख का फड़कना",
-                        [LANG_ENGLISH]: "Bulging of the eye"
+                        [LANG_HINDI]: "आँख 👁️ का फड़कना",
+                        [LANG_ENGLISH]: "Bulging of the eye 👁️"
                     },
                     [VALUE]: 2
                 },
@@ -5991,17 +5991,17 @@ module.exports = {
                     [DB_VALUE]: "Restricted movement of the eye",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "आँख की प्रतिबंधित गति",
-                        [LANG_ENGLISH]: "Restricted movement of the eye"
+                        [LANG_HINDI]: "आँख 👁️ की प्रतिबंधित गति",
+                        [LANG_ENGLISH]: "Restricted movement of the eye 👁️"
                     },
                     [VALUE]: 3
                 },
                 {
-                    [DB_VALUE]: "Runny Nose",
+                    [DB_VALUE]: "Runny Nose ",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "बहती नाक",
-                        [LANG_ENGLISH]: "Runny Nose"
+                        [LANG_HINDI]: "बहती नाक 👃",
+                        [LANG_ENGLISH]: "Runny Nose 👃"
                     },
                     [VALUE]: 4
                 },
@@ -6009,8 +6009,8 @@ module.exports = {
                     [DB_VALUE]: "Nose Block",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "नाक ब्लॉक",
-                        [LANG_ENGLISH]: "Nose Block"
+                        [LANG_HINDI]: "बंद नाक 👃",
+                        [LANG_ENGLISH]: "Nose Block 👃"
                     },
                     [VALUE]: 5
                 },
@@ -6048,7 +6048,7 @@ module.exports = {
                     [DB_VALUE]: "Loss of smell",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "गंध की हानि",
+                        [LANG_HINDI]: "सुगंध ना आना ",
                         [LANG_ENGLISH]: "Loss of smell"
                     },
                     [VALUE]: 0
@@ -6057,7 +6057,7 @@ module.exports = {
                     [DB_VALUE]: "Loss of taste",
 
                     [STATEMENT]: {
-                        [LANG_HINDI]: "स्वाद की हानि",
+                        [LANG_HINDI]: "स्वाद ना आना ",
                         [LANG_ENGLISH]: "Loss of taste"
                     },
                     [VALUE]: 1
@@ -6111,7 +6111,7 @@ module.exports = {
                 {
                     [DB_VALUE]: "Loss of smell",
                     [STATEMENT]: {
-                        [LANG_HINDI]: "गंध की हानि",
+                        [LANG_HINDI]: "सुगंध ना आना",
                         [LANG_ENGLISH]: "Loss of smell"
                     },
                     [VALUE]: 1
@@ -6119,7 +6119,7 @@ module.exports = {
                 {
                     [DB_VALUE]: "Loss of taste",
                     [STATEMENT]: {
-                        [LANG_HINDI]: "स्वाद की हानि",
+                        [LANG_HINDI]: "स्वाद ना आना",
                         [LANG_ENGLISH]: "Loss of taste"
                     },
                     [VALUE]: 2
@@ -6196,8 +6196,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपको COVID-19 का टीका लगाया गया है?",
-                "en": "Have you been vaccinated for COVID-19?"
+                "hi": "क्या आपको COVID-19 का टीका 💉 लगाया गया है?",
+                "en": "Have you been vaccinated 💉 for COVID-19?"
             },
             "type": "button"
         },
@@ -6224,8 +6224,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "आपको कितनी बार टीका लगाया गया है?",
-                "en": "How many times have you been vaccinated?"
+                "hi": "आपको कितनी बार टीका 💉 लगाया गया है?",
+                "en": "How many times have you been vaccinated 💉 ?"
             },
             "type": "button"
         },
@@ -6504,8 +6504,8 @@ module.exports = {
                 }
             ],
             "statement": {
-                "hi": "क्या आपके पास ईमेल आईडी है? नवीनतम जानकारी प्रदान करना चाहते हैं?",
-                "en": "Do you have an email ID? Want to provide for latest information?"
+                "hi": "क्या आपके पास ईमेल आईडी 📧  है? नवीनतम जानकारी प्रदान करना चाहते हैं?",
+                "en": "Do you have an email ID 📧? Want to provide for latest information?"
             },
             "type": "button"
         },
@@ -6513,8 +6513,8 @@ module.exports = {
             "id": 2.91,
             "nextQuestion": 2.4,
             "statement": {
-                "hi": "आपकी ईमेल आईडी?",
-                "en": "Your Email ID?"
+                "hi": "आपकी ईमेल आईडी 📧?",
+                "en": "Your Email ID 📧 ?"
             },
             "type": "text"
         },
