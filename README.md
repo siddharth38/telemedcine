@@ -37,7 +37,9 @@ To connect with 2nd staging server `ssh -i manik_aws_1.pem ec2-user@ec2_instance
 3. Insall NodeJS - v16.15.1
 4. Install nginx on server
 5. Install pm2 on server
-6. **Start them**
+6. **Start them**.  
+6.1 `redis-server` for redis.  
+6.2 `sudo service mongod start` for mongodb.  
 
 ### Development Deployment instructions
 1. Make sure that the dependencies are installed and running
