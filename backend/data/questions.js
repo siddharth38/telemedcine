@@ -157,7 +157,7 @@ module.exports = {
                     [NEXT_QUESTION]: 23.0,
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Consultation👨‍⚕️",
-                        [LANG_HINDI]: "परामर्श👨‍⚕️"
+                        [LANG_HINDI]: "डॉक्टर से बात👨‍⚕️"
                     },
                     [VALUE]: 0
                 },

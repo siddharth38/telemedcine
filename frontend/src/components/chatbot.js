@@ -150,6 +150,7 @@ export default class Chat extends React.Component {
    * @param question Either a question object or a question ID
    * @param customOptions Overrides the existing options
 	 * Sends information to the backend with every message
+	 * Adds the statements in the memory
    */
 	setQuestion = (question, customOptions=null) => {
 		// if ID, get object
@@ -164,9 +165,11 @@ export default class Chat extends React.Component {
     }
 
     if (typeof statement != 'string') {
+			this.speak(statement[this.state.languageSelected], false)
+		// conversation is added in the memory here
       for (let key in statement) {
         statement[key] = this.insertVariables(statement[key]);
-      }
+			}
     } else {
       statement = this.insertVariables(statement);
     }
@@ -778,7 +781,8 @@ export default class Chat extends React.Component {
 			answerBoxHidden,
 			incomingTyping,
 			loadingChat,
-			requesting
+			requesting,
+			mute
 		} = this.state;
 
 		if (loadingChat) return null;
@@ -786,16 +790,15 @@ export default class Chat extends React.Component {
 		return (
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
+					// latest message render
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
-					this.speak(chatStatement, true)
-					// noinspection HtmlRequiredAltAttribute
 					return (
 						<p
 							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
-							onMouseEnter={() => this.speak(chatStatement, true)}
-							onTouchStart={() => this.speak(chatStatement, true)}
-							// onMouseLeave={() => window.speechSynthesis.cancel()}
+							onMouseEnter={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
+							onTouchStart={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
+							onMouseLeave={() => window.speechSynthesis.cancel()}
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
 								<img src={'/api/images/' + statement.split('-')[2]} />
@@ -964,7 +967,7 @@ export default class Chat extends React.Component {
 									onClick={this.handleChange}
 									className="fadeInUp"
 									style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large' }}
-									onMouseEnter={() => this.speak(chatStatement, true)}
+									onMouseEnter={() => this.speak(chatStatement, false)}
 									onTouchStart={() => this.speak(chatStatement, true)}
 								>
 									{chatStatement}
@@ -992,7 +995,7 @@ export default class Chat extends React.Component {
 										onChange={this.handleChange}
 										className="fadeInUp"
 										style={{ marginRight: "10px", background: '#CCCCFF', color: '#111111', fontSize: 'large' }}
-										onMouseEnter={() => this.speak(chatStatement, true)}
+										onMouseEnter={() => this.speak(chatStatement, false)}
 										onTouchStart={() => this.speak(chatStatement, true)}
 									/>
 										{chatStatement}
@@ -1110,6 +1113,7 @@ export default class Chat extends React.Component {
 			this.setState(this.state)
 		} else if (this.state.mute === SPEAK_ALL){
 			this.state.mute = MUTE_ALL
+			 window.speechSynthesis.cancel()
 			 const muted = document.getElementById('muted')
 			 muted.style.visibility = 'visible'
 			 const speaks = document.getElementById('speaks')
