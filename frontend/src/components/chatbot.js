@@ -36,7 +36,7 @@ const OUTGOING_MESSAGE = 'outgoing'					// sent by user/patient
 
 export default class Chat extends React.Component {
 	state = {
-		session_id: '',
+		conversation_session_id: '',
 		questions: [],
 		answers: {},
 		timestamps: {},
@@ -75,7 +75,7 @@ export default class Chat extends React.Component {
 
 	componentDidMount() {
 		// generate sessionID for mongodb.
-		this.state.session_id = new bson.ObjectId().toString();
+		this.state.conversation_session_id = new bson.ObjectId().toString();
 
 		axios
 			.get(ENDPOINT + '/api/questions')
@@ -501,7 +501,7 @@ export default class Chat extends React.Component {
 	 */
 	completedChatbot = (position) => {
 		const { latitude, longitude } = (position && position.coords) || {};
-		const { chat, answers, timestamps, session_id } = this.state;
+		const { chat, answers, timestamps, conversation_session_id } = this.state;
 
 		this.setState({ requesting: true });
 
@@ -519,7 +519,7 @@ export default class Chat extends React.Component {
 				latitude,
 				longitude,
 				chat: chatToSave,
-				session: session_id
+				conversation_session_id
 			})
 			.then((response) => {
 				console.log("api/assessment contacted")
@@ -704,7 +704,7 @@ export default class Chat extends React.Component {
 	 */
 	realtime = () => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, session_id, answers, patientId } = this.state;
+		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId } = this.state;
 		const { options } = answerFormat;
 		const { nextQuestion } = options && options[optionSelected].nextQuestion
 			? options[optionSelected] : questionDetails;
@@ -720,7 +720,7 @@ export default class Chat extends React.Component {
 				answerFormat: answerFormat,
 				options: options,
 				nextQuestion: nextQuestion,
-				session_id: session_id,
+				conversation_session_id,
 				answers: answers,
 				patient_id: patientId
 			})

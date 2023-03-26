@@ -90,7 +90,7 @@ router.post('/helpline', (req, res) => {
  * realtime() will gradually replace this or this will be called from backend in the future
  */
 router.post('/assessment', (req, res) => {
-	const { answers, timestamps, latitude, longitude, chat, session_id } = req.body;
+	const { answers, timestamps, latitude, longitude, chat, session_id: conversation_session_id } = req.body;
 	const oldPatient = (answers['23'] === 0 || answers['2.5'] !== 'undefined')
 		? null : 																										// if new consultation : oldPatient = null
 		getId(answers['24'], answers['25']);												// else oldPatient = name and phone entered
@@ -119,7 +119,7 @@ router.post('/assessment', (req, res) => {
 				'Your Patient is Online',
 				`Your patient ${name.toUpperCase()}, ${telephone}, has paid a visit, and is waiting for you.`
 			);
-			patient.conversation_sessions.push(session_id)
+			patient.conversation_sessions.push(conversation_session_id)
 			res.json({
 				connectToDoctor: true,
 				patientId: _id,
@@ -161,7 +161,7 @@ router.post('/assessment', (req, res) => {
 						doctor: doc.username,
 						last_messaged_at: Date.now(),
 						chat: chat.slice(4),
-						conversation_sessions: [session_id]
+						conversation_sessions: [conversation_session_id]
 					},
 					(err, patient) => {
 						if (err) {
@@ -187,7 +187,7 @@ router.post('/assessment', (req, res) => {
 
 						req.session.patientId = patient;
 
-						patient.conversation_sessions.push(session_id)
+						patient.conversation_sessions.push(conversation_session_id)
 
 						mail(
 							doc.username,
