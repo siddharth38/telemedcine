@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const { answersToModel, getId } = require('../helper');
+const { realTimeAnswersToModel, answersToModel, getId } = require('../helper');
 const { mail } = require('../helper/mail');
 const authenticate = require('../helper/auth');
 
@@ -90,13 +90,14 @@ router.post('/helpline', (req, res) => {
  * realtime() will gradually replace this or this will be called from backend in the future
  */
 router.post('/assessment', (req, res) => {
-	const { answers, timestamps, latitude, longitude, chat } = req.body;
+	const { answers, timestamps, latitude, longitude, chat, session_id } = req.body;
 	const oldPatient = (answers['23'] === 0 || answers['2.5'] !== 'undefined')
 		? null : 																										// if new consultation : oldPatient = null
 		getId(answers['24'], answers['25']);												// else oldPatient = name and phone entered
 	console.log("assessment started")
 
 	if (oldPatient) {
+		// TODO : add sessions
 		Patient.findById(oldPatient, (err, patient) => {
 			if (err || !patient) {
 				return res.json({
@@ -118,6 +119,7 @@ router.post('/assessment', (req, res) => {
 				'Your Patient is Online',
 				`Your patient ${name.toUpperCase()}, ${telephone}, has paid a visit, and is waiting for you.`
 			);
+			patient.conversation_sessions.push(session_id)
 			res.json({
 				connectToDoctor: true,
 				patientId: _id,
@@ -158,7 +160,8 @@ router.post('/assessment', (req, res) => {
 						chat_id: '',
 						doctor: doc.username,
 						last_messaged_at: Date.now(),
-						chat: chat.slice(4)
+						chat: chat.slice(4),
+						conversation_sessions: [session_id]
 					},
 					(err, patient) => {
 						if (err) {
@@ -183,6 +186,8 @@ router.post('/assessment', (req, res) => {
 						const { _id } = patient;
 
 						req.session.patientId = patient;
+
+						patient.conversation_sessions.push(session_id)
 
 						mail(
 							doc.username,
@@ -212,43 +217,57 @@ router.post('/assessment', (req, res) => {
 	}
 });
 
-function dummyAnswersToModel(answers,Timestamps,session_id,mongooseModelCallback){
-	console.log('filling session')
-	mongooseModelCallback({
-		_id: session_id,
-		'dummy_data': 'dummy_data'
-	})
-}
-
 router.post('/realtime', (req, res) => {
 	console.log("received realtime post request")
 	const data = (req.body)
-	const { answers, timestamps, chat, question, answer, session_id } = data
+	const {
+		answers,
+		timestamps,
+		chat,
+		question,
+		answer,
+		session_id,
+		options,
+		optionSelected,
+		nextQuestion,
+		answerFormat,
+		patient_id
+	} = data
 
-	// console.log(data)
-	console.log("session_id = ", session_id)
-	console.log("answer = ", answer)
-	console.log('answers = ', answers)
-	console.log('timestamps = ', timestamps)
-	console.log('question = ', question)
-	console.log('chat = ', chat)
+	// // console.log(data)
+	// console.log("session_id = ", session_id)
+	// console.log("optionSelected = ", optionSelected)
+	// // console.log("answer = ", answer)
+	// console.log('answers = ', answers)
+	// console.log('timestamps = ', timestamps)
+	// console.log('question = ', question)
+	// console.log('chat = ', chat)
 
 	const message = {
-			statement: "stxatement",
-			messageType: "txypeX",
-			direction: "direxction"
+		statement: "stxatement",
+		messageType: "txypeX",
+		direction: "direxction",
+		answerFormat: answerFormat,
+		nextQuestion: nextQuestion,
+		optionSelected: optionSelected,
+		options: options,
+		question: question,
+		timestamp: Date.now(),
+		patient_id: patient_id
 	}
 
+	// TODO somewhere call RealTimeAnswersToModel
 	// if (!Session.exists({ _id: session_id })) {
 		Session.create(
 			{
-				_id: session_id
+				_id: session_id,
+				patient_id: patient_id
 			},
 			(err, session) => {
 				if (err) {
 					// doctor not found
 					console.error('failed to create session in mongo - ' + err)
-					console.log("err typr = ", typeof err)
+					console.log("err type = ", typeof err)
 					// console.log("err instance = ", instanceof err)
 
 					// Session.findOneAndUpdate({ _id: session_id }, update )
@@ -258,12 +277,15 @@ router.post('/realtime', (req, res) => {
 							console.error(err)
 							return res;
 						}
+						console.log('adding message to DB')
+						// push into old session
 						sess.messages.push(message)
 						sess.save()
 						return res
 					})
 					return res
 				}
+				// push into new session
 				session.messages.push(message)
 				session.save()
 			})

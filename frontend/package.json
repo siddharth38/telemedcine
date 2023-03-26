@@ -61,5 +61,5 @@
     "gh-pages": "^2.2.0",
     "prettier": "^2.0.4"
   },
-  "proxy": "http://10.6.0.24:3000"
+  "proxy": "http://localhost:3000"
 }

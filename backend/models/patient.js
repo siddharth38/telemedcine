@@ -26,6 +26,7 @@ const PatientSchema = new Schema(
 			unique: true,
 			required: true
 		},
+		conversation_sessions: [String],
 
 		SPO2_value: String,
 		Pulserate: String,

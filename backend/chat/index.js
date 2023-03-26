@@ -11,7 +11,7 @@ const Doctor = require('../models/doctor');
 const { mail, mailPatient } = require('../helper/mail');
 
 Patient.updateMany({}, { $set: { chat_id: '' } }, (err, res) => {
-	if (err) return console.error(err);
+	if (err) return console.error('updating many patients. setting chat_id', err);
 });
 
 function giveDoctorAPatient(username, patientId) {

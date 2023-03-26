@@ -29,8 +29,8 @@ const MUTE_ALL = 'muteall'
 const SPEAK_ALL = 'speakall'
 const STOP_SPEECH = 'stop'
 
-const INCOMING_MESSAGE = 'incoming'
-const OUTGOING_MESSAGE = 'outgoing'
+const INCOMING_MESSAGE = 'incoming'					// sent by bot or doctor
+const OUTGOING_MESSAGE = 'outgoing'					// sent by user/patient
 
 //Incoming message : chatbot server to user
 
@@ -501,7 +501,7 @@ export default class Chat extends React.Component {
 	 */
 	completedChatbot = (position) => {
 		const { latitude, longitude } = (position && position.coords) || {};
-		const { chat, answers, timestamps } = this.state;
+		const { chat, answers, timestamps, session_id } = this.state;
 
 		this.setState({ requesting: true });
 
@@ -518,7 +518,8 @@ export default class Chat extends React.Component {
 				timestamps,
 				latitude,
 				longitude,
-				chat: chatToSave
+				chat: chatToSave,
+				session: session_id
 			})
 			.then((response) => {
 				console.log("api/assessment contacted")
@@ -703,13 +704,13 @@ export default class Chat extends React.Component {
 	 */
 	realtime = () => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, session_id, answers } = this.state;
+		const { optionSelected, answerFormat, questionDetails, textAnswered, session_id, answers, patientId } = this.state;
 		const { options } = answerFormat;
 		const { nextQuestion } = options && options[optionSelected].nextQuestion
 			? options[optionSelected] : questionDetails;
 		const question = this.getQuestionById(nextQuestion);
 
-		console.log("questionDetails = ", questionDetails)
+		// console.log("questionDetails = ", questionDetails)
 		console.log(textAnswered)
 		console.log(optionSelected)
 
@@ -720,7 +721,8 @@ export default class Chat extends React.Component {
 				options: options,
 				nextQuestion: nextQuestion,
 				session_id: session_id,
-				answers: answers
+				answers: answers,
+				patient_id: patientId
 			})
 			.then((response) => {
 				// TODO: nothing happens here. Will need to override others
@@ -728,7 +730,7 @@ export default class Chat extends React.Component {
 				this.scrollDown()
 			})
 			.catch((error) => {
-				console.error(error)
+				console.error('realtime post error - ', error)
 			});
 	}
 
