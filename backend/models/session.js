@@ -43,8 +43,9 @@ const SessionSchema = new Schema(
       options: [Option],
       question: Question,
       timestamp: Number,
-      patient_id: String
-    }]
+      patient_id: String,
+    }],
+    patient_id: String
   }
 );
 

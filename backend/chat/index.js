@@ -8,6 +8,8 @@ io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 const Patient = require('../models/patient');
 const Doctor = require('../models/doctor');
 
+// seems like doctor patient conversation
+
 const { mail, mailPatient } = require('../helper/mail');
 
 Patient.updateMany({}, { $set: { chat_id: '' } }, (err, res) => {

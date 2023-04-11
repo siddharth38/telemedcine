@@ -997,7 +997,17 @@ function realTimeAnswersToModel(answers,Timestamps,session_id,mongooseModelCallb
   })
 }
 
+function computeAndReply(){
+  // update conversation state
+  // realtimeAnswersToModel
+  // take action by selecting message and variant
+  // us vector embedding // TODO
+  // return information for result
+}
+
 module.exports = {
   getId,
-  answersToModel
+  answersToModel,
+  computeAndReply,
+  realTimeAnswersToModel
 };

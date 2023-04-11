@@ -40,6 +40,7 @@ export default class Chat extends React.Component {
 		questions: [],
 		answers: {},
 		timestamps: {},
+		currentQuestion: {},
 
 		languageSelected: 'hi', // TODO: Save and load from cookie
 		helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
@@ -77,73 +78,38 @@ export default class Chat extends React.Component {
 		// generate sessionID for mongodb.
 		this.state.conversation_session_id = new bson.ObjectId().toString();
 
-		axios
-			.get(ENDPOINT + '/api/questions')
-			.then((response) => {
-				const { questions, incomingChats } = response.data;
-				if (questions)
-					this.setState(
-						{
-							questions,
-							chat: incomingChats,
-							loadingChat: false
-						},
-						() => {
-							this.setQuestion(questions[0]);
-						}
-					);
-			})
-			.catch((error) => {
-				// this.setState({ loadingChat: false });
-				console.log(error);
-			});
+		this.realtime()
 
-    navigator.geolocation.getCurrentPosition(
-      this.getHelpline.bind(this)
-    );
+		// axios
+		// 	.get(ENDPOINT + '/api/questions')
+		// 	.then((response) => {
+		// 		const { questions, incomingChats } = response.data;
+		// 		if (questions)
+		// 			this.setState(
+		// 				{
+		// 					questions,
+		// 					chat: incomingChats,
+		// 					loadingChat: false
+		// 				},
+		// 				() => {
+		// 					this.setQuestion(questions[0]);
+		// 				}
+		// 			);
+		// 	})
+		// 	.catch((error) => {
+		// 		// this.setState({ loadingChat: false });
+		// 		console.log(error);
+		// 	});
 
-    //In case we need constant viewport height
-    //let viewheight = $(window).height();
-    //let viewwidth = $(window).width();
-    //let viewport = document.querySelector("meta[name=viewport]");
-    //viewport.setAttribute("content", "height=" + viewheight + "px, width=" + viewwidth + "px, initial-scale=1.0");
+    // navigator.geolocation.getCurrentPosition(
+    //   this.getHelpline.bind(this)
+    // );
+
 	}
-
-  getHelpline(position) {
-    const { latitude, longitude } = (position && position.coords) || {};
-    axios
-			.post(ENDPOINT + '/api/helpline', {
-        latitude,
-        longitude,
-      })
-			.then((response) => {
-				const { helpline } = response.data;
-				if (helpline) {
-					this.setState({ helpline });
-        }
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-  }
 
 	componentWillUnmount() {
 		if (this.socket) this.socket.disconnect();
 	}
-
-	// unused?
-  // jumpToNextQuestion = (message) => {
-	// 	console.log("jumpToNextQuestion()")
-  //   const { optionSelected, answerFormat, questionDetails } = this.state;
-  //   const { options } = answerFormat;
-  //   const { nextQuestion } = options && options[optionSelected].nextQuestion
-  //       ? options[optionSelected] : questionDetails;
-  //   if (message) {
-  //     this.enterMessageIntoChat(message, 'outgoing');
-  //   }
-  //   const question = this.getQuestionById(nextQuestion);
-  //   this.setQuestion(question);
-  // }
 
   /**
 	 * sets different types of questions - configures variables to be used later
@@ -159,6 +125,7 @@ export default class Chat extends React.Component {
     }
     const { answers } = this.state;					// contains question ID and value of user input
 		let { statement, type: type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
+		console.log("statement = ", statement)
 
 		if (customOptions) {
       options = customOptions;
@@ -168,7 +135,7 @@ export default class Chat extends React.Component {
 			this.speak(statement[this.state.languageSelected], false)
 		// conversation is added in the memory here
       for (let key in statement) {
-        statement[key] = this.insertVariables(statement[key]);
+				statement[key] = this.insertVariables(statement[key]);
 			}
     } else {
       statement = this.insertVariables(statement);
@@ -185,21 +152,21 @@ export default class Chat extends React.Component {
 			}
 		}
 		this.enterMessageIntoChat(statement, INCOMING_MESSAGE);
-		this.realtime({
-			language: this.state.languageSelected,
-			statement:statement,
-			direction:INCOMING_MESSAGE,
-			message_type: type,
-			id:id,
-			nextQuestion: nextQuestion,
-			command:command,
-			branches:branches,
-			options:options,
-			textAnswered: this.answerEntered,
-			tempSelection:tempSelection
-		})
+		// this.realtime({
+		// 	language: this.state.languageSelected,
+		// 	statement:statement,
+		// 	direction:INCOMING_MESSAGE,
+		// 	message_type: type,
+		// 	id:id,
+		// 	nextQuestion: nextQuestion,
+		// 	command:command,
+		// 	branches:branches,
+		// 	options:options,
+		// 	textAnswered: this.answerEntered,
+		// 	tempSelection:tempSelection
+		// })
 		this.setState({
-			answerBoxHidden: type==='none',
+			answerBoxHidden: type===TYPE_NONE,
 			textAnswered: '',
 			optionSelected: '0',
 			answerFormat: { type: type, options, pattern },
@@ -207,16 +174,28 @@ export default class Chat extends React.Component {
 			tempSelection: tempSelection
 		});
     if (type === TYPE_NONE && command) {
-      commands[command](answers, question, this.setQuestion);
-    } else if (type === TYPE_ANALYSE && command) {
+			// run a task/command
+      //commands[command](answers, question, this.setQuestion);
+      this.realtime()
+    }
+		else if (type === TYPE_ANALYSE && command) {
+			// run a task/command
 			const { questions } = this.state;
-			commands[command](answers, question, questions, this.setQuestion);
-		} else if (type === 'none' && nextQuestion) {
+			//commands[command](answers, question, questions, this.setQuestion);
+      this.realtime()
+		}
+		else if (type === TYPE_NONE && nextQuestion) {
+			// simple statement
       // Without delay, the present question may not get rendered
       setTimeout(function() {
-        this.setQuestion(nextQuestion);
-      }.bind(this), 500)
+				console.log("simple statement. nextQuestion = ", nextQuestion)
+        if (this.questions!==undefined) this.setQuestion(nextQuestion);
+				else this.realtime();
+      }.bind(this), 1000)
     }
+		else {
+			// console.error("unexpected situation in setQuestion");
+		}
 	};
 
 	/**
@@ -245,11 +224,11 @@ export default class Chat extends React.Component {
 	/**
 	 * Add message of any kind to the json and update UI
 	 */
-	enterMessageIntoChat = (statement, type) => {
+	enterMessageIntoChat = (statement, direction) => {
 		const { chat } = this.state;
 		this.setState(
 			{
-				chat: chat.concat([{ statement, type }])
+				chat: chat.concat([{ statement, type: direction }])
 			},
 			this.scrollDown
 		);
@@ -259,10 +238,17 @@ export default class Chat extends React.Component {
 	 * Return question object from questions list
 	 */
 	getQuestionById = (id) => {
-		const { questions } = this.state;
+		const { questions, currentQuestion } = this.state;
+		// realtime. messages are received on the fly
+		if (id === undefined){
+			return currentQuestion
+		}
+
+		// offline. entire question bank is received. and decisions are made at the client
 		for (let i = 0; i < questions.length; i++) {
 			if (questions[i].id === id) return questions[i];
 		}
+
 		console.error("failed to search for question with ID = ", id)
 		return null;
 	};
@@ -287,7 +273,7 @@ export default class Chat extends React.Component {
 		if (textAnswered.length) {
 			this.setState({ textAnswered: '' });
 			this.socket.emit('message', { message: textAnswered, to: doctor });
-			this.enterMessageIntoChat(textAnswered, 'outgoing');
+			this.enterMessageIntoChat(textAnswered, OUTGOING_MESSAGE);
 		}
 	};
 
@@ -306,8 +292,9 @@ export default class Chat extends React.Component {
 	};
 
 	/**
-	 * For doctor-patient interaction?
+	 * For doctor-patient interaction
 	 * For call or only messages?
+	 * Primarily for the doctor
 	 */
 	connect = () => {
 		const { patientId } = this.state;
@@ -412,6 +399,7 @@ export default class Chat extends React.Component {
 	};
 
 	answer = (event, textOverrides) => {
+		console.debug('answer()')
 		const { optionSelected, questionDetails, answerFormat, answers, tempSelection } = this.state;
 		const { options, type } = answerFormat;
 		// noinspection JSUnusedLocalSymbols
@@ -419,7 +407,7 @@ export default class Chat extends React.Component {
 		let { textAnswered, textOverrideAnswered } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
-		// prevent Default faolowup to the event. No idea when?
+		// prevent Default followup to the event. No idea when?
 		if (event && event.preventDefault) event.preventDefault();
 
 		if (type === TYPE_LIST) {
@@ -440,8 +428,10 @@ export default class Chat extends React.Component {
 			else textAnswered = textAnswered.substring(0, textAnswered.length-2);
 			this.enterMessageIntoChat(
 				textTypeAnswer ? textAnswered : options[optionSelected].statement,
-				'outgoing'
+				OUTGOING_MESSAGE
 			);
+			console.log('type = list')
+			this.realtime()
 			this.setState(
 				{answers: {
 						...this.state.answers,
@@ -455,24 +445,29 @@ export default class Chat extends React.Component {
 				},
 				this.answerEntered
 			);
-		} else if (this.state.reset){
+		}
+		else if (this.state.reset){
 			console.log('reset')
 			this.realtime()
 			this.setState(this.state, this.answerEntered)
-		} else if ((!textTypeAnswer || textAnswered) && (!textOverrides)) {
+		}
+		else if ((!textTypeAnswer || textAnswered) && (!textOverrides)) {
 			// accept as an answer if type is not text.
 			console.log('textOverrides = ', textOverrides)
 
     	this.realtime()
 
 			if (type === 'password') {
-    	    this.enterMessageIntoChat('****', 'outgoing');
-		  } else if (type !== 'none') {
-    	    this.enterMessageIntoChat(
-   	       textTypeAnswer ? textAnswered : options[optionSelected].statement,
-  	        'outgoing'
-  	      );
-  	    }
+    	    this.enterMessageIntoChat('****', OUTGOING_MESSAGE);
+		  }
+			else if (type !== TYPE_NONE) {
+				console.debug('answer() type != none')
+				// button
+				this.enterMessageIntoChat(
+					textTypeAnswer ? textAnswered : options[optionSelected].statement,
+					OUTGOING_MESSAGE
+				);
+			}
   		let value = textTypeAnswer ? textAnswered : options[optionSelected].value;
   		if (loopStart) {
   			value = [value];
@@ -493,6 +488,8 @@ export default class Chat extends React.Component {
 				},
 				this.answerEntered
 			);
+		} else {
+			console.debug('answer() default fallback')
 		}
 	};
 
@@ -559,6 +556,7 @@ export default class Chat extends React.Component {
 	};
 
 	saveChatStatements(chat) {
+		console.log("saving chatStatement")
 		const chatToSave = [];
 		for (let i = 0; i < chat.length; ++i) {
 			let statement = (typeof chat[i].statement === "string")
@@ -581,33 +579,50 @@ export default class Chat extends React.Component {
 		console.log("answerEntered() entered")
 		// noinspection JSUnusedLocalSymbols
 		const { answers, connectToDoctor, optionSelected,
-			answerFormat, questionDetails, tempSelection} = this.state;
+			answerFormat, questionDetails, tempSelection, questions } = this.state;
 		const { type, options } = answerFormat;
 		//const textTypeAnswer = ['text', 'tel', 'password', 'email', 'date', 'list'].includes(type);
 		let { nextQuestion } = options && typeof options[optionSelected].nextQuestion != 'undefined'
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
+		console.debug('nextQuestion = ', nextQuestion, '. command = ', command, '. questionDetails = ', questionDetails)
 
 		if (this.state.reset){
 			nextQuestion = 1.0
 			this.state.reset = false
 			this.setState(this.state)
 		}
-
+		console.debug("type =", type, "command = ", command)
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
 			console.log(answers)
-			commands[command](answers, questionDetails, this.setQuestion, tempSelection);
-		} else if (type === TYPE_ANALYSE && command) {
+			if (questions === undefined) this.realtime();
+			else commands[command](answers, questionDetails, this.setQuestion, tempSelection);
+		}
+		else if (type === TYPE_ANALYSE && command) {
 			// focus on analysing
 			const { questions } = this.state;
-			commands[command](answers, questionDetails, questions, this.setQuestion);
-		} else if (nextQuestion === 0) {
+			if (questions === undefined) this.realtime()
+			else commands[command](answers, questionDetails, questions, this.setQuestion);
+		}
+		else if (nextQuestion === 0) {
 			this.endChatbotSequence();
-		} else {
+		}
+		else if (questions !== undefined && questions.length>0) {
+			console.debug(questions)
+			// offline scenario
 			// nextQuestion has been provided
 			const question = this.getQuestionById(nextQuestion);
 			this.setQuestion(question);
+		}
+		// else if (questions === undefined) {
+		// 	// realtime
+		// 	this.realtime()
+		// }
+		else {
+			// normal scenario. next question is available
+			// examples of unhandled scenarios are - list
+			// console.error("answerEntered. unhandled scenario")
 		}
 	};
 
@@ -652,7 +667,8 @@ export default class Chat extends React.Component {
 					[id]: !this.state.tempSelection[id]
 				}
 			});
-		} else if (event.target.id === 'textOverrideAnswered') {
+		}
+		else if (event.target.id === 'textOverrideAnswered') {
 			// text message overrides other ui inputs
 			console.log('textOverrideAnswered')
 			this.setState(
@@ -663,7 +679,8 @@ export default class Chat extends React.Component {
 					this.answer(null, true);
 				}
 			);
-		} else {
+		}
+		else {
 			// everything default behavior, update things
 
 			// external site
@@ -702,36 +719,60 @@ export default class Chat extends React.Component {
 	/*
 	 * live chat-bot text communication with server
 	 */
-	realtime = () => {
+	realtime = (state) => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId } = this.state;
+		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion } = this.state;
 		const { options } = answerFormat;
-		const { nextQuestion } = options && options[optionSelected].nextQuestion
-			? options[optionSelected] : questionDetails;
-		const question = this.getQuestionById(nextQuestion);
+		let nextQuestion;
+    console.debug('nextQuestion = ', nextQuestion)
+		if (options && options[optionSelected].nextQuestion){
+			// question has options. type is button
+			 nextQuestion = options[optionSelected].nextQuestion
+		}
+		else {
+			// question doesn't have options. other types
+			nextQuestion = currentQuestion.nextQuestion
+		}
+    console.debug('currentQuestion = ', currentQuestion)
+		// TODO : check if branch questions (with compute and decisions) are managed well
+		// const question = this.getQuestionById(nextQuestion);
 
 		// console.log("questionDetails = ", questionDetails)
-		console.log(textAnswered)
-		console.log(optionSelected)
+		// console.log("textAnswered = ", textAnswered)
+		// console.log(optionSelected)
+		// console.log("nextQuestion = ", nextQuestion)
 
 		axios
 			.post(ENDPOINT + '/api/realtime', {
+				currentQuestion: currentQuestion,
 				optionSelected: optionSelected,
 				answerFormat: answerFormat,
 				options: options,
 				nextQuestion: nextQuestion,
 				conversation_session_id,
 				answers: answers,
-				patient_id: patientId
+				patient_id: patientId,
+				state: state,
 			})
 			.then((response) => {
-				// TODO: nothing happens here. Will need to override others
-				// this.setQuestion()
+				const { question, incomingChats } = response.data;
+				console.log('question received = ', question)
+				if (question)
+					this.setState(
+						{
+							currentQuestion: question,
+							loadingChat: false
+						},
+						() => {
+							console.log("settingQuestion")
+							this.setQuestion(question);
+						});
+				})
+				.catch((error) => {
+					// this.setState({ loadingChat: false });
 				this.scrollDown()
-			})
-			.catch((error) => {
 				console.error('realtime post error - ', error)
-			});
+			})
 	}
 
 	imageUpload = (event) => {
@@ -756,7 +797,7 @@ export default class Chat extends React.Component {
 			})
 			.then((response) => {
 				const { image } = response.data;
-				this.enterMessageIntoChat('chat-img-' + image.filename, 'outgoing');
+				this.enterMessageIntoChat('chat-img-' + image.filename, OUTGOING_MESSAGE);
 				if (this.socket) {
 					this.socket.emit('message', { message: 'chat-img-' + image.filename, to: doctor });
 				} else if (nextQuestion) {
@@ -788,7 +829,8 @@ export default class Chat extends React.Component {
 		} = this.state;
 
 		if (loadingChat) return null;
-
+		console.log("chat.length = ", chat.length)
+		console.log("chat = ", chat)
 		return (
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
@@ -796,7 +838,7 @@ export default class Chat extends React.Component {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 					return (
 						<p
-							className={`${type}-message ${type === 'outgoing' ? 'fadeInUp' : 'fadeInRight'}`}
+							className={`${type}-message ${type === OUTGOING_MESSAGE ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
 							onMouseEnter={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
 							onTouchStart={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
@@ -900,7 +942,8 @@ export default class Chat extends React.Component {
 					<Progress completed={Math.floor(uploadingImage * 100)} />
 				</div>
 			);
-		} else if (doctor) {
+		}
+		else if (doctor) {
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 					<form onSubmit={this.sendMessage} className="message-form">
@@ -952,7 +995,8 @@ export default class Chat extends React.Component {
 					</form>
 				</div>
 			);
-		} else if (type === TYPE_BUTTON) {
+		}
+		else if (type === TYPE_BUTTON) {
 			/* different types of answer*/
 			// User answer buttons
 			return (
@@ -982,7 +1026,8 @@ export default class Chat extends React.Component {
 					{this.renderTextOverrideMessage()}
 				</div>
 			);
-		} else if (type === TYPE_LIST) {
+		}
+		else if (type === TYPE_LIST) {
 			 console.log("renderAnswers list")
 			return (
 				<div>
@@ -1020,7 +1065,8 @@ export default class Chat extends React.Component {
 					{this.renderTextOverrideMessage()}
 				</div>
 			);
-		} else if (type === TYPE_SELECT) {
+		}
+		else if (type === TYPE_SELECT) {
 			 // spinner
 			console.log("renderAnswers select")
 			return (
@@ -1151,6 +1197,7 @@ export default class Chat extends React.Component {
   };
 
 	render() {
+		console.log('render')
 		const { loadingChat } = this.state;
 		const { callWindow, localSrc, peerSrc } = this.state;
 
