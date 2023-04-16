@@ -54,6 +54,19 @@ const commands = {
       }
     },
 
+iscardiacpatient: function (answers, question, setQuestion, optionSelected) {//answers, question, this.setQuestion
+    console.log("iscardiac_464654");
+    console.log(answers);
+    console.log(question);
+    console.log(setQuestion);
+    console.log(optionSelected);
+
+    const { branches } = question;
+    console.log(branches);
+    setQuestion(branches.cardiac_patient);
+	
+  },
+
   anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){
     const { paramsFrom, branches } = question;
 
