@@ -744,15 +744,16 @@ export default class Chat extends React.Component {
 
 		axios
 			.post(ENDPOINT + '/api/realtime', {
-				currentQuestion: currentQuestion,
-				optionSelected: optionSelected,
-				answerFormat: answerFormat,
-				options: options,
-				nextQuestion: nextQuestion,
+				currentQuestion,
+				optionSelected,
+				answerFormat,
+				options,
+				nextQuestion,
 				conversation_session_id,
-				answers: answers,
+				answers,
 				patient_id: patientId,
 				state: state,
+				reset: this.reset
 			})
 			.then((response) => {
 				const { question, incomingChats } = response.data;
@@ -1028,15 +1029,17 @@ export default class Chat extends React.Component {
 			);
 		}
 		else if (type === TYPE_LIST) {
-			 console.log("renderAnswers list")
+			// checkboxes
+			console.log("renderAnswers list")
 			return (
 				<div>
 				<div style={{ display:"flex", "flexDirection":"column" }}>
 					<div className="answer-box button-row" style={{ "flexWrap":"wrap" }}>
 						{options.map(({ value, statement }, index) => {
 	            const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+							// noinspection HtmlRequiredAltAttribute
 							return (
-								<label style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large' }}>
+								<label style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large', flex: '1' }}>
 									<input type="checkbox"
 										id={value}
 										onChange={this.handleChange}
@@ -1046,6 +1049,8 @@ export default class Chat extends React.Component {
 										onTouchStart={() => this.speak(chatStatement, true)}
 									/>
 										{chatStatement}
+										{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
+										width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
 								</label>
 							);
 						})}

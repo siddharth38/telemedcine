@@ -3997,7 +3997,7 @@ module.exports = {
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Does the pain increase or decrease when you when you press?",
                 [LANG_HINDI]: "क्या दबाने पे दर्द होता है?",
-                [DESCRIPTION_IMAGE]: "pressure.jpg"
+                // [DESCRIPTION_IMAGE]: "pressure.jpg"
             },
             [OPTIONS]: [
                 {
@@ -4034,7 +4034,8 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Sweating",
-                        [LANG_HINDI]: "पसीना आना"
+                        [LANG_HINDI]: "पसीना आना",
+                        [DESCRIPTION_IMAGE]: "sweating2.svg"
                     },
                     [CARDIAC_SCORE]: 1,
                     [VALUE]: 0,
@@ -4043,7 +4044,8 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Difficulty in breathing",
-                        [LANG_HINDI]: "सांस लेने में परेशानी"
+                        [LANG_HINDI]: "सांस लेने में परेशानी",
+                        [DESCRIPTION_IMAGE]: "breathless.svg"
                     },
                     [CARDIAC_SCORE]: 1,
                     [VALUE]: 1,
@@ -4052,7 +4054,8 @@ module.exports = {
                 {
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "Fatigue",
-                        [LANG_HINDI]: "थकान"
+                        [LANG_HINDI]: "थकान",
+                        [DESCRIPTION_IMAGE]: "fatigue.svg"
                     },
                     [CARDIAC_SCORE]: 1,
                     [VALUE]: 2,

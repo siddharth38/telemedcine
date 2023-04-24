@@ -220,9 +220,9 @@ router.post('/assessment', (req, res) => {
 });
 
 // TODO receive returned value and set result
-function compute(res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null){
+function compute(res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null, reset=false){
 	console.log('computing()')
-	if (newSession){
+	if (newSession || reset){
 		// TODO : identify whether user is new or old and select message accordingly
 		console.log('new Session')
 		nQ='-1.0 Consent message' // set next question as initial question if fresh session
@@ -307,6 +307,7 @@ router.post('/realtime', (req, res) => {
 		nextQuestion,
 		answerFormat,
 		patient_id,
+		reset
 	} = data
 
 	let command = currentQuestion.command
@@ -335,60 +336,60 @@ router.post('/realtime', (req, res) => {
 
 	// TODO somewhere call RealTimeAnswersToModel
 	// if (!Session.exists({ _id: session_id })) {
-		Session.create(
-			{
-				_id: conversation_session_id,
-				patient_id: patient_id
-			},
-			(err, session) => {
-				if (err) {
+	Session.create(
+		{
+			_id: conversation_session_id,
+			patient_id: patient_id
+		},
+		(err, session) => {
+			if (err) {
 
-					console.debug('failed to create session in mongo - ' + err)
-					console.log("err type = ", typeof err)
-					// console.log("err instance = ", instanceof err)
+				console.debug('failed to create session in mongo - ' + err)
+				console.log("err type = ", typeof err)
+				// console.log("err instance = ", instanceof err)
 
-					// Session.findOneAndUpdate({ _id: session_id }, update )
+				// Session.findOneAndUpdate({ _id: session_id }, update )
 
-					Session.findOne({_id:conversation_session_id}, (err, sess) => {
-						if (err) {
-							console.error(err)
-							// nothing done
-							return res;
-						}
-						// old session
-						console.log('old session')
-						console.log('adding message to DB')
-						// push into old session
-						sess.messages.push(message)
-						sess.save()
-						res = compute(res, currentQuestion, answers, nextQuestion, options, false, command)
-						if (res === undefined) console.error('result is null or undefined')
-						return res
-					})
-
-					// // Todo create result
-					// console.log('new session, preparing result')
-					// // computeAndReply()
-					// console.log(getQuestionById(questions, nextQuestion))
-					// // set res
-					// res.json({
-					// 	"none": "none",
-					// 	question: getQuestionById(questions, nextQuestion),
-					// 	incomingChats: [{ statement: { none: "none" }, type: "incoming" }]
-					// });
+				Session.findOne({_id:conversation_session_id}, (err, sess) => {
+					if (err) {
+						console.error(err)
+						// nothing done
+						return res;
+					}
+					// old session
+					console.log('old session')
+					console.log('adding message to DB')
+					// push into old session
+					sess.messages.push(message)
+					sess.save()
+					res = compute(res, currentQuestion, answers, nextQuestion, options, false, command, reset)
+					if (res === undefined) console.error('result is null or undefined')
 					return res
-				}
-				console.log('new session created, pushing into DB')
-				// push into new session
-				console.log("session = ", session)
-				console.log("message = ", message)
-				console.log("session.messages = ", session.messages)
-				session.messages.push(message)
-				session.save()
-				console.log('starting chat for new session')
-				res = compute(res, currentQuestion, answers, nextQuestion, null, true, command)
+				})
+
+				// // Todo create result
+				// console.log('new session, preparing result')
+				// // computeAndReply()
+				// console.log(getQuestionById(questions, nextQuestion))
+				// // set res
+				// res.json({
+				// 	"none": "none",
+				// 	question: getQuestionById(questions, nextQuestion),
+				// 	incomingChats: [{ statement: { none: "none" }, type: "incoming" }]
+				// });
 				return res
-			})
+			}
+			console.log('new session created, pushing into DB')
+			// push into new session
+			console.log("session = ", session)
+			console.log("message = ", message)
+			console.log("session.messages = ", session.messages)
+			session.messages.push(message)
+			session.save()
+			console.log('starting chat for new session')
+			res = compute(res, currentQuestion, answers, nextQuestion, null, true, command, reset)
+			return res
+		})
 });
 
 getQuestionById = (questions, id) => {
