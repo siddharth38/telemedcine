@@ -2,6 +2,12 @@ const QUESTIONS = "questions"
 const ID = "id";
 const OPTIONS = "options"
 const NEXT_QUESTION = "nextQuestion"
+const NEXT_QUESTION_LIST = "next_question_list"
+const NEXT_QUESTION_OBJECT = "next_question_object"
+const NEXT_QUESTION_VARIANTS = "next_question_variants"
+const DEFAULT_ASK = "default_ask"
+const USUAL_ASK = "usual_ask"
+const VARIANT_PROBABILITY = "variant_probability"
 const STATEMENT = "statement"
 const VALUE = "value"
 const TYPE = "type"
@@ -13,6 +19,11 @@ const COMMAND = "command"                   // handled by commands.js
 const URL = "url"
 const PARAMS_FORM = "paramsFrom"            // support commands
 const PATTERN = "pattern"            // support commands
+const CONTENT_VARIANTS = "content_variants"
+const NEXT_MESSAGE_VARIANTS = "next_message_variants"
+const CONTENT_VARIANT_NAME = "content_variant_name"
+const OPTIONS_VARIANT_NAME = "options_variant_name"
+const SINGLE_OPTION_VARIANT_NAME = "single_option_variant_name"
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
@@ -126,12 +137,42 @@ module.exports = {
         {
             [ID]: "-1.0 Consent message",
             [NEXT_QUESTION]: 1.0,
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "By continuing, you agree to take part in the testing of this chat-bot 🤖 and your data being collected and used for research purposes. 📝\n" +
-                "It will be kept securely 🛡️ and will not be shared with any third parties.",
-                [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट 🤖 के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा। 📝\n" +
-                "इसे सुरक्षित रखा जाएगा 🛡️ और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
-            },
+            [CONTENT_VARIANTS]: [
+                {
+                    [CONTENT_VARIANT_NAME]: "Consent message short emojis",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "By continuing, you agree to take part in the testing of this chat-bot 🤖 and your data being collected and used for research purposes. 📝\n" +
+                        "It will be kept securely 🛡️ and will not be shared with any third parties.",
+                        [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट 🤖 के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा। 📝\n" +
+                        "इसे सुरक्षित रखा जाएगा 🛡️ और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
+                    },
+                },
+                {
+                    [CONTENT_VARIANT_NAME]: "Consent message short no emojis",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "By continuing, you agree to take part in the testing of this chat-bot and your data being collected and used for research purposes. \n" +
+                        "It will be kept securely and will not be shared with any third parties.",
+                        [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा।\n" +
+                        "इसे सुरक्षित रखा जाएगा और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
+                    },
+                },
+                {
+                    [CONTENT_VARIANT_NAME]: "Consent message original from telemedicine",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Disclaimer: We collect your personal information like name, age, phone number for registration purposes. We do not share this information with any other third parties nor do we use it for commercial purposes. We may use your information for the purpose of our research and to create innovative and enhanced services. We also use third party web analytical services such as Google Analytics which may collect information relating to your use of this website.",
+                        [LANG_HINDI]: "अस्वीकरण: हम आपकी व्यक्तिगत जानकारी जैसे नाम, आयु, फोन नंबर पंजीकरण के प्रयोजनों के लिए एकत्र करते हैं। हम इस जानकारी को किसी अन्य तीसरे पक्ष के साथ साझा नहीं करते हैं और न ही हम इसका उपयोग व्यावसायिक उद्देश्यों में करते हैं। हम आपकी जानकारी का उपयोग हमारे शोध के उद्देश्य और नवीन और उन्नत सेवाओं को बनाने के लिए कर सकते हैं। हम गूगल एनालिटिक्स जैसी थर्ड पार्टी वेब विश्लेषणात्मक सेवाओं का भी उपयोग करते हैं जो इस वेबसाइट के आपके उपयोग से संबंधित जानकारी एकत्र कर सकती हैं।"
+                    },
+                }
+                // ,
+                // {
+                //     [CONTENT_VARIANT_NAME]: "just link",
+                //     [STATEMENT]: {
+                //         [LANG_ENGLISH]: "By continuing, you agree with <u>the study and the privacy policy</u>",
+                //         [LANG_HINDI]: "बातें जारी रखकर, आप <u>स्टडी एवं प्राइवसी पॉलिसी से सहमत हैं</u>",
+                //         [URL]: "https://www.aiimsjodhpur.edu.in/Patient_Portal/"
+                //     },
+                // }
+            ],
             [TYPE]: TYPE_NONE
         },
         {
@@ -206,7 +247,16 @@ module.exports = {
 
         {
             [ID]: "90.0 Cardiac education",
-            [NEXT_QUESTION]: "90.1 Cardiac status",
+            [NEXT_QUESTION_LIST]: [
+                {
+                    [DEFAULT_ASK]: true,
+                    [NEXT_QUESTION]: "90.1 Cardiac status"
+                },
+                {
+                    [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
+                    [VARIANT_PROBABILITY]: 0.5
+                }
+            ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?☠️",
                 [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
@@ -218,7 +268,7 @@ module.exports = {
             [ID]: "90.1 Cardiac status",
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: "94.0 What would you like to know",
+                    [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, I have never been to the cardiologist / heart specialist",
                         [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग के पास नहीं गया/गई"
@@ -253,7 +303,7 @@ module.exports = {
             [ID]: "92.0 Cardiac medicine patient. Taking meds",
             [OPTIONS]: [
                 {
-                    [NEXT_QUESTION]: "94.0 What would you like to know",
+                    [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
                     [STATEMENT]: STATEMENT_YES,
                     [VALUE]: 0
                 },
@@ -271,7 +321,7 @@ module.exports = {
         },
         {
             [ID]: "92.2 Why not taking medications regularly?",
-            [NEXT_QUESTION]: "94.0 What would you like to know",
+            [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
             [STATEMENT]: STATEMENT_WHY_NOT,
             [TYPE]: TYPE_TEXT
         },
@@ -328,7 +378,7 @@ module.exports = {
         },
 
         {
-            [ID]: "94.0 What would you like to know",
+            [ID]: "94.0 What would you like to know (heart)",
             [OPTIONS]: [
                 {
                     [STATEMENT]: {
@@ -2787,8 +2837,7 @@ module.exports = {
                 [LANG_ENGLISH]: "Ejection is an important parameter to determine how hard your heart is pumping blood. The normal value of the ejection fraction is 55-65%. \n" +
                 "If the ejection fraction is less than 55%, it means that the patient is suffering from heart failure.",
                 [LANG_HINDI]: "आपका दिल रक्त को कितनी अच्छी तरह से पम्प कर रहा है यह निर्धारित करने में इजेक्शन फ्रैक्शन एक महत्वपूर्ण मॅप है| इजेक्शन फ्रैक्शन  55-65% है, होना चाहिए \n" +
-                "अगर इजेक्शन िीोमूगदल 55% से कम है, तो इसका मतलब है कि व्यक्ति हार्ट फैल्यर से पीड़ित है।" +
-                "है।"
+                "अगर इजेक्शन िीोमूगदल 55% से कम है, तो इसका मतलब है कि व्यक्ति हार्ट फैल्यर से पीड़ित है।"
             },
             [NEXT_QUESTION]: "196.0 HF",
             [TYPE]: TYPE_NONE
@@ -3798,7 +3847,7 @@ module.exports = {
                 },
                 {
                     [STATEMENT]: STATEMENT_YES,
-                    [NEXT_QUESTION]: "94.0 What would you like to know",
+                    [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
                     [VALUE]: 1
                 },
             ],
@@ -6599,5 +6648,15 @@ module.exports = {
     				}
     			]
     		}
-    ]
+    ],
+
+    CONTENT_VARIANTS,
+    CONTENT_VARIANT_NAME,
+    STATEMENT,
+    NEXT_QUESTION_LIST,
+    NEXT_QUESTION_VARIANTS,
+    NEXT_QUESTION,
+    USUAL_ASK,
+    DEFAULT_ASK,
+    VARIANT_PROBABILITY
 }
