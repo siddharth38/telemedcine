@@ -1,5 +1,8 @@
-const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY } = require("../data/questions");
-const { TYPE_ANALYSE, TYPE_NONE } = require("../helper/values");
+const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
+  OPTION_STATEMENT_VARIANTS,
+  OPTION_VARIANT_NAME
+} = require("../data/questions");
+const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
 
 function selectContentVariant(question){
@@ -57,9 +60,58 @@ function selectNextQuestionFromList(question){
     return
   }
   // else select random
-  console.log('selecting nextQuestion vatiant randomly')
+  console.log('selecting nextQuestion variant randomly')
   let index = Math.floor(Math.random() * question[NEXT_QUESTION_LIST].length)
   question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][index][NEXT_QUESTION]
+}
+
+function selectOptionStatementVariant(question) {
+  for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
+    if (question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS] !== undefined) {
+      let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
+      console.log("question[CONTENT_VARIANTS].length = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
+      console.log("index = ", index)
+      console.log("question[CONTENT_VARIANTS][index] = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index])
+      question[OPTIONS][optionIndex][STATEMENT] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][STATEMENT]
+      question[OPTIONS][optionIndex][OPTION_VARIANT_NAME] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][CONTENT_VARIANT_NAME]
+    }
+  }
+  return question
+}
+
+function selectOptionNextQuestion(question) {
+  console.log("select next question from options")
+  for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
+    // for every option
+    if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST] === undefined) {
+      console.log("selectOptionNextQuestion: no nextQuestion list exists. deciding the simple way")
+      continue;                                                                 // move to next option
+    }
+
+    // TODO : decide based on state (in command?). use probabilities
+
+    let defaultAsk = undefined
+    for (let i = 0; i < question[OPTIONS][optionIndex][NEXT_QUESTION_LIST].length; i++) {
+      if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][i][DEFAULT_ASK] === true) defaultAsk = i
+      else if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][i][VARIANT_PROBABILITY] !== undefined
+        && Math.random() < question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][i][VARIANT_PROBABILITY]) {
+        // non-default. coin flip and select
+        question[OPTIONS][optionIndex][NEXT_QUESTION] = question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][i][NEXT_QUESTION]
+        break                                                                   // select variant
+      }
+      console.log('selected nextQuestion variant. index : ', i)
+    }
+    // else select default
+    if (defaultAsk) {
+      console.log('default ask for nextQuestion variant')
+      question[OPTIONS][optionIndex][NEXT_QUESTION] = question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][defaultAsk][NEXT_QUESTION]
+      continue                                                                  // select default variant and move to next option
+    }
+    // else select random if there's no default
+    console.log('selecting nextQuestion variant randomly')
+    let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][NEXT_QUESTION_LIST].length)
+    question[OPTIONS][optionIndex][NEXT_QUESTION] = question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][index][NEXT_QUESTION]
+  }
 }
 
 function compute(res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null, reset=false){
@@ -123,6 +175,10 @@ function compute(res, currentQuestion, answers, nextQuestion=null, options=null,
     let newQuestion = getQuestionById(questions, nextQuestion)
     console.debug(newQuestion)
     let question = selectContentVariant(newQuestion)
+    if (question && question.type === TYPE_BUTTON) {
+      selectOptionStatementVariant(question)
+      selectOptionNextQuestion(question)
+    }
     if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question)
     console.log("question = ", question)
     res = prepareResult(res, question)

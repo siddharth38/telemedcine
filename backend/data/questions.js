@@ -23,7 +23,10 @@ const CONTENT_VARIANTS = "content_variants"
 const NEXT_MESSAGE_VARIANTS = "next_message_variants"
 const CONTENT_VARIANT_NAME = "content_variant_name"
 const OPTIONS_VARIANT_NAME = "options_variant_name"
-const SINGLE_OPTION_VARIANT_NAME = "single_option_variant_name"
+const OPTION_VARIANT_NAME = "option_variant_name"
+const OPTION_STATEMENT_VARIANTS = "option_statement_variants"
+const OPTION_NAME = "option_name"
+const ALWAYS_SHOW_OPTION = "always_show_option"
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
@@ -381,12 +384,31 @@ module.exports = {
             [ID]: "94.0 What would you like to know (heart)",
             [OPTIONS]: [
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Cardiac tests - ECG / ECHO / TMT / Holter / ABP",
-                        [LANG_HINDI]: "दिल के टेस्ट ईसईगी / एको / टीमती / ऐबीपी "
-                    },
-                    [NEXT_QUESTION]: "95.0 Which cardiac test",
-                    [VALUE]: 0
+                    [OPTION_NAME]: "cardiac tests",
+                    [OPTION_STATEMENT_VARIANTS]: [
+                        {
+                            [OPTION_VARIANT_NAME]: "long version with examples",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Cardiac tests - ECG / ECHO / TMT / Holter / ABP",
+                                [LANG_HINDI]: "दिल के टेस्ट ईसईगी / एको / टीमटी / ऐबीपी "
+                            }
+                        },
+                        {
+                            [OPTION_VARIANT_NAME]: "short version",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Cardiac tests",
+                                [LANG_HINDI]: "दिल के टेस्ट"
+                            }
+                        }
+                    ],
+                    [NEXT_QUESTION_LIST]: [
+                        {
+                            [DEFAULT_ASK]: true,
+                            [NEXT_QUESTION]: "95.0 Which cardiac test",
+                        },
+                    ],
+                    [VALUE]: 0,
+                    // [ALWAYS_SHOW_OPTION]: false
                 },
                 {
                     [STATEMENT]: {
@@ -6658,5 +6680,8 @@ module.exports = {
     NEXT_QUESTION,
     USUAL_ASK,
     DEFAULT_ASK,
-    VARIANT_PROBABILITY
+    VARIANT_PROBABILITY,
+    OPTIONS,
+    OPTION_STATEMENT_VARIANTS,
+    OPTION_VARIANT_NAME
 }
