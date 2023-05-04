@@ -54,17 +54,17 @@ const commands = {
       }
     },
 
-iscardiacpatient: function (answers, question, setQuestion, optionSelected) {//answers, question, this.setQuestion
-    console.log("iscardiac_464654");
-    console.log(answers);
-    console.log(question);
-    console.log(setQuestion);
-    console.log(optionSelected);
+  iscardiacpatient: function(answers, question, questions, setQuestion, optionSelected) {//answers, question, this.setQuestion
+    console.log("iscardiac patient?");
+
+    let id = "90.1 Cardiac status"
+    let k = getQuestionById(id, questions).options[answers[id]]
+    console.log('k = ', k)
+    console.log('value = ', k.value)
 
     const { branches } = question;
-    console.log(branches);
-    setQuestion(branches.cardiac_patient);
-	
+    if (k.value === 0) setQuestion(branches["106.0 Cardiac patient description"]);    // cardiac patient
+    else setQuestion(branches["105.0 Heart exercise"]);                               // not cardiac patient
   },
 
   anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){

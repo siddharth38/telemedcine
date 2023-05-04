@@ -6,7 +6,7 @@ const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
 
 function selectContentVariant(question){
-  if (question[CONTENT_VARIANTS] !== undefined) {
+  if (question && question[CONTENT_VARIANTS] !== undefined) {
     let index = Math.floor(Math.random() * question[CONTENT_VARIANTS].length)
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
     console.log("index = ",  index)
@@ -35,7 +35,7 @@ function prepareResult(res, question) {
 }
 
 function selectNextQuestionFromList(question){
-  console.log("select next question from list")
+  // console.log("select next question from list")
   if (question[NEXT_QUESTION_LIST] === undefined) {
     console.log("selectNextQuestionFromList: no next question list exists. deciding the simple way")
     return;
@@ -122,14 +122,14 @@ function compute(res, currentQuestion, answers, nextQuestion=null, options=null,
     let nQ='-1.0 Consent message' // set next question as initial question if fresh session
     let question = selectContentVariant((getQuestionById(questions, nQ)))
     if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question)
-    console.log("question = ", question)
+    // console.log("question = ", question)
     res = prepareResult(res, question)
     return res
   }
 
   console.debug('command = ', command,
+    '. currentQuestion = ', currentQuestion.id,
     '. currentQuestion.type = ', currentQuestion.type,
-    '. TYPE_ANALYSE = ', TYPE_ANALYSE,
     '. currentQuestion.type === TYPE_ANALYSE = ', currentQuestion.type === TYPE_ANALYSE,
     '. currentQuestion && currentQuestion.type === TYPE_ANALYSE = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE,
     '. currentQuestion && currentQuestion.type === TYPE_ANALYSE && command = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE && command)
@@ -175,6 +175,7 @@ function compute(res, currentQuestion, answers, nextQuestion=null, options=null,
     let newQuestion = getQuestionById(questions, nextQuestion)
     console.debug(newQuestion)
     let question = selectContentVariant(newQuestion)
+    // build options and content
     if (question && question.type === TYPE_BUTTON) {
       selectOptionStatementVariant(question)
       selectOptionNextQuestion(question)

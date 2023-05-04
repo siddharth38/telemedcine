@@ -260,10 +260,22 @@ module.exports = {
                     [VARIANT_PROBABILITY]: 0.5
                 }
             ],
-            [STATEMENT]: {
-                [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?☠️",
-                [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
-            },
+            [CONTENT_VARIANTS]: [
+                {
+                    [CONTENT_VARIANT_NAME]: "cardio death fun fact question",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Did you know Cardiovascular diseases are the leading cause of death globally?☠️",
+                        [LANG_HINDI]: "क्या आप जानते हैं कि हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
+                    },
+                },
+                {
+                    [CONTENT_VARIANT_NAME]: "cardio death fun fact",
+                    [STATEMENT]: {
+                        [LANG_ENGLISH]: "Cardiovascular diseases are the leading cause of death globally?☠️",
+                        [LANG_HINDI]: "हृदय रोग विश्व स्तर पर मौत का प्रमुख कारण हैं?☠️"
+                    },
+                }
+            ],
             [TYPE]: TYPE_NONE
         },
 

@@ -52,6 +52,18 @@ const commands = {
 		}
 	},
 
+	iscardiacpatient: function(answers, question, questions, optionSelected) {//answers, question, this.setQuestion
+		console.log("iscardiac patient?");
+		let id = "90.1 Cardiac status"
+		const { branches } = question;
+
+		if (answers[id] === undefined) return branches["non_cardiac_patient"];
+
+		if (getQuestionById(id, questions).options[answers[id]].value === 0)
+			return branches["cardiac_patient"];    // cardiac patient
+		return branches["non_cardiac_patient"];                               // not cardiac patient
+	},
+
 	anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){
 		const { paramsFrom, branches } = question;
 
