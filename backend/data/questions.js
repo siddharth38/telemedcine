@@ -435,7 +435,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Exercise for heart🤾‍♀️",
                         [LANG_HINDI]: "दिल के लिए कसरत"
                     },
-                    [NEXT_QUESTION]: "105.1 Heart exercise️",
+                    [NEXT_QUESTION]: "105.1 Heart exercise",
                     [VALUE]: 2
                 },
                 {
@@ -706,7 +706,7 @@ module.exports = {
                 [LANG_ENGLISH]: "Let me gather my thoughts🤔",
                 [LANG_HINDI]: "एक सेकंड सोचने दी जिए🤔"
             },
-            [TYPE]: TYPE_NONE,
+            [TYPE]: TYPE_ANALYSE,
             [COMMAND]: "iscardiacpatient",
             [BRANCHES]: {
                 "cardiac_patient": "106.0 Cardiac patient description",
