@@ -431,7 +431,6 @@ export default class Chat extends React.Component {
 				OUTGOING_MESSAGE
 			);
 			console.log('type = list')
-			this.realtime()
 			this.setState(
 				{answers: {
 						...this.state.answers,
@@ -455,8 +454,6 @@ export default class Chat extends React.Component {
 			// accept as an answer if type is not text.
 			console.log('textOverrides = ', textOverrides)
 
-    	this.realtime()
-
 			if (type === 'password') {
     	    this.enterMessageIntoChat('****', OUTGOING_MESSAGE);
 		  }
@@ -476,7 +473,7 @@ export default class Chat extends React.Component {
 			  }
   		}
 			this.setState(
-				{answers: {
+				{answers: {																								// push a value into answers
 						...this.state.answers,
 						[id]: value
 					},
@@ -623,6 +620,8 @@ export default class Chat extends React.Component {
 			// normal scenario. next question is available
 			// examples of unhandled scenarios are - list
 			// console.error("answerEntered. unhandled scenario")
+			console.log('normal answer. answers = ', answers)
+			this.realtime()
 		}
 	};
 

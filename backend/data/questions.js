@@ -27,6 +27,7 @@ const OPTION_VARIANT_NAME = "option_variant_name"
 const OPTION_STATEMENT_VARIANTS = "option_statement_variants"
 const OPTION_NAME = "option_name"
 const ALWAYS_SHOW_OPTION = "always_show_option"
+const FACT = "fact"
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
@@ -286,7 +287,7 @@ module.exports = {
                     [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
                     [STATEMENT]: {
                         [LANG_ENGLISH]: "No, I have never been to the cardiologist / heart specialist",
-                        [LANG_HINDI]: "नहीं, मैं कभी हृदय रोग के पास नहीं गया/गई"
+                        [LANG_HINDI]: "नहीं, मैं कभी दिल के डॉक्टर के पास नहीं गया/गई"
                     },
                     [VALUE]: 0
                 },
@@ -722,7 +723,15 @@ module.exports = {
                         [LANG_HINDI]: "लेकिन मुझे गठिया है🦵"
                     },
                     [NEXT_QUESTION]: "112.0 Arthritis patient non-cardiac",
-                    [VALUE]: 0
+                    [VALUE]: 0,
+                    // [FACT_PATH]: "patient/{patient}/arthritis/has_arthritis",
+                    [FACT]: {
+                        'category': 'patient',
+                        'type': 'disease',
+                        'group': 'arthritis',
+                        'state': 'hasArthritis',
+                        'value': true
+                    }
                 },
                 {
                     [STATEMENT]: {
@@ -730,7 +739,14 @@ module.exports = {
                         [LANG_HINDI]: "पर मुझे दिखता नहीं👨‍🦯"
                     },
                     [NEXT_QUESTION]: "112.1 Blind patient non-cardiac",
-                    [VALUE]: 1
+                    [VALUE]: 1,
+                    // [FACT_PATH]: "patient/{patient}/visual_impairment/has_visual_impairment",
+                    [FACT]: {
+                        'category': 'patient',
+                        'type': 'disease',
+                        'group': 'visual_impairment',
+                        'value': true
+                    }
                 },
                 {
                     [STATEMENT]: {

@@ -45,7 +45,8 @@ const SessionSchema = new Schema(
       timestamp: Number,
       patient_id: String,
     }],
-    patient_id: String
+    patient_id: String,
+    temp_patient: []
   }
 );
 

@@ -241,7 +241,7 @@ router.post('/realtime', (req, res) => {
 	let command = currentQuestion.command
 
 	// // console.log(data)
-	console.debug("session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion, '. command =', command)
+	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. answerFormat = ', answerFormat)
 	// console.log("optionSelected = ", optionSelected)
 	// // console.log("answer = ", answer)
 	// console.log('answers = ', answers)
@@ -290,7 +290,7 @@ router.post('/realtime', (req, res) => {
 					// push into old session
 					sess.messages.push(message)
 					sess.save()
-					res = compute(res, currentQuestion, answers, nextQuestion, options, false, command, reset)
+					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset)
 					if (res === undefined) console.error('result is null or undefined')
 					return res
 				})
@@ -315,7 +315,7 @@ router.post('/realtime', (req, res) => {
 			session.messages.push(message)
 			session.save()
 			console.log('starting chat for new session')
-			res = compute(res, currentQuestion, answers, nextQuestion, null, true, command, reset)
+			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset)
 			return res
 		})
 });
