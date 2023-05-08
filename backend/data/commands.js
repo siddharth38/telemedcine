@@ -1,3 +1,5 @@
+let log = require("npmlog");
+
 function getQuestionById(id, questions) {
 	for (let i = 0; i < questions.length; i++) {
 		if (questions[i].id === id) {
@@ -60,8 +62,8 @@ const commands = {
 		if (answers[id] === undefined) return branches["non_cardiac_patient"];
 
 		if (getQuestionById(id, questions).options[answers[id]].value === 0)
-			return branches["cardiac_patient"];    // cardiac patient
-		return branches["non_cardiac_patient"];                               // not cardiac patient
+			return branches["non_cardiac_patient"];    // non cardiac patient
+		return branches["cardiac_patient"];                               //  cardiac patient
 	},
 
 	anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){
