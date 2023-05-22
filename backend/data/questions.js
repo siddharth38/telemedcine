@@ -3983,8 +3983,15 @@ module.exports = {
                         [DESCRIPTION_IMAGE]: "point_chest_pain.jpg"
                     },
                     [VALUE]: 0,
-                    [DB_VALUE]: "Point chest pain",
-                    [CARDIAC_SCORE]: -1
+                    [DB_VALUE]: "cardiac_point_chest_pain",
+                    [CARDIAC_SCORE]: -1,
+                    [FACT]: {
+                        'category': 'patient',
+                          // 'type': 'disease',
+                          // 'group': 'arthritis',
+                          'state': 'point_chest_pain',
+                          'value': true
+                    }
                 },
                 {
                     [NEXT_QUESTION]: "74.0 Cardiac left arm pain",
@@ -3994,8 +4001,15 @@ module.exports = {
                         [DESCRIPTION_IMAGE]: "angina.jpg"
                     },
                     [CARDIAC_SCORE]: 0.5,
-                    [DB_VALUE]: "Diffused chest pain",
-                    [VALUE]: 1
+                    [DB_VALUE]: "cardiac_point_chest_pain",
+                    [VALUE]: 1,
+                    [FACT]: {
+                        'category': 'patient',
+                        'type': 'disease',
+                        'group': 'heart',
+                        'state': 'diffused_chest_pain',
+                        'value': true
+                    }
                 }
             ],
             [TYPE]: TYPE_BUTTON

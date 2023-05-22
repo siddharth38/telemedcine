@@ -492,6 +492,7 @@ export default class Chat extends React.Component {
 
 	/*
 	 * called when bot completes questionnaire and is passed in user's physical location
+	 * posts to the assessment api
 	 */
 	completedChatbot = (position) => {
 		const { latitude, longitude } = (position && position.coords) || {};

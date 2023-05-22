@@ -1,3 +1,4 @@
+const { stateVectorMap } = require('../data/fact-state-vector_mapping')
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -221,6 +222,7 @@ router.post('/assessment', (req, res) => {
 });
 
 router.post('/realtime', (req, res) => {
+	stateVectorMap()
 	console.log("received realtime post request")
 	const data = (req.body)
 	let {
@@ -241,7 +243,8 @@ router.post('/realtime', (req, res) => {
 	let command = currentQuestion.command
 
 	// // console.log(data)
-	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. answerFormat = ', answerFormat)
+	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command)
+	// console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. answerFormat = ', answerFormat)
 	// console.log("optionSelected = ", optionSelected)
 	// // console.log("answer = ", answer)
 	// console.log('answers = ', answers)
@@ -290,11 +293,10 @@ router.post('/realtime', (req, res) => {
 					// push into old session
 					sess.messages.push(message)
 					sess.save()
-					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset)
+					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset, patient_id)
 					if (res === undefined) console.error('result is null or undefined')
 					return res
 				})
-
 				// // Todo create result
 				// console.log('new session, preparing result')
 				// // computeAndReply()
@@ -309,13 +311,14 @@ router.post('/realtime', (req, res) => {
 			}
 			console.log('new session created, pushing into DB')
 			// push into new session
-			console.log("session = ", session)
-			console.log("message = ", message)
-			console.log("session.messages = ", session.messages)
+			console.log("session = ", session, ". message = ", message, ". session.messages = ", session.messages)
+			// update session
 			session.messages.push(message)
 			session.save()
+
 			console.log('starting chat for new session')
-			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset)
+			// begin computation and get result
+			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset, patient_id)
 			return res
 		})
 });

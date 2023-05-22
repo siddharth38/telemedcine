@@ -1,6 +1,86 @@
 const patient = require('../models/patient')
+const { val } = require("mongoose/lib/helpers/populate/SkipPopulateValue");
+
+function generalCategoryToInt(value){
+  if (value  === undefined) return 0
+  if (value  === 0) return 1
+  if (value === false) return 1
+  if (value === 1) return 2
+  if (value === true) return 2
+}
 
 function stateVectorMap(){
+  let patient_numeric = [
+    [0, 'conversation_session_count'],
+    [1, 'SPO2_value'],
+    [2, 'Pulserate'],
+    [3, 'BP_value'],
+    [4, 'Temperature_value'],
+    [5, 'Bloodglucose_taken_at'],
+    [6, 'Bloodglucose_value'],
+    [7, 'cardiac_score'],
+  ]
+  let patient_dates = [
+    // to deal with dates and time
+    [0, 'Covid19_when'],
+    [1, 'age'],
+    [2, 'created_at'],
+    [3, 'last_messaged_at'],
+    [4, 'last_notified_at'],
+    [5, 'opd_symptoms_age'],
+  ]
+  let patient_categorical = [
+    [0, 'HRCT_report', generalCategoryToInt],
+    [1, 'CRP_report', generalCategoryToInt],
+    [2, 'IL6_report', generalCategoryToInt],
+    [3, 'D_dimer_report', generalCategoryToInt],
+    [4, 'Ferritinin_report', generalCategoryToInt],
+    [5, 'Procalcitonin_report', generalCategoryToInt],
+    [6, 'KFT_report', generalCategoryToInt],
+    [7, 'Hospitalization_during_covid', generalCategoryToInt],
+    [8, 'steroids_given_duringstay', generalCategoryToInt],
+    [9, 'oxygen_support_duringstay', generalCategoryToInt],
+    [10, 'steroids_taken', generalCategoryToInt],
+    [11, 'discoloration_upper_palette', generalCategoryToInt],
+    [12, 'swelling_upper_pallette', generalCategoryToInt],
+    [13, 'can_close_eyes', generalCategoryToInt],
+    [14, 'can_feel_nose_and_cheek', generalCategoryToInt],
+    [15, 'vaccination_status', generalCategoryToInt],
+    [16, 'symptomatic_forcovid', generalCategoryToInt],
+
+    [17, 'chest_pain', generalCategoryToInt],
+    [18, 'cardiac_point_chest_pain', generalCategoryToInt],
+    [19, 'cardiac_score', generalCategoryToInt],
+    [20, 'cardiac_left_arm_pain', generalCategoryToInt],
+    [21, 'cardiac_left_arm_pain_inside', generalCategoryToInt],
+    [22, 'cardiac_arm_movement_pain', generalCategoryToInt],
+    [23, 'cardiac_arm_pressure_pain', generalCategoryToInt],
+    [24, 'cardiac_sweating', generalCategoryToInt],
+    [25, 'cardiac_breathlessness', generalCategoryToInt],
+    [26, 'cardiac_fatigue', generalCategoryToInt],
+    [27, 'angina', generalCategoryToInt],
+    [28, 'cardiac_exertion', generalCategoryToInt],
+    [29, 'angina_episodes', generalCategoryToInt],
+    [30, 'unstable_angina', generalCategoryToInt],
+
+    [31, 'symptomatic_formucormycosis', generalCategoryToInt],
+    [32, 'additional_symptoms', generalCategoryToInt],
+    [33, 'gender', generalCategoryToInt],
+    [34, 'Profession', generalCategoryToInt],
+    [35, 'doctor', generalCategoryToInt],
+    [36, 'hospital', generalCategoryToInt],
+    [37, 'type', generalCategoryToInt],
+    [38, 'opd_symptoms', generalCategoryToInt],
+    [39, 'patient/disease/visual_impairment', generalCategoryToInt],
+    [40, 'patient/disease/vision/right_eye', generalCategoryToInt],
+    [41, 'patient/disease/vision/left_eye', generalCategoryToInt],
+  ]
+  let patient_string = [
+    // avoid
+  ]
+  let patient_history = [
+    // later
+  ]
   let patient_mappings = [
     [0, '_id'],
     [1, 'conversation_sessions'],   // array
@@ -74,8 +154,9 @@ function stateVectorMap(){
     [68, 'patient/ABHA_no'],
   ]
   for (let i=0; i < patient_mappings.length; i++){
-    console.log('patient_mappings[i] = ', patient_mappings[i])
+    // console.log('patient_mappings[i] = ', patient[i])
   }
+  // for (let i=0; )
   let conversation_mappings = [
     [0, "tone"],
     [1, "agreement"],
@@ -109,6 +190,7 @@ function stateVectorMap(){
     [2, "regular"],
     [3, "irregular"],
   ]
+  return { patient_mappings, patient_categorical, patient_numeric }
 }
 
 module.exports = { stateVectorMap }

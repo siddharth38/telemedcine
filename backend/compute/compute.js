@@ -6,6 +6,9 @@ const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
 const Patient = require('../models/patient');
 const Session = require('../models/session');
+const { stateVectorMap } = require("../data/fact-state-vector_mapping");
+const { value } = require("mongoose/lib/options/propertyOptions");
+const { forEach } = require("mongoose/lib/statemachine");
 
 function selectContentVariant(question){
   if (question && question[CONTENT_VARIANTS] !== undefined) {
@@ -28,7 +31,7 @@ function getQuestionById(questions, id){
 }
 
 function prepareResult(res, question) {
-  console.log('LOG prepareResult(). questionID = ', question.id)
+  console.log('prepareResult(). questionID = ', question.id)
   res.json({
     "none": "none",
     question: question,
@@ -125,32 +128,50 @@ function analyzeStatement(){
   // TODO
 }
 
-function setFacts(session, currentQuestion, answers){
-    console.log('LOG setFacts(). currentQuestion.id = ', currentQuestion.id, '. answers.id = ', answers.id,
-      '. answers[currentQuestion.id] = ', answers[currentQuestion.id])
+function updatePatientWithFacts(session, patient_id, update){
+  if (session.patient_id === undefined || session.patient_id === null) {
+    console.log('compute.setFacts.updatePatientWithFacts pushing into temp_patient')
+    session.temp_patient.push(update);
+  } else {
+    Patient.findById(patient_id, (err, patient) => {
+      if(err === undefined) {
+        console.error("compute.setFacts.updatePatientWithFacts session exists, patient not found");
+        patient = session.temp_patient
+      }
+      console.log('compute.setFacts.updatePatientWithFacts patient = ', patient)
+      patient.update(update);
+      patient.save();
+    })
+  }
+}
+
+function setFacts(session, currentQuestion, answers, patient_id=undefined){
+    // console.log('setFacts(). currentQuestion.id = ', currentQuestion.id, '. answers.id = ', answers.id,
+    //   '. answers[currentQuestion.id] = ', answers[currentQuestion.id])
 
     if (currentQuestion.options) {  // button
       // console.log('LOG setFacts(). currentQuestion.options = ', currentQuestion.options)
       // console.log('LOG setFacts(). currentQuestion.options.selectedOption = ',
       //   currentQuestion.options[answers[currentQuestion.id]])
       let fact = currentQuestion.options[answers[currentQuestion.id]].fact
-      console.log('LOG setFacts(). fact = ', fact)
-      if (fact !== undefined) {
+      // console.log('LOG setFacts(). fact = ', fact)
+      let db_value = currentQuestion.options[answers[currentQuestion.id]].dbValue
+      let value = currentQuestion.options[answers[currentQuestion.id]].value
+      console.log('compute.setFacts db_value = ', db_value, '. db_value = ', value)
+      if (db_value !== undefined) updatePatientWithFacts(session, patient_id,
+        {[db_value]: value})
+      if (fact === undefined) return
+      if (typeof fact === "string"){
+        let update = {[fact]: currentQuestion.options[answers[currentQuestion.id]].value}
+        updatePatientWithFacts(session, patient_id, update)
+      }
+      else {
         if (fact.category === "patient") {
           console.log(`LOG setFacts(). fact.category=${fact.category}, fact.type=${fact.type}, fact.group=${fact.group}, fact.state=${fact.state}, fact.value=${fact.value}`)
           let update = {[fact.category]: [{[fact.type]: [{[fact.group]: [{[fact.state]: [fact.value]}]}]}]}
-          console.log('LOG setFacts() ', currentQuestion.id, '. update = ', update)
-          if (session.patient_id === undefined || session.patient_id === null) {
-            session.temp_patient.push(update);
-          } else {
-            // patient.find('session.patient_id').update(update);
-            // patient.save();
-          }
-        } else if (fact.category === "environment") {
-
-        } else if (fact.category === "conversation") {
-
-        }
+          console.log('setFacts() ', currentQuestion.id, '. update = ', update)
+          updatePatientWithFacts(session, patient_id, update)
+        } else if (fact.category === "environment") {} else if (fact.category === "conversation") {}
       }
       // let fact_path = currentQuestion.options[answers[currentQuestion.id]].fact_path
       // console.log(`LOG setFacts(). fact : ${fact_path} = ${fact}`)
@@ -170,7 +191,7 @@ function setFacts(session, currentQuestion, answers){
 }
 
 function runCommand(question, currentQuestion, nextQuestion, command, answers){
-  console.log('LOG runCommand()')
+  console.log('runCommand()')
   if (currentQuestion && currentQuestion.type === TYPE_NONE && command) {
     // run a task/command
     // console.debug('statement followed by command')
@@ -200,7 +221,8 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers){
   return nextQuestion
 }
 
-function prepareQuestion(question, currentQuestion, nextQuestion){
+
+function prepareMessageContentAndOptions(question, currentQuestion, nextQuestion){
   question = selectContentVariant(getQuestionById(questions, nextQuestion))
   if (question && question.type === TYPE_BUTTON) {
     selectOptionStatementVariant(question)
@@ -209,14 +231,95 @@ function prepareQuestion(question, currentQuestion, nextQuestion){
   return question
 }
 
-function compute(session, res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null, reset=false){
+function actionMessage(question, currentQuestion, nextQuestion) {
+  // action
+  question = prepareMessageContentAndOptions(question, currentQuestion, nextQuestion);
+  if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question);
+  return question;
+}
+
+// convert path to json
+function sanitizeFact(fact){
+  fact = fact.replace('""', 'null')
+  fact = '"' + fact
+  fact = fact.replace('/', '":"')
+  fact = fact+'"'
+  fact.replace('""', '"')
+  fact.replace(`"'`, '"')
+  fact.replace(`'"`, '"')
+  fact = fact.replace('null', '""')
+  fact = `{${fact}}`
+  return fact
+}
+
+function createStateVectorForPatient(patient){
+  const { patient_mappings, patient_categorical, patient_numeric } = stateVectorMap()
+  console.log('compute.createStateVectorForPatient : patient = ', patient)
+  if (patient === undefined){
+    let apc = Array(patient_categorical).fill(0);
+    let apm = Array(patient_mappings.length).fill(0);
+    let apn = Array(patient_numeric.length).fill(0);
+    return {apc, apm, apn}
+  }
+
+  // patient.forEach((fact)=> {
+  //   console.log('compute.createStateVectorForPatient.patient.forEach : keys = ', Object.keys(fact));
+  // })
+
+  let statePatientCategorical = []
+  for (let i =0; i<patient_categorical.length; i++){
+    let index = patient_categorical[i][0]
+    let fact = patient_categorical[i][1]
+    let func = patient_categorical[i][2]
+    // console.log('compute.createStateVectorForPatient : type(fact) = ', typeof fact, '. fact = ', fact)
+    if (fact.includes('/')) {
+      // nested fact
+      fact = sanitizeFact(fact)
+      // console.log('createStateVector. patient[fact] = ', fact)
+      statePatientCategorical[index] = patient[fact]
+    }
+    else {
+      patient.forEach((patient_fact) => {
+        if (Object.keys(patient_fact) && Object.keys(patient_fact).includes(fact)){
+          // console.log('compute.createStateVectorForPatient.loop.patient.forEach found fact = ', fact)
+          if (func!==undefined) statePatientCategorical[index] = func(patient_fact)
+          else statePatientCategorical[index] = patient_fact
+        }
+      })
+    }
+    // console.log("createStateVector end stateVector = ", stateVector)
+  }
+  // console.log("createStateVector statePatientCategorical = ", statePatientCategorical)
+  return statePatientCategorical
+}
+
+function createStateVector(session, patient_id) {
+   console.log("createStateVector patient_id = ", patient_id, "createStateVector session.patient = ", session.temp_patient)
+  let patient = undefined
+  if (session.patient_id === undefined || session.patient_id === null) {
+    patient = session.temp_patient;
+    createStateVectorForPatient(patient)
+  } else {
+    Patient.findById(patient_id, (err, p) => {
+      if(err === undefined) {
+        console.error("compute.createStateVector session exists, patient not found");
+        patient = session.temp_patient
+      }
+      console.log('compute.createStateVector patient = ', p)
+      createStateVectorForPatient(patient)
+    })
+  }
+
+
+}
+
+function compute(session, res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null, reset=false, patient_id=null){
   console.log('computing()')
   let question = null
   if (newSession || reset){
     // TODO : identify whether user is new or old and select message accordingly
     console.log('LOG compute(). *NEW SESSION*')
-    let nQ='-1.0 Consent message' // set next question as initial question if fresh session
-    question = selectContentVariant((getQuestionById(questions, nQ)))
+    nextQuestion='-1.0 Consent message' // set next question as initial question if fresh session
   }
   else {
     // old session
@@ -230,7 +333,9 @@ function compute(session, res, currentQuestion, answers, nextQuestion=null, opti
     fetchState()
     analyzeStatement()
     //runCommand()
-    setFacts(session, currentQuestion, answers)
+    setFacts(session, currentQuestion, answers, patient_id)
+
+    createStateVector(session, patient_id)
 
     if (typeof options == 'string') {
       // Options generated by a command
@@ -238,9 +343,9 @@ function compute(session, res, currentQuestion, answers, nextQuestion=null, opti
       options = commands[options](answers, currentQuestion);
     }
     nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers)
-    question = prepareQuestion(question, currentQuestion, nextQuestion)
   }
-  if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question)
+  question = actionMessage(question, currentQuestion, nextQuestion);
+
   // console.log("question = ", question)
   res = prepareResult(res, question)
   return res
