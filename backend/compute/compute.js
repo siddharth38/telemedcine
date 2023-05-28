@@ -1,6 +1,7 @@
 let log = require('npmlog')
 const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
-  OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME
+  OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
+  SKIP_PROBABILITY
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -10,12 +11,47 @@ const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const { value } = require("mongoose/lib/options/propertyOptions");
 const { forEach } = require("mongoose/lib/statemachine");
 
+// TODO Thompson sampling
+
+function randomSelection(question, list){
+  return Math.floor(Math.random() * question[list].length)
+}
+
+// not actually epsilon greedy. best is checked based on best's probability
+// [x,y] : x is index, y is probability
+function epsilonGreedySelection(probabilities){
+  probabilities.sort((a, b) => {
+    if (a[1]<b[1]) return 1     // b will be placed before a
+    else return -1              // a will be placed before b
+  })
+  let total_probability = 0
+  for (let i =0; i<probabilities.length; i++){
+    total_probability+= probabilities[i][1]
+  }
+  for (let i =0; i<probabilities.length; i++){
+    let p = Math.random() / total_probability
+    if (p < probabilities[i][1]) return probabilities[0]
+  }
+}
+
+function makeProbabilityList(question, list){
+  let probabilities = []
+  for (let i = 0; i<question[list].length; i++){
+    if (question[list][i][VARIANT_PROBABILITY]!==undefined) {
+      probabilities.push([i, question[list][i][VARIANT_PROBABILITY]])
+    }
+  }
+  return probabilities
+}
+
 function selectContentVariant(question){
   if (question && question[CONTENT_VARIANTS] !== undefined) {
-    let index = Math.floor(Math.random() * question[CONTENT_VARIANTS].length)
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
-    console.log("index = ",  index)
-    console.log("question[CONTENT_VARIANTS][index] = ",  question[CONTENT_VARIANTS][index])
+    let probabilities = makeProbabilityList(question, CONTENT_VARIANTS)
+    let index = null
+    if (probabilities && probabilities.length>0) index = epsilonGreedySelection(probabilities, question)
+    else index = randomSelection(question, CONTENT_VARIANTS)
+    console.log("compute.SelectContentVariant. selectedVariant. index = ",  index, ". variant", question[CONTENT_VARIANTS][index])
     question[STATEMENT] = question[CONTENT_VARIANTS][index][STATEMENT]
     question[CONTENT_VARIANT_NAME] = question[CONTENT_VARIANTS][index][CONTENT_VARIANT_NAME]
   }
@@ -50,16 +86,17 @@ function selectNextQuestionFromList(question){
   // TODO : decide based on state (in command?). use probabilities
 
   let defaultAsk = undefined
-  for (let i=0; i<question[NEXT_QUESTION_LIST].length; i++) {
-    if (question[NEXT_QUESTION_LIST][i][DEFAULT_ASK] === true) defaultAsk = i
-    else if (question[NEXT_QUESTION_LIST][i][VARIANT_PROBABILITY] !== undefined
-      && Math.random() < question[NEXT_QUESTION_LIST][i][VARIANT_PROBABILITY]) {
-      question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][i][NEXT_QUESTION]
-      return
-    }
-    console.log('selecting nextQuestion variant. index : ', i)
+  let index = undefined
+  let probabilities = makeProbabilityList(question, NEXT_QUESTION_LIST)
+  if (probabilities && probabilities.length>0) index = epsilonGreedySelection(probabilities, question)
+  if (index) {
+    question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][index][NEXT_QUESTION];
+    return
   }
   // else select default
+  for (let i=0; i<question[NEXT_QUESTION_LIST].length; i++) {
+    if (question[NEXT_QUESTION_LIST][i][DEFAULT_ASK] === true) defaultAsk = i
+  }
   if (defaultAsk) {
     console.log('default ask for nextQuestion variant')
     question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][defaultAsk][NEXT_QUESTION]
@@ -67,13 +104,14 @@ function selectNextQuestionFromList(question){
   }
   // else select random
   console.log('selecting nextQuestion variant randomly')
-  let index = Math.floor(Math.random() * question[NEXT_QUESTION_LIST].length)
+  index = randomSelection(question, NEXT_QUESTION_LIST)
   question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][index][NEXT_QUESTION]
 }
 
-function selectOptionStatementVariant(question) {
+function selectOptionStatementVariant(question, skipList) {
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
-    if (question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS] !== undefined) {
+    if (question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS] !== undefined &&
+    !skipList.includes(optionIndex)) {
       let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
       console.log("question[CONTENT_VARIANTS].length = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
       console.log("index = ", index)
@@ -85,9 +123,10 @@ function selectOptionStatementVariant(question) {
   return question
 }
 
-function selectOptionNextQuestion(question) {
+function selectOptionNextQuestion(question, skipList) {
   console.log("select next question from options")
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
+    if (skipList.includes(optionIndex)) continue
     // for every option
     if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST] === undefined) {
       console.log("selectOptionNextQuestion: no nextQuestion list exists. deciding the simple way")
@@ -221,12 +260,23 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers){
   return nextQuestion
 }
 
+function selectOptions(question){
+  let skipList = []
+  for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
+    if (question[OPTIONS][optionIndex][SKIP_PROBABILITY] !== undefined &&
+      Math.random() < question[OPTIONS][optionIndex][SKIP_PROBABILITY]) {
+      skipList.push(optionIndex);
+    }
+    }
+  return skipList
+}
 
 function prepareMessageContentAndOptions(question, currentQuestion, nextQuestion){
   question = selectContentVariant(getQuestionById(questions, nextQuestion))
   if (question && question.type === TYPE_BUTTON) {
-    selectOptionStatementVariant(question)
-    selectOptionNextQuestion(question)
+    let skipList = selectOptions(question)
+    selectOptionStatementVariant(question, skipList)
+    selectOptionNextQuestion(question, skipList)
   }
   return question
 }

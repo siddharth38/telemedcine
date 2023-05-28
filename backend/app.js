@@ -14,11 +14,19 @@ mongoose.connect('mongodb://localhost:27017/covid', {
 });
 
 mongoose.connection
-	.once('open', () => console.log('Connected!'))
-	.on('error', (err) => console.error(err));
+	.once('open', () => {
+		console.log("Mongoose Connected!");
+		// Populate messages collection with messages from questions.js
+		updateConversationGraph()
+		// initializeWeights()
+	})
+	.on('error', (err) => console.error(err))
+	// .on('graphUpdate', () => {
+
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
+const { updateConversationGraph, initializeWeights } = require("./helper/mongo_init");
 
 const app = express();
 

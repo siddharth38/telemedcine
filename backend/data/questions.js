@@ -28,6 +28,7 @@ const OPTION_STATEMENT_VARIANTS = "option_statement_variants"
 const OPTION_NAME = "option_name"
 const ALWAYS_SHOW_OPTION = "always_show_option"
 const FACT = "fact"
+const SKIP_PROBABILITY = "skip_probability"
 
 // interaction types
 const TYPE_NONE = "none"                    // send a message and move to next message. Or run a command
@@ -150,6 +151,7 @@ module.exports = {
                         [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट 🤖 के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा। 📝\n" +
                         "इसे सुरक्षित रखा जाएगा 🛡️ और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
                     },
+                    [VARIANT_PROBABILITY]: 0.1
                 },
                 {
                     [CONTENT_VARIANT_NAME]: "Consent message short no emojis",
@@ -159,6 +161,7 @@ module.exports = {
                         [LANG_HINDI]: "बातें जारी रखकर, आप इस चैट-बॉट के परीक्षण में भाग लेने के लिए सहमत हैं। आपका डेटा एकत्रित किया जाएगा और शोध उद्देश्यों के लिए उपयोग किया जाएगा।\n" +
                         "इसे सुरक्षित रखा जाएगा और किसी तीसरे पक्ष के साथ साझा नहीं किया जाएगा।"
                     },
+                    [VARIANT_PROBABILITY]: 0.2
                 },
                 {
                     [CONTENT_VARIANT_NAME]: "Consent message original from telemedicine",
@@ -166,6 +169,7 @@ module.exports = {
                         [LANG_ENGLISH]: "Disclaimer: We collect your personal information like name, age, phone number for registration purposes. We do not share this information with any other third parties nor do we use it for commercial purposes. We may use your information for the purpose of our research and to create innovative and enhanced services. We also use third party web analytical services such as Google Analytics which may collect information relating to your use of this website.",
                         [LANG_HINDI]: "अस्वीकरण: हम आपकी व्यक्तिगत जानकारी जैसे नाम, आयु, फोन नंबर पंजीकरण के प्रयोजनों के लिए एकत्र करते हैं। हम इस जानकारी को किसी अन्य तीसरे पक्ष के साथ साझा नहीं करते हैं और न ही हम इसका उपयोग व्यावसायिक उद्देश्यों में करते हैं। हम आपकी जानकारी का उपयोग हमारे शोध के उद्देश्य और नवीन और उन्नत सेवाओं को बनाने के लिए कर सकते हैं। हम गूगल एनालिटिक्स जैसी थर्ड पार्टी वेब विश्लेषणात्मक सेवाओं का भी उपयोग करते हैं जो इस वेबसाइट के आपके उपयोग से संबंधित जानकारी एकत्र कर सकती हैं।"
                     },
+                    [VARIANT_PROBABILITY]: 0.3
                 }
                 // ,
                 // {
@@ -228,7 +232,8 @@ module.exports = {
                         [LANG_ENGLISH]: "Other",
                         [LANG_HINDI]: "अन्य"
                     },
-                    [VALUE]: 3
+                    [VALUE]: 3,
+                    [SKIP_PROBABILITY]: 0.7
                 },
                 // test
                 // {
@@ -960,8 +965,8 @@ module.exports = {
         {
             [ID]: "112.0 Arthritis patient non-cardiac",
             [STATEMENT]: {
-                [LANG_ENGLISH]: "Swimming is the best exercise overall. Since you are unable to run, it is mandatory for you to run",
-                [LANG_HINDI]: "तैरना सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए दौड़ना अनिवार्य है"
+                [LANG_ENGLISH]: "Swimming is the best exercise overall. Since you are unable to run, swimming is a good idea",
+                [LANG_HINDI]: "तैरना सबसे अच्छा व्यायाम है। चूंकि आप दौड़ने में असमर्थ हैं, इसलिए आपके लिए तैरना अच्छा उपाय है"
             },
             [NEXT_QUESTION]: CARDIAC_CURIOSITY,
             [TYPE]: TYPE_NONE
@@ -6725,5 +6730,16 @@ module.exports = {
     VARIANT_PROBABILITY,
     OPTIONS,
     OPTION_STATEMENT_VARIANTS,
-    OPTION_VARIANT_NAME
+    OPTION_VARIANT_NAME,
+    TYPE,
+    ID,
+    BRANCHES,
+    DB_VALUE,
+    VALUE,
+    COMMAND,
+    LANG_BANGLA,
+    LANG_HINDI,
+    LANG_ENGLISH,
+    DESCRIPTION_IMAGE,
+    SKIP_PROBABILITY
 }
