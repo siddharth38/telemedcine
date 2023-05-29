@@ -14,8 +14,8 @@ function Home() {
 				<div className="header fadeInUp" style={{ animationDelay: '0.5s' }}>
 					<div className="header-mid">
 						<div className="titles">
-							<h1>टेली-कंसल्टेंसी पोर्टल</h1>
-							<h2>आईआईटी जोधपुर की पहल</h2>
+							<h1>Virtual Heart Hospital</h1>
+							<h2>टेली-कंसल्टेंसी पोर्टल</h2>
 						</div>
 					</div>
 				</div>
@@ -27,16 +27,16 @@ function Home() {
         <div className="helpline fadeInUp" style={{ animationDelay: '0.5s' }}>
           <div className="row">
             <div className="col">
-              <h2>COVID-19 हेल्पलाइन नंबर: </h2>
-              <a href="tel:1075">1075</a>
-              <a href="tel:+91-11-23978046">+91-11-23978046</a>
+              {/*<h2>COVID-19 हेल्पलाइन नंबर: </h2>*/}
+              {/*<a href="tel:1075">1075</a>*/}
+              {/*<a href="tel:+91-11-23978046">+91-11-23978046</a>*/}
             </div>
             <div className="col">
-              <h2 style={{ textAlign: 'right' }}>COVID-19 हेल्पलाइन ईमेल आई.डी.</h2>
-              <a href="mail:ncov2019@gov.in">ncov2019@gov.in</a>
-              <a href="mail:ncov2019@gmail.com">ncov2019@gmail.com</a>
-              <h2 style={{ textAlign: 'right' }}>टेली-कंसल्टेंसी पोर्टल हेल्पलाइन ईमेल आई.डी.</h2>
-              <a href="mail:telemedicineiitj@gmail.com">telemedicineiitj@gmail.com</a>
+              {/*<h2 style={{ textAlign: 'right' }}>COVID-19 हेल्पलाइन ईमेल आई.डी.</h2>*/}
+              {/*<a href="mail:ncov2019@gov.in">ncov2019@gov.in</a>*/}
+              {/*<a href="mail:ncov2019@gmail.com">ncov2019@gmail.com</a>*/}
+              {/*<h2 style={{ textAlign: 'right' }}>टेली-कंसल्टेंसी पोर्टल हेल्पलाइन ईमेल आई.डी.</h2>*/}
+              {/*<a href="mail:telemedicineiitj@gmail.com">telemedicineiitj@gmail.com</a>*/}
             </div>
           </div>
         </div>

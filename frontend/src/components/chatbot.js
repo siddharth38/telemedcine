@@ -1062,7 +1062,7 @@ export default class Chat extends React.Component {
 					>
 						<object>
 						{ this.state.languageSelected==='hi' ? "भेजें" : "SUBMIT" }
-							<object hspace="5"/>
+							<object height='1px' hspace="5mm"/>
 							<Icon.Send/>
 						</object>
 					</button>
@@ -1191,12 +1191,12 @@ export default class Chat extends React.Component {
 						return <option value={code}>{name}</option>;
 					})}
 				</select>
-				<object hspace="30"/>
+				<object height='1px' hspace="30"/>
 				<Icon.VolumeX id={"muted"} onClick={this.toggleMuter} alt={Icon.Volume} style={{ visibility: "hidden" }}/>
 				<Icon.Volume2 id={"speaks"} onClick={this.toggleMuter} alt={Icon.Volume}/>
-				<object hspace="30"/>
+				<object height='1px' hspace="30"/>
 				<Icon.Repeat onClick={this.resetConversation}/>
-				<object hspace="5"/>
+				<object height='1px' hspace="5"/>
       </div>
     );
   };
@@ -1227,6 +1227,7 @@ export default class Chat extends React.Component {
       <div className="Chat fadeInUp" style={{ animationDelay: '0.7s' }}>
         {loadingChat && <div className="lds-dual-ring"/>}
         {this.renderChat()}
+				<div style={{ height: '1px', backgroundColor:'grey', boxShadow:'1px 2px 9px grey', marginBottom: '10px' }} />
         {this.renderAnswers()}
       </div>
     </>
