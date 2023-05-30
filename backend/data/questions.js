@@ -409,14 +409,16 @@ module.exports = {
                             [STATEMENT]: {
                                 [LANG_ENGLISH]: "Cardiac tests - ECG / ECHO / TMT / Holter / ABP",
                                 [LANG_HINDI]: "दिल के टेस्ट ईसईगी / एको / टीमटी / ऐबीपी "
-                            }
+                            },
+                            [VARIANT_PROBABILITY]:0.3
                         },
                         {
                             [OPTION_VARIANT_NAME]: "short version",
                             [STATEMENT]: {
                                 [LANG_ENGLISH]: "Cardiac tests",
                                 [LANG_HINDI]: "दिल के टेस्ट"
-                            }
+                            },
+                            [VARIANT_PROBABILITY]:0.7
                         }
                     ],
                     [NEXT_QUESTION_LIST]: [
@@ -426,13 +428,29 @@ module.exports = {
                         },
                     ],
                     [VALUE]: 0,
+                    [SKIP_PROBABILITY]:0.3
                     // [ALWAYS_SHOW_OPTION]: false
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Smoking 🚬 / Gutka / Khaini",
-                        [LANG_HINDI]: "धूम्रपान / गुटका / खैनी"
-                    },
+                    [OPTION_NAME]: "Tobacco cardiac info",
+                    [OPTION_STATEMENT_VARIANTS]: [
+                        {
+                            [OPTION_VARIANT_NAME]: "long version",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Smoking 🚬 / Gutka / Khaini",
+                                [LANG_HINDI]: "धूम्रपान / गुटका / खैनी"
+                            },
+                            [VARIANT_PROBABILITY]:0.6
+                        } ,
+                        {
+                            [OPTION_VARIANT_NAME]: "short version",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Smoking 🚬",
+                                [LANG_HINDI]: "बीड़ी🚬"
+                            },
+                            [VARIANT_PROBABILITY]:0.4
+                        } ,
+                    ],
                     [NEXT_QUESTION]: "101.0 Tobacco",
                     [VALUE]: 1
                 },
@@ -450,7 +468,8 @@ module.exports = {
                         [LANG_HINDI]: "दिल की धमनी का रोग"
                     },
                     [NEXT_QUESTION]: "113.0 CAD",
-                    [VALUE]: 3
+                    [VALUE]: 3,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -458,13 +477,28 @@ module.exports = {
                         [LANG_HINDI]: "दिल का दौरा"
                     },
                     [NEXT_QUESTION]: "117.0 Info about heart attack",
-                    [VALUE]: 4
+                    [VALUE]: 4,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Blood pressure🤯",
-                        [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप🤯"
-                    },
+                    [OPTION_NAME]: "Blood pressure info",
+                    [OPTION_STATEMENT_VARIANTS]: [
+                        {
+                            [OPTION_VARIANT_NAME]: "long version with examples",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Blood pressure🤯",
+                                [LANG_HINDI]: "बी पी / ब्लड प्रेशर / रक्त चाप🤯"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Blood pressure🤯",
+                                [LANG_HINDI]: "बी पी 🤯",
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                      ],
                     [NEXT_QUESTION]: "121.0 BP information",
                     [VALUE]: 5
                 },
@@ -490,7 +524,8 @@ module.exports = {
                         [LANG_HINDI]: "हार्ट फैल्यर "
                     },
                     [NEXT_QUESTION]: "196.0 HF",
-                    [VALUE]: 8
+                    [VALUE]: 8,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -498,7 +533,8 @@ module.exports = {
                         [LANG_HINDI]: "स्टेंट / बाइपैस"
                     },
                     [NEXT_QUESTION]: "232.0 Stent / Bypass",
-                    [VALUE]: 9
+                    [VALUE]: 9,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -506,7 +542,8 @@ module.exports = {
                         [LANG_HINDI]: "एंजियोग्राफी / एंजियोप्लास्टी"
                     },
                     [NEXT_QUESTION]: "240.0 Angio",
-                    [VALUE]: 10
+                    [VALUE]: 10,
+                    [SKIP_PROBABILITY]:0.3
                 },
             ],
             [STATEMENT]: {
@@ -6741,5 +6778,6 @@ module.exports = {
     LANG_HINDI,
     LANG_ENGLISH,
     DESCRIPTION_IMAGE,
-    SKIP_PROBABILITY
+    SKIP_PROBABILITY,
+    FACT
 }

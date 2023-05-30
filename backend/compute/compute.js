@@ -1,15 +1,16 @@
 let log = require('npmlog')
 const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
-  SKIP_PROBABILITY
+  SKIP_PROBABILITY,
+  FACT,
+  ID
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
 const Patient = require('../models/patient');
 const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
-const { value } = require("mongoose/lib/options/propertyOptions");
-const { forEach } = require("mongoose/lib/statemachine");
+const Message = require("../models/conversationgraph");
 
 // TODO Thompson sampling
 
@@ -30,8 +31,9 @@ function epsilonGreedySelection(probabilities){
   }
   for (let i =0; i<probabilities.length; i++){
     let p = Math.random() / total_probability
-    if (p < probabilities[i][1]) return probabilities[0]
+    if (p < probabilities[i][1]) return probabilities[i][0]
   }
+  return probabilities[probabilities.length-1][0]
 }
 
 function makeProbabilityList(question, list){
@@ -109,16 +111,19 @@ function selectNextQuestionFromList(question){
 }
 
 function selectOptionStatementVariant(question, skipList) {
+  console.log('compute.selectOptionStatementVariant question[OPTIONS].length = ', question[OPTIONS].length)
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
     if (question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS] !== undefined &&
     !skipList.includes(optionIndex)) {
       let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
-      console.log("question[CONTENT_VARIANTS].length = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
-      console.log("index = ", index)
-      console.log("question[CONTENT_VARIANTS][index] = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index])
+      // console.log("question[CONTENT_VARIANTS].length = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
+      // console.log("index = ", index)
+      // console.log("question[CONTENT_VARIANTS][index] = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index])
       question[OPTIONS][optionIndex][STATEMENT] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][STATEMENT]
       question[OPTIONS][optionIndex][OPTION_VARIANT_NAME] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][CONTENT_VARIANT_NAME]
+      question[OPTIONS][optionIndex].skip = false
     }
+    else if (skipList.includes(optionIndex)) question[OPTIONS][optionIndex].skip = true
   }
   return question
 }
@@ -126,10 +131,10 @@ function selectOptionStatementVariant(question, skipList) {
 function selectOptionNextQuestion(question, skipList) {
   console.log("select next question from options")
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
-    if (skipList.includes(optionIndex)) continue
+    if (skipList!==undefined && skipList.includes(optionIndex)) continue
     // for every option
     if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST] === undefined) {
-      console.log("selectOptionNextQuestion: no nextQuestion list exists. deciding the simple way")
+      // console.log("selectOptionNextQuestion: no nextQuestion list exists. deciding the simple way")
       continue;                                                                 // move to next option
     }
 
@@ -192,7 +197,7 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       // console.log('LOG setFacts(). currentQuestion.options = ', currentQuestion.options)
       // console.log('LOG setFacts(). currentQuestion.options.selectedOption = ',
       //   currentQuestion.options[answers[currentQuestion.id]])
-      let fact = currentQuestion.options[answers[currentQuestion.id]].fact
+      let fact = currentQuestion.options[answers[currentQuestion.id]][FACT]
       // console.log('LOG setFacts(). fact = ', fact)
       let db_value = currentQuestion.options[answers[currentQuestion.id]].dbValue
       let value = currentQuestion.options[answers[currentQuestion.id]].value
@@ -265,9 +270,11 @@ function selectOptions(question){
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
     if (question[OPTIONS][optionIndex][SKIP_PROBABILITY] !== undefined &&
       Math.random() < question[OPTIONS][optionIndex][SKIP_PROBABILITY]) {
+      console.log("compute.skipList : skipping option index = ", optionIndex)
       skipList.push(optionIndex);
     }
-    }
+  }
+  console.log("compute.selectOptions : skipList = ", skipList)
   return skipList
 }
 
@@ -276,7 +283,7 @@ function prepareMessageContentAndOptions(question, currentQuestion, nextQuestion
   if (question && question.type === TYPE_BUTTON) {
     let skipList = selectOptions(question)
     selectOptionStatementVariant(question, skipList)
-    selectOptionNextQuestion(question, skipList)
+    selectOptionNextQuestion(question)
   }
   return question
 }
@@ -363,7 +370,75 @@ function createStateVector(session, patient_id) {
 
 }
 
-function compute(session, res, currentQuestion, answers, nextQuestion=null, options=null, newSession=false, command=null, reset=false, patient_id=null){
+function calculateDurationReward(userReplyDuration){
+  let durationReward = 0
+  // based on duration
+  console.log("compute.calculateReward userReplyDuration = ", userReplyDuration, "ms")
+  let seconds = userReplyDuration/1000
+  if (seconds<10) durationReward += 1
+  else if (seconds>20) durationReward -= Math.sqrt(seconds/20)
+  return durationReward
+}
+
+function calculateOptionReward(answers, currentQuestion){
+  console.log('compute.calculateOptionReward : currentQuestion.id = ', currentQuestion[ID])
+  if (currentQuestion[OPTIONS]===undefined) return 0
+  let option = currentQuestion[OPTIONS][answers[currentQuestion[ID]]]
+  console.log('compute.calculateReward : option = ', option, '. [answers[currentQuestion[ID]] = ', answers[currentQuestion[ID]], )
+  return { questionID:currentQuestion[ID], optionName:answers[currentQuestion[ID]], optionVariant: option[OPTION_STATEMENT_VARIANTS][OPTION_VARIANT_NAME], reward:1}
+}
+
+function calculateRewards(userReplyDuration, answers, currentQuestion){
+  let durationReward = calculateDurationReward(userReplyDuration)
+
+  // based on selection
+  let optionReward = calculateOptionReward(answers, currentQuestion)
+
+  // based on sentiment
+  return { durationReward, optionReward }
+}
+
+function updateWeights(reward, currentQuestion, answers){
+  let answer = null
+  if (currentQuestion.options !== undefined) {
+    answer = currentQuestion.options[answers[currentQuestion.id]];
+    Message.findOne(
+      {
+        $and: [
+          { [ID]: currentQuestion.id },
+          {
+            [`${CONTENT_VARIANTS}.${CONTENT_VARIANT_NAME}`]: {
+              $eq: `${answer[STATEMENT][CONTENT_VARIANT_NAME]}`
+            }
+          }
+        ]
+      }, (err, message) => {
+        console.log("compute.updateWeights: mongoose query 1. message = ", message, ". err = ", err);
+      });
+  }
+  // Message.findOne({[ID]:currentQuestion.id}, (err, message)=> {
+  //   if (message){
+  //     if(message[STATEMENT][CONTENT_VARIANT_NAME]){
+  //       message[CONTENT_VARIANTS].forEach((variant)=>{
+  //         if (variant[CONTENT_VARIANT_NAME]===answer[STATEMENT][CONTENT_VARIANT_NAME]){
+  //           variant[VARIANT_PROBABILITY] += reward*variant[VARIANT_PROBABILITY]/10
+  //           Message.findOneAndUpdate({$and:
+  //               [
+  //                 {[ID]:currentQuestion.id},
+  //                 { `${CONTENT_VARIANTS}.${variant[CONTENT_VARIANT_NAME]}` }
+  //               ]})
+  //         }
+  //       })
+  //     }
+  //   }
+  // })
+}
+
+function compute(session, res, currentQuestion, answers,
+                 nextQuestion=null, options=null,
+                 newSession=false, command=null,
+                 reset=false, patient_id=null,
+                 userReplyDuration=null){
   console.log('computing()')
   let question = null
   if (newSession || reset){
@@ -384,6 +459,9 @@ function compute(session, res, currentQuestion, answers, nextQuestion=null, opti
     analyzeStatement()
     //runCommand()
     setFacts(session, currentQuestion, answers, patient_id)
+
+    let reward = calculateRewards(userReplyDuration, answers, currentQuestion)
+    updateWeights(reward, currentQuestion, answers)
 
     createStateVector(session, patient_id)
 

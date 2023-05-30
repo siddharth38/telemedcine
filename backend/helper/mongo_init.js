@@ -14,10 +14,18 @@ function updateConversationGraph() {
         });
       } else {
         if (messages.length !== questions.length) {
+          // console.log('messages.length = ', messages.length, '. questions.length = ', questions.length)
           // push only new messages
           questions.forEach((question) => {
-            Message.findOne({ [ID]: question[ID] }, (err, _) => {
-              if (err) Message.create(question);
+            Message.findOne({ [ID]: question[ID] }).then((message) => {
+              // console.log('message = ', message)
+              if (message === undefined || message === null) {
+                console.log("missing message ID = ", question[ID])
+                Message.create(question);
+              }
+              // else {
+              //   // console.log("found ID : ", question[ID])//, "message[ID] = ", message[ID])
+              // }
             });
           });
         }

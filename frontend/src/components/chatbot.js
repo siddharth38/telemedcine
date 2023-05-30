@@ -40,6 +40,7 @@ export default class Chat extends React.Component {
 		questions: [],
 		answers: {},
 		timestamps: {},
+		messageReceivedTimestamp: null,
 		currentQuestion: {},
 
 		languageSelected: 'hi', // TODO: Save and load from cookie
@@ -60,7 +61,7 @@ export default class Chat extends React.Component {
 		incomingTyping: false,
 
 		answerBoxHidden: true,
-		answerFormat: {},
+		answerFormat: {}, // instructions for presenting and receiving the answer to the user
 		questionDetails: {},
 
 		callWindow: '',
@@ -721,7 +722,7 @@ export default class Chat extends React.Component {
 	 */
 	realtime = (state) => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion } = this.state;
+		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion, messageReceivedTimestamp } = this.state;
 		const { options } = answerFormat;
 		let nextQuestion;
     console.debug('nextQuestion = ', nextQuestion)
@@ -753,7 +754,8 @@ export default class Chat extends React.Component {
 				answers,
 				patient_id: patientId,
 				state: state,
-				reset: this.reset
+				reset: this.reset,
+				duration: Date.now()-messageReceivedTimestamp
 			})
 			.then((response) => {
 				const { question, incomingChats } = response.data;
@@ -762,7 +764,8 @@ export default class Chat extends React.Component {
 					this.setState(
 						{
 							currentQuestion: question,
-							loadingChat: false
+							loadingChat: false,
+							messageReceivedTimestamp : Date.now()
 						},
 						() => {
 							console.log("settingQuestion")
@@ -1003,8 +1006,10 @@ export default class Chat extends React.Component {
 			return (
 				<div>
 					<div className="answer-box button-row">
-						{options.map(({ value, statement, url }, index) => {
-							const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
+						{options.map(({ value, statement, url, skip }, index) => {
+							let chatStatement = undefined
+							if (statement === undefined) chatStatement = undefined
+							else chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 							// noinspection HtmlRequiredAltAttribute
 							return (
 								<button
@@ -1016,9 +1021,10 @@ export default class Chat extends React.Component {
 									style={{ animationDelay: `1.${index}s`, background: '#CCCCFF', color: '#111111', fontSize: 'large' }}
 									onMouseEnter={() => this.speak(chatStatement, false)}
 									onTouchStart={() => this.speak(chatStatement, true)}
+									hidden={skip}
 								>
 									{chatStatement}
-									{statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
+									{statement && statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
 										width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
 								</button>
 							);
@@ -1191,12 +1197,12 @@ export default class Chat extends React.Component {
 						return <option value={code}>{name}</option>;
 					})}
 				</select>
-				<object height='1px' hspace="30"/>
+				<object height='1px' width="80px"/>
 				<Icon.VolumeX id={"muted"} onClick={this.toggleMuter} alt={Icon.Volume} style={{ visibility: "hidden" }}/>
 				<Icon.Volume2 id={"speaks"} onClick={this.toggleMuter} alt={Icon.Volume}/>
-				<object height='1px' hspace="30"/>
+				<object height='1px' width="80px"/>
 				<Icon.Repeat onClick={this.resetConversation}/>
-				<object height='1px' hspace="5"/>
+				<object height='1px' width="20px"  />
       </div>
     );
   };

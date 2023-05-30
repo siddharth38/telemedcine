@@ -44,7 +44,8 @@ const OptionSchema = new Schema({
 
 const ContentSchema = new Schema({
   [CONTENT_VARIANT_NAME]: String,
-  [STATEMENT]:StatementSchema
+  [STATEMENT]:StatementSchema,
+  [VARIANT_PROBABILITY]: String
 })
 
 // create a schema

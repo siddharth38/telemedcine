@@ -237,7 +237,8 @@ router.post('/realtime', (req, res) => {
 		nextQuestion,
 		answerFormat,
 		patient_id,
-		reset
+		reset,
+		duration
 	} = data
 
 	let command = currentQuestion.command
@@ -262,7 +263,8 @@ router.post('/realtime', (req, res) => {
 		options: options,
 		currentQuestion: currentQuestion,
 		timestamp: Date.now(),
-		patient_id: patient_id
+		patient_id: patient_id,
+		replyDuration: duration
 	}
 
 	// TODO somewhere call RealTimeAnswersToModel
@@ -283,7 +285,7 @@ router.post('/realtime', (req, res) => {
 
 				Session.findOne({_id:conversation_session_id}, (err, sess) => {
 					if (err) {
-						console.error(err)
+						console.error("WTF", err)
 						// nothing done
 						return res;
 					}
@@ -293,7 +295,7 @@ router.post('/realtime', (req, res) => {
 					// push into old session
 					sess.messages.push(message)
 					sess.save()
-					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset, patient_id)
+					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset, patient_id, duration)
 					if (res === undefined) console.error('result is null or undefined')
 					return res
 				})
@@ -318,7 +320,7 @@ router.post('/realtime', (req, res) => {
 
 			console.log('starting chat for new session')
 			// begin computation and get result
-			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset, patient_id)
+			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset, patient_id, duration)
 			return res
 		})
 });
