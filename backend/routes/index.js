@@ -244,7 +244,7 @@ router.post('/realtime', (req, res) => {
 	let command = currentQuestion.command
 
 	// // console.log(data)
-	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command)
+	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. reset = ', reset)
 	// console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. answerFormat = ', answerFormat)
 	// console.log("optionSelected = ", optionSelected)
 	// // console.log("answer = ", answer)

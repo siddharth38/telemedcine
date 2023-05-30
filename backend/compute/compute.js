@@ -197,7 +197,9 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       // console.log('LOG setFacts(). currentQuestion.options = ', currentQuestion.options)
       // console.log('LOG setFacts(). currentQuestion.options.selectedOption = ',
       //   currentQuestion.options[answers[currentQuestion.id]])
-      let fact = currentQuestion.options[answers[currentQuestion.id]][FACT]
+      let fact =
+        (currentQuestion.options[answers[currentQuestion.id]] !== undefined)
+        ? currentQuestion.options[answers[currentQuestion.id]][FACT] : undefined
       // console.log('LOG setFacts(). fact = ', fact)
       let db_value = currentQuestion.options[answers[currentQuestion.id]].dbValue
       let value = currentQuestion.options[answers[currentQuestion.id]].value
@@ -385,17 +387,30 @@ function calculateOptionReward(answers, currentQuestion){
   if (currentQuestion[OPTIONS]===undefined) return 0
   let option = currentQuestion[OPTIONS][answers[currentQuestion[ID]]]
   console.log('compute.calculateReward : option = ', option, '. [answers[currentQuestion[ID]] = ', answers[currentQuestion[ID]], )
-  return { questionID:currentQuestion[ID], optionName:answers[currentQuestion[ID]], optionVariant: option[OPTION_STATEMENT_VARIANTS][OPTION_VARIANT_NAME], reward:1}
+  return {
+    questionID:currentQuestion[ID],
+    optionName:answers[currentQuestion[ID]],
+    optionVariant: (option[OPTION_STATEMENT_VARIANTS])
+      ? option[OPTION_STATEMENT_VARIANTS][OPTION_VARIANT_NAME]
+      : null,
+    reward:1}
 }
 
-function calculateRewards(userReplyDuration, answers, currentQuestion){
+function getResetReward(currentQuestion, reset){
+  let reward = null
+  if (reset) reward = -15
+  return { currentQuestion, reward }
+}
+
+function calculateRewards(userReplyDuration, answers, currentQuestion, reset){
   let durationReward = calculateDurationReward(userReplyDuration)
 
   // based on selection
   let optionReward = calculateOptionReward(answers, currentQuestion)
+  let resetReward = getResetReward(currentQuestion, reset)
 
   // based on sentiment
-  return { durationReward, optionReward }
+  return { durationReward, optionReward, resetReward }
 }
 
 function updateWeights(reward, currentQuestion, answers){
@@ -441,9 +456,10 @@ function compute(session, res, currentQuestion, answers,
                  userReplyDuration=null){
   console.log('computing()')
   let question = null
+  console.log("compute : reset = ", reset)
   if (newSession || reset){
     // TODO : identify whether user is new or old and select message accordingly
-    console.log('LOG compute(). *NEW SESSION*')
+    console.log('compute(). *NEW SESSION*')
     nextQuestion='-1.0 Consent message' // set next question as initial question if fresh session
   }
   else {

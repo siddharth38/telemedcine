@@ -405,7 +405,7 @@ export default class Chat extends React.Component {
 		const { options, type } = answerFormat;
 		// noinspection JSUnusedLocalSymbols
 		const { id, paramsFrom, branches, loopStart } = questionDetails;
-		let { textAnswered, textOverrideAnswered } = this.state;
+		let { textAnswered, textOverrideAnswered, reset } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
 		// prevent Default followup to the event. No idea when?
@@ -446,10 +446,10 @@ export default class Chat extends React.Component {
 				this.answerEntered
 			);
 		}
-		else if (this.state.reset){
-			console.log('reset')
+		else if (reset){
+			console.log('chatbot.answer : reset = ', reset)
 			this.realtime()
-			this.setState(this.state, this.answerEntered)
+			// this.setState(this.state, this.answerEntered)
 		}
 		else if ((!textTypeAnswer || textAnswered) && (!textOverrides)) {
 			// accept as an answer if type is not text.
@@ -585,12 +585,6 @@ export default class Chat extends React.Component {
         ? options[optionSelected] : questionDetails;
 		const { command } = questionDetails;
 		console.debug('nextQuestion = ', nextQuestion, '. command = ', command, '. questionDetails = ', questionDetails)
-
-		if (this.state.reset){
-			nextQuestion = 1.0
-			this.state.reset = false
-			this.setState(this.state)
-		}
 		console.debug("type =", type, "command = ", command)
 		if (typeof nextQuestion === 'undefined' && command) {
 			// Next question to be set by command logic
@@ -722,7 +716,7 @@ export default class Chat extends React.Component {
 	 */
 	realtime = (state) => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion, messageReceivedTimestamp } = this.state;
+		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion, messageReceivedTimestamp, reset } = this.state;
 		const { options } = answerFormat;
 		let nextQuestion;
     console.debug('nextQuestion = ', nextQuestion)
@@ -754,7 +748,7 @@ export default class Chat extends React.Component {
 				answers,
 				patient_id: patientId,
 				state: state,
-				reset: this.reset,
+				reset,
 				duration: Date.now()-messageReceivedTimestamp
 			})
 			.then((response) => {
@@ -765,7 +759,8 @@ export default class Chat extends React.Component {
 						{
 							currentQuestion: question,
 							loadingChat: false,
-							messageReceivedTimestamp : Date.now()
+							messageReceivedTimestamp : Date.now(),
+							reset: false
 						},
 						() => {
 							console.log("settingQuestion")
