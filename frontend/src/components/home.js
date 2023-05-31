@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ENDPOINT } from '../config';
-import LazyLoad from 'react-lazy-load';
-
-import Level from './level';
+import React from 'react';
+// import axios from 'axios';
+// import { ENDPOINT } from '../config';
+// import LazyLoad from 'react-lazy-load';
+//
+// import Level from './level';
 import Chat from './chatbot';
+const { register } = require("../serviceWorker");
 
 function Home() {
+
+	console.log("home.js.  HOME()")
+	register(null);
 	
 	return (
 		<div className="Home">
@@ -23,7 +27,7 @@ function Home() {
 				<Chat />
 			</div>
 
-			<div className="home-right">
+			{/*<div className="home-right">*/}
         <div className="helpline fadeInUp" style={{ animationDelay: '0.5s' }}>
           <div className="row">
             <div className="col">
@@ -40,7 +44,7 @@ function Home() {
             </div>
           </div>
         </div>
-			</div>
+			{/*</div>*/}
 		</div>
 	);
 }

@@ -84,13 +84,13 @@ function App() {
 				/>
 			</Router>
 			<footer className="fadeInUp" style={{ animationDelay: '0s' }}>
-				<h6>हम आपके साथ है।</h6>
+				<h6>हम आपके साथ हैं।</h6>
 				<div className="logo-display">
 					<a href="https://www.aiimsjodhpur.edu.in" target="_noblank">
-						<img src="/images/aiims-logo.png" alt="logo" />
+						<img src="/images/aiims-logo.png" alt="aiims j logo" />
 					</a>
 					<a href="http://iitj.ac.in" target="_noblank">
-						<img src="/images/iitj-logo.png" alt="logo" />
+						<img src="/images/iitj-logo.png" alt="iit j logo" />
 					</a>
 				</div>
 				<br />
@@ -98,14 +98,14 @@ function App() {
 					<h6 className="sources">सूचना के स्रोत: </h6>
 					<div id="footerButtons">
 						<a href="https://who.int" target="_noblank">
-							<img src="/images/who-logo.svg" className="who-logo" />
+							<img src="/images/who-logo.svg" className="who-logo" alt="W H O" />
 						</a>
 						<a href="https://www.mohfw.gov.in/" target="_noblank">
-							<img src="/images/mohfw-logo.jpg" className="mohfw-logo" />
+							<img src="/images/mohfw-logo.jpg" className="mohfw-logo" alt="ministry of health and family welfare"/>
 						</a>
-						<a href="https://www.covid19india.org/" target="_noblank">
-							<img src="/images/covid19.ico" className="mohfw-logo" />
-						</a>
+						{/*<a href="https://www.covid19india.org/" target="_noblank">*/}
+						{/*	<img src="/images/covid19.ico" className="mohfw-logo" />*/}
+						{/*</a>*/}
 					</div>
 				</div>
 				<div className="hits">

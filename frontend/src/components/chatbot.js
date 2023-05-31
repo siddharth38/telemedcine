@@ -837,6 +837,7 @@ export default class Chat extends React.Component {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 					return (
 						<p
+							key={{chatStatement}}
 							className={`${type}-message ${type === OUTGOING_MESSAGE ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
 							onMouseEnter={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
@@ -844,9 +845,9 @@ export default class Chat extends React.Component {
 							onMouseLeave={() => window.speechSynthesis.cancel()}
 						>
 							{(typeof statement === 'string') && statement.startsWith('chat-img') ? (
-								<img src={'/api/images/' + statement.split('-')[2]} />
+								<img src={'/api/images/' + statement.split('-')[2]} alt=''/>
 							) : (chatStatement)}
-							{statement.description_image && <img src={require("../data/" + statement.description_image)}/>}
+							{statement.description_image && <img src={require("../data/" + statement.description_image)} alt=''/>}
 						</p>
 					);
 				})}
@@ -1008,6 +1009,7 @@ export default class Chat extends React.Component {
 							// noinspection HtmlRequiredAltAttribute
 							return (
 								<button
+									key={value}
 									value={value}
 									data-url={url}
 									id="optionSelected"
@@ -1189,12 +1191,12 @@ export default class Chat extends React.Component {
 				<label>Language:</label>
 				<select id="languageSelected" value={languageSelected} onChange={this.handleLanguageChange}>
 					{languages.map(({ code, name }) => {
-						return <option value={code}>{name}</option>;
+						return <option value={code} key={code}>{name}</option>;
 					})}
 				</select>
 				<object height='1px' width="80px"/>
-				<Icon.VolumeX id={"muted"} onClick={this.toggleMuter} alt={Icon.Volume} style={{ visibility: "hidden" }}/>
-				<Icon.Volume2 id={"speaks"} onClick={this.toggleMuter} alt={Icon.Volume}/>
+				<Icon.VolumeX id={"muted"} onClick={this.toggleMuter} alt="mute" style={{ visibility: "hidden" }}/>
+				<Icon.Volume2 id={"speaks"} onClick={this.toggleMuter} alt="speak" />
 				<object height='1px' width="80px"/>
 				<Icon.Repeat onClick={this.resetConversation}/>
 				<object height='1px' width="20px"  />
