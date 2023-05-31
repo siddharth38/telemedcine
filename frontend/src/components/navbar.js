@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState/*, useEffect*/ } from 'react';
 import { Link } from 'react-router-dom';
 
 function Navbar(props) {
@@ -35,8 +35,9 @@ function Navbar(props) {
 						width: view === 'Clusters' ? '1.5rem' : '',
 						height: view === 'Clusters' ? '1.5rem' : '',
 						transition: 'all 0.3s ease-in-out',
-						cursor: 'default'
+						cursor: 'default',
 					}}
+					alt='telemedicine'
 				/>
 
 				<div className="navbar-left">

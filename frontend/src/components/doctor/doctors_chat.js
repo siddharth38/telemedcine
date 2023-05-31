@@ -278,7 +278,7 @@ export default class Chat extends React.Component {
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
 						>
 							{statement.startsWith('chat-img') ? (
-								<img src={'/api/images/' + statement.split('-')[2]} />
+								<img src={'/api/images/' + statement.split('-')[2]}  alt=""/>
 							) : (
                 chatStatement
 							)}
@@ -289,9 +289,9 @@ export default class Chat extends React.Component {
 				{incomingTyping && (
 					<p className="incoming-message">
 						<div class="dots">
-							<div class="dot"></div>
-							<div class="dot"></div>
-							<div class="dot"></div>
+							<div class="dot"/>
+							<div class="dot"/>
+							<div class="dot"/>
 						</div>
 					</p>
 				)}

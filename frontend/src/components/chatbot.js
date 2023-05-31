@@ -27,7 +27,7 @@ const TYPE_ANALYSE = "analyse"              // complex analyses of user answers 
 
 const MUTE_ALL = 'muteall'
 const SPEAK_ALL = 'speakall'
-const STOP_SPEECH = 'stop'
+// const STOP_SPEECH = 'stop'
 
 const INCOMING_MESSAGE = 'incoming'					// sent by bot or doctor
 const OUTGOING_MESSAGE = 'outgoing'					// sent by user/patient

@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 function getQuestionById(id, questions) {
   for (let i = 0; i < questions.length; i++) {
@@ -68,7 +68,7 @@ const commands = {
   },
 
   anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){
-    const { paramsFrom, branches } = question;
+    const { branches } = question;
 
     let cardiacScore = 0
     // updateCardiacScore("71.1 Cardiac pain middle of chest pain", answers, questions)
@@ -92,7 +92,7 @@ const commands = {
 
    firstassessement: function(answers, question, setQuestion, optionsSelected) {
     const { paramsFrom, branches } = question;
-    let symptoms = answers[paramsFrom.symptoms];
+    // let symptoms = answers[paramsFrom.symptoms];
     if (optionsSelected) {
       if (optionsSelected[0] && (optionsSelected[1] || optionsSelected[2] || optionsSelected[3] || optionsSelected[6])) {
 	  	setQuestion(branches.for_covid19);
@@ -109,7 +109,7 @@ const commands = {
   },
    secondassessement: function(answers, question, setQuestion, optionsSelected) {
     const { paramsFrom, branches } = question;
-    let symptoms = answers[paramsFrom.symptoms];
+    // let symptoms = answers[paramsFrom.symptoms];
     if (optionsSelected) {
       if (optionsSelected[0]) {
         // Diabetes and Hypertension selected
@@ -135,8 +135,8 @@ const commands = {
    }
 }
 
-function compareOptions(a, b) {
-  return a.statement > b.statement ? 1 : -1;
-}
+// function compareOptions(a, b) {
+//   return a.statement > b.statement ? 1 : -1;
+// }
 
 export { commands };

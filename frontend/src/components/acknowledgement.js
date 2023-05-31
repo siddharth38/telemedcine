@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import $ from 'jquery';
 
 function Acknowledgement(props) {
@@ -62,6 +62,7 @@ function Acknowledgement(props) {
 						className="portfolio"
 						src="/images/software-inn.png"
 						style={{ border: "none" }}
+						alt="Software Innovations Lab"
 					/>
 					<div>
 						<a href="http://home.iitj.ac.in/~sumitk" target="_noblank">
