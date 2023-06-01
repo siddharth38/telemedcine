@@ -1,0 +1,15 @@
+{
+  "name": "abdm",
+  "version": "0.0.1",
+  "description": "test environment to figure out the apis",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start_abdm_app": "node ./app.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
