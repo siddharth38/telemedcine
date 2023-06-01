@@ -84,7 +84,7 @@ function App() {
 				/>
 			</Router>
 			<footer className="fadeInUp" style={{ animationDelay: '0s' }}>
-				<h6>हम आपके साथ हैं।</h6>
+				{/*<h6>हम आपके साथ हैं।</h6>*/}
 				<div className="logo-display">
 					<a href="https://www.aiimsjodhpur.edu.in" target="_noblank">
 						<img src="/images/aiims-logo.png" alt="aiims j logo" />
@@ -94,22 +94,22 @@ function App() {
 					</a>
 				</div>
 				<br />
-				<div className="footer-sources">
-					<h6 className="sources">सूचना के स्रोत: </h6>
-					<div id="footerButtons">
-						<a href="https://who.int" target="_noblank">
-							<img src="/images/who-logo.svg" className="who-logo" alt="W H O" />
-						</a>
-						<a href="https://www.mohfw.gov.in/" target="_noblank">
-							<img src="/images/mohfw-logo.jpg" className="mohfw-logo" alt="ministry of health and family welfare"/>
-						</a>
-						{/*<a href="https://www.covid19india.org/" target="_noblank">*/}
-						{/*	<img src="/images/covid19.ico" className="mohfw-logo" />*/}
-						{/*</a>*/}
-					</div>
-				</div>
+				{/*<div className="footer-sources">*/}
+				{/*	<h6 className="sources">सूचना के स्रोत: </h6>*/}
+				{/*	<div id="footerButtons">*/}
+				{/*		<a href="https://who.int" target="_noblank">*/}
+				{/*			<img src="/images/who-logo.svg" className="who-logo" alt="W H O" />*/}
+				{/*		</a>*/}
+				{/*		<a href="https://www.mohfw.gov.in/" target="_noblank">*/}
+				{/*			<img src="/images/mohfw-logo.jpg" className="mohfw-logo" alt="ministry of health and family welfare"/>*/}
+				{/*		</a>*/}
+				{/*		/!*<a href="https://www.covid19india.org/" target="_noblank">*!/*/}
+				{/*		/!*	<img src="/images/covid19.ico" className="mohfw-logo" />*!/*/}
+				{/*		/!*</a>*!/*/}
+				{/*	</div>*/}
+				{/*</div>*/}
 				<div className="hits">
-					<h6 className="sources">कुल वेब हिट: {normalise(hits)}</h6>
+					<h6 className="sources">Total web hits: {normalise(hits)}</h6>
 				</div>
 			</footer>
 		</div>
