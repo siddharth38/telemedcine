@@ -238,13 +238,13 @@ h6 {
       h2 {
         color: $cherry;
         font-weight: 700;
-        font-family: "yatra-one", Arial;
+        //font-family: "yatra-one", Arial;
       }
       a {
         // border-radius: 5px;
         align-self: flex-start;
         margin: 0.25rem;
-        font-family: "yatra-one", Arial;
+        //font-family: "yatra-one", Arial;
         font-weight: 700;
         word-wrap: break-word;
         text-decoration: none;
@@ -269,7 +269,7 @@ h6 {
     flex: 1;
     padding: 0.5rem;
     border: none;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
     //text-transform: uppercase;
     background: $blue-light;
     color: $blue-mid;
@@ -305,7 +305,7 @@ h6 {
       margin: 20px 15px -10px 5px;
     }
     &.start {
-      font-family: "yatra-one", Arial;
+      //font-family: "yatra-one", Arial;
     }
     &.refresh {
       padding: 0px;
@@ -361,7 +361,7 @@ h6 {
       margin: 0;
       color: $cherry;
       font-weight: bold;
-      font-family: "cambay", Arial;
+      //font-family: "cambay", Arial;
     }
     h3 {
       color: $gray-mid;
@@ -378,7 +378,7 @@ h6 {
     padding-left: 1rem;
     border: none;
     flex-grow: 5;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
     background: $gray-light;
     color: $gray-mid;
     font-weight: 700;
@@ -514,7 +514,7 @@ h6 {
 }
 
 .Chat {
-  font-family: "cambay", Arial;
+  //font-family: "cambay", Arial;
   font-size: 1.2rem;
   font-weight: 600;
 
@@ -587,7 +587,7 @@ h6 {
         padding-left: 1rem;
         border: none;
         width: calc(100% - 2rem);
-        font-family: "cambay", Arial;
+        //font-family: "cambay", Arial;
         background: $gray-light;
         color: $gray;
         font-weight: 700;
@@ -607,11 +607,11 @@ h6 {
   p {
     margin: 0.5rem;
     max-width: 72%;
-    border: 1px $gray-mid dashed;
     border-radius: 20px;
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
     box-shadow: -1px 3px 30px rgba(17, 54, 84, 0.03);
@@ -627,13 +627,16 @@ h6 {
     color: $gray-dark;
     align-self: flex-start;
     border-bottom-left-radius: 0px;
+    background-color: $blue-light;
     font-size: larger;
+    border: 1px $gray-light solid;
   }
   p.outgoing-message {
     color: $gray;
     background: $white;
     align-self: flex-end;
     border-bottom-right-radius: 0px;
+    border: 0.5px $gray-light solid;
     //border: none;
   }
 
@@ -705,7 +708,7 @@ h6 {
     flex: 1;
     padding: 0.5rem;
     border: none;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
     //text-transform: uppercase;
     background: $gray-light;
     color: $gray;
@@ -755,7 +758,7 @@ h6 {
       border: 2px #6c757d99 dashed;
     }
     &.start {
-      font-family: "yatra-one", Arial;
+      //font-family: "yatra-one", Arial;
     }
     &.close-icon {
       position: absolute;
@@ -804,7 +807,7 @@ h6 {
       select {
         border: none;
         flex-grow: 5;
-        font-family: "cambay", Arial;
+        //font-family: "cambay", Arial;
         background: $gray-light;
         color: $gray;
         cursor: pointer;
@@ -861,7 +864,7 @@ h6 {
     select {
       border: none;
       flex-grow: 5;
-      font-family: "cambay", Arial;
+      //font-family: "cambay", Arial;
       background: $gray-light;
       color: $gray;
       cursor: pointer;
@@ -894,7 +897,7 @@ h6 {
     a {
       display: inline-block;
       font-size: 14px;
-      font-family: "cambay", Arial;
+      //font-family: "cambay", Arial;
       text-decoration: none;
       margin-right: 2rem;
       color: $gray-mid;
@@ -942,7 +945,7 @@ h6 {
     .titles {
       h2 {
         margin-top: 0.25rem;
-        font-family: "cambay", Arial;
+        //font-family: "cambay", Arial;
         color: $gray;
         font-weight: 700;
       }
@@ -959,7 +962,7 @@ h6 {
       h2,
       h4 {
         margin: 0;
-        font-family: "yatra-one", Arial;
+        //font-family: "yatra-one", Arial;
         color: $gray;
         font-weight: 500;
         text-align: right;
@@ -1000,7 +1003,7 @@ a.button {
   flex-direction: row;
   padding: 0.5rem;
   border: none;
-  font-family: "cambay", Arial;
+  //font-family: "cambay", Arial;
   //text-transform: uppercase;
   background: $blue-light;
   color: $blue-mid;
@@ -1046,7 +1049,7 @@ a.button {
   justify-content: space-between;
   align-self: center;
   width: 30rem;
-  font-family: "cambay", Arial;
+  //font-family: "cambay", Arial;
   .level-item {
     display: flex;
     flex-direction: column;
@@ -1133,7 +1136,7 @@ table {
   position: relative;
   width: 65rem;
   align-self: center;
-  font-family: "cambay", Arial;
+  //font-family: "cambay", Arial;
   text-transform: uppercase;
   margin-bottom: 1rem;
   thead {
@@ -1325,7 +1328,7 @@ table {
   margin-bottom: 1rem;
   align-self: center;
   a {
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
     text-transform: uppercase;
     word-wrap: break-word;
     font-weight: 900;
@@ -1443,7 +1446,7 @@ footer {
   h3 {
     margin: 0;
     color: $gray;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
   }
   h1 {
     margin: 0;
@@ -1456,7 +1459,7 @@ footer {
   }
   .answer {
     color: $blue-mid;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
   }
   .mohfw-logo {
     width: 20rem;
@@ -1483,7 +1486,7 @@ footer {
     align-self: flex-end;
   }
   a {
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
     text-transform: uppercase;
     word-wrap: break-word;
     font-weight: 900;
@@ -1512,7 +1515,7 @@ footer {
   h3 {
     margin: 0;
     color: $gray;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
   }
   h1 {
     margin: 0;
@@ -1525,7 +1528,7 @@ footer {
   }
   .answer {
     color: $blue-mid;
-    font-family: "cambay", Arial;
+    //font-family: "cambay", Arial;
   }
   .mohfw-logo {
     width: 20rem;

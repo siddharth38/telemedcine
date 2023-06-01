@@ -7,7 +7,9 @@ const HitSchema = new Schema({
 	/**
 	 * website hits
 	 */
-	hits: Number
+	hits: Number,
+	totalHits: Number,
+	totalHosts: Number
 });
 
 // create and export the model
