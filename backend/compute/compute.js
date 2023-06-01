@@ -14,13 +14,13 @@ const Message = require("../models/conversationgraph");
 
 // TODO Thompson sampling
 
-function randomSelection(question, list){
-  return Math.floor(Math.random() * question[list].length)
+function randomSelection(parent, list){
+  return Math.floor(Math.random() * parent[list].length)
 }
 
 // not actually epsilon greedy. best is checked based on best's probability
 // [x,y] : x is index, y is probability
-function epsilonGreedySelection(probabilities){
+function stochasticSelection(probabilities){
   probabilities.sort((a, b) => {
     if (a[1]<b[1]) return 1     // b will be placed before a
     else return -1              // a will be placed before b
@@ -36,11 +36,11 @@ function epsilonGreedySelection(probabilities){
   return probabilities[probabilities.length-1][0]
 }
 
-function makeProbabilityList(question, list){
+function makeProbabilityList(parent, list){
   let probabilities = []
-  for (let i = 0; i<question[list].length; i++){
-    if (question[list][i][VARIANT_PROBABILITY]!==undefined) {
-      probabilities.push([i, question[list][i][VARIANT_PROBABILITY]])
+  for (let i = 0; i<parent[list].length; i++){
+    if (parent[list][i][VARIANT_PROBABILITY]!==undefined) {
+      probabilities.push([i, parent[list][i][VARIANT_PROBABILITY]])
     }
   }
   return probabilities
@@ -51,7 +51,7 @@ function selectContentVariant(question){
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
     let probabilities = makeProbabilityList(question, CONTENT_VARIANTS)
     let index = null
-    if (probabilities && probabilities.length>0) index = epsilonGreedySelection(probabilities, question)
+    if (probabilities && probabilities.length>0) index = stochasticSelection(probabilities, question)
     else index = randomSelection(question, CONTENT_VARIANTS)
     console.log("compute.SelectContentVariant. selectedVariant. index = ",  index, ". variant", question[CONTENT_VARIANTS][index])
     question[STATEMENT] = question[CONTENT_VARIANTS][index][STATEMENT]
@@ -90,7 +90,7 @@ function selectNextQuestionFromList(question){
   let defaultAsk = undefined
   let index = undefined
   let probabilities = makeProbabilityList(question, NEXT_QUESTION_LIST)
-  if (probabilities && probabilities.length>0) index = epsilonGreedySelection(probabilities, question)
+  if (probabilities && probabilities.length>0) index = stochasticSelection(probabilities, question)
   if (index) {
     question[NEXT_QUESTION] = question[NEXT_QUESTION_LIST][index][NEXT_QUESTION];
     return
@@ -115,15 +115,21 @@ function selectOptionStatementVariant(question, skipList) {
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
     if (question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS] !== undefined &&
     !skipList.includes(optionIndex)) {
-      let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
+      // if not suppressed use, else ignore
+      let statementVariantIndex = undefined
+      let probabilities = makeProbabilityList(question[OPTIONS][optionIndex], OPTION_STATEMENT_VARIANTS)
+      if (probabilities && probabilities.length>0) statementVariantIndex = stochasticSelection(probabilities, question[OPTIONS][optionIndex])
+      // statementVariantIndex = randomSelection(question[OPTIONS][optionIndex], OPTION_STATEMENT_VARIANTS)
+      //let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
       // console.log("question[CONTENT_VARIANTS].length = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS].length)
       // console.log("index = ", index)
       // console.log("question[CONTENT_VARIANTS][index] = ", question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index])
-      question[OPTIONS][optionIndex][STATEMENT] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][STATEMENT]
-      question[OPTIONS][optionIndex][OPTION_VARIANT_NAME] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][index][CONTENT_VARIANT_NAME]
+      question[OPTIONS][optionIndex][STATEMENT] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][statementVariantIndex][STATEMENT]
+      question[OPTIONS][optionIndex][OPTION_VARIANT_NAME] = question[OPTIONS][optionIndex][OPTION_STATEMENT_VARIANTS][statementVariantIndex][CONTENT_VARIANT_NAME]
       question[OPTIONS][optionIndex].skip = false
     }
-    else if (skipList.includes(optionIndex)) question[OPTIONS][optionIndex].skip = true
+    else question[OPTIONS][optionIndex].skip = skipList.includes(optionIndex);
+    // console.log('selectOptionStatementVariant question[OPTIONS][optionIndex] skipList.includes(optionIndex) = ', skipList.includes(optionIndex))
   }
   return question
 }
@@ -131,6 +137,7 @@ function selectOptionStatementVariant(question, skipList) {
 function selectOptionNextQuestion(question, skipList) {
   console.log("select next question from options")
   for (let optionIndex = 0; optionIndex<question[OPTIONS].length; optionIndex++) {
+    // continue if contained in skipList
     if (skipList!==undefined && skipList.includes(optionIndex)) continue
     // for every option
     if (question[OPTIONS][optionIndex][NEXT_QUESTION_LIST] === undefined) {

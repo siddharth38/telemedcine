@@ -1002,11 +1002,13 @@ export default class Chat extends React.Component {
 			return (
 				<div>
 					<div className="answer-box button-row">
-						{options.map(({ value, statement, url, skip }, index) => {
+						{options.map(({ value, statement, url, skip=false }, index) => {
 							let chatStatement = undefined
 							if (statement === undefined) chatStatement = undefined
 							else chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 							// noinspection HtmlRequiredAltAttribute
+							if (skip === undefined) skip=false
+							console.log("render.answers answerBoxHidden skip = ", skip, '. value = ', value)
 							return (
 								<button
 									key={value}
@@ -1022,7 +1024,7 @@ export default class Chat extends React.Component {
 								>
 									{chatStatement}
 									{statement && statement.description_image && <img src={require("../data/" + statement.description_image)} style={{
-										width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }}/>}
+										width: '100%', height: undefined, aspectRatio: 1,  pointerEvents: "none" }} alt={''}/>}
 								</button>
 							);
 						})}
