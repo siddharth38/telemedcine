@@ -1,4 +1,5 @@
 const { getQuestionById, selectNewFlow } = require("../compute/computeHelper")
+const { updatePatientWithFacts } = require("../helper/index");
 
 function updateCardiacScore(id, answers, questions){
 	try {
@@ -48,7 +49,7 @@ const commands = {
 		}
 	},
 
-	iscardiacpatient: function(answers, question, questions, optionSelected) {//answers, question, this.setQuestion
+	iscardiacpatient: function(answers, question, questions, patient_id, session, optionSelected) {//answers, question, this.setQuestion
 		console.log("iscardiac patient?");
 		let id = "90.1 Cardiac status"
 		const { branches } = question;
@@ -57,10 +58,12 @@ const commands = {
 
 		if (getQuestionById(id, questions).options[answers[id]].value === 0)
 			return branches["non_cardiac_patient"];    // non cardiac patient
+
+		updatePatientWithFacts(session, patient_id, {cardiac_patient:true})
 		return branches["cardiac_patient"];                               //  cardiac patient
 	},
 
-	anginaselfevaluation: function(answers, question, questions, setQuestion, optionsSelected){
+	anginaselfevaluation: function(answers, question, questions, patient_id, session, setQuestion, optionsSelected){
 		const { paramsFrom, branches } = question;
 
 		let cardiacScore = 0
@@ -76,9 +79,13 @@ const commands = {
 		console.log(cardiacScore)
 
 		if (cardiacScore > 1) {
+			updatePatientWithFacts(session, patient_id, {cardiac_patient:true})
+			updatePatientWithFacts(session, patient_id, {angina:true})
+			updatePatientWithFacts(session, patient_id, {cardiac_score:cardiacScore})
 			return branches.probable_angina;		// TODO return is needed
 		}
 		else {
+			updatePatientWithFacts(session, patient_id, {cardiac_patient:false})
 			return branches.non_cardiac_chest_pain;
 		}
 	},

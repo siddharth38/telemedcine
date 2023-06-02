@@ -2,6 +2,7 @@ const {
   questions
 } = require("../data/questions");
 const Doctor = require("../models/doctor");
+const Patient = require("../models/patient");
 
 function getDbValue(questionIndex, dbQuestionIndex, answers) {
   try {
@@ -1005,9 +1006,27 @@ function computeAndReply(){
   // return information for result
 }
 
+function updatePatientWithFacts(session, patient_id, update){
+  if (session.patient_id === undefined || session.patient_id === null) {
+    console.log('compute.setFacts.updatePatientWithFacts pushing into temp_patient')
+    session.temp_patient.push(update);
+  } else {
+    Patient.findById(patient_id, (err, patient) => {
+      if(err === undefined) {
+        console.error("compute.setFacts.updatePatientWithFacts session exists, patient not found");
+        patient = session.temp_patient
+      }
+      console.log('compute.setFacts.updatePatientWithFacts patient = ', patient)
+      patient.update(update);
+      patient.save();
+    })
+  }
+}
+
 module.exports = {
   getId,
   answersToModel,
   computeAndReply,
-  realTimeAnswersToModel
+  realTimeAnswersToModel,
+  updatePatientWithFacts
 };

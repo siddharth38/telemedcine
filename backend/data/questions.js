@@ -258,8 +258,9 @@ module.exports = {
             [ID]: "90.0 Cardiac education",
             [NEXT_QUESTION_LIST]: [
                 {
-                    [DEFAULT_ASK]: true,
-                    [NEXT_QUESTION]: "90.1 Cardiac status"
+                    // [DEFAULT_ASK]: true,
+                    [NEXT_QUESTION]: "90.1 Cardiac status",
+                    [VARIANT_PROBABILITY]: 0.5
                 },
                 {
                     [NEXT_QUESTION]: "94.0 What would you like to know (heart)",
@@ -823,7 +824,7 @@ module.exports = {
             ],
             [STATEMENT]: {
                 [LANG_ENGLISH]: "Because the heart is a muscle💪, it is necessary to give is a good work out. The simplest rule is to exercise as much as possible unless there is discomfort. It doesn't matter what your age is, you should run 🏃 a couple of kilometres daily.",
-                [LANG_HINDI]: "चूंकि हृदय एक मांसपेशी है💪, इसलिए इसकों कसरत देना आवश्यक है। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए 🏃।"
+                [LANG_HINDI]: "क्यूंकी हृदय एक मांसपेशी है💪, इसलिए इसकों कसरत देना आवश्यक है। सबसे आसान नियम यह है कि जब तक कोई असुविधा न हो तब तक जितना हो सके व्यायाम करें। इससे कोई फर्क नहीं पड़ता कि आपकी उम्र क्या है, आपको रोजाना कुछ किलोमीटर दौड़ना चाहिए 🏃।"
             },
             [TYPE]: TYPE_BUTTON
         },
@@ -6823,7 +6824,111 @@ module.exports = {
               },
     				}
     			]
-    		}
+    		},
+
+      // Rapport building
+        // {
+        //     [ID]: "300.0 Opener",
+        //     [STATEMENT]:"Hi",
+        //     [OPTIONS]:[
+        //         {
+        //             [OPTION_NAME]: "hi reply",
+        //             [STATEMENT]: "Hi!",
+        //             [NEXT_QUESTION]: "305.0 Questioner",
+        //             [VALUE]:0
+        //         },
+        //         {
+        //             [OPTION_NAME]: "what's up",
+        //             [STATEMENT]: "Hi! What's up?",
+        //             [NEXT_QUESTION]: 1.0,
+        //             [VALUE]:1
+        //         }
+        //     ],
+        //     [TYPE]:TYPE_BUTTON
+        // },
+        // {
+        //     [ID]: "305.0 Questioner",
+        //     [STATEMENT]:"How are you?",
+        //     [OPTIONS]:[
+        //         {
+        //             [OPTION_NAME]: "doing good",
+        //             [STATEMENT]: "Great!",
+        //             [NEXT_QUESTION]: "306.0 compliment because all well",
+        //             [VALUE]:0
+        //         },
+        //         {
+        //             [OPTION_NAME]: "sick",
+        //             [STATEMENT]: "Sick",
+        //             [NEXT_QUESTION]: 1.0,
+        //             [VALUE]:1
+        //         },
+        //         {
+        //             [OPTION_NAME]: "bad day",
+        //             [STATEMENT]: "Bad day",
+        //             [NEXT_QUESTION]: 1.0,
+        //             [VALUE]:1
+        //         },
+        //     ],
+        //     [TYPE]:TYPE_BUTTON
+        // },
+        // {
+        //     [ID]: "306.0 Compliment because all well",
+        //     [STATEMENT]:"That's great!",
+        //     [NEXT_QUESTION]:"310.0 News?",
+        //     [TYPE]:TYPE_NONE
+        // },
+        // {
+        //     [ID]: "307.0 What?",
+        //     [STATEMENT]:"What's new today?"
+        // },
+        // {
+        //     [ID]: "310.0 News?",
+        //     [STATEMENT]:"What's new today?"
+        // },
+        // {
+        //     [ID]: "315.0 Weather?",
+        //     [STATEMENT]:"Nice weather?"
+        // },
+        // {
+        //     [ID]: "320.0 Facing problem?",
+        //     [STATEMENT]:"I hope you're not facing any problem"
+        // },
+        // {
+        //     [ID]: "225.0 Problem?",
+        //     [CONTENT_VARIANTS]:[
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"ask problem",
+        //             [CONTENT_VARIANT_NAME]:"What's the problem happened",
+        //         },
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"ask event",
+        //             [CONTENT_VARIANT_NAME]:"Why? What happened",
+        //         },
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"hope",
+        //             [CONTENT_VARIANT_NAME]:"I hope it's not that bad",
+        //         }
+        //     ]
+        // },
+        // {
+        //     [ID]: "-2.0 change topic",
+        //     [CONTENT_VARIANTS]:[
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"concise",
+        //             [CONTENT_VARIANT_NAME]:"Let's change the topic",
+        //         },
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"generic",
+        //             [CONTENT_VARIANT_NAME]:"Let's talk about something else",
+        //         },
+        //         {
+        //             [CONTENT_VARIANT_NAME]:"regret",
+        //             [CONTENT_VARIANT_NAME]:"I'm not smart enough. Let's discuss something else",
+        //         }
+        //     ],
+        //     [NEXT_QUESTION]:1.0
+        // },
+
     ],
 
     CONTENT_VARIANTS,

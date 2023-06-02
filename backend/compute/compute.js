@@ -3,8 +3,7 @@ const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUEST
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
   SKIP_PROBABILITY,
   FACT,
-  ID,
-  COMMAND
+  ID
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -12,6 +11,7 @@ const Patient = require('../models/patient');
 const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
+const { updatePatientWithFacts } = require("../helper/index")
 const { stateToNodeMapping } = require("../data/state-action-mapping");
 const { options } = require("mongoose/lib/utils");
 const { getCurrentSelectedOption } = require("./computeHelper");
@@ -34,7 +34,8 @@ function stochasticSelection(probabilities){
     total_probability+= probabilities[i][1]
   }
   for (let i =0; i<probabilities.length; i++){
-    let p = Math.random() / total_probability
+    let p = Math.random() * total_probability
+    // console.log('compute stochasticSelection : p = ', p)
     if (p < probabilities[i][1]) return probabilities[i][0]
   }
   return probabilities[probabilities.length-1][0]
@@ -51,6 +52,7 @@ function makeProbabilityList(parent, list){
 }
 
 function selectContentVariant(question){
+  // if(question!==null) console.log('compute.SelectContentVariant. 0 question[ID] = ', question[ID], '. question[NEXT_QUESTION] = ', question[NEXT_QUESTION])
   if (question && question[CONTENT_VARIANTS] !== undefined) {
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
     let probabilities = makeProbabilityList(question, CONTENT_VARIANTS)
@@ -66,7 +68,7 @@ function selectContentVariant(question){
 
 function getQuestionById(questions, id){
   for (let i = 0; i < questions.length; i++) {
-    if (questions[i].id === id) return questions[i];
+    if (questions[i][ID] === id) return JSON.parse(JSON.stringify(questions[i]));                 // otherwise the original object gets modified. replace with structuredClone() later
   }
   console.error("LOG getQuestionById(). failed to search for question with ID = ", id)
   return null;
@@ -90,6 +92,7 @@ function selectNextQuestionFromList(question){
   }
 
   // TODO : decide based on state (in command?). use probabilities
+  console.log("compute selectNextQuestionFromList question.id = ", question[ID])
 
   let defaultAsk = undefined
   let index = undefined
@@ -175,29 +178,12 @@ function selectOptionNextQuestion(question, skipList) {
   }
 }
 
-function fetchPatientState(){
+function fetchState(){
   // TODO
 }
 
 function analyzeStatement(){
   // TODO
-}
-
-function updatePatientWithFacts(session, patient_id, update){
-  if (session.patient_id === undefined || session.patient_id === null) {
-    console.log('compute.setFacts.updatePatientWithFacts pushing into temp_patient')
-    session.temp_patient.push(update);
-  } else {
-    Patient.findById(patient_id, (err, patient) => {
-      if(err === undefined) {
-        console.error("compute.setFacts.updatePatientWithFacts session exists, patient not found");
-        patient = session.temp_patient
-      }
-      console.log('compute.setFacts.updatePatientWithFacts patient = ', patient)
-      patient.update(update);
-      patient.save();
-    })
-  }
 }
 
 function setFacts(session, currentQuestion, answers, patient_id=undefined){
@@ -210,10 +196,11 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       //   currentQuestion.options[answers[currentQuestion.id]])
       let selectedOption = getCurrentSelectedOption(currentQuestion, answers)
       let fact =
-        (selectedOption !== undefined) ? selectedOption[FACT] : undefined
+        (selectedOption !== undefined && selectedOption !== null )
+          ? selectedOption[FACT] : undefined
       // console.log('LOG setFacts(). fact = ', fact)
-      let db_value = selectedOption.dbValue
-      let value = selectedOption.value
+      let db_value = selectedOption ? selectedOption.dbValue : null
+      let value = selectedOption ? selectedOption.value : null
       console.log('compute.setFacts db_value = ', db_value, '. db_value = ', value)
       if (db_value !== undefined) updatePatientWithFacts(session, patient_id,
         {[db_value]: value})
@@ -247,13 +234,13 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
     }
 }
 
-function runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id){
-  console.log('runCommand()')
+function runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id, session){
+  console.log('compute.runCommand(). commands = ', commands)
   if (currentQuestion && currentQuestion.type === TYPE_NONE && command) {
     // run a task/command
     // console.debug('statement followed by command')
     // console.log('command = ', command, '. commands[command] = ', commands[command])
-    nextQuestion = commands[command](answers, currentQuestion);
+    nextQuestion = commands[command](answers, currentQuestion, patient_id, session);
     // console.debug('nextQuestion = ', nextQuestion)
   }
   else if (currentQuestion && currentQuestion.type === TYPE_ANALYSE && command) {
@@ -262,7 +249,7 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers, p
     // console.log('commands = ', commands)
     // console.log('commands[command] = ', commands[command])
     // console.log('commands[command].type = ', commands[command].type)
-    nextQuestion = commands[command](answers, currentQuestion, questions);
+    nextQuestion = commands[command](answers, currentQuestion, questions, patient_id, session);
     // console.debug('analysis command')
     // console.debug(nextQuestion)
   }
@@ -386,6 +373,8 @@ function createStateVector(session, patient_id) {
       createStateVectorForPatient(patient)
     })
   }
+
+
 }
 
 function calculateDurationReward(userReplyDuration){
@@ -393,7 +382,7 @@ function calculateDurationReward(userReplyDuration){
   // based on duration
   console.log("compute.calculateReward userReplyDuration = ", userReplyDuration, "ms")
   let seconds = userReplyDuration/1000
-  durationReward = (15-seconds)/Math.sqrt(seconds)
+  durationReward = (15-seconds)/Math.abs(Math.floor(Math.sqrt(seconds)))
   // if (seconds<10) durationReward += 1
   // else if (seconds>20) durationReward -= Math.sqrt(seconds/20)
   return durationReward
@@ -407,7 +396,7 @@ function calculateOptionReward(answers, currentQuestion){
   return {
     questionID:currentQuestion[ID],
     optionName:answers[currentQuestion[ID]],
-    optionVariant: (option[OPTION_STATEMENT_VARIANTS])
+    optionVariant: (option && option[OPTION_STATEMENT_VARIANTS])
       ? option[OPTION_STATEMENT_VARIANTS][OPTION_VARIANT_NAME]
       : null,
     reward:1}
@@ -432,21 +421,23 @@ function calculateRewards(userReplyDuration, answers, currentQuestion, reset){
 
 function updateWeights(reward, currentQuestion, answers){
   let answer = null
-  if (currentQuestion.options !== undefined) {
-    answer = currentQuestion.options[answers[currentQuestion.id]];
-    Message.findOne(
-      {
-        $and: [
-          { [ID]: currentQuestion.id },
-          {
-            [`${CONTENT_VARIANTS}.${CONTENT_VARIANT_NAME}`]: {
-              $eq: `${answer[STATEMENT][CONTENT_VARIANT_NAME]}`
+  if (currentQuestion[OPTIONS] !== undefined) {
+    answer = currentQuestion[OPTIONS][answers[currentQuestion.id]];
+    if (answer && answer[STATEMENT]) {
+      Message.findOne(
+        {
+          $and: [
+            { [ID]: currentQuestion.id },
+            {
+              [`${CONTENT_VARIANTS}.${CONTENT_VARIANT_NAME}`]: {
+                $eq: `${answer[STATEMENT][CONTENT_VARIANT_NAME]}`
+              }
             }
-          }
-        ]
-      }, (err, message) => {
-        console.log("compute.updateWeights: mongoose query 1. message = ", message, ". err = ", err);
-      });
+          ]
+        }, (err, message) => {
+          console.log("compute.updateWeights: mongoose query 1. message = ", message, ". err = ", err);
+        });
+    }
   }
   // Message.findOne({[ID]:currentQuestion.id}, (err, message)=> {
   //   if (message){
