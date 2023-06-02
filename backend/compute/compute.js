@@ -3,8 +3,7 @@ const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUEST
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
   SKIP_PROBABILITY,
   FACT,
-  ID,
-  COMMAND
+  ID
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -12,6 +11,7 @@ const Patient = require('../models/patient');
 const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
+const { updatePatientWithFacts } = require("../helper/index")
 const { stateToNodeMapping } = require("../data/state-action-mapping");
 const { options } = require("mongoose/lib/utils");
 const { getCurrentSelectedOption } = require("./computeHelper");
@@ -180,7 +180,7 @@ function selectOptionNextQuestion(question, skipList) {
   return question
 }
 
-function fetchPatientState(){
+function fetchState(){
   // TODO
 }
 
@@ -198,10 +198,11 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       //   currentQuestion.options[answers[currentQuestion.id]])
       let selectedOption = getCurrentSelectedOption(currentQuestion, answers)
       let fact =
-        (selectedOption !== undefined) ? selectedOption[FACT] : undefined
+        (selectedOption !== undefined && selectedOption !== null )
+          ? selectedOption[FACT] : undefined
       // console.log('LOG setFacts(). fact = ', fact)
-      let db_value = selectedOption.dbValue
-      let value = selectedOption.value
+      let db_value = selectedOption ? selectedOption.dbValue : null
+      let value = selectedOption ? selectedOption.value : null
       console.log('compute.setFacts db_value = ', db_value, '. db_value = ', value)
       if (db_value !== undefined) updatePatientWithFacts(session, patient_id,
         {[db_value]: value})
@@ -376,6 +377,8 @@ function createStateVector(session, patient_id) {
       createStateVectorForPatient(patient)
     })
   }
+
+
 }
 
 function calculateDurationReward(userReplyDuration){
@@ -383,7 +386,7 @@ function calculateDurationReward(userReplyDuration){
   // based on duration
   console.log("compute.calculateReward userReplyDuration = ", userReplyDuration, "ms")
   let seconds = userReplyDuration/1000
-  durationReward = (15-seconds)/Math.sqrt(seconds)
+  durationReward = (15-seconds)/Math.abs(Math.floor(Math.sqrt(seconds)))
   // if (seconds<10) durationReward += 1
   // else if (seconds>20) durationReward -= Math.sqrt(seconds/20)
   return durationReward

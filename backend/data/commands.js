@@ -1,4 +1,5 @@
 const { getQuestionById, selectNewFlow } = require("../compute/computeHelper")
+const { updatePatientWithFacts } = require("../helper/index");
 
 function updateCardiacScore(id, answers, questions){
 	try {
