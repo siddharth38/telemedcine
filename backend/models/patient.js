@@ -179,6 +179,13 @@ const PatientSchema = new Schema(
 			default: 'NA'
 		},
 
+		/*
+		 * Crdiac Status
+		 */
+		// TODO
+		is_cardiac_patient: Boolean,
+		cardiac_surgery_in_the_past: Boolean,
+
 		/**
 		 * based on AIIMS delhi guidelines
 		 * pre-assessment of patient is assessed

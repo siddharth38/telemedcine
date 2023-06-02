@@ -1,4 +1,4 @@
-[
+module.export = [
   // {"flow_message_id":"-1.0 Consent message", "topics":[]},
   // {"flow_message_id":"-1.1 Why no consent", "topics":[]},
   // {"flow_message_id":"-1.2 Disclaimer", "topics":[]},
@@ -20,9 +20,9 @@
   {"flow_message_id":"109.0 BP patient", "topics":[]},
   {"flow_message_id":"110.0 Arthritis / disabled patient hydrotherapy", "topics":[]},
   {"flow_message_id":"112.0 Arthritis patient non-cardiac", "topics":[]},
-  {"flow_message_id":"112.1 Blind patient non-cardiac", "topics":[]},
-  {"flow_message_id":"113.0 CAD", "topics":[]},
-  {"flow_message_id":"114.0 What is CAD", "topics":["coronary artery disease", "atherosclorosis", "heart vessels"]},
+  {"flow_message_id":"112.1 Blind patient non-cardiac", "topics":["problem resolution", "visually impaired", "exercise"]},
+  {"flow_message_id":"113.0 CAD", "topics":["coronary artery disease", "atherosclerosis", "heart vessels", "coronary artery disease"]},
+  {"flow_message_id":"114.0 What is CAD", "topics":["coronary artery disease", "atherosclerosis", "heart vessels", "coronary artery disease", "what is"]},
   {"flow_message_id":"115.0 CAD cause", "topics":[]},
   {"flow_message_id":"116.0 CAD treatment", "topics":[]},
   {"flow_message_id":"117.0 Info about heart attack", "topics":[]},

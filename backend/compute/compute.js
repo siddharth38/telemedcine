@@ -1,4 +1,3 @@
-let log = require('npmlog')
 const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
   SKIP_PROBABILITY,
@@ -11,6 +10,7 @@ const Patient = require('../models/patient');
 const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
+const { updatePatientWithFacts } = require("../helper/index")
 
 // TODO Thompson sampling
 
@@ -30,7 +30,8 @@ function stochasticSelection(probabilities){
     total_probability+= probabilities[i][1]
   }
   for (let i =0; i<probabilities.length; i++){
-    let p = Math.random() / total_probability
+    let p = Math.random() * total_probability
+    // console.log('compute stochasticSelection : p = ', p)
     if (p < probabilities[i][1]) return probabilities[i][0]
   }
   return probabilities[probabilities.length-1][0]
@@ -47,6 +48,7 @@ function makeProbabilityList(parent, list){
 }
 
 function selectContentVariant(question){
+  // if(question!==null) console.log('compute.SelectContentVariant. 0 question[ID] = ', question[ID], '. question[NEXT_QUESTION] = ', question[NEXT_QUESTION])
   if (question && question[CONTENT_VARIANTS] !== undefined) {
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
     let probabilities = makeProbabilityList(question, CONTENT_VARIANTS)
@@ -60,9 +62,9 @@ function selectContentVariant(question){
   return question
 }
 
-function getQuestionById(questions, id){
+function getQuestionById(id){
   for (let i = 0; i < questions.length; i++) {
-    if (questions[i].id === id) return questions[i];
+    if (questions[i][ID] === id) return JSON.parse(JSON.stringify(questions[i]));                 // otherwise the original object gets modified. replace with structuredClone() later
   }
   console.error("LOG getQuestionById(). failed to search for question with ID = ", id)
   return null;
@@ -86,6 +88,7 @@ function selectNextQuestionFromList(question){
   }
 
   // TODO : decide based on state (in command?). use probabilities
+  console.log("compute selectNextQuestionFromList question.id = ", question[ID])
 
   let defaultAsk = undefined
   let index = undefined
@@ -169,6 +172,7 @@ function selectOptionNextQuestion(question, skipList) {
     let index = Math.floor(Math.random() * question[OPTIONS][optionIndex][NEXT_QUESTION_LIST].length)
     question[OPTIONS][optionIndex][NEXT_QUESTION] = question[OPTIONS][optionIndex][NEXT_QUESTION_LIST][index][NEXT_QUESTION]
   }
+  return question
 }
 
 function fetchState(){
@@ -179,23 +183,6 @@ function analyzeStatement(){
   // TODO
 }
 
-function updatePatientWithFacts(session, patient_id, update){
-  if (session.patient_id === undefined || session.patient_id === null) {
-    console.log('compute.setFacts.updatePatientWithFacts pushing into temp_patient')
-    session.temp_patient.push(update);
-  } else {
-    Patient.findById(patient_id, (err, patient) => {
-      if(err === undefined) {
-        console.error("compute.setFacts.updatePatientWithFacts session exists, patient not found");
-        patient = session.temp_patient
-      }
-      console.log('compute.setFacts.updatePatientWithFacts patient = ', patient)
-      patient.update(update);
-      patient.save();
-    })
-  }
-}
-
 function setFacts(session, currentQuestion, answers, patient_id=undefined){
     // console.log('setFacts(). currentQuestion.id = ', currentQuestion.id, '. answers.id = ', answers.id,
     //   '. answers[currentQuestion.id] = ', answers[currentQuestion.id])
@@ -204,12 +191,14 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       // console.log('LOG setFacts(). currentQuestion.options = ', currentQuestion.options)
       // console.log('LOG setFacts(). currentQuestion.options.selectedOption = ',
       //   currentQuestion.options[answers[currentQuestion.id]])
-      let fact =
-        (currentQuestion.options[answers[currentQuestion.id]] !== undefined)
-        ? currentQuestion.options[answers[currentQuestion.id]][FACT] : undefined
+      let currentAnswer = currentQuestion.options[answers[currentQuestion.id]]
+      let currentAnswerIsEmpty = currentAnswer === undefined || currentAnswer === null
+      let fact = !currentAnswerIsEmpty ? currentAnswer[FACT] : undefined
       // console.log('LOG setFacts(). fact = ', fact)
-      let db_value = currentQuestion.options[answers[currentQuestion.id]].dbValue
-      let value = currentQuestion.options[answers[currentQuestion.id]].value
+      // noinspection JSObjectNullOrUndefined     // false warning
+      let db_value = !currentAnswerIsEmpty ? currentAnswer.dbValue : undefined
+      // noinspection JSObjectNullOrUndefined     // false warning
+      let value = !currentAnswerIsEmpty ? currentAnswer.value : undefined
       console.log('compute.setFacts db_value = ', db_value, '. db_value = ', value)
       if (db_value !== undefined) updatePatientWithFacts(session, patient_id,
         {[db_value]: value})
@@ -243,13 +232,13 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
     }
 }
 
-function runCommand(question, currentQuestion, nextQuestion, command, answers){
-  console.log('runCommand()')
+function runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id, session){
+  console.log('compute.runCommand(). commands = ', commands)
   if (currentQuestion && currentQuestion.type === TYPE_NONE && command) {
     // run a task/command
     // console.debug('statement followed by command')
     // console.log('command = ', command, '. commands[command] = ', commands[command])
-    nextQuestion = commands[command](answers, currentQuestion);
+    nextQuestion = commands[command](answers, currentQuestion, patient_id, session);
     // console.debug('nextQuestion = ', nextQuestion)
   }
   else if (currentQuestion && currentQuestion.type === TYPE_ANALYSE && command) {
@@ -258,7 +247,7 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers){
     // console.log('commands = ', commands)
     // console.log('commands[command] = ', commands[command])
     // console.log('commands[command].type = ', commands[command].type)
-    nextQuestion = commands[command](answers, currentQuestion, questions);
+    nextQuestion = commands[command](answers, currentQuestion, questions, patient_id, session);
     // console.debug('analysis command')
     // console.debug(nextQuestion)
   }
@@ -288,11 +277,13 @@ function selectOptions(question){
 }
 
 function prepareMessageContentAndOptions(question, currentQuestion, nextQuestion){
-  question = selectContentVariant(getQuestionById(questions, nextQuestion))
+  // console.log(`Compute.PrepareMessageContentAndOptions : question = ${question}`)
+  question = getQuestionById(nextQuestion)
+  question = selectContentVariant(question)
   if (question && question.type === TYPE_BUTTON) {
     let skipList = selectOptions(question)
-    selectOptionStatementVariant(question, skipList)
-    selectOptionNextQuestion(question)
+    question = selectOptionStatementVariant(question, skipList)
+    question = selectOptionNextQuestion(question)
   }
   return question
 }
@@ -397,7 +388,7 @@ function calculateOptionReward(answers, currentQuestion){
   return {
     questionID:currentQuestion[ID],
     optionName:answers[currentQuestion[ID]],
-    optionVariant: (option[OPTION_STATEMENT_VARIANTS])
+    optionVariant: (option && option[OPTION_STATEMENT_VARIANTS])
       ? option[OPTION_STATEMENT_VARIANTS][OPTION_VARIANT_NAME]
       : null,
     reward:1}
@@ -422,21 +413,23 @@ function calculateRewards(userReplyDuration, answers, currentQuestion, reset){
 
 function updateWeights(reward, currentQuestion, answers){
   let answer = null
-  if (currentQuestion.options !== undefined) {
-    answer = currentQuestion.options[answers[currentQuestion.id]];
-    Message.findOne(
-      {
-        $and: [
-          { [ID]: currentQuestion.id },
-          {
-            [`${CONTENT_VARIANTS}.${CONTENT_VARIANT_NAME}`]: {
-              $eq: `${answer[STATEMENT][CONTENT_VARIANT_NAME]}`
+  if (currentQuestion[OPTIONS] !== undefined) {
+    answer = currentQuestion[OPTIONS][answers[currentQuestion.id]];
+    if (answer && answer[STATEMENT]) {
+      Message.findOne(
+        {
+          $and: [
+            { [ID]: currentQuestion.id },
+            {
+              [`${CONTENT_VARIANTS}.${CONTENT_VARIANT_NAME}`]: {
+                $eq: `${answer[STATEMENT][CONTENT_VARIANT_NAME]}`
+              }
             }
-          }
-        ]
-      }, (err, message) => {
-        console.log("compute.updateWeights: mongoose query 1. message = ", message, ". err = ", err);
-      });
+          ]
+        }, (err, message) => {
+          console.log("compute.updateWeights: mongoose query 1. message = ", message, ". err = ", err);
+        });
+    }
   }
   // Message.findOne({[ID]:currentQuestion.id}, (err, message)=> {
   //   if (message){
@@ -461,6 +454,7 @@ function compute(session, res, currentQuestion, answers,
                  newSession=false, command=null,
                  reset=false, patient_id=null,
                  userReplyDuration=null){
+  console.log("import commands = ", commands)
   console.log('computing()')
   let question = null
   console.log("compute : reset = ", reset)
@@ -493,7 +487,7 @@ function compute(session, res, currentQuestion, answers,
       console.error("compute options. Unhandled scenario")
       options = commands[options](answers, currentQuestion);
     }
-    nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers)
+    nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id, session)
   }
   question = actionMessage(question, currentQuestion, nextQuestion);
 
