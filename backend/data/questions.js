@@ -1168,7 +1168,8 @@ module.exports = {
                         [LANG_HINDI]: "क्विज़"
                     },
                     [NEXT_QUESTION]: "132.0 Q No exercise in BP",
-                    [VALUE]: 0
+                    [VALUE]: 0,
+                    [SKIP_PROBABILITY]:0.7
                 },
                 {
                     [STATEMENT]: {
@@ -1176,7 +1177,8 @@ module.exports = {
                         [LANG_HINDI]: "अच्छा रक्त रक्तचाप क्या है?"
                     },
                     [NEXT_QUESTION]: "131.0 Good BP",
-                    [VALUE]: 1
+                    [VALUE]: 1,
+                    [SKIP_PROBABILITY]:0.4
                 },
                 {
                     [STATEMENT]: {
@@ -1184,7 +1186,8 @@ module.exports = {
                         [LANG_HINDI]: "उच्च रक्तचाप / बीपी क्या है?"
                     },
                     [NEXT_QUESTION]: "130.0 What is hypertension",
-                    [VALUE]: 2
+                    [VALUE]: 2,
+                    [SKIP_PROBABILITY]:0.5
                 },
                 {
                     [STATEMENT]: {
@@ -1192,7 +1195,8 @@ module.exports = {
                         [LANG_HINDI]: "मुझे किस रक्तचाप पर व्यायाम बंद करना चाहिए"
                     },
                     [NEXT_QUESTION]: "129.0 Exercise stop in BP",
-                    [VALUE]: 3
+                    [VALUE]: 3,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -1200,7 +1204,8 @@ module.exports = {
                         [LANG_HINDI]: "क्या बी पी  की दवाएं आजीवन होती हैं?"
                     },
                     [NEXT_QUESTION]: "128.0 BP meds lifelong",
-                    [VALUE]: 4
+                    [VALUE]: 4,
+                    [SKIP_PROBABILITY]:0.5
                 },
                 {
                     [STATEMENT]: {
@@ -1208,7 +1213,8 @@ module.exports = {
                         [LANG_HINDI]: "उच्च रक्तचाप से कौन सी स्वास्थ्य समस्याएं जुड़ी हैं?"
                     },
                     [NEXT_QUESTION]: "127.0 BP associated problems",
-                    [VALUE]: 5
+                    [VALUE]: 5,
+                    [SKIP_PROBABILITY]:0.5
                 },
                 {
                     [STATEMENT]: {
@@ -1216,7 +1222,8 @@ module.exports = {
                         [LANG_HINDI]: "उच्च रक्तचाप का क्या कारण है?"
                     },
                     [NEXT_QUESTION]: "126.0 BP cause",
-                    [VALUE]: 6
+                    [VALUE]: 6,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -1224,7 +1231,8 @@ module.exports = {
                         [LANG_HINDI]: "सिस्टोलिक और डायस्टोलिक रक्तचाप क्या हैं?"
                     },
                     [NEXT_QUESTION]: "125.0 Systole and diastole",
-                    [VALUE]: 7
+                    [VALUE]: 7,
+                    [SKIP_PROBABILITY]:0.7
                 },
                 {
                     [STATEMENT]: {
@@ -1232,7 +1240,8 @@ module.exports = {
                         [LANG_HINDI]: "मुझे कैसे पता चलेगा कि मुझे उच्च रक्तचाप है?"
                     },
                     [NEXT_QUESTION]: "124.0 Hypertension symptoms",
-                    [VALUE]: 8
+                    [VALUE]: 8,
+                    [SKIP_PROBABILITY]:0.3
                 },
                 {
                     [STATEMENT]: {
@@ -1240,7 +1249,8 @@ module.exports = {
                         [LANG_HINDI]: "उच्च रक्तचाप का इलाज क्या है"
                     },
                     [NEXT_QUESTION]: "123.0 BP treatment",
-                    [VALUE]: 9
+                    [VALUE]: 9,
+                    [SKIP_PROBABILITY]:0.4
                 },
                 {
                     [STATEMENT]: {
@@ -1248,7 +1258,8 @@ module.exports = {
                         [LANG_HINDI]: "उच्च रक्तचाप की दवाओं के दुष्प्रभाव क्या हैं?"
                     },
                     [NEXT_QUESTION]: "122.0 Side effects BP meds",
-                    [VALUE]: 10
+                    [VALUE]: 10,
+                    [SKIP_PROBABILITY]:0.4
                 },
             ],
             [STATEMENT]: {
