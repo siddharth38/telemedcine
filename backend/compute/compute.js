@@ -1,8 +1,10 @@
+let log = require('npmlog')
 const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
   SKIP_PROBABILITY,
   FACT,
-  ID
+  ID,
+  COMMAND
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -10,6 +12,9 @@ const Patient = require('../models/patient');
 const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
+const { stateToNodeMapping } = require("../data/state-action-mapping");
+const { options } = require("mongoose/lib/utils");
+const { getCurrentSelectedOption } = require("./computeHelper");
 const { updatePatientWithFacts } = require("../helper/index")
 
 // TODO Thompson sampling
@@ -175,7 +180,7 @@ function selectOptionNextQuestion(question, skipList) {
   return question
 }
 
-function fetchState(){
+function fetchPatientState(){
   // TODO
 }
 
@@ -191,14 +196,12 @@ function setFacts(session, currentQuestion, answers, patient_id=undefined){
       // console.log('LOG setFacts(). currentQuestion.options = ', currentQuestion.options)
       // console.log('LOG setFacts(). currentQuestion.options.selectedOption = ',
       //   currentQuestion.options[answers[currentQuestion.id]])
-      let currentAnswer = currentQuestion.options[answers[currentQuestion.id]]
-      let currentAnswerIsEmpty = currentAnswer === undefined || currentAnswer === null
-      let fact = !currentAnswerIsEmpty ? currentAnswer[FACT] : undefined
+      let selectedOption = getCurrentSelectedOption(currentQuestion, answers)
+      let fact =
+        (selectedOption !== undefined) ? selectedOption[FACT] : undefined
       // console.log('LOG setFacts(). fact = ', fact)
-      // noinspection JSObjectNullOrUndefined     // false warning
-      let db_value = !currentAnswerIsEmpty ? currentAnswer.dbValue : undefined
-      // noinspection JSObjectNullOrUndefined     // false warning
-      let value = !currentAnswerIsEmpty ? currentAnswer.value : undefined
+      let db_value = selectedOption.dbValue
+      let value = selectedOption.value
       console.log('compute.setFacts db_value = ', db_value, '. db_value = ', value)
       if (db_value !== undefined) updatePatientWithFacts(session, patient_id,
         {[db_value]: value})
@@ -251,7 +254,7 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers, p
     // console.debug('analysis command')
     // console.debug(nextQuestion)
   }
-  // else if (type === TYPE_NONE && nextQuestion) {
+  else if (type === TYPE_NONE && nextQuestion) {
   // simple statement
   // Without delay, the present question may not get rendered
   // console.log("simple statement. nextQuestion = ", nextQuestion)
@@ -259,7 +262,14 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers, p
   // else {
   // 	//default;
   // }
-  // }
+  }
+  else if (type === TYPE_BUTTON && currentQuestion){
+    let currentSelectedOption = getCurrentSelectedOption(currentQuestion, answers)
+    if (currentSelectedOption[COMMAND] !== undefined || currentSelectedOption[COMMAND] !== null){
+      nextQuestion = commands[command](answers, question, session, patient_id)
+    }
+
+  }
   return nextQuestion
 }
 
@@ -366,8 +376,6 @@ function createStateVector(session, patient_id) {
       createStateVectorForPatient(patient)
     })
   }
-
-
 }
 
 function calculateDurationReward(userReplyDuration){
@@ -375,8 +383,9 @@ function calculateDurationReward(userReplyDuration){
   // based on duration
   console.log("compute.calculateReward userReplyDuration = ", userReplyDuration, "ms")
   let seconds = userReplyDuration/1000
-  if (seconds<10) durationReward += 1
-  else if (seconds>20) durationReward -= Math.sqrt(seconds/20)
+  durationReward = (15-seconds)/Math.sqrt(seconds)
+  // if (seconds<10) durationReward += 1
+  // else if (seconds>20) durationReward -= Math.sqrt(seconds/20)
   return durationReward
 }
 
@@ -454,7 +463,6 @@ function compute(session, res, currentQuestion, answers,
                  newSession=false, command=null,
                  reset=false, patient_id=null,
                  userReplyDuration=null){
-  console.log("import commands = ", commands)
   console.log('computing()')
   let question = null
   console.log("compute : reset = ", reset)
@@ -472,7 +480,7 @@ function compute(session, res, currentQuestion, answers,
       '. currentQuestion && currentQuestion.type === TYPE_ANALYSE = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE,
       '. currentQuestion && currentQuestion.type === TYPE_ANALYSE && command = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE && command)
 
-    fetchState()
+    fetchPatientState()
     analyzeStatement()
     //runCommand()
     setFacts(session, currentQuestion, answers, patient_id)
@@ -480,13 +488,9 @@ function compute(session, res, currentQuestion, answers,
     let reward = calculateRewards(userReplyDuration, answers, currentQuestion)
     updateWeights(reward, currentQuestion, answers)
 
+    // TODO : currently returns nothing
     createStateVector(session, patient_id)
 
-    if (typeof options == 'string') {
-      // Options generated by a command
-      console.error("compute options. Unhandled scenario")
-      options = commands[options](answers, currentQuestion);
-    }
     nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id, session)
   }
   question = actionMessage(question, currentQuestion, nextQuestion);

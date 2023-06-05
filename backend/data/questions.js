@@ -800,11 +800,25 @@ module.exports = {
                     [VALUE]: 2
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Reset",
-                        [LANG_HINDI]: "रीसेट"
-                    },
-                    [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+                    [OPTION_STATEMENT_VARIANTS]:[
+                        {
+                            [OPTION_NAME]:"Reset",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Reset",
+                                [LANG_HINDI]: "रेसेट"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [OPTION_NAME]:"Okay",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Okay",
+                                [LANG_HINDI]: "ठीक है"
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                    ],
+                    [COMMAND]: 'selectNewFlow',
                     [VALUE]: 3
                 }
             ],
@@ -850,11 +864,25 @@ module.exports = {
                     [VALUE]: 3
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Reset",
-                        [LANG_HINDI]: "रीसेट"
-                    },
-                    [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+                    [OPTION_STATEMENT_VARIANTS]:[
+                        {
+                            [OPTION_NAME]:"Reset",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Reset",
+                                [LANG_HINDI]: "रेसेट"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [OPTION_NAME]:"Okay",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Okay",
+                                [LANG_HINDI]: "ठीक है"
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                    ],
+                    [COMMAND]: 'selectNewFlow',
                     [VALUE]: 3
                 }
             ],
@@ -896,11 +924,25 @@ module.exports = {
                     [VALUE]: 2
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Reset",
-                        [LANG_HINDI]: "रीसेट"
-                    },
-                    [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+                    [OPTION_STATEMENT_VARIANTS]:[
+                        {
+                            [OPTION_NAME]:"Reset",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Reset",
+                                [LANG_HINDI]: "रेसेट"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [OPTION_NAME]:"Okay",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Okay",
+                                [LANG_HINDI]: "ठीक है"
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                    ],
+                    [COMMAND]: 'selectNewFlow',
                     [VALUE]: 3
                 }
             ],
@@ -938,11 +980,25 @@ module.exports = {
                     [VALUE]: 2
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Reset",
-                        [LANG_HINDI]: "रीसेट"
-                    },
-                    [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+                    [OPTION_STATEMENT_VARIANTS]:[
+                        {
+                            [OPTION_NAME]:"Reset",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Reset",
+                                [LANG_HINDI]: "रेसेट"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [OPTION_NAME]:"Okay",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Okay",
+                                [LANG_HINDI]: "ठीक है"
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                    ],
+                    [COMMAND]: 'selectNewFlow',
                     [VALUE]: 3
                 }
             ],
@@ -980,11 +1036,25 @@ module.exports = {
                     [VALUE]: 2
                 },
                 {
-                    [STATEMENT]: {
-                        [LANG_ENGLISH]: "Reset",
-                        [LANG_HINDI]: "रीसेट"
-                    },
-                    [NEXT_QUESTION]: CARDIAC_CURIOSITY,
+                    [OPTION_STATEMENT_VARIANTS]:[
+                        {
+                            [OPTION_NAME]:"Reset",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Reset",
+                                [LANG_HINDI]: "रेसेट"
+                            },
+                            [VARIANT_PROBABILITY]:0.3
+                        },
+                        {
+                            [OPTION_NAME]:"Okay",
+                            [STATEMENT]: {
+                                [LANG_ENGLISH]: "Okay",
+                                [LANG_HINDI]: "ठीक है"
+                            },
+                            [VARIANT_PROBABILITY]:0.7
+                        }
+                    ],
+                    [COMMAND]: 'selectNewFlow',
                     [VALUE]: 3
                 }
             ],
