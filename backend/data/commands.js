@@ -1,14 +1,4 @@
-let log = require("npmlog");
-
-function getQuestionById(id, questions) {
-	for (let i = 0; i < questions.length; i++) {
-		if (questions[i].id === id) {
-			return questions[i];
-		}
-	}
-	console.error("tried to search for question with ID = ", id)
-	return null;
-}
+const { getQuestionById, selectNewFlow } = require("../compute/computeHelper")
 
 function updateCardiacScore(id, answers, questions){
 	try {
@@ -40,6 +30,10 @@ function updateCardiacScoreFromList(id, answers, questions){
 const commands = {
 	records: {},
 	// Enter commands here
+	selectNewFlow: function(answers, currentQuestion, session, patient_id) {
+		return selectNewFlow(answers, currentQuestion, session, patient_id)
+	},
+
 	selfevaluation: function(answers, question, setQuestion, optionsSelected) {
 		const { paramsFrom, branches } = question;
 		let Sensation = answers[paramsFrom.Sensation];
