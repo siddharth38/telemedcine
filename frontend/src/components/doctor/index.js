@@ -135,8 +135,8 @@ class Doctor extends React.Component {
 					<div className="header fadeInUp" style={{ animationDelay: '0.5s' }}>
 						<div className="header-mid">
 							<div className="titles">
-								<h1>COVID-19 सहायता पोर्टल</h1>
-								<h2>आईआईटी जोधपुर की पहल</h2>
+								<h1>Virtual Doctor</h1>
+								<h2>Telemedicine</h2>
 							</div>
 						</div>
 					</div>

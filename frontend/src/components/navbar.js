@@ -51,7 +51,7 @@ function Navbar(props) {
 							className={`fadeInUp ${view === 'Home' ? 'focused' : ''}`}
 							style={{ animationDelay: '0.2s' }}
 						>
-							होम
+							Home
 						</span>
 					</Link>
 
@@ -65,7 +65,7 @@ function Navbar(props) {
 							className={`fadeInUp ${view === 'FAQs' ? 'focused' : ''}`}
 							style={{ animationDelay: '0.4s' }}
 						>
-							दिशानिर्देश
+							FAQs
 						</span>
 					</Link>
 
@@ -79,7 +79,7 @@ function Navbar(props) {
 							className={`fadeInUp ${view === 'Acknowledgement' ? 'focused' : ''}`}
 							style={{ animationDelay: '0.6s' }}
 						>
-							स्वीकृति
+							Acknowledgement
 						</span>
 					</Link>
 
