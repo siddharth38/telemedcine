@@ -1,9 +1,7 @@
-let log = require('npmlog')
-const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
-  OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
-  SKIP_PROBABILITY,
-  FACT,
-  ID
+const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT,
+  NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION,
+  DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS, OPTION_STATEMENT_VARIANTS,
+  OPTION_VARIANT_NAME, SKIP_PROBABILITY, FACT, ID, COMMAND, TYPE
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -15,6 +13,8 @@ const { updatePatientWithFacts } = require("../helper/index")
 const { stateToNodeMapping } = require("../data/state-action-mapping");
 const { options } = require("mongoose/lib/utils");
 const { getCurrentSelectedOption } = require("./computeHelper");
+const { nlu } = require("./nlu");
+const { chatGPTGeneration } = require("./nlg");
 
 // TODO Thompson sampling
 
@@ -178,12 +178,23 @@ function selectOptionNextQuestion(question, skipList) {
   }
 }
 
-function fetchState(){
+function fetchConversationState(){
   // TODO
 }
 
-function analyzeStatement(){
+function fetchPatientState(){
   // TODO
+}
+
+function fetchState(){
+  // compare with get Facts and figure out something
+  fetchConversationState()
+  fetchPatientState()
+}
+
+function analyzeStatement(customText, currentQuestion){
+  // TODO
+  if (customText) return nlu(customText, currentQuestion, questions)
 }
 
 function setFacts(session, currentQuestion, answers, patient_id=undefined){
@@ -253,7 +264,7 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers, p
     // console.debug('analysis command')
     // console.debug(nextQuestion)
   }
-  else if (type === TYPE_NONE && nextQuestion) {
+  else if (currentQuestion && currentQuestion.type === TYPE_NONE && nextQuestion) {
   // simple statement
   // Without delay, the present question may not get rendered
   // console.log("simple statement. nextQuestion = ", nextQuestion)
@@ -262,9 +273,9 @@ function runCommand(question, currentQuestion, nextQuestion, command, answers, p
   // 	//default;
   // }
   }
-  else if (type === TYPE_BUTTON && currentQuestion){
+  else if (currentQuestion.type === TYPE_BUTTON && currentQuestion){
     let currentSelectedOption = getCurrentSelectedOption(currentQuestion, answers)
-    if (currentSelectedOption[COMMAND] !== undefined || currentSelectedOption[COMMAND] !== null){
+    if (currentSelectedOption && currentSelectedOption[COMMAND]){
       nextQuestion = commands[command](answers, question, session, patient_id)
     }
 
@@ -295,11 +306,18 @@ function prepareMessageContentAndOptions(question, currentQuestion, nextQuestion
   return question
 }
 
-function actionMessage(question, currentQuestion, nextQuestion) {
+async function actionMessage(question, currentQuestion, nextQuestion, customText, generateGeneric) {
   // action
-  question = prepareMessageContentAndOptions(question, currentQuestion, nextQuestion);
-  if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question);
-  return question;
+  if(generateGeneric) {
+    console.log('compute.actionMessage : generating Generic')
+    const generatedResponse = await chatGPTGeneration(customText)
+    return { [STATEMENT]: generatedResponse, [TYPE]: TYPE_NONE };
+  }
+  else {
+    question = prepareMessageContentAndOptions(question, currentQuestion, nextQuestion);
+    if (question[NEXT_QUESTION] === undefined && question[NEXT_QUESTION_LIST] !== undefined) selectNextQuestionFromList(question);
+    return question;
+  }
 }
 
 // convert path to json
@@ -457,30 +475,33 @@ function updateWeights(reward, currentQuestion, answers){
   // })
 }
 
-function compute(session, res, currentQuestion, answers,
+async function compute(session, res, currentQuestion, answers,
                  nextQuestion=null, options=null,
                  newSession=false, command=null,
                  reset=false, patient_id=null,
-                 userReplyDuration=null){
+                 userReplyDuration=null, customText=null){
   console.log('computing()')
   let question = null
+  let generateGeneric = false
   console.log("compute : reset = ", reset)
-  if (newSession || reset){
+  if ((newSession || reset) && !customText){
     // TODO : identify whether user is new or old and select message accordingly
     console.log('compute(). *NEW SESSION*')
     nextQuestion='-1.0 Consent message' // set next question as initial question if fresh session
   }
   else {
     // old session
-    console.debug('command = ', command,
-      '. currentQuestion = ', currentQuestion.id,
-      '. currentQuestion.type = ', currentQuestion.type,
-      '. currentQuestion.type === TYPE_ANALYSE = ', currentQuestion.type === TYPE_ANALYSE,
-      '. currentQuestion && currentQuestion.type === TYPE_ANALYSE = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE,
-      '. currentQuestion && currentQuestion.type === TYPE_ANALYSE && command = ', currentQuestion && currentQuestion.type === TYPE_ANALYSE && command)
+    console.debug(`currentQuestion = ${currentQuestion.id}. customText = ${customText}. command = ${command}. 
+    currentQuestion.type = ${currentQuestion.type}. currentQuestion.type === TYPE_ANALYSE = ${currentQuestion.type === TYPE_ANALYSE}
+    currentQuestion && currentQuestion.type === TYPE_ANALYSE = ${currentQuestion && currentQuestion.type === TYPE_ANALYSE}
+    currentQuestion && currentQuestion.type === TYPE_ANALYSE && command = ${currentQuestion && currentQuestion.type === TYPE_ANALYSE && command}`)
 
-    fetchPatientState()
-    analyzeStatement()
+    fetchState()
+    let analysis = analyzeStatement(customText, currentQuestion)
+    if (analysis) {
+      nextQuestion = analysis[NEXT_QUESTION]
+      generateGeneric = analysis.generateGeneric
+    }
     //runCommand()
     setFacts(session, currentQuestion, answers, patient_id)
 
@@ -490,11 +511,17 @@ function compute(session, res, currentQuestion, answers,
     // TODO : currently returns nothing
     createStateVector(session, patient_id)
 
-    nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id)
+    // if(!nextQuestion) {
+    nextQuestion = runCommand(question, currentQuestion, nextQuestion, command, answers, patient_id);
+    // console.log(`compute.oldSession through runCommand = ${nextQuestion}`)
+    // }
+    // else {
+    //   console.log(`compute : nextQuestionThroughAnalysis = ${nextQuestion}`)
+    // }
   }
-  question = actionMessage(question, currentQuestion, nextQuestion);
+  question = await actionMessage(question, currentQuestion, nextQuestion, customText, generateGeneric);
 
-  // console.log("question = ", question)
+  console.log("compute.question = ", question)
   res = prepareResult(res, question)
   return res
 }
