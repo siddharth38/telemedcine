@@ -443,7 +443,7 @@ export default class Chat extends React.Component {
 							this.connect();
 						}}
 					>
-						चेकअप शुरू करें
+						Begin checkups
 					</button>
 				</div>
 			);
