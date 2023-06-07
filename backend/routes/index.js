@@ -238,13 +238,16 @@ router.post('/realtime', (req, res) => {
 		answerFormat,
 		patient_id,
 		reset,
-		duration
+		duration,
+		customText
 	} = data
 
 	let command = currentQuestion.command
 
-	// // console.log(data)
-	console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. reset = ', reset)
+	// console.log(data)
+	console.debug(`Routes.realtime post. session_id =  ${conversation_session_id}. nextQuestion = ${nextQuestion}. answer = ${answer}. 
+	currentQuestion = ${currentQuestion.id}. command = ${command}. reset = ${reset}. 
+	answerFormat.type = ${answerFormat.type}. customText = ${customText}`)
 	// console.debug("Log.d realtime post. session_id = ", conversation_session_id, '. nextQuestion = ', nextQuestion, '. answer = ', answer, '. currentQuestion = ', currentQuestion.id, '. command =', command, '. answerFormat = ', answerFormat)
 	// console.log("optionSelected = ", optionSelected)
 	// // console.log("answer = ", answer)
@@ -274,16 +277,15 @@ router.post('/realtime', (req, res) => {
 			_id: conversation_session_id,
 			patient_id: patient_id
 		},
-		(err, session) => {
+		async function(err, session){
 			if (err) {
 
 				console.debug('failed to create session in mongo - ' + err)
 				console.log("err type = ", typeof err)
 				// console.log("err instance = ", instanceof err)
-
 				// Session.findOneAndUpdate({ _id: session_id }, update )
 
-				Session.findOne({_id:conversation_session_id}, (err, sess) => {
+				Session.findOne({_id:conversation_session_id}, async function(err, sess) {
 					if (err) {
 						console.error("WTF", err)
 						// nothing done
@@ -295,7 +297,7 @@ router.post('/realtime', (req, res) => {
 					// push into old session
 					sess.messages.push(message)
 					sess.save()
-					res = compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset, patient_id, duration)
+					res = await compute(sess, res, currentQuestion, answers, nextQuestion, options, false, command, reset, patient_id, duration, customText)
 					if (res === undefined) console.error('result is null or undefined')
 					return res
 				})
@@ -320,7 +322,7 @@ router.post('/realtime', (req, res) => {
 
 			console.log('starting chat for new session')
 			// begin computation and get result
-			res = compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset, patient_id, duration)
+			res = await compute(session, res, currentQuestion, answers, nextQuestion, null, true, command, reset, patient_id, duration, customText)
 			return res
 		})
 });

@@ -48,9 +48,10 @@ export default class Chat extends React.Component {
 		languageSelected: null, // TODO: Save and load from cookie
 		helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
 
-		optionSelected: '0',
+		optionSelected: null,
 		textAnswered: '',
 		textOverrideAnswered: '',
+		customText: null,
 
 		chat: [],
 		loadingChat: true,
@@ -142,6 +143,7 @@ export default class Chat extends React.Component {
     }
 
     if (typeof statement != 'string') {
+			console.log(`setQuestion. typeof statement = ${typeof statement}`)
 			this.speak(statement[this.state.languageSelected], false)
 		// conversation is added in the memory here
       for (let key in statement) {
@@ -411,6 +413,7 @@ export default class Chat extends React.Component {
 	answer = (event, textOverrides) => {
 		console.debug('answer()')
 		const { optionSelected, questionDetails, answerFormat, answers, tempSelection } = this.state;
+		console.log(`answer : optionSelected = ${optionSelected}`)
 		const { options, type } = answerFormat;
 		// noinspection JSUnusedLocalSymbols
 		const { id, paramsFrom, branches, loopStart } = questionDetails;
@@ -495,8 +498,12 @@ export default class Chat extends React.Component {
 				},
 				this.answerEntered
 			);
-		} else {
+		}
+		else {
 			console.debug('answer() default fallback')
+			if (textOverrides && textOverrideAnswered){
+				console.log("text overrides. custom user input. nothing special done yet")
+			}
 		}
 	};
 
@@ -628,6 +635,7 @@ export default class Chat extends React.Component {
 			console.log('normal answer. answers = ', answers)
 			this.realtime()
 		}
+		console.log('answerEntered. optionSelected = ', optionSelected)
 	};
 
 	/**
@@ -726,10 +734,22 @@ export default class Chat extends React.Component {
 	 */
 	realtime = (state) => {
 		console.log("realtime()")
-		const { optionSelected, answerFormat, questionDetails, textAnswered, conversation_session_id, answers, patientId, currentQuestion, messageReceivedTimestamp, reset } = this.state;
+		const { optionSelected,
+			answerFormat,
+			questionDetails,
+			textAnswered,
+			customText,
+			conversation_session_id,
+			answers,
+			patientId,
+			currentQuestion,
+			messageReceivedTimestamp,
+			reset,
+			textOverrideAnswered
+		} = this.state;
 		const { options } = answerFormat;
 		let nextQuestion;
-    console.debug('nextQuestion = ', nextQuestion)
+    // console.debug('nextQuestion = ', nextQuestion)
 		if (options && options[optionSelected].nextQuestion){
 			// question has options. type is button
 			 nextQuestion = options[optionSelected].nextQuestion
@@ -738,19 +758,20 @@ export default class Chat extends React.Component {
 			// question doesn't have options. other types
 			nextQuestion = currentQuestion.nextQuestion
 		}
-    console.debug('currentQuestion = ', currentQuestion)
+    // console.debug('realtime().currentQuestion = ', currentQuestion)
 		// TODO : check if branch questions (with compute and decisions) are managed well
 		// const question = this.getQuestionById(nextQuestion);
-
 		// console.log("questionDetails = ", questionDetails)
 		// console.log("textAnswered = ", textAnswered)
 		// console.log(optionSelected)
 		// console.log("nextQuestion = ", nextQuestion)
+		console.log(`chatbot.realtime: customtext = ${customText}`)
 
 		axios
 			.post(ENDPOINT + '/api/realtime', {
 				currentQuestion,
 				optionSelected,
+				customText: textAnswered,
 				answerFormat,
 				options,
 				nextQuestion,
@@ -770,7 +791,8 @@ export default class Chat extends React.Component {
 							currentQuestion: question,
 							loadingChat: false,
 							messageReceivedTimestamp : Date.now(),
-							reset: false
+							reset: false,
+							customText: null
 						},
 						() => {
 							console.log("settingQuestion")
@@ -888,12 +910,12 @@ export default class Chat extends React.Component {
 	}
 
 	textAnswerOverrides = (event) => {
-		const answerFormat = this.state.answerFormat;
-		answerFormat.type = TYPE_TEXT
-		this.setState({answerFormat})
-		this.state.textAnswered = this.state.textOverrideAnswered
-		this.state.textOverrideAnswered = ''
-		this.setState(this.state)
+		let {answerFormat, textOverrideAnswered} = this.state
+		console.log('answerFormat = ', answerFormat)
+		// this.state.answerFormat[customText] = true
+		this.setState({ customText:textOverrideAnswered, answerSelected:null })
+		this.setState({ textAnswered: textOverrideAnswered })
+		this.setState({ textOverrideAnswered: '' })
 		this.answer(event)
 	};
 
@@ -1018,7 +1040,7 @@ export default class Chat extends React.Component {
 							else chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 							// noinspection HtmlRequiredAltAttribute
 							if (skip === undefined) skip=false
-							console.log("render.answers answerBoxHidden skip = ", skip, '. value = ', value)
+							// console.log("render.answers answerBoxHidden skip = ", skip, '. value = ', value)
 							return (
 								<button
 									key={value}
