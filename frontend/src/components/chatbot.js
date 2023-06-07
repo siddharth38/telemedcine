@@ -11,6 +11,7 @@ import { BACKEND_URL_DEV, ENDPOINT, languages } from "../config";
 import PeerConnection from "./webrtc/PeerConnection";
 import CallWindow from "./webrtc/CallWindow";
 import CallModal from "./webrtc/CallModal";
+import Cookies from 'universal-cookie';
 
 const bson = require('bson');
 const { commands } = require('../data/commands'); // TODO: Should be fetched from backend or be executed at the backend via APIs
@@ -35,6 +36,7 @@ const OUTGOING_MESSAGE = 'outgoing'					// sent by user/patient
 //Incoming message : chatbot server to user
 
 export default class Chat extends React.Component {
+	cookies = new Cookies();
 	state = {
 		conversation_session_id: '',
 		questions: [],
@@ -43,7 +45,7 @@ export default class Chat extends React.Component {
 		messageReceivedTimestamp: null,
 		currentQuestion: {},
 
-		languageSelected: 'hi', // TODO: Save and load from cookie
+		languageSelected: null, // TODO: Save and load from cookie
 		helpline: '011-23978046', // TODO: Fetch location specific ambulance numbers
 
 		optionSelected: '0',
@@ -78,6 +80,13 @@ export default class Chat extends React.Component {
 	componentDidMount() {
 		// generate sessionID for mongodb.
 		this.state.conversation_session_id = new bson.ObjectId().toString();
+
+		let languageSelected =  this.cookies.get('languageSelected')
+		if (!languageSelected) {
+			languageSelected = 'hi'
+			this.cookies.set('languageSelected', languageSelected, { path: '/' });
+		}
+		this.setState({languageSelected})//, conversation_session_id})
 
 		this.realtime()
 
@@ -700,6 +709,7 @@ export default class Chat extends React.Component {
 
 	handleLanguageChange = (event) => {
     const { id, value } = event.target;
+		this.cookies.set(id, value, '/')
     this.setState(
 			{
 				[id]: value
