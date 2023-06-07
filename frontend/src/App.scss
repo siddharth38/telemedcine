@@ -170,6 +170,10 @@ h6 {
     flex-direction: column;
     width: 40rem;
   }
+  button{
+    width: fit-content;
+    height: fit-content;
+  }
   .app-link {
     margin-top: 4rem;
     display: flex;
@@ -909,6 +913,9 @@ h6 {
         }
       }
     }
+  }
+  .navbar-right {
+
   }
   .focused {
     color: $gray;

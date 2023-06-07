@@ -7,6 +7,28 @@ import React from 'react';
 import Chat from './chatbot';
 const { register } = require("../serviceWorker");
 
+// let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (event) => {
+	event.preventDefault();
+	window.deferredPrompt = event;
+	return false
+});
+
+async function install(event){
+	console.log("install clicked")
+	if (window.deferredPrompt !== null) {
+		window.deferredPrompt.prompt();
+		console.log('deferredPrompt await begins')
+		const { outcome } = await window.deferredPrompt.userChoice;
+		if (outcome === 'accepted') {
+			console.log('deferred prompt accepted')
+			window.deferredPrompt = null;
+		}
+		else console.log('deferred prompt outcome = ', outcome)
+	}
+	else console.error('deferred prompt is null')
+}
+
 function Home() {
 
 	console.log("home.js.  HOME()")
@@ -27,8 +49,11 @@ function Home() {
 				<Chat />
 			</div>
 
-			{/*<div className="home-right">*/}
-        <div className="helpline fadeInUp" style={{ animationDelay: '0.5s' }}>
+			<div className="home-right" style={{alignItems: "center"}}>
+				<button onClick={install} style={{color:"green"}}>
+					    Install
+				</button>
+        {/*<div className="helpline fadeInUp" style={{ animationDelay: '0.5s' }}>*/}
           <div className="row">
             <div className="col">
               {/*<h2>COVID-19 हेल्पलाइन नंबर: </h2>*/}
@@ -43,8 +68,8 @@ function Home() {
               {/*<a href="mail:telemedicineiitj@gmail.com">telemedicineiitj@gmail.com</a>*/}
             </div>
           </div>
-        </div>
-			{/*</div>*/}
+        {/*</div>*/}
+			</div>
 		</div>
 	);
 }
