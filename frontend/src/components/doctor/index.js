@@ -143,8 +143,9 @@ class Doctor extends React.Component {
 
 					<Chat username={username} changePatient={this.changePatient} patient={patient} />
 				</div>
-
-				<div className="home-right">
+				<div/>
+				<div className="home-right" style={{alignItems: "center"}}>
+          <div onClick="" className="buttonAction" >Persona</div>
 					<form onSubmit={this.logout} className="login-form fadeInUp">
 						<p>{error}</p>
 						<button
