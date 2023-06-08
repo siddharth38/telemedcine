@@ -145,7 +145,7 @@ class Doctor extends React.Component {
 				</div>
 				<div/>
 				<div className="home-right" style={{alignItems: "center"}}>
-          <div onClick="" className="buttonAction" >Persona</div>
+          <div onClick={()=>window.location.href = "/doctor/persona"} className="buttonAction" >Persona</div>
 					<form onSubmit={this.logout} className="login-form fadeInUp">
 						<p>{error}</p>
 						<button
