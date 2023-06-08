@@ -1,5 +1,4 @@
 const Message = require('../models/conversationgraph')
-const redisAdapter = require("socket.io-redis");
 
 const io = require('socket.io')({
   path: '/doctor/persona'

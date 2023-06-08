@@ -10,6 +10,11 @@ const PeerConnection = require("../webrtc/PeerConnection");
 const _ = require("lodash");
 
 export default class Chat extends React.Component {
+
+  componentDidMount() {
+
+}  
+
   getLastUsedId = async () => {
     try {
       const lastDocument = await Feedbackt2.findOne({}, "_id")
