@@ -170,6 +170,21 @@ h6 {
     flex-direction: column;
     width: 40rem;
   }
+  .buttonAction{
+    color: black;
+    background-color: $green-light;
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: background 0.2s ease-in-out;
+    margin-top: 3rem;
+    //margin-bottom: 1rem;
+    outline: 2rem;
+    font-size: 1rem;
+    text-decoration: none;
+  }
   .app-link {
     margin-top: 4rem;
     display: flex;
@@ -486,7 +501,7 @@ h6 {
     height: $height;
     width: $height;
     line-height: $height;
-    margin: 0px 8px;
+    margin: 10px 20px;
     font-size: 1.4em;
     color: white;
     text-align: center;
