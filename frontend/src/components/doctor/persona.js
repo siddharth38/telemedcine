@@ -1,41 +1,78 @@
 const express = require("express");
 const app = express();
-const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const client = require("socket.io-client");
 const { BACKEND_URL_DEV } = require("../../config");
-const PeerConnection = require("../webrtc/PeerConnection");
-const _ = require("lodash");
 
-export default class Chat extends React.Component {
+export default class Persona extends React.Component {
+
+  firstDivRef = useRef();
+  secondDivRef = useRef();
+
+  handleScrollFirst = (scroll) => {
+    secondDivRef.current.scrollTop = scroll.target.scrollTop;
+  };
+
+  handleScrollSecond = (scroll) => {
+    firstDivRef.current.scrollTop = scroll.target.scrollTop;
+  };
+
+  handle = () => {
+    console.log("jjhjbhjjh_jnjksdfds");
+    setA(!a);
+  }
+
+  sendMessage = () => {
+    const msg = {
+      name1: name1,
+      Statement1: Statement1,
+      next1: next1,
+      name2: name2,
+      Statement2: Statement2,
+      next2: next2,
+    };
+
+    socket.emit("sending", msg);
+    setName1(" ");
+    setName2("");
+    setNext1("");
+    setNext2("");
+    setStatement2("");
+    setStatement1("");
+    inputRef.current.focus();
+  };
+
+  // useEffect(() => {
+  //   socket.on("send_last_val", async (asa, dd) => {
+  //     setData(dd);
+  //     if (asa === null) {
+  //       setVal(300);
+  //     } else {
+  //       setVal(asa._id + 1);
+  //     }
+  //   });
+  // }, []);
+
 
   componentDidMount() {
 
-}  
-
-  getLastUsedId = async () => {
-    try {
-      const lastDocument = await Feedbackt2.findOne({}, "_id")
-        .sort({ _id: -1 })
-        .lean()
-        .exec();
-
-      return lastDocument;
-    } catch (error) {
-      console.error("Error retrieving last used _id:", error);
-    }
-  }
-
-  return_data = async () => {
-    const data = await Feedbackt2.find();
-    console.log(data);
-    return data;
-  }
+  }  
 
   componentWillUnmount() {
     if (this.socket) this.socket.disconnect();
+    const [dat, setData] = useState([]);
+    const [name1, setName1] = useState("");
+    const [Statement1, setStatement1] = useState("");
+    const [next1, setNext1] = useState("");
+    const [name2, setName2] = useState("");
+    const [Statement2, setStatement2] = useState("");
+    const [next2, setNext2] = useState("");
+    const [val, setVal] = useState(300);
+    const inputRef = useRef();
+    const [a, setA] = useState(false);
+
+    
   }
 
   connect = () => {
@@ -48,96 +85,152 @@ export default class Chat extends React.Component {
       path: '/doctor/persona',
       transports: ['websocket'],
       query: {
-        patientId,
-        type: 'patient'
+        _id,
+        type: 'doctor'
       }
     });
 
-    this.socket.on('doctorAlloted', (doctor) => {
-      this.setState({
-        answerBoxHidden: false,
-        requesting: false,
-        doctor
-      });
-    });
+    // this.socket.on()
 
-    this.socket.on('onlineUsers', (onlineUsers) => {
-      this.setState({ onlineUsers });
-    });
+    // this.socket.on('message', ({ message, from }) => {
+    //   if (from === this.state.doctor) {
+    //     this.setState({ incomingTyping: false });
+    //     this.enterMessageIntoChat(message, 'incoming');
+    //   }
+    // });
 
-    this.socket.on('message', ({ message, from }) => {
-      if (from === this.state.doctor) {
-        this.setState({ incomingTyping: false });
-        this.enterMessageIntoChat(message, 'incoming');
-      }
-    });
+  }
 
-    this.socket.on('typingChange', ({ state, from }) => {
-      if (from === this.state.doctor) {
-        this.setState({ incomingTyping: state });
-        this.scrollDown();
-      }
-    });
-
-    this.socket.on('referUser', (doctor) => {
-      this.endCall(false);
-      this.setState({ doctor, answerBoxHidden: true });
-    });
-
-    this.socket.on('request', (from) => {
-      if (from === this.state.doctor) {
-        this.setState({ callModal: 'active' });
-        this.scrollDown();
-      }
-    });
-
-    this.socket.on('call', ({ data, from }) => {
-      if (from === this.state.doctor) {
-        if (data.sdp) {
-          this.pc.setRemoteDescription(data.sdp);
-          if (data.sdp.type === 'offer') this.pc.createAnswer();
-        } else this.pc.addIceCandidate(data.candidate);
-      }
-    });
-
-    this.socket.on('end', (from) => {
-      if (from === this.state.doctor) this.endCall(false);
-    });
-  };
-
-  startCall = (isCaller, config) => {
-    this.config = config;
-    this.pc = new PeerConnection(this.socket, this.state.doctor)
-      .on('localStream', (src) => {
-        const newState = { callWindow: 'active', localSrc: src };
-        if (!isCaller) newState.callModal = '';
-        this.setState(newState);
-      })
-      .on('peerStream', (src) => this.setState({ peerSrc: src }))
-      .start(isCaller, config);
-  };
-
-  rejectCall = () => {
-    const { doctor } = this.state;
-    this.socket.emit('end', doctor);
-    this.setState({ callModal: '' });
-  };
-
-  endCall = (isStarter) => {
-    if (_.isFunction(this.pc.stop)) {
-      this.pc.stop(isStarter);
-    }
-    this.pc = {};
-    this.config = null;
-    this.setState(
-      {
-        callWindow: '',
-        callModal: '',
-        localSrc: null,
-        peerSrc: null
-      },
-      this.scrollDown
+  render() {
+    return (
+      <div className="App">
+        <div className="header">
+          <Header handle={handle} />
+        </div>
+  
+        {/*------------------------------ */}
+        <div
+          className="App"
+          style={{
+            display: "flex",
+            height: "70vh",
+            overflow: "hidden",
+          }}
+        >
+          <div className="main_pop">
+            {a && (
+              <div
+                className="main_main"
+                onScroll={handleScrollFirst}
+                ref={firstDivRef}
+                style={{
+  
+                  overflow: "scroll",
+                }}
+              >
+                <div className="row_main" style={{height:"10vh"}}>
+                  <Heading />
+                  <div className="map" style={{height:"100vh"}}>
+                    {dat.map((item) => (
+                      <div className="del" key={item.id}>
+                        <div>{item.name2}</div>
+                        <div>{item.Statement2}</div>
+                        <div>{item.next2}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+  
+          <div
+            className="field_row"
+            onScroll={handleScrollSecond}
+            ref={secondDivRef}
+          >
+            <div
+              className="field"
+             
+            >
+              {dat.map((item) => (
+                <div className="field_main">
+                  <div className="f1">{item._id}</div>
+                  <div className="f2">{item.name1}</div>
+                  <div className="f3">{item.Statement1}</div>
+                  <div className="f4">{item.next1}</div>
+                  <div className="f5">ssd</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/*------------------------------ */}
+  
+        <div className="inp">
+          <div className="main">
+            <div className="inp">
+              <div className="i1">
+                {/* <input placeholder="Id" /> */}
+                {val}
+              </div>
+              <div className="i2">
+                <input
+                  placeholder="Name"
+                  value={name1}
+                  onChange={(event) => setName1(event.target.value)}
+                  ref={inputRef}
+                  autoFocus
+                />
+              </div>
+              <div className="i3">
+                <input
+                  placeholder="Statement"
+                  type="text"
+                  value={Statement1}
+                  onChange={(event) => setStatement1(event.target.value)}
+                />
+              </div>
+              <div className="i4">
+                <input
+                  placeholder="Next"
+                  type="text"
+                  value={next1}
+                  onChange={(event) => setNext1(event.target.value)}
+                />
+              </div>
+              <div className="i5">
+                <input
+                  placeholder="Option's Name"
+                  type="text"
+                  value={name2}
+                  onChange={(event) => setName2(event.target.value)}
+                />
+              </div>
+              <div className="i6">
+                <input
+                  placeholder="Option's Statement"
+                  type="text"
+                  value={Statement2}
+                  onChange={(event) => setStatement2(event.target.value)}
+                />
+              </div>
+              <div className="i7">
+                <input
+                  placeholder="Option's Next"
+                  type="text"
+                  value={next2}
+                  onChange={(event) => setNext2(event.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <button onClick={sendMessage}>Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
-  };
+  }
 
 }

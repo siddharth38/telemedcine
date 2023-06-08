@@ -4,11 +4,28 @@ const io = require('socket.io')({
   path: '/doctor/persona'
 });
 
-io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 
 io.on("connection", async (socket) => {
   console.log(socket.id);
 
+  getLastUsedId = async () => {
+    try {
+      const lastDocument = await Feedbackt2.findOne({}, "_id")
+        .sort({ _id: -1 })
+        .lean()
+        .exec();
+
+      return lastDocument;
+    } catch (error) {
+      console.error("Error retrieving last used _id:", error);
+    }
+  }
+
+  return_data = async () => {
+    const data = await Feedbackt2.find();
+    console.log(data);
+    return data;
+  }
 
   let asa = await getLastUsedId(); //gets the last index
   var dd = await return_data(); //gets the to tal rows of data fromm db
