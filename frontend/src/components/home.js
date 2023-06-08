@@ -50,9 +50,7 @@ function Home() {
 			</div>
 
 			<div className="home-right" style={{alignItems: "center"}}>
-				<button onClick={install} style={{color:"green"}} className="buttonAction">
-					    Install
-				</button>
+				<div onClick={install} className="buttonAction">Install</div>
         {/*<div className="helpline fadeInUp" style={{ animationDelay: '0.5s' }}>*/}
           <div className="row">
             <div className="col">

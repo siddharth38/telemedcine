@@ -70,7 +70,7 @@ function App() {
 							<Switch location={location}>
 								<Route exact path="/" render={(props) => <Home {...props} />} />
 								<Route exact path="/doctor" render={(props) => <Doctor {...props} />} />
-								<Route exact path="/doctor/persona" render={(props) => <Doctor {...props} />} />how much does a board seat matter
+								<Route exact path="/doctor/persona" render={(props) => <Persona {...props} />} />
 								<Route exact path="/admin_dashboard" render={(props) => <Admin {...props} />} />
 								{/* <Route exact path="/links" render={(props) => <Links {...props} />} /> */}
 								<Route exact path="/faq" render={(props) => <FAQ {...props} />} />
