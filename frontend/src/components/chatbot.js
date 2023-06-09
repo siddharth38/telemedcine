@@ -50,8 +50,6 @@ export default class Chat extends React.Component {
 
 		optionSelected: null,
 		textAnswered: '',
-		textOverrideAnswered: '',
-		customText: null,
 
 		chat: [],
 		loadingChat: true,
@@ -134,7 +132,7 @@ export default class Chat extends React.Component {
     if (typeof question == "number" || typeof question == "string") {
       question = this.getQuestionById(question);
     }
-    const { answers } = this.state;					// contains question ID and value of user input
+    const { answers, textOverrideAnswered } = this.state;					// contains question ID and value of user input
 		let { statement, type: type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 		console.log("statement = ", statement)
 
@@ -180,7 +178,7 @@ export default class Chat extends React.Component {
 		this.setState({
 			answerBoxHidden: type===TYPE_NONE,
 			textAnswered: '',
-			optionSelected: '0',
+			optionSelected: textOverrideAnswered ? 'customText' : '0',
 			answerFormat: { type: type, options, pattern },
 			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
 			tempSelection: tempSelection
@@ -192,7 +190,7 @@ export default class Chat extends React.Component {
     }
 		else if (type === TYPE_ANALYSE && command) {
 			// run a task/command
-			const { questions } = this.state;
+			// const { questions } = this.state;
 			//commands[command](answers, question, questions, this.setQuestion);
       this.realtime()
 		}
@@ -417,7 +415,7 @@ export default class Chat extends React.Component {
 		const { options, type } = answerFormat;
 		// noinspection JSUnusedLocalSymbols
 		const { id, paramsFrom, branches, loopStart } = questionDetails;
-		let { textAnswered, textOverrideAnswered, reset } = this.state;
+		let { textAnswered, reset } = this.state;
 		let textTypeAnswer = ['text', 'tel', 'password', 'email', 'date'].includes(type);
 
 		// prevent Default followup to the event. No idea when?
@@ -501,7 +499,7 @@ export default class Chat extends React.Component {
 		}
 		else {
 			console.debug('answer() default fallback')
-			if (textOverrides && textOverrideAnswered){
+			if (textOverrides){
 				console.log("text overrides. custom user input. nothing special done yet")
 			}
 		}
@@ -653,6 +651,7 @@ export default class Chat extends React.Component {
 			if (optionSelected === '0') this.connect();
 			else this.enterMessageIntoChat(lastMessage[this.state.languageSelected], 'incoming');
 		} else {
+			// get completed chatbot - leads to assessment
 			navigator.geolocation.getCurrentPosition(
 				this.completedChatbot.bind(this),
 				this.completedChatbot.bind(this)
@@ -670,6 +669,7 @@ export default class Chat extends React.Component {
 	 */
 	handleChange = (event) => {
 		const { id, value } = event.target;
+		console.log('onChange.handleChange : event = ',event)
 		const { type } = this.state.answerFormat;
 
 		if (type === TYPE_LIST) {
@@ -680,12 +680,12 @@ export default class Chat extends React.Component {
 				}
 			});
 		}
-		else if (event.target.id === 'textOverrideAnswered') {
+		else if (event.target.id === 'textOverrideField') {
 			// text message overrides other ui inputs
-			console.log('textOverrideAnswered')
+			console.log('handleChange. textOverrideField')
 			this.setState(
 				{
-					[id]: value
+					textAnswered: value
 				},
 				() => {
 					this.answer(null, true);
@@ -694,7 +694,7 @@ export default class Chat extends React.Component {
 		}
 		else {
 			// everything default behavior, update things
-
+			console.log("handleChange default")
 			// external site
 			let redirectUrl = event.target.getAttribute("data-url")
 
@@ -736,7 +736,7 @@ export default class Chat extends React.Component {
 		console.log("realtime()")
 		const { optionSelected,
 			answerFormat,
-			questionDetails,
+			// questionDetails,
 			textAnswered,
 			customText,
 			conversation_session_id,
@@ -744,8 +744,7 @@ export default class Chat extends React.Component {
 			patientId,
 			currentQuestion,
 			messageReceivedTimestamp,
-			reset,
-			textOverrideAnswered
+			reset
 		} = this.state;
 		const { options } = answerFormat;
 		let nextQuestion;
@@ -860,8 +859,7 @@ export default class Chat extends React.Component {
 		} = this.state;
 
 		if (loadingChat) return null;
-		console.log("chat.length = ", chat.length)
-		console.log("chat = ", chat)
+		console.log("renderChat : chat.length = ", chat.length, ". chat = ", chat)
 		return (
 			<div id="chat-box" className="chat-box" style={answerBoxHidden ? { marginBottom: 0 } : {}}>
 				{chat.map(({ statement, type }) => {
@@ -869,7 +867,7 @@ export default class Chat extends React.Component {
           const chatStatement = (typeof statement === 'string') ? statement : statement[this.state.languageSelected];
 					return (
 						<p
-							key={{chatStatement}}
+							// key={{chatStatement}}
 							className={`${type}-message ${type === OUTGOING_MESSAGE ? 'fadeInUp' : 'fadeInRight'}`}
 							style={{ animationDelay: type === 'incoming' ? '0.6s' : '0.2s' }}
 							onMouseEnter={() => {if (mute === SPEAK_ALL) this.speak(chatStatement, true)}}
@@ -910,12 +908,10 @@ export default class Chat extends React.Component {
 	}
 
 	textAnswerOverrides = (event) => {
-		let {answerFormat, textOverrideAnswered} = this.state
+		let {answerFormat} = this.state
+		answerFormat.type = TYPE_TEXT
+		this.setState({answerFormat})
 		console.log('answerFormat = ', answerFormat)
-		// this.state.answerFormat[customText] = true
-		this.setState({ customText:textOverrideAnswered, answerSelected:null })
-		this.setState({ textAnswered: textOverrideAnswered })
-		this.setState({ textOverrideAnswered: '' })
 		this.answer(event)
 	};
 
@@ -931,7 +927,7 @@ export default class Chat extends React.Component {
 			<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 				<form onSubmit={this.textAnswerOverrides} className="message-form">
 					<input
-						id="textOverrideAnswered"
+						id="textOverrideField"
 						value={textOverrideAnswered}
 						onChange={this.handleChange}
 						type={TYPE_TEXT}
@@ -1192,7 +1188,7 @@ export default class Chat extends React.Component {
 
 	// needs to be implemented properly using speach state and event
 	toggleMuter = (event) => {
-		const muter = document.getElementById("muter");
+		// const muter = document.getElementById("muter");
 		 // TODO : Use set on progress listener
 		 if (this.state.mute === MUTE_ALL){
 			this.state.mute = SPEAK_ALL
