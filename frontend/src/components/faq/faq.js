@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import LazyLoad from "react-lazy-load";
-import { faq } from "./guidelines";
+import faqs from "./guidelines";
 
 function FAQ() {
   const [faqList, setFaq] = useState([]);
 
   useEffect(() => {
-    setFaq(faq);
+    setFaq(faqs);
   }, []);
 
   return (
