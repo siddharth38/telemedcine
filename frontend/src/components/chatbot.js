@@ -133,14 +133,14 @@ export default class Chat extends React.Component {
       question = this.getQuestionById(question);
     }
     const { answers, textOverrideAnswered } = this.state;					// contains question ID and value of user input
-		let { statement, type: type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
+		let { statement, type, options, pattern, id, nextQuestion, paramsFrom, command, branches, loopStart } = question;
 		console.log("statement = ", statement)
 
 		if (customOptions) {
       options = customOptions;
     }
 
-    if (typeof statement != 'string') {
+    if (typeof statement && typeof statement !== 'string') {
 			console.log(`setQuestion. typeof statement = ${typeof statement}`)
 			this.speak(statement[this.state.languageSelected], false)
 		// conversation is added in the memory here
@@ -178,8 +178,8 @@ export default class Chat extends React.Component {
 		this.setState({
 			answerBoxHidden: type===TYPE_NONE,
 			textAnswered: '',
-			optionSelected: textOverrideAnswered ? 'customText' : '0',
-			answerFormat: { type: type, options, pattern },
+			optionSelected: '0',
+			answerFormat: { type, options, pattern },
 			questionDetails: { loopStart, statement, id, nextQuestion, paramsFrom, command, branches },
 			tempSelection: tempSelection
 		});
@@ -204,7 +204,7 @@ export default class Chat extends React.Component {
       }.bind(this), 1000)
     }
 		else {
-			// console.error("unexpected situation in setQuestion");
+			console.error("unexpected situation in setQuestion");
 		}
 	};
 
@@ -922,7 +922,7 @@ export default class Chat extends React.Component {
 	renderTextOverrideMessage = () => {
 		const { textOverrideAnswered } = this.state;
 		const { pattern } = this.state.answerFormat;
-
+		console.log('renderTextOverride : rendering customeTextField')
 		return (
 			<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>
 				<form onSubmit={this.textAnswerOverrides} className="message-form">
@@ -947,6 +947,7 @@ export default class Chat extends React.Component {
 
 	/* User inputs */
 	renderAnswers = () => {
+		console.log("renderAnswers()")
 		const {
 			optionSelected,
 			textAnswered,
@@ -956,6 +957,7 @@ export default class Chat extends React.Component {
 			uploadingImage
 		} = this.state;
 		const { options, type, pattern } = this.state.answerFormat;
+		console.log('renderAnswers type = ', type)
 
 		const callWithVideo = (video) => {
 			const config = { audio: true, video };
@@ -1123,7 +1125,8 @@ export default class Chat extends React.Component {
 					{this.renderTextOverrideMessage()}
 				</div>
 			);
-		} else if (type === TYPE_UPLOAD) {
+		}
+		else if (type === TYPE_UPLOAD) {
 			// Media upload
 			console.log("renderAnswers upload")
       return (
@@ -1153,7 +1156,11 @@ export default class Chat extends React.Component {
 					{this.renderTextOverrideMessage()}
 				</div>
 			);
-		} else {
+		}
+		else if (type === "generic_text"){
+			return this.renderTextOverrideMessage()
+		}
+		else {
 			 // text field updated but message not sent. send button is to be pressed
 			return (
 				<div className="answer-box text-row fadeInUp" style={{ animationDelay: '1s' }}>

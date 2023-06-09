@@ -5,7 +5,7 @@ const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUEST
   FACT,
   ID
 } = require("../data/questions");
-const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
+const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON, TYPE_TEXT } = require("../helper/values");
 const { commands } = require("../data/commands");
 const Patient = require('../models/patient');
 const Session = require('../models/session');
@@ -316,7 +316,7 @@ async function actionMessage(question, currentQuestion, nextQuestion, customText
   if(generateGeneric) {
     console.log('compute.actionMessage : generating Generic')
     const generatedResponse = await chatGPTGeneration(customText)
-    return { [STATEMENT]: generatedResponse, [TYPE]: TYPE_NONE };
+    return { [STATEMENT]: generatedResponse, [TYPE]: "generic_text" }
   }
   else {
     question = prepareMessageContentAndOptions(question, currentQuestion, nextQuestion);

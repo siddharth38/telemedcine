@@ -35,7 +35,7 @@ function nlu(customText, currentQuestion) {
   console.log(`compute.nlu.customText = ${customText}`)
   let analysis;
   let options = currentQuestion[OPTIONS];
-  analysis = selectOption(options, customText);
+  if (options) analysis = selectOption(options, customText);
   if (analysis) return analysis;
   // check if genericEntity
   let genericEntity = false;
