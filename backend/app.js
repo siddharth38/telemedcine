@@ -6,6 +6,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
+const dotenv = require('dotenv').config( {
+	path: path.join(__dirname, '.env')
+} );
+
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/covid', {
 	useFindAndModify: false,

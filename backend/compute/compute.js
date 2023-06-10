@@ -1,8 +1,7 @@
-const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
-  OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
-  SKIP_PROBABILITY,
-  FACT,
-  ID
+const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT,
+  NEXT_QUESTION_LIST, NEXT_QUESTION,
+  DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS, OPTION_STATEMENT_VARIANTS,
+  OPTION_VARIANT_NAME, SKIP_PROBABILITY, FACT, ID, COMMAND, TYPE
 } = require("../data/questions");
 const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
@@ -11,7 +10,7 @@ const Patient = require('../models/patient');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
 const { updatePatientWithFacts } = require("../helper/index")
-// const { stateToNodeMapping } = require("../data/state-action-mapping");
+const { stateToNodeMapping } = require("../data/state-action-mapping");
 const { getCurrentSelectedOption } = require("./computeHelper");
 const { nlu } = require("./nlu");
 const { chatGPTGeneration } = require("./nlg");
