@@ -1,19 +1,17 @@
-let log = require('npmlog')
-const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION_VARIANTS, USUAL_ASK, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
+const { questions, CONTENT_VARIANT_NAME, CONTENT_VARIANTS, STATEMENT, NEXT_QUESTION_LIST, NEXT_QUESTION, DEFAULT_ASK, VARIANT_PROBABILITY, OPTIONS,
   OPTION_STATEMENT_VARIANTS, OPTION_VARIANT_NAME,
   SKIP_PROBABILITY,
   FACT,
   ID
 } = require("../data/questions");
-const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON, TYPE_TEXT } = require("../helper/values");
+const { TYPE_ANALYSE, TYPE_NONE, TYPE_BUTTON } = require("../helper/values");
 const { commands } = require("../data/commands");
 const Patient = require('../models/patient');
-const Session = require('../models/session');
+// const Session = require('../models/session');
 const { stateVectorMap } = require("../data/fact-state-vector_mapping");
 const Message = require("../models/conversationgraph");
 const { updatePatientWithFacts } = require("../helper/index")
-const { stateToNodeMapping } = require("../data/state-action-mapping");
-const { options } = require("mongoose/lib/utils");
+// const { stateToNodeMapping } = require("../data/state-action-mapping");
 const { getCurrentSelectedOption } = require("./computeHelper");
 const { nlu } = require("./nlu");
 const { chatGPTGeneration } = require("./nlg");
@@ -58,7 +56,7 @@ function selectContentVariant(question){
   if (question && question[CONTENT_VARIANTS] !== undefined) {
     console.log("question[CONTENT_VARIANTS].length = ", question[CONTENT_VARIANTS].length)
     let probabilities = makeProbabilityList(question, CONTENT_VARIANTS)
-    let index = null
+    let index
     if (probabilities && probabilities.length>0) index = stochasticSelection(probabilities, question)
     else index = randomSelection(question, CONTENT_VARIANTS)
     console.log("compute.SelectContentVariant. selectedVariant. index = ",  index, ". variant", question[CONTENT_VARIANTS][index])
@@ -401,7 +399,7 @@ function createStateVector(session, patient_id) {
 }
 
 function calculateDurationReward(userReplyDuration){
-  let durationReward = 0
+  let durationReward
   // based on duration
   console.log("compute.calculateReward userReplyDuration = ", userReplyDuration, "ms")
   let seconds = userReplyDuration/1000
@@ -526,7 +524,7 @@ async function compute(session, res, currentQuestion, answers,
   }
   question = await actionMessage(question, currentQuestion, nextQuestion, customText, generateGeneric);
 
-  console.log("compute.question = ", question)
+  // console.log("compute : result question = ", question)
   res = prepareResult(res, question)
   return res
 }
