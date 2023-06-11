@@ -63,28 +63,28 @@ export default class Persona extends React.Component {
   }
 
   componentDidMount() {
-    let { val } = this.state
+    let { val, dat } = this.state
     socket.on("send_last_val", async (index_obj, data) => {
-      this.setData(data);
+      dat = data;
       if (index_obj === null) {
         val = 300
       } else {
         val = index_obj._id + 1
       }
-      this.setState({ val })
+      this.setState({ val, dat })
     });
   }
 
   componentWillUnmount() {
-    let { val } = this.state
+    let { val, dat } = this.state
     socket.on("send_last_val", async (index_obj, data) => {
-      this.setData(data);
+      dat = data;
       if (index_obj === null) {
         val = 300
       } else {
         val = index_obj._id + 1
       }
-      this.setState({ val })
+      this.setState({ val, dat })
     });
   }
 

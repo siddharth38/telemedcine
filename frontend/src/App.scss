@@ -1597,30 +1597,41 @@ footer {
       grid-template-areas: "c1 c2 c2 c3 c3  c4 c5";
       //height: 9vh;
       align-items: center;
+      width: 50%;
       //padding:10px;
       //margin:10px;
       //outline: 10px;
       //border:10px;
       animation: fade-in;
-    //  .c1 {
-    //    grid-area: c1;
-    //    align-items: center;
-    //  }
-    //  .c2 {
-    //    grid-area: c2;
-    //    align-items: center;
-    //  }
-    //  .c3 {
-    //    grid-area: c3;
-    //    align-items: center;
-    //  }
-    //  .c4 {
-    //    grid-area: c4;
-    //    align-items: center;
-    //  }
-    //  .c5 {
-    //    grid-area: c5;
-    //  }
+      .c {
+        margin-right: 20px;
+        border-right: 20px;
+        padding-right: 20px;
+        .c1 {
+          grid-area: c1;
+          text-align: center;
+        }
+
+        .c2 {
+          grid-area: c2;
+          align-items: center;
+          text-align: center;
+        }
+
+        .c3 {
+          grid-area: c3;
+          align-items: center;
+        }
+
+        .c4 {
+          grid-area: c4;
+          align-items: center;
+        }
+
+        .c5 {
+          grid-area: c5;
+        }
+      }
     }
   }
   .main_pop{
