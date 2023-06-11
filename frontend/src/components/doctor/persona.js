@@ -9,6 +9,9 @@ import Heading from "./dataEntry/heading/Heading";
 const client = require("socket.io-client");
 
 export default class Persona extends React.Component {
+  inputRef = useRef();
+  firstDivRef = useRef();
+  secondDivRef = useRef();
 
   handleScrollFirst = (scroll) => {
     this.secondDivRef.current.scrollTop = scroll.target.scrollTop;
@@ -88,9 +91,6 @@ export default class Persona extends React.Component {
     const [next2, setNext2] = useState("");
     const [a, setA] = useState(false);
     const [b, setB] = useState(false);
-    const inputRef = useRef();
-    const firstDivRef = useRef();
-    const secondDivRef = useRef();
 
     console.log('persona.render : dat = ', dat)
     return (
