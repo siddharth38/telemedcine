@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./dataEntry/Header/Header";
 import Heading from "./dataEntry/heading/Heading";
 
@@ -9,21 +9,36 @@ import Heading from "./dataEntry/heading/Heading";
 const client = require("socket.io-client");
 
 export default class Persona extends React.Component {
-  inputRef = useRef();
-  firstDivRef = useRef();
-  secondDivRef = useRef();
+  state = {
+    dat : [],
+    name1 : "",
+    Statement1 : "",
+    next1 : "",
+    name2 : "",
+    Statement2 : "",
+    next2 : "",
+    a : false,
+    b : false,
+    val : 300,
+    inputRef : { current:null },
+    firstDivRef : { current:null },
+    secondDivRef : { current:null }
+  }
+
+
 
   handleScrollFirst = (scroll) => {
-    this.secondDivRef.current.scrollTop = scroll.target.scrollTop;
+    this.state.secondDivRef.current.scrollTop = scroll.target.scrollTop;
   };
 
   handleScrollSecond = (scroll) => {
-    this.firstDivRef.current.scrollTop = scroll.target.scrollTop;
+    this.state.firstDivRef.current.scrollTop = scroll.target.scrollTop;
   };
 
   handle = () => {
-    console.log("jjhjbhjjh_jnjksdfds");
-    this.setA(!a);
+    console.log("handle");
+    let { a } = this.state
+    this.setState({a: !a})
   };
 
   // sendMessage = () => {
@@ -51,15 +66,16 @@ export default class Persona extends React.Component {
   }
 
   componentWillUnmount() {
-    const [val, setVal] = useState(300);
+    let { val } = this.state
     useEffect(() => {
       socket.on("send_last_val", async (index_obj, data) => {
         this.setData(data);
         if (index_obj === null) {
-          setVal(300);
+          val = 300
         } else {
-          setVal(index_obj._id + 1);
+          val = index_obj._id + 1
         }
+        this.setState({ val })
       });
     }, []);
   }
@@ -82,32 +98,19 @@ export default class Persona extends React.Component {
   };
 
   render() {
-    const [dat, setData] = useState([]);
-    const [name1, setName1] = useState("");
-    const [Statement1, setStatement1] = useState("");
-    const [next1, setNext1] = useState("");
-    const [name2, setName2] = useState("");
-    const [Statement2, setStatement2] = useState("");
-    const [next2, setNext2] = useState("");
-    const [a, setA] = useState(false);
-    const [b, setB] = useState(false);
+    const {
+      dat, name1, Statement1, next1, name2, Statement2, next2, a, /*b,*/ val, inputRef, firstDivRef, secondDivRef} = this.state
+
 
     console.log('persona.render : dat = ', dat)
     return (
-      <div className="App">
+      <div className="BotBuilder">
         <div className="header">
           <Header handle={this.handle} />
         </div>
 
         {/*------------------------------ */}
-        <div
-          className="App"
-          style={{
-            display: "flex",
-            height: "70vh",
-            overflow: "hidden"
-          }}
-        >
+        <div className="BotBuilder" style={{ display: "flex", height: "70vh", overflow: "hidden" }}>
           <div className="main_pop">
             {a && (
               <div
@@ -165,8 +168,8 @@ export default class Persona extends React.Component {
               <div className="i2">
                 <input
                   placeholder="Name"
-                  value={this.name1}
-                  onChange={(event) => setName1(event.target.value)}
+                  value={name1}
+                  onChange={(event) => this.setState({ name1: event.target.value })}
                   ref={inputRef}
                   autoFocus
                 />
@@ -176,7 +179,7 @@ export default class Persona extends React.Component {
                   placeholder="Statement"
                   type="text"
                   value={Statement1}
-                  onChange={(event) => setStatement1(event.target.value)}
+                  onChange={(event) => this.setState({Statement1:event.target.value})}
                 />
               </div>
               <div className="i4">
@@ -184,7 +187,7 @@ export default class Persona extends React.Component {
                   placeholder="Next"
                   type="text"
                   value={next1}
-                  onChange={(event) => setNext1(event.target.value)}
+                  onChange={(event) => this.setState({next1:event.target.value})}
                 />
               </div>
               <div className="i5">
@@ -192,7 +195,7 @@ export default class Persona extends React.Component {
                   placeholder="Option's Name"
                   type="text"
                   value={name2}
-                  onChange={(event) => setName2(event.target.value)}
+                  onChange={(event) => this.setState({name2:event.target.value})}
                 />
               </div>
               <div className="i6">
@@ -200,7 +203,7 @@ export default class Persona extends React.Component {
                   placeholder="Option's Statement"
                   type="text"
                   value={Statement2}
-                  onChange={(event) => setStatement2(event.target.value)}
+                  onChange={(event) => this.setState({Statement2:event.target.value})}
                 />
               </div>
               <div className="i7">
@@ -208,7 +211,7 @@ export default class Persona extends React.Component {
                   placeholder="Option's Next"
                   type="text"
                   value={next2}
-                  onChange={(event) => setNext2(event.target.value)}
+                  onChange={(event) => this.setState({next2: event.target.value})}
                 />
               </div>
             </div>
