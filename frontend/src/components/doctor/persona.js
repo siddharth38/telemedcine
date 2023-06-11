@@ -25,8 +25,6 @@ export default class Persona extends React.Component {
     secondDivRef : { current:null }
   }
 
-
-
   handleScrollFirst = (scroll) => {
     this.state.secondDivRef.current.scrollTop = scroll.target.scrollTop;
   };
@@ -67,24 +65,18 @@ export default class Persona extends React.Component {
 
   componentWillUnmount() {
     let { val } = this.state
-    useEffect(() => {
-      socket.on("send_last_val", async (index_obj, data) => {
-        this.setData(data);
-        if (index_obj === null) {
-          val = 300
-        } else {
-          val = index_obj._id + 1
-        }
-        this.setState({ val })
-      });
-    }, []);
+    socket.on("send_last_val", async (index_obj, data) => {
+      this.setData(data);
+      if (index_obj === null) {
+        val = 300
+      } else {
+        val = index_obj._id + 1
+      }
+      this.setState({ val })
+    });
   }
 
   connect = () => {
-    const { patientId } = this.state;
-
-    this.setState({ requesting: true });
-
     // create socket based on environment - dev/prod
     this.socket = client("/", {
       path: "/doctor/persona",
@@ -105,26 +97,18 @@ export default class Persona extends React.Component {
     console.log('persona.render : dat = ', dat)
     return (
       <div className="BotBuilder">
-        <div className="header">
-          <Header handle={this.handle} />
+        <div className="bb-header">
+          <Header handle={this.handle} className={"bb-head"}/>
         </div>
 
         {/*------------------------------ */}
         <div className="BotBuilder" style={{ display: "flex", height: "70vh", overflow: "hidden" }}>
           <div className="main_pop">
             {a && (
-              <div
-                className="main_main"
-                onScroll={this.handleScrollFirst}
-                ref={firstDivRef}
-                style={{
-
-                  overflow: "scroll"
-                }}
-              >
+              <div className="main_main" onScroll={this.handleScrollFirst} ref={firstDivRef} style={{ overflow: "scroll" }}>
                 <div className="row_main" style={{ height: "10vh" }}>
                   <Heading />
-                  <div className="map" style={{ height: "100vh" }}>
+                  <div className="map">
                     {dat.map((item) => (
                       <div className="del" key={item.id}>
                         <div>{item.name2}</div>
