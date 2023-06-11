@@ -8,6 +8,7 @@
     "classnames": "^2.2.6",
     "install": "^0.13.0",
     "jquery": "^3.4.1",
+    "loader-utils": "3.2.1",
     "lodash": "^4.17.15",
     "npm": "^6.14.3",
     "npmlog": "^7.0.1",
@@ -19,11 +20,10 @@
     "react-progressbar": "^15.4.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^5.0.1",
+    "react-scroll-sync": "^0.11.0",
     "sass": "^1.54.3",
     "socket.io-client": "^2.3.0",
-    "universal-cookie": "^4.0.4",
-    "loader-utils": "3.2.1",
-    "react-scroll-sync": "^0.11.0"
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start css-watch",

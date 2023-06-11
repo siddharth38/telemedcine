@@ -6,6 +6,7 @@
 
 var app = require('../app');
 var io = require('../chat').io;
+var dataIo = require('../persona/index').io;
 var debug = require('debug')('server:server');
 var http = require('http');
 //const https = require('https');
@@ -16,20 +17,27 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+var dataPort = normalizePort(process.env.PORT || '3002');
 app.set('port', port);
+app.set('port', dataPort);
 
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var dataServer = http.createServer(app);
 //const options = {
 //  key: fs.readFileSync('bin/key.pem'),
 //  cert: fs.readFileSync('bin/cert.pem')
 //};
 //var server = https.createServer(options, app);
 
+// const io = require('socket.io')(server)
+// module.exports.io = io
 io.attach(server);
+dataIo.attach(dataServer);
+// console.log(server)
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -37,6 +45,10 @@ io.attach(server);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+dataServer.listen(dataPort);
+dataServer.on('error', onError);
+dataServer.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -96,4 +108,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }

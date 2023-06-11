@@ -6,7 +6,7 @@ import _ from "lodash";
 import Progress from "react-progressbar";
 
 import axios from "axios";
-import { BACKEND_URL_DEV, ENDPOINT, languages } from "../config";
+import { ENDPOINT, languages } from "../config";
 
 import PeerConnection from "./webrtc/PeerConnection";
 import CallWindow from "./webrtc/CallWindow";
@@ -311,8 +311,8 @@ export default class Chat extends React.Component {
 
 		this.setState({ requesting: true });
 
-		// create socket based on environment - dev/prod
-		this.socket = client(process.env.NODE_ENV === 'development' ? BACKEND_URL_DEV : '/', {
+		// create socket based on environment - dev/pro
+		this.socket = client('/', {
 			path: '/app_chat',
 			transports: ['websocket'],
 			query: {

@@ -4,4 +4,3 @@ export const languages = [
   //{code: 'bn', name: 'বাংলা'},
   {code: 'en', name: 'English'}
 ];
-export const BACKEND_URL_DEV = 'localhost:3000';

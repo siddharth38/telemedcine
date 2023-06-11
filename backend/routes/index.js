@@ -20,8 +20,6 @@ const upload = multer({ storage });
 const { realTimeAnswersToModel, answersToModel, getId, computeAndReply } = require('../helper');
 const { mail } = require('../helper/mail');
 const authenticate = require('../helper/auth');
-const { commands } = require('../data/commands');
-const { TYPE_NONE, TYPE_ANALYSE } = require('../helper/values');
 
 const { questions } = require('../data/questions');
 

@@ -1,12 +1,29 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import Header from "./dataEntry/Header/Header";
 import Heading from "./dataEntry/heading/Heading";
 
-// const express = require("express");
-// const app = express();
-// const { Server } = require("socket.io");
-// const cors = require("cors");
-const client = require("socket.io-client");
+import io from "socket.io-client";
+// console.log(`persona : io = ${io}, io.parsed = ${io.parsed}, io.path = ${io.path}, io.opts = ${io.opts}`)
+// const socket = io('http://localhost:3000/doctor/persona', {transports: ["http"]})
+
+const socket = io.connect("ws://localhost:3002", {
+  path: "/doctor/persona",
+  transports: ["websocket"],
+  // allowedHeaders: ["my-custom-header"],
+  // credentials: true
+  // query: {
+  //   // _id,
+  //   // type: 'doctor'
+  // }
+});
+// console.log(`persona : socket = ${socket}. socket.keys = ${socket.keys}`)
+// console.log(`persona : io = ${io}, io.parsed = ${io.parsed}, io.path = ${io.path}, io.opts = ${io.opts}`)
+
+socket.on("connect_error", err => {
+  console.log('persona.connect_error. err instanceof Error = ', err); // true
+  console.log('persona.connect_error. err.message = ', err.message); // not authorized
+  console.log('persona.connect_error. err.data = ', err.data); // { content: "Please retry later" }
+});
 
 export default class Persona extends React.Component {
   state = {
@@ -34,33 +51,28 @@ export default class Persona extends React.Component {
   };
 
   handle = () => {
-    console.log("handle");
+    console.log("handleA");
     let { a } = this.state
     this.setState({a: !a})
   };
 
-  // sendMessage = () => {
-  //   const msg = {
-  //     name1: name1,
-  //     Statement1: Statement1,
-  //     next1: next1,
-  //     name2: name2,
-  //     Statement2: Statement2,
-  //     next2: next2,
-  //   };
-  //
-  //   socket.emit("sending", msg);
-  //   setName1(" ");
-  //   setName2("");
-  //   setNext1("");
-  //   setNext2("");
-  //   setStatement2("");
-  //   setStatement1("");
-  //   inputRef.current.focus();
-  // };
-
+  handleB = () => {
+    console.log("handleB");
+    let { b } = this.state
+    this.setState({b: !b})
+  }
 
   componentDidMount() {
+    let { val } = this.state
+    socket.on("send_last_val", async (index_obj, data) => {
+      this.setData(data);
+      if (index_obj === null) {
+        val = 300
+      } else {
+        val = index_obj._id + 1
+      }
+      this.setState({ val })
+    });
   }
 
   componentWillUnmount() {
@@ -76,23 +88,9 @@ export default class Persona extends React.Component {
     });
   }
 
-  connect = () => {
-    // create socket based on environment - dev/prod
-    this.socket = client("/", {
-      path: "/doctor/persona",
-      transports: ["websocket"],
-      query: {
-        // _id,
-        // type: 'doctor'
-      }
-    });
-
-  };
-
   render() {
     const {
       dat, name1, Statement1, next1, name2, Statement2, next2, a, /*b,*/ val, inputRef, firstDivRef, secondDivRef} = this.state
-
 
     console.log('persona.render : dat = ', dat)
     return (
@@ -200,7 +198,16 @@ export default class Persona extends React.Component {
               </div>
             </div>
             <div>
-              <button onClick={this.sendMessage}>Submit</button>
+              <button onClick={(event)=>{
+                const{ name1, name2, next1, next2, Statement1, Statement2 } = this.state
+                const msg = { name1: name1, Statement1: Statement1, next1: next1,
+                  name2: name2, Statement2: Statement2, next2: next2,
+                };
+                socket.emit("sending", msg);
+                console.log("socket has emitted on submit")
+                this.setState({name1, name2, next1, next2, Statement1, Statement2})
+                inputRef.current.focus();
+              }}>Submit</button>
             </div>
           </div>
         </div>

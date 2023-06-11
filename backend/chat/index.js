@@ -1,8 +1,9 @@
 const redisAdapter = require('socket.io-redis');
+// const io = io.of('/app_chat')
 const io = require('socket.io')({
 	path: '/app_chat'
 });
-
+// live_chat_namespace.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 
 const Patient = require('../models/patient');
@@ -11,6 +12,7 @@ const Doctor = require('../models/doctor');
 // seems like doctor patient conversation
 
 const { mail, mailPatient } = require('../helper/mail');
+// const { io } = require("../bin/www");
 
 Patient.updateMany({}, { $set: { chat_id: '' } }, (err, res) => {
 	if (err) return console.error('updating many patients. setting chat_id', err);
