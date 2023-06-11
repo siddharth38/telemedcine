@@ -15,6 +15,7 @@ import Admin from './components/admin';
 // import Banner from './components/banner';
 import axios from 'axios';
 import { ENDPOINT } from './config';
+import Persona from "./components/doctor/persona";
 
 const history = require('history').createBrowserHistory;
 

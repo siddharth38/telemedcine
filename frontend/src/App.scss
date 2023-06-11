@@ -1560,7 +1560,7 @@ footer {
     & > * {
       align-self: center;
       width: calc(100% - 2rem);
-      margin: 0rem 1rem;
+      margin: 0 1rem;
       max-width: 30rem;
       margin-bottom: 1.5rem;
     }
@@ -1579,6 +1579,24 @@ footer {
         margin-top: 4rem;
       }
     }
+  }
+}
+
+.data-entry{
+  .header {
+    height: 10vh;
+  }
+  .main_pop{
+    position: absolute;
+    left: 30vw;
+  }
+  .field_row {
+    overflow: scroll;
+    height: 75vh;
+  }
+
+  .inp {
+    height: 10vh;
   }
 }
 

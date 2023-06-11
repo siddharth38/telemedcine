@@ -1,78 +1,64 @@
-const express = require("express");
-const app = express();
-const { Server } = require("socket.io");
-const cors = require("cors");
+import React, { useEffect, useRef, useState } from "react";
+import Header from "./dataEntry/Header/Header";
+import Heading from "./dataEntry/heading/Heading";
+
+// const express = require("express");
+// const app = express();
+// const { Server } = require("socket.io");
+// const cors = require("cors");
 const client = require("socket.io-client");
-const { BACKEND_URL_DEV } = require("../../config");
 
 export default class Persona extends React.Component {
 
-  firstDivRef = useRef();
-  secondDivRef = useRef();
-
   handleScrollFirst = (scroll) => {
-    secondDivRef.current.scrollTop = scroll.target.scrollTop;
+    this.secondDivRef.current.scrollTop = scroll.target.scrollTop;
   };
 
   handleScrollSecond = (scroll) => {
-    firstDivRef.current.scrollTop = scroll.target.scrollTop;
+    this.firstDivRef.current.scrollTop = scroll.target.scrollTop;
   };
 
   handle = () => {
     console.log("jjhjbhjjh_jnjksdfds");
-    setA(!a);
-  }
-
-  sendMessage = () => {
-    const msg = {
-      name1: name1,
-      Statement1: Statement1,
-      next1: next1,
-      name2: name2,
-      Statement2: Statement2,
-      next2: next2,
-    };
-
-    socket.emit("sending", msg);
-    setName1(" ");
-    setName2("");
-    setNext1("");
-    setNext2("");
-    setStatement2("");
-    setStatement1("");
-    inputRef.current.focus();
+    this.setA(!a);
   };
 
-  // useEffect(() => {
-  //   socket.on("send_last_val", async (asa, dd) => {
-  //     setData(dd);
-  //     if (asa === null) {
-  //       setVal(300);
-  //     } else {
-  //       setVal(asa._id + 1);
-  //     }
-  //   });
-  // }, []);
+  // sendMessage = () => {
+  //   const msg = {
+  //     name1: name1,
+  //     Statement1: Statement1,
+  //     next1: next1,
+  //     name2: name2,
+  //     Statement2: Statement2,
+  //     next2: next2,
+  //   };
+  //
+  //   socket.emit("sending", msg);
+  //   setName1(" ");
+  //   setName2("");
+  //   setNext1("");
+  //   setNext2("");
+  //   setStatement2("");
+  //   setStatement1("");
+  //   inputRef.current.focus();
+  // };
 
 
   componentDidMount() {
-
-  }  
+  }
 
   componentWillUnmount() {
-    if (this.socket) this.socket.disconnect();
-    const [dat, setData] = useState([]);
-    const [name1, setName1] = useState("");
-    const [Statement1, setStatement1] = useState("");
-    const [next1, setNext1] = useState("");
-    const [name2, setName2] = useState("");
-    const [Statement2, setStatement2] = useState("");
-    const [next2, setNext2] = useState("");
     const [val, setVal] = useState(300);
-    const inputRef = useRef();
-    const [a, setA] = useState(false);
-
-    
+    useEffect(() => {
+      socket.on("send_last_val", async (index_obj, data) => {
+        this.setData(data);
+        if (index_obj === null) {
+          setVal(300);
+        } else {
+          setVal(index_obj._id + 1);
+        }
+      });
+    }, []);
   }
 
   connect = () => {
@@ -81,56 +67,61 @@ export default class Persona extends React.Component {
     this.setState({ requesting: true });
 
     // create socket based on environment - dev/prod
-    this.socket = client(process.env.NODE_ENV === 'development' ? BACKEND_URL_DEV : '/', {
-      path: '/doctor/persona',
-      transports: ['websocket'],
+    this.socket = client("/", {
+      path: "/doctor/persona",
+      transports: ["websocket"],
       query: {
-        _id,
-        type: 'doctor'
+        // _id,
+        // type: 'doctor'
       }
     });
 
-    // this.socket.on()
-
-    // this.socket.on('message', ({ message, from }) => {
-    //   if (from === this.state.doctor) {
-    //     this.setState({ incomingTyping: false });
-    //     this.enterMessageIntoChat(message, 'incoming');
-    //   }
-    // });
-
-  }
+  };
 
   render() {
+    const [dat, setData] = useState([]);
+    const [name1, setName1] = useState("");
+    const [Statement1, setStatement1] = useState("");
+    const [next1, setNext1] = useState("");
+    const [name2, setName2] = useState("");
+    const [Statement2, setStatement2] = useState("");
+    const [next2, setNext2] = useState("");
+    const [a, setA] = useState(false);
+    const [b, setB] = useState(false);
+    const inputRef = useRef();
+    const firstDivRef = useRef();
+    const secondDivRef = useRef();
+
+    console.log('persona.render : dat = ', dat)
     return (
       <div className="App">
         <div className="header">
-          <Header handle={handle} />
+          <Header handle={this.handle} />
         </div>
-  
+
         {/*------------------------------ */}
         <div
           className="App"
           style={{
             display: "flex",
             height: "70vh",
-            overflow: "hidden",
+            overflow: "hidden"
           }}
         >
           <div className="main_pop">
             {a && (
               <div
                 className="main_main"
-                onScroll={handleScrollFirst}
+                onScroll={this.handleScrollFirst}
                 ref={firstDivRef}
                 style={{
-  
-                  overflow: "scroll",
+
+                  overflow: "scroll"
                 }}
               >
-                <div className="row_main" style={{height:"10vh"}}>
+                <div className="row_main" style={{ height: "10vh" }}>
                   <Heading />
-                  <div className="map" style={{height:"100vh"}}>
+                  <div className="map" style={{ height: "100vh" }}>
                     {dat.map((item) => (
                       <div className="del" key={item.id}>
                         <div>{item.name2}</div>
@@ -143,16 +134,13 @@ export default class Persona extends React.Component {
               </div>
             )}
           </div>
-  
+
           <div
             className="field_row"
-            onScroll={handleScrollSecond}
+            onScroll={this.handleScrollSecond}
             ref={secondDivRef}
           >
-            <div
-              className="field"
-             
-            >
+            <div className="field">
               {dat.map((item) => (
                 <div className="field_main">
                   <div className="f1">{item._id}</div>
@@ -166,7 +154,7 @@ export default class Persona extends React.Component {
           </div>
         </div>
         {/*------------------------------ */}
-  
+
         <div className="inp">
           <div className="main">
             <div className="inp">
@@ -177,7 +165,7 @@ export default class Persona extends React.Component {
               <div className="i2">
                 <input
                   placeholder="Name"
-                  value={name1}
+                  value={this.name1}
                   onChange={(event) => setName1(event.target.value)}
                   ref={inputRef}
                   autoFocus
@@ -225,7 +213,7 @@ export default class Persona extends React.Component {
               </div>
             </div>
             <div>
-              <button onClick={sendMessage}>Submit</button>
+              <button onClick={this.sendMessage}>Submit</button>
             </div>
           </div>
         </div>
