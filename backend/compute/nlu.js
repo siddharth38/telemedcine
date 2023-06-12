@@ -10,7 +10,7 @@ let genericEntities = [STATEMENT_YES, STATEMENT_NO, STATEMENT_TRUE, STATEMENT_FA
 
 function compareStatements(langStatement, customText){
   let s = StringSimilarity.compareTwoStrings(langStatement, customText)
-  console.log(`compute.nlu.selectStatement : langStatement = ${langStatement}, customText = ${customText}, similarity = ${s}`)
+  // console.log(`compute.nlu.selectStatement : langStatement = ${langStatement}, customText = ${customText}, similarity = ${s}`)
   if (s > 0.5) return true;
 }
 

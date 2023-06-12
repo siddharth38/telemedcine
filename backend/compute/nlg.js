@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-let { readFileSync } = require("fs")
+// let { readFileSync } = require("fs")
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -38,7 +38,7 @@ async function chatGPTGeneration(customText){
 }
 
 function generatePrompt(customTextByUser) {
-  return `Give a short empathetic reply to "${customTextByUser}" with a follow up question`;
+  return `Give a short empathetic reply to "${customTextByUser}" with a follow up question. Add emoji`;
 }
 
 module.exports = { chatGPTGeneration }
