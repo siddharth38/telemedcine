@@ -40,7 +40,7 @@ function Home() {
 				<div className="header fadeInUp" style={{ animationDelay: '0.5s' }}>
 					<div className="header-mid">
 						<div className="titles">
-							<h1>Virtual Heart Hospital</h1>
+							<h1>Virtual Hospital</h1>
 							<h2>टेली-कंसल्टेंसी पोर्टल</h2>
 						</div>
 					</div>
