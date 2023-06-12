@@ -3,6 +3,15 @@ import Header from "./dataEntry/Header/Header";
 import Heading from "./dataEntry/heading/Heading";
 
 import io from "socket.io-client";
+import {
+  ID,
+  LANG_ENGLISH,
+  LANG_HINDI,
+  NEXT_QUESTION,
+  OPTION_VARIANT_NAME,
+  OPTIONS,
+  STATEMENT
+} from "server/data/questions";
 // console.log(`persona : io = ${io}, io.parsed = ${io.parsed}, io.path = ${io.path}, io.opts = ${io.opts}`)
 // const socket = io('http://localhost:3000/doctor/persona', {transports: ["http"]})
 
@@ -27,27 +36,29 @@ socket.on("connect_error", err => {
 
 export default class Persona extends React.Component {
   state = {
-    dat : [],
-    name1 : "",
-    Statement1 : "",
-    next1 : "",
+    messageData : [],
+    id : "",
+    statement : "",
+    nextQuestion : "",
     name2 : "",
     Statement2 : "",
     next2 : "",
     a : false,
     b : false,
-    val : 300,
+    messageId : 300,
     inputRef : { current:null },
-    firstDivRef : { current:null },
-    secondDivRef : { current:null }
+    rootSheetRef : { current:null },
+    level1SheetRef : { current:null }
   }
 
-  handleScrollFirst = (scroll) => {
-    this.state.secondDivRef.current.scrollTop = scroll.target.scrollTop;
+  handleLayerScroll = (scroll) => {
+    if (scroll.target && this.state.level1SheetRef.current)
+      this.state.level1SheetRef.current.scrollTop = scroll.target.scrollTop;
   };
 
-  handleScrollSecond = (scroll) => {
-    this.state.firstDivRef.current.scrollTop = scroll.target.scrollTop;
+  handleRootScroll = (scroll) => {
+    if (scroll.target && this.state.rootSheetRef.current)
+      this.state.rootSheetRef.current.scrollTop = scroll.target.scrollTop;
   };
 
   handle = () => {
@@ -63,76 +74,109 @@ export default class Persona extends React.Component {
   }
 
   componentDidMount() {
-    let { val, dat } = this.state
+    let { messageId, messageData } = this.state
     socket.on("send_last_val", async (index_obj, data) => {
-      dat = data;
+      messageData = data;
       if (index_obj === null) {
-        val = 300
+        messageId = 300
       } else {
-        val = index_obj._id + 1
+        messageId = index_obj._id + 1
       }
-      this.setState({ val, dat })
+      this.setState({ messageId: messageId, messageData: messageData })
     });
   }
 
-  componentWillUnmount() {
-    let { val, dat } = this.state
-    socket.on("send_last_val", async (index_obj, data) => {
-      dat = data;
-      if (index_obj === null) {
-        val = 300
-      } else {
-        val = index_obj._id + 1
+  makeLayer = () => {
+
+  }
+
+  setOption = (item, key) => {
+    console.log(item)
+    let options = item[OPTIONS]
+    if (!options)
+      return
+    let domContent = []
+    console.log(`setOption options.length = ${options.length}`)
+    for (let i=0; i<options.length; i++) {
+      let option = options[i]
+      console.log(`persona.setOptions : i = ${i}. option. = ${option}. Object.keys(option) = ${Object.keys(option)}`)
+      if (option[STATEMENT]) {
+        // if (typeof option[STATEMENT] === "string") {
+        //   console.log(`persona : iterating through option statements : ${option[STATEMENT]}`)
+        //   domContent.push(<div key={`${key}-${i}-${/*options[i][OPTION_VARIANT_NAME]*/""}`}>{option[STATEMENT]}</div>);
+        // } else {
+          console.log(`persona : iterating through option statements : ${option[STATEMENT]}`)
+          domContent.push(<div
+            key={`${key}-${i}-${/*options[i][OPTION_VARIANT_NAME]*/""}`}>
+            {this.setOptionStatement(option, `${key}-${i}-${option[OPTION_VARIANT_NAME]}`)}</div>);
+          // domContent.push(<div key={`${key}-${LANG_HINDI}`}>{statementObject[LANG_HINDI]}</div>)
+          // // else console.log(s)
+        // }
       }
-      this.setState({ val, dat })
-    });
+    }
+    return domContent
+  }
+
+  makeStatementElement = (statementObject, key) => {
+    if (!statementObject) return
+    let domContent = []
+    // for (let i=0; i<statementObject.length; i++) console.log(`persona.setStatement = statementObject.length = ${statementObject.length}`)
+    console.log(`persona.setStatement : statementObject.keys = ${statementObject.keys}. statementObject[LANG_ENGLISH] = ${statementObject[LANG_ENGLISH]}`)
+    // for (let i=0; i<statementObject.keys; i++){
+    //   console.log('iterating through statementObjects')
+    // let k = statementObject.keys[i]
+    // let s = statementObject[k]
+    domContent.push(<div key={`${key}-${LANG_ENGLISH}`}>{statementObject[LANG_ENGLISH]}</div>)
+    domContent.push(<div key={`${key}-${LANG_HINDI}`}>{statementObject[LANG_HINDI]}</div>)
+    // else console.log(s)
+    // }
+    return domContent
+  }
+
+  setOptionStatement = (item, key) => {
+    let statementObject = item[STATEMENT]
+    if (statementObject && typeof statementObject === "string") {
+      console.log("statement is a string")
+      return statementObject;
+    }
+    if (typeof statementObject !== "object") statementObject = statementObject[0]
+    return this.makeStatementElement(statementObject, key)
+  }
+
+  setStatement = (item, key) => {
+    let statementObject = item[STATEMENT]
+    if (statementObject && typeof statementObject === "string")
+      return statementObject
+    statementObject = statementObject[0]
+    return this.makeStatementElement(statementObject, key)
   }
 
   render() {
     const {
-      dat, name1, Statement1, next1, name2, Statement2, next2, a, /*b,*/ val, inputRef, firstDivRef, secondDivRef} = this.state
+      messageData, id, statement, nextQuestion, name2, Statement2, next2, a, /*b,*/ messageId, inputRef, rootSheetRef, level1SheetRef} = this.state
 
-    console.log('persona.render : dat = ', dat)
+    console.log('persona.render : dat = ', messageData)
     return (
       <div className="BotBuilder">
-        <div className="bb-header">
+        <div className="bb-root-header">
           <Header handle={this.handle} className={"bb-head"}/>
         </div>
 
         {/*------------------------------ */}
-        <div className="BotBuilder" style={{ display: "flex", height: "70vh", overflow: "hidden" }}>
-          <div className="main_pop">
-            {a && (
-              <div className="main_main" onScroll={this.handleScrollFirst} ref={firstDivRef} style={{ overflow: "scroll" }}>
-                <div className="row_main" style={{ height: "10vh" }}>
-                  <Heading />
-                  <div className="map">
-                    {dat.map((item) => (
-                      <div className="del" key={item.id}>
-                        <div>{item.name2}</div>
-                        <div>{item.Statement2}</div>
-                        <div>{item.next2}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
+        <div className="" style={{ display: "flex", height: "80vh", margin:"15px" }}>
           <div
-            className="field_row"
-            onScroll={this.handleScrollSecond}
-            ref={secondDivRef}
+            className="root_sheet"
+            onScroll={this.handleRootScroll}
+            ref={rootSheetRef}
           >
             <div className="field">
-              {dat.map((item) => (
-                <div className="field_main">
-                  <div className="f1">{item._id}</div>
-                  <div className="f2">{item.name1}</div>
-                  <div className="f3">{item.Statement1}</div>
-                  <div className="f4">{item.next1}</div>
-                  <div className="f5">ssd</div>
+              {messageData.map((item) => (
+                <div className="root-row">
+                  <div key={`${item[ID]}-f1`} className="f1 tooltip-content">{item._id}</div>
+                  <div key={`${item[ID]}-f2`} className="f2">{item[ID]}</div>
+                  <div key={`${item[ID]}-f3`} className="f3">{this.setStatement(item, `${item[ID]}-f3`)}</div>
+                  <div key={`${item[ID]}-f4`} className="f4">{item[NEXT_QUESTION]}</div>
+                  <div key={`${item[ID]}-f5`} className="f5">{this.setOption(item, `${item[ID]}-f5`)}</div>
                 </div>
               ))}
             </div>
@@ -140,18 +184,39 @@ export default class Persona extends React.Component {
         </div>
         {/*------------------------------ */}
 
-        <div className="inp">
+        <div className="level1-layer-pop">
+          {a && (
+            <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef} style={{ overflow: "scroll" }}>
+              <div className="layer_row">
+                <Heading />
+                <div className="map">
+                  {messageData.map((item) => (
+                    <div className="del" key={item.id}>
+                      <div>{item.name2}</div>
+                      <div>{item.Statement2}</div>
+                      <div>{item.next2}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <></>
+
+        <div className="inp" style={{margin:"15px"}}>
           <div className="main">
             <div className="inp">
               <div className="i1">
                 {/* <input placeholder="Id" /> */}
-                {val}
+                {/*{val}*/}
               </div>
               <div className="i2">
                 <input
                   placeholder="Name"
-                  value={name1}
-                  onChange={(event) => this.setState({ name1: event.target.value })}
+                  value={id}
+                  onChange={(event) => this.setState({ id: event.target.value })}
                   ref={inputRef}
                   autoFocus
                 />
@@ -160,16 +225,16 @@ export default class Persona extends React.Component {
                 <input
                   placeholder="Statement"
                   type="text"
-                  value={Statement1}
-                  onChange={(event) => this.setState({Statement1:event.target.value})}
+                  value={statement}
+                  onChange={(event) => this.setState({Statement:event.target.value})}
                 />
               </div>
               <div className="i4">
                 <input
                   placeholder="Next"
                   type="text"
-                  value={next1}
-                  onChange={(event) => this.setState({next1:event.target.value})}
+                  value={nextQuestion}
+                  onChange={(event) => this.setState({nextQuestion:event.target.value})}
                 />
               </div>
               <div className="i5">
@@ -199,13 +264,13 @@ export default class Persona extends React.Component {
             </div>
             <div>
               <button onClick={(event)=>{
-                const{ name1, name2, next1, next2, Statement1, Statement2 } = this.state
-                const msg = { name1: name1, Statement1: Statement1, next1: next1,
+                const{ id, name2, nextQuestion, next2, statement, Statement2 } = this.state
+                const msg = { id: id, Statement1: statement, nextQuestion,
                   name2: name2, Statement2: Statement2, next2: next2,
                 };
                 socket.emit("sending", msg);
                 console.log("socket has emitted on submit")
-                this.setState({name1, name2, next1, next2, Statement1, Statement2})
+                this.setState({id: id, name2, nextQuestion, next2, Statement1: statement, Statement2})
                 inputRef.current.focus();
               }}>Submit</button>
             </div>

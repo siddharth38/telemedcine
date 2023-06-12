@@ -5,6 +5,7 @@ const { FACT, ID, TYPE, CONTENT_VARIANTS, NEXT_QUESTION_LIST, OPTIONS, STATEMENT
 } = require('../data/questions')
 
 const { Schema } = mongoose;
+const Any = new Schema({ any: mongoose.Mixed });
 
 const StatementSchema = new Schema({
   [DESCRIPTION_IMAGE]:String,
@@ -28,10 +29,25 @@ const FactSchema = new Schema({
 
 const NextQuestionSchema = new Schema({
   [NEXT_QUESTION]:String,
-  [VARIANT_PROBABILITY]:Number
+  [VARIANT_PROBABILITY]:Number,
+})
+
+const SimpleOptionSchema = new Schema({
+  [STATEMENT]: String,
+  [NEXT_QUESTION]: String,
+  [OPTION_VARIANT_NAME]: String,
+  [OPTION_STATEMENT_VARIANTS]:[OptionStatementVariantSchema],
+  [COMMAND]:String,
+  [VALUE]:String,
+  [DB_VALUE]:String,
+  [BRANCHES]:[String],
+  [FACT]:[FactSchema],
+  [NEXT_QUESTION_LIST]:[NextQuestionSchema]
 })
 
 const OptionSchema = new Schema({
+  [STATEMENT]: StatementSchema,
+  [NEXT_QUESTION]: NextQuestionSchema,
   [OPTION_VARIANT_NAME]: String,
   [OPTION_STATEMENT_VARIANTS]:[OptionStatementVariantSchema],
   [COMMAND]:String,
@@ -52,7 +68,7 @@ const ContentSchema = new Schema({
 const MessageSchema = new Schema({
   [ID]:String,
   [STATEMENT]:[StatementSchema],
-  [OPTIONS]:[OptionSchema],
+  [OPTIONS]:[],
   [NEXT_QUESTION_LIST]:[NextQuestionSchema],
   [CONTENT_VARIANTS]:[ContentSchema],
   [TYPE]:String,
