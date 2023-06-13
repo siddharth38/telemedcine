@@ -159,11 +159,11 @@ export default class Persona extends React.Component {
     return (
       <div className="BotBuilder">
         <div className="bb-root-header">
-          <Header handle={this.handle} className={"bb-head"}/>
+          <Header handle={this.handle} /*className = { "bb-head" }*//>
         </div>
 
         {/*------------------------------ */}
-        <div className="" style={{ display: "flex", height: "80vh", margin:"15px" }}>
+        {/*<div className="" style={{ display: "flex", height: "80vh", margin:"15px" }}>*/}
           <div
             className="root_sheet"
             onScroll={this.handleRootScroll}
@@ -181,15 +181,15 @@ export default class Persona extends React.Component {
               ))}
             </div>
           </div>
-        </div>
+        {/*</div>*/}
         {/*------------------------------ */}
 
         <div className="level1-layer-pop">
           {a && (
-            <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef} style={{ overflow: "scroll" }}>
-              <div className="layer_row">
+            <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef}>
+              {/*<div className="layer_row">*/}
                 <Heading />
-                <div className="map">
+                <div className="layer_table_values">
                   {messageData.map((item) => (
                     <div className="del" key={item.id}>
                       <div>{item.name2}</div>
@@ -198,7 +198,7 @@ export default class Persona extends React.Component {
                     </div>
                   ))}
                 </div>
-              </div>
+              {/*</div>*/}
             </div>
           )}
         </div>

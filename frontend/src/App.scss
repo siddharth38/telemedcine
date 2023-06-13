@@ -1596,44 +1596,34 @@ footer {
   animation: fadeInRight;
   animation-delay: 1s;
 }
-.bb-head {
-  //box-shadow: rgba(0, 0, 0, 0.05) 1px 4px 24px 1px,
-  //rgba(0, 0, 0, 0.08) 1px 1px 1px 1px;
-  //display: grid;
-  //grid-template-areas: "c1 c2 c2 c3 c3  c4 c5";
-  //grid-gap: 10px;
-  //height: 9vh;
-  //align-items: center;
-  //width: 50%;
-  //padding:10px;
-  //margin:10px;
-  //outline: 10px;
-  //border:10px;
-  //animation: fade-in;
-}
-.c {
   .c1 {
-    grid-area: f1;
-    align-self: center;
-    text-align: right;
+    //grid-area: f1;
+    margin:20px;
+    width: 1.5cm;
+    //align-self: center;
+    //text-align: right;
   }
   .c2 {
-    grid-area: f2;
+    //grid-area: f2;
+    margin:20px;
     //align-items: center;
     //text-align: center;
   }
   .c3 {
     grid-area: f3;
-    align-items: center;
+    margin:20px;
+    //align-items: center;
   }
   .c4 {
     grid-area: f4;
-    align-items: center;
+    margin:20px;
+    //align-items: center;
   }
   .c5 {
     grid-area: f5;
+    margin:20px;
   }
-}
+//}
 .root_sheet {
   overflow: scroll;
   height: 75vh;
@@ -1682,6 +1672,7 @@ footer {
     //border-right: 1px solid rgb(179, 178, 178);
     border: 5px;
     max-width: 1.5in;
+    overflow: clip;
     overflow-clip: fade-in;
   }
   .f3 {
@@ -1689,6 +1680,7 @@ footer {
     //border-right: 1px solid rgb(179, 178, 178);
     border: 5px;
     max-width: 3in;
+    overflow: clip;
     overflow-clip: fade-in;
   }
   .f4 {
@@ -1708,21 +1700,21 @@ footer {
   //left: 30vw;
   z-index: 1;
   align-content: center;
-  width: 80%;
+  //width: 80%;
   .level1-sheet {
-    height: 70vh;
+    //height: 70vh;
     background-color: white;
     //width: 40vw;
   }
-  .layer_row {
-  }
-  .card_main{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-  }
+}
+.layer_row {
+}
+.card_main{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 .inp {
   height: 10vh;
@@ -1739,7 +1731,7 @@ footer {
   font-size: large;
   font-weight: bold;
 }
-.map {
+.layer_table_values {
   height: 60vh;
   overflow: scroll;
   border: 1px solid black;
