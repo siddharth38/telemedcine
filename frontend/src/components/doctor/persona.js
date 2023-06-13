@@ -222,11 +222,7 @@ export default class Persona extends React.Component {
 
         {/*------------------------------ */}
         {/*<div className="" style={{ display: "flex", height: "80vh", margin:"15px" }}>*/}
-          <div
-            className="root_sheet"
-            onScroll={this.handleRootScroll}
-            ref={rootSheetRef}
-          >
+          <div className="root_sheet" onScroll={this.handleRootScroll} ref={rootSheetRef}>
             <div className="field">
               {messageData.map((item) => (
                 <div className="root-row">
@@ -235,7 +231,7 @@ export default class Persona extends React.Component {
                   <div key={`${item[ID]}-f3`} className="f3">{this.setStatement(item, `${item[ID]}-f3`)}</div>
                   <div key={`${item[ID]}-f4`} className="f4">{item[NEXT_QUESTION]}</div>
                   <div key={`${item[ID]}-f5`} className="f5" id={`${item[ID]}-f5`}
-                       onClick={()=> {this.setState({ layerSwitch: !this.state.layerSwitch })}}>
+                       onDoubleClick={()=> {this.setState({ layerSwitch: !this.state.layerSwitch })}}>
                     {!this.state.layerSwitch && this.setOption(item, `${item[ID]}-f5`)}
                     {this.state.layerSwitch && (this.showLayerElement(item, `${item[ID]}-f5`))}
                   </div>
@@ -246,24 +242,24 @@ export default class Persona extends React.Component {
         {/*</div>*/}
         {/*------------------------------ */}
 
-        <div className="level1-layer-pop">
-          {a && (
-            <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef}>
-              {/*<div className="layer_row">*/}
-                <Heading />
-                <div className="layer_table_values">
-                  {messageData.map((item) => (
-                    <div className="layer-row" key={item.id}>
-                      <div>{item.name2}</div>
-                      <div>{item.Statement2}</div>
-                      <div>{item.next2}</div>
-                    </div>
-                  ))}
-                </div>
-              {/*</div>*/}
-            </div>
-          )}
-        </div>
+        {/*<div className="level1-layer-pop">*/}
+        {/*  {a && (*/}
+        {/*    <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef}>*/}
+        {/*      /!*<div className="layer_row">*!/*/}
+        {/*        <Heading />*/}
+        {/*        <div className="layer_table_values">*/}
+        {/*          {messageData.map((item) => (*/}
+        {/*            <div className="layer-row" key={item.id}>*/}
+        {/*              <div>{item.name2}</div>*/}
+        {/*              <div>{item.Statement2}</div>*/}
+        {/*              <div>{item.next2}</div>*/}
+        {/*            </div>*/}
+        {/*          ))}*/}
+        {/*        </div>*/}
+        {/*      /!*</div>*!/*/}
+        {/*    </div>*/}
+        {/*  )}*/}
+        {/*</div>*/}
 
         <></>
 
