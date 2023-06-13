@@ -44,6 +44,7 @@ export default class Persona extends React.Component {
     Statement2 : "",
     next2 : "",
     a : false,
+    layerSwitch: false,
     b : false,
     messageId : 300,
     inputRef : { current:null },
@@ -65,6 +66,12 @@ export default class Persona extends React.Component {
     console.log("handleA");
     let { a } = this.state
     this.setState({a: !a})
+  };
+
+  handleLayerSwitch = () => {
+    console.log("handleLayerChange");
+    let { layerSwitch } = this.state
+    this.setState({layerSwitch: !layerSwitch})
   };
 
   handleB = () => {
@@ -91,21 +98,21 @@ export default class Persona extends React.Component {
   }
 
   setOption = (item, key) => {
-    console.log(item)
+    console.log(`persona.setOption : typeof item = ${typeof item}`)
     let options = item[OPTIONS]
     if (!options)
       return
     let domContent = []
-    console.log(`setOption options.length = ${options.length}`)
+    // console.log(`setOption options.length = ${options.length}`)
     for (let i=0; i<options.length; i++) {
       let option = options[i]
-      console.log(`persona.setOptions : i = ${i}. option. = ${option}. Object.keys(option) = ${Object.keys(option)}`)
+      // console.log(`persona.setOptions : i = ${i}. option. = ${option}. Object.keys(option) = ${Object.keys(option)}`)
       if (option[STATEMENT]) {
         // if (typeof option[STATEMENT] === "string") {
         //   console.log(`persona : iterating through option statements : ${option[STATEMENT]}`)
         //   domContent.push(<div key={`${key}-${i}-${/*options[i][OPTION_VARIANT_NAME]*/""}`}>{option[STATEMENT]}</div>);
         // } else {
-          console.log(`persona : iterating through option statements : ${option[STATEMENT]}`)
+        //   console.log(`persona : iterating through option statements : ${option[STATEMENT]}`)
           domContent.push(<div
             key={`${key}-${i}-${/*options[i][OPTION_VARIANT_NAME]*/""}`}>
             {this.setOptionStatement(option, `${key}-${i}-${option[OPTION_VARIANT_NAME]}`)}</div>);
@@ -121,7 +128,7 @@ export default class Persona extends React.Component {
     if (!statementObject) return
     let domContent = []
     // for (let i=0; i<statementObject.length; i++) console.log(`persona.setStatement = statementObject.length = ${statementObject.length}`)
-    console.log(`persona.setStatement : statementObject.keys = ${statementObject.keys}. statementObject[LANG_ENGLISH] = ${statementObject[LANG_ENGLISH]}`)
+    // console.log(`persona.setStatement : statementObject.keys = ${statementObject.keys}. statementObject[LANG_ENGLISH] = ${statementObject[LANG_ENGLISH]}`)
     // for (let i=0; i<statementObject.keys; i++){
     //   console.log('iterating through statementObjects')
     // let k = statementObject.keys[i]
@@ -151,9 +158,60 @@ export default class Persona extends React.Component {
     return this.makeStatementElement(statementObject, key)
   }
 
+  makeLayerRow = (options, key) => {
+    let domContent = []
+    console.log(options.length)
+    for (let i=0; i<options.length; i++){
+      let option = options[i]
+      domContent.push(
+        <div className="layer-row" key={`${key}-${option.id}`}>
+          {/*<div>{option.name2}</div>*/}
+          <div>{this.makeStatementElement(option[STATEMENT], `${key}-${option.id}`)}</div>
+          <div>{option[NEXT_QUESTION]}</div>
+        </div>
+      )
+    }
+    console.log('makeOptionLayerRow. domContent.length = ', domContent.length)
+    return domContent
+  }
+
+  showLayerElement = (messageNode, key) => {
+    console.log(`persona.showLayerElement : typeof item = ${typeof messageNode}, item.keys = ${Object.keys(messageNode)}`)
+    return (
+      <div className="level1-sheet" onScroll={this.handleLayerScroll} key={`${key}-optionLayer`}>
+        <Heading />
+        <div className="layer_table_values">{this.makeLayerRow(messageNode[OPTIONS], key)}</div>
+      </div>
+    )
+  }
+
+  renderElement = ({ type, props = {} }, container) => {
+    const isTextElement = !type;
+    const element = isTextElement
+      ? document.createTextNode('')
+      : document.createElement(type);
+
+    const isListener = p => p.startsWith('on');
+    const isAttribute = p => !isListener(p) && p !== 'children';
+
+    Object.keys(props).forEach(p => {
+      if (isAttribute(p)) element[p] = props[p];
+      if (!isTextElement && isListener(p))
+        element.addEventListener(p.toLowerCase().slice(2), props[p]);
+    });
+
+    if (!isTextElement && props.children && props.children.length)
+      props.children.forEach(childElement =>
+        this.renderElement(childElement, element)
+      );
+
+    container.appendChild(element);
+  };
+
   render() {
     const {
       messageData, id, statement, nextQuestion, name2, Statement2, next2, a, /*b,*/ messageId, inputRef, rootSheetRef, level1SheetRef} = this.state
+    console.log(`typeof messageData = ${typeof messageData}`)
 
     console.log('persona.render : dat = ', messageData)
     return (
@@ -176,7 +234,11 @@ export default class Persona extends React.Component {
                   <div key={`${item[ID]}-f2`} className="f2">{item[ID]}</div>
                   <div key={`${item[ID]}-f3`} className="f3">{this.setStatement(item, `${item[ID]}-f3`)}</div>
                   <div key={`${item[ID]}-f4`} className="f4">{item[NEXT_QUESTION]}</div>
-                  <div key={`${item[ID]}-f5`} className="f5">{this.setOption(item, `${item[ID]}-f5`)}</div>
+                  <div key={`${item[ID]}-f5`} className="f5" id={`${item[ID]}-f5`}
+                       onClick={()=> {this.setState({ layerSwitch: !this.state.layerSwitch })}}>
+                    {!this.state.layerSwitch && this.setOption(item, `${item[ID]}-f5`)}
+                    {this.state.layerSwitch && (this.showLayerElement(item, `${item[ID]}-f5`))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -191,7 +253,7 @@ export default class Persona extends React.Component {
                 <Heading />
                 <div className="layer_table_values">
                   {messageData.map((item) => (
-                    <div className="del" key={item.id}>
+                    <div className="layer-row" key={item.id}>
                       <div>{item.name2}</div>
                       <div>{item.Statement2}</div>
                       <div>{item.next2}</div>
