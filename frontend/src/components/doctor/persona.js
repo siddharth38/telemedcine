@@ -136,7 +136,7 @@ export default class Persona extends React.Component {
     domContent.push(<div key={`${key}-${LANG_ENGLISH}`} className='statementLineElement'>
       {statementObject[LANG_ENGLISH]}</div>)
     domContent.push(!this.state.layerSwitch[key] && showTranslations &&
-      <div key={`${key}-${LANG_HINDI}`} className='statementLineElement'>
+      <div key={`${key}-${LANG_HINDI}`} className='statementLineElement' style={{color: '#444444'}}>
         {statementObject[LANG_HINDI]}</div>)
     // else console.log(s)
     // }
