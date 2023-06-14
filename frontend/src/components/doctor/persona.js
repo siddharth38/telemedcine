@@ -1,5 +1,5 @@
 import React  from "react";
-import Header from "./dataEntry/Header/Header";
+import Header from "./dataEntry/Header";
 import Heading from "./dataEntry/heading/Heading";
 
 import io from "socket.io-client";
@@ -216,9 +216,9 @@ export default class Persona extends React.Component {
     console.log('persona.render : dat = ', messageData)
     return (
       <div className="BotBuilder">
-        <div className="bb-root-header">
+        {/*<div className="bb-root-header">*/}
           <Header handle={this.handle} /*className = { "bb-head" }*//>
-        </div>
+        {/*</div>*/}
 
         {/*------------------------------ */}
         {/*<div className="" style={{ display: "flex", height: "80vh", margin:"15px" }}>*/}
