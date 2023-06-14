@@ -124,7 +124,7 @@ export default class Persona extends React.Component {
     return domContent
   }
 
-  makeStatementElement = (statementObject, key) => {
+  makeStatementElement = (statementObject, key, showTranslations=true, ellipsize) => {
     if (!statementObject) return
     let domContent = []
     // for (let i=0; i<statementObject.length; i++) console.log(`persona.setStatement = statementObject.length = ${statementObject.length}`)
@@ -133,8 +133,11 @@ export default class Persona extends React.Component {
     //   console.log('iterating through statementObjects')
     // let k = statementObject.keys[i]
     // let s = statementObject[k]
-    domContent.push(<div key={`${key}-${LANG_ENGLISH}`}>{statementObject[LANG_ENGLISH]}</div>)
-    domContent.push(<div key={`${key}-${LANG_HINDI}`}>{statementObject[LANG_HINDI]}</div>)
+    domContent.push(<div key={`${key}-${LANG_ENGLISH}`} className='statementLineElement'>
+      {statementObject[LANG_ENGLISH]}</div>)
+    domContent.push(!this.state.layerSwitch[key] && showTranslations &&
+      <div key={`${key}-${LANG_HINDI}`} className='statementLineElement'>
+        {statementObject[LANG_HINDI]}</div>)
     // else console.log(s)
     // }
     return domContent
@@ -147,7 +150,7 @@ export default class Persona extends React.Component {
       return statementObject;
     }
     if (typeof statementObject !== "object") statementObject = statementObject[0]
-    return this.makeStatementElement(statementObject, key)
+    return this.makeStatementElement(statementObject, key, false)
   }
 
   setStatement = (item, key) => {
@@ -164,7 +167,7 @@ export default class Persona extends React.Component {
     for (let i=0; i<options.length; i++){
       let option = options[i]
       domContent.push(
-        <div className="layer-row" key={`${key}-${option.id}`}>
+        <div className="layer-row statementElement" key={`${key}-${option.id}`}>
           {/*<div>{option.name2}</div>*/}
           <div>{this.makeStatementElement(option[STATEMENT], `${key}-${option.id}`)}</div>
           <div>{option[NEXT_QUESTION]}</div>
