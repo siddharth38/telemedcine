@@ -44,7 +44,7 @@ export default class Persona extends React.Component {
     Statement2 : "",
     next2 : "",
     a : false,
-    layerSwitch: false,
+    layerSwitch: {},
     b : false,
     messageId : 300,
     inputRef : { current:null },
@@ -98,7 +98,7 @@ export default class Persona extends React.Component {
   }
 
   setOption = (item, key) => {
-    console.log(`persona.setOption : typeof item = ${typeof item}`)
+    // console.log(`persona.setOption : typeof item = ${typeof item}`)
     let options = item[OPTIONS]
     if (!options)
       return
@@ -185,35 +185,12 @@ export default class Persona extends React.Component {
     )
   }
 
-  renderElement = ({ type, props = {} }, container) => {
-    const isTextElement = !type;
-    const element = isTextElement
-      ? document.createTextNode('')
-      : document.createElement(type);
-
-    const isListener = p => p.startsWith('on');
-    const isAttribute = p => !isListener(p) && p !== 'children';
-
-    Object.keys(props).forEach(p => {
-      if (isAttribute(p)) element[p] = props[p];
-      if (!isTextElement && isListener(p))
-        element.addEventListener(p.toLowerCase().slice(2), props[p]);
-    });
-
-    if (!isTextElement && props.children && props.children.length)
-      props.children.forEach(childElement =>
-        this.renderElement(childElement, element)
-      );
-
-    container.appendChild(element);
-  };
-
   render() {
     const {
       messageData, id, statement, nextQuestion, name2, Statement2, next2, a, /*b,*/ messageId, inputRef, rootSheetRef, level1SheetRef} = this.state
     console.log(`typeof messageData = ${typeof messageData}`)
 
-    console.log('persona.render : dat = ', messageData)
+    // console.log('persona.render : dat = ', messageData)
     return (
       <div className="BotBuilder">
         {/*<div className="bb-root-header">*/}
@@ -231,9 +208,9 @@ export default class Persona extends React.Component {
                   <div key={`${item[ID]}-f3`} className="f3">{this.setStatement(item, `${item[ID]}-f3`)}</div>
                   <div key={`${item[ID]}-f4`} className="f4">{item[NEXT_QUESTION]}</div>
                   <div key={`${item[ID]}-f5`} className="f5" id={`${item[ID]}-f5`}
-                       onDoubleClick={()=> {this.setState({ layerSwitch: !this.state.layerSwitch })}}>
-                    {!this.state.layerSwitch && this.setOption(item, `${item[ID]}-f5`)}
-                    {this.state.layerSwitch && (this.showLayerElement(item, `${item[ID]}-f5`))}
+                       onDoubleClick={()=> {this.setState({layerSwitch:{[item.id]:!this.state.layerSwitch[item.id]}})}}>
+                    {!this.state.layerSwitch[item.id] && this.setOption(item, `${item[ID]}-f5`)}
+                    {this.state.layerSwitch[item.id] && (this.showLayerElement(item, `${item[ID]}-f5`))}
                   </div>
                 </div>
               ))}
@@ -241,27 +218,6 @@ export default class Persona extends React.Component {
           </div>
         {/*</div>*/}
         {/*------------------------------ */}
-
-        {/*<div className="level1-layer-pop">*/}
-        {/*  {a && (*/}
-        {/*    <div className="level1-sheet" onScroll={this.handleLayerScroll} ref={level1SheetRef}>*/}
-        {/*      /!*<div className="layer_row">*!/*/}
-        {/*        <Heading />*/}
-        {/*        <div className="layer_table_values">*/}
-        {/*          {messageData.map((item) => (*/}
-        {/*            <div className="layer-row" key={item.id}>*/}
-        {/*              <div>{item.name2}</div>*/}
-        {/*              <div>{item.Statement2}</div>*/}
-        {/*              <div>{item.next2}</div>*/}
-        {/*            </div>*/}
-        {/*          ))}*/}
-        {/*        </div>*/}
-        {/*      /!*</div>*!/*/}
-        {/*    </div>*/}
-        {/*  )}*/}
-        {/*</div>*/}
-
-        <></>
 
         <div className="inp" style={{margin:"15px"}}>
           <div className="main">
@@ -337,5 +293,4 @@ export default class Persona extends React.Component {
       </div>
     );
   }
-
 }
