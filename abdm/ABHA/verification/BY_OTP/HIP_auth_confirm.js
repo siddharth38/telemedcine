@@ -4,9 +4,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 
-//TimeStamp
 
-async function HIP_auth_init_mobileOtp(abha) {
+async function HIP_auth_confirm(transID,OTP) {
 
   //UUID (Random)
   const { v4: uuidv4 } = require('uuid');
@@ -28,7 +27,7 @@ async function HIP_auth_init_mobileOtp(abha) {
       });
     });
 
-    const apiUrl = 'https://dev.abdm.gov.in/gateway/v0.5/users/auth/init';
+    const apiUrl = 'https://dev.abdm.gov.in/gateway/v0.5/users/auth/confirm';
     const authToken = "Bearer " + accessToken;
     const headers = {
       'Authorization': authToken,
@@ -42,31 +41,20 @@ async function HIP_auth_init_mobileOtp(abha) {
     const requestBody = {
       "requestId": uuid,
       "timestamp": timestamp,
-      "query": {
-        "id": abha,
-        "purpose": "KYC_AND_LINK",
-        "authMode": "MOBILE_OTP",
-        "requester": {
-          "type": "HIP",
-          "id": "baavlibuch"
-        }
-      }
-    };
+      "transactionId": transID,
+      "credential": {
+        "authCode": OTP
+      } 
+   }
 
     // Use async/await with axios.post
     const response = await axios.post(apiUrl, requestBody, { headers });
-    console.log(`Response status for HIP_auth_init_mobileOtp : ${response.status}`);
+    console.log(`Response status for HIP_auth_confirm : ${response.status}`);
+    //console.log('Response : ', response);
   } catch (error) {
     console.error('Error:', error.message);
   }
 }
 
-module.exports = { HIP_auth_init_mobileOtp };
-
-
-
-
-
-
-
+module.exports = { HIP_auth_confirm };
 

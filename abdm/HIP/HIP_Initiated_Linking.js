@@ -4,19 +4,18 @@ const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const { format } = require('date-fns');
 
-async function fetch_modes(abha) {
+async function HIP_Initiated_Linking(abha) {
   const uuid = uuidv4();
   const now = new Date();
   const timestamp = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
   // Construct the relative path to accessToken.txt
-  const accessTokenFilePath = path.join(__dirname, '../../../accessToken.txt');
+  const accessTokenFilePath = path.join(__dirname, '../accessToken.txt');
 
   try {
     // Read the content of accessToken.txt asynchronously
     const accessToken = await fs.readFile(accessTokenFilePath, 'utf-8');
-
-    const apiUrl = 'https://dev.abdm.gov.in/gateway/v0.5/users/auth/fetch-modes';
+    const apiUrl = 'https://dev.abdm.gov.in/gateway/v0.5/links/link/add-contexts';
     const authToken = "Bearer " + accessToken;
     const headers = {
       'Authorization': authToken,
@@ -29,26 +28,32 @@ async function fetch_modes(abha) {
     };
 
     const requestBody = {
-      "requestId": uuid,
-      "timestamp": timestamp,
-      "query": {
-       "id": abha.trim(),  
-       "purpose": "KYC_AND_LINK",
-       "requester": {
-          "type": "HIP",
-          "id": "baavlibuch"
-       }
-      }
-    };
+  "requestId": uuid,
+  "timestamp": timestamp,
+  "link": {
+    "accessToken": accessToken,
+    "patient": {
+      "referenceNumber": "TMH-PUID-001",
+      "display": "string",
+      "careContexts": [
+        {
+          "referenceNumber": "string",
+          "display": "string"
+        }
+      ]
+    }
+  }
+};
+    
 
-    // Use async/await with axios.post
+
+   // Use async/await with axios.post
     const response = await axios.post(apiUrl, requestBody, { headers });
-    console.log(`Response status for fetch_modes : ${response.status}`)
-    //console.log('Response : ', response);
+    console.log(`Response status for HIP_Initiated_Linking : ${response.status}`)
+   // console.log('Response : ', response);
   } catch (error) {
     console.error('Error:', error.message);
   }
 }
 
-module.exports ={ fetch_modes };
-
+module.exports ={ HIP_Initiated_Linking};

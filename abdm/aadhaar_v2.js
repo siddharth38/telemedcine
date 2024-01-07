@@ -17,8 +17,10 @@ const rl = readLine.createInterface({
 async function fetchPublicKey() {
     try {
         const response = await axios.get('https://healthidsbx.abdm.gov.in/api/v2/auth/cert');
-	console.log(response.data);
-        return response.data; // Replace with the appropriate key from the response if needed
+	console.log("Public Key succesfully fetched ", response.status);
+	console.log("\n",response.data);
+	console.log('\n');
+        return response.data; 
 
     } catch (error) {
         console.error('Error fetching public key:', error);
@@ -72,12 +74,9 @@ async function generateOTP(encryptedAadhaar) {
  
       // Use async/await with axios.post
       const response = await axios.post(apiUrl, requestBody, { headers });
-      console.log(`Response status for aadhar_v2 : ${response.status}`)
-      console.log('TxnID is : ', response.data.txnId);
+      console.log(`Response status for aadhaar_v2 : ${response.status}`);
       	     
-     // fs.writeFileSync("txnID.txt", response.data.txnId);
-      txnID_after_OTP_Generation = response.data.txnId;
-      return txnID_after_OTP_Generation;
+      return response.data.txnId;
   } catch (error) {
     console.error('Error:', error.message);
    }
@@ -116,20 +115,19 @@ async function verifyOTP(publicKey,txnID_after_OTP_Generation , parsedOTP){
  
       // Use async/await with axios.post
       const response = await axios.post(apiUrl, requestBody, { headers });
-      console.log(`Response status for verifyOTP : ${response.status}`)
-      console.log('Response : ', response);
+      console.log(`OTP Successfully Verified: ${response.status}`)
+      console.log('Response after OTP verification : ', response.data);
       	     
       txnID_after_OTP_Verfication = response.data.txnId;
-      const phone = response.data.phone;
       
-      return { txnID_after_OTP_Verfication, phone };
+      return txnID_after_OTP_Verfication;
   } catch (error) {
     console.error('Error:', error.message);
    }
    
 }
 
-async function checkAndGenerateMobileOTP(txnID_after_OTP_Verfication,mobileNumber){
+async function checkAndGenerateMobileOTP(txnID_after_OTP_Verfication){
 
      const accessTokenFilePath = path.join(__dirname, './accessToken.txt'); 
      try {
@@ -151,7 +149,7 @@ async function checkAndGenerateMobileOTP(txnID_after_OTP_Verfication,mobileNumbe
     
 
         const requestBody = {
-	  "mobile": mobileNumber,
+	  "mobile": 9861917365,
 	  "txnId": txnID_after_OTP_Verfication 
         };
 
@@ -160,7 +158,8 @@ async function checkAndGenerateMobileOTP(txnID_after_OTP_Verfication,mobileNumbe
       // Use async/await with axios.post
       const response = await axios.post(apiUrl, requestBody, { headers });
       console.log(`Response status for checkAndGenerateMobileOTP : ${response.status}`)
-      console.log('Response : ', response);
+      //console.log(response.data);
+      return response.data.txnId;
       	     
   } catch (error) {
     console.error('Error:', error);
@@ -168,8 +167,8 @@ async function checkAndGenerateMobileOTP(txnID_after_OTP_Verfication,mobileNumbe
 }
 
 
-async function createHealthIdByAdhaar(txnID_after_OTP_Verfication){
-
+async function createHealthIdByAdhaar( txnID_after_checkAndGenerateMobileOTP){
+     //console.log("txnID_after_OTP_Verification is: " ,txnID_after_OTP_Verification);
      const accessTokenFilePath = path.join(__dirname, './accessToken.txt'); 
      try {
         const accessToken = await fs.promises.readFile(accessTokenFilePath, { encoding: 'utf-8' });
@@ -192,49 +191,54 @@ async function createHealthIdByAdhaar(txnID_after_OTP_Verfication){
         const requestBody = {
           "consent": true,
           "consentVersion": "v1.0",
-	  "txnId": txnID_after_OTP_Verfication 
+	  "txnId":txnID_after_checkAndGenerateMobileOTP
         };
 
 
  
       // Use async/await with axios.post
       const response = await axios.post(apiUrl, requestBody, { headers });
-      console.log(`Response status for  createHealthIdByAdhaar : ${response.status}`)
-      console.log('Response : ', response);
+      console.log(`ABHA number and ABHA ID successfully created : ${response.status}`)
+      console.log('Response : ', response.data);
       	     
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error('Error for createHealthIdByAadhaar :', error.message);
    }
 }
 
 
 
-
 async function aadhaar_v2() {
+//     const aadhaarNumber = '897922887303';
+ const aadhaarNumber = '281716321407';
+    // const aadhaarNumber = '825941094719';
+  // const aadhaarNumber = '270009154726';
     try {
         const publicKey = await fetchPublicKey();
         const encryptedAadhaar = encryptData(publicKey, aadhaarNumber);
-	const txnID_after_OTP_Generation = await generateOTP(encryptedAadhaar);
-       
-	// Use a promise to wrap the asynchronous code
-        const userOTP = await new Promise((resolve) => {
-                     rl.question("Enter OTP to continue the further process: ", (OTP) => {
-                     resolve(OTP);
-                 });
-        });
+        console.log("Encrypted Aadhaar Card: ", encryptedAadhaar);
+        console.log('\n');
 
-        const parsedOTP = String(userOTP);
-	const { txnID_after_OTP_Verification, phone } = await verifyOTP(publicKey,txnID_after_OTP_Generation,parsedOTP);
+        const txnID_after_OTP_Generation = await generateOTP(encryptedAadhaar);
 
-	    //checkAndGenerateMobileOTP(txnID_after_OTP_Verification,mobileNumber);
-	await createHealthIdByAdhaar(txnID_after_OTP_Verification);     
-	rl.close();
-       
+        // Call rl.question only if generateOTP is successful
+        if (txnID_after_OTP_Generation) {
+            const userOTP = await new Promise((resolve) => {
+                rl.question("Enter OTP to continue the further process: ", (OTP) => {
+                    resolve(OTP);
+                });
+            });
+            const parsedOTP = String(userOTP);
+            const txnID_after_OTP_Verification = await verifyOTP(publicKey, txnID_after_OTP_Generation, parsedOTP);
+            const txnID_after_checkAndGenerateMobileOTP = await checkAndGenerateMobileOTP(txnID_after_OTP_Verification);
+            await createHealthIdByAdhaar(txnID_after_checkAndGenerateMobileOTP);
+            rl.close();
+        }
     } catch (error) {
         console.error('An error occurred:', error);
+        rl.close(); // Close readline in case of error
     }
 }
 
-
-
 aadhaar_v2();
+
