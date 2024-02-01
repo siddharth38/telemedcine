@@ -110,7 +110,7 @@ async function getAccessToken() {
       console.log("Gateway Auth axios.then. time = ", new Date() - timestamp)
       let { accessToken, expiresIn, refreshExpiresIn, refreshToken, tokenType } = response.data;
       console.log("Authorized clientID and ClientSecret Key");
-      console.log(response);
+      // console.log(response);
       fs.writeFileSync("accessToken.txt", accessToken);
      return updateHealthRepoUrl(accessToken, refreshToken, timestamp)
        .then(() => {
@@ -119,13 +119,13 @@ async function getAccessToken() {
 	  console.log('\n');
 	 console.log('Suceesfully Registered as Health Information Provider(HIP)');
           console.log("Configurations of the Response  from addHipToTheBridgeAndEnterRegistry:");
-          console.log(addHipResponse.config); // Print the response data
+          // console.log(addHipResponse.config); // Print the response data
         });
         });
 
      })
     .catch((error) => {
-      console.error('Gateway Auth axios.fetch error caught: ', error);
+      console.error('Gateway Auth axios.fetch error caught: ');
     });
 }
 
@@ -148,11 +148,11 @@ async function App() {
      const abha = await fs.readFileSync("abha.txt", "utf-8").trim();
      console.log(abha);
 
-     const { fetch_modes } = require(path.join(__dirname, './ABHA/verification/BY_OTP/fetch_modes.js'));
-     await fetch_modes(abha); 
+    //  const { fetch_modes } = require(path.join(__dirname, './ABHA/verification/BY_OTP/fetch_modes.js'));
+    //  await fetch_modes(abha); 
     
-  //  const { HIP_auth_init_mobileOtp } = require(path.join(__dirname, './ABHA/verification/BY_OTP/HIP_auth_init_mobileOtp.js'));
-    // await  HIP_auth_init_mobileOtp(abha); 
+   const { HIP_auth_init_mobileOtp } = require(path.join(__dirname, './ABHA/verification/BY_OTP/HIP_auth_init_mobileOtp.js'));
+    await  HIP_auth_init_mobileOtp(abha); 
 
 		 
     //const { HIP_auth_confirm } = require(path.join(__dirname, './ABHA/verification/BY_OTP/HIP_auth_confirm.js'));
